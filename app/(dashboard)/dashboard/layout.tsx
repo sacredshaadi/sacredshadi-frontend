@@ -1,17 +1,13 @@
-import Header from '@/components/layout/header';
+import Header from '@/components/layout/header/header';
 import Sidebar from '@/components/layout/sidebar';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn Dashboard Starter',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: 'Web Matrimony Dashboard',
+  description: 'Web Matrimony Dashboard with Next.js and Shadcn'
 };
 
-export default function DashboardLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
@@ -22,3 +18,5 @@ export default function DashboardLayout({
     </>
   );
 }
+
+export default DashboardLayout;

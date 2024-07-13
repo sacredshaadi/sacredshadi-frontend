@@ -27,13 +27,15 @@ const defaultErrorHandler = (error) => {
 
 const getApiClient =
   ({ baseURL, sucessHandler, errorHandler }) =>
-  (url, requestOptions = null) =>
-    fetch(`${baseURL}${url}`, requestOptions)
+  (url, requestOptions) => {
+    console.log('url coming for fetch', `${baseURL}${url}`);
+    return fetch(`${baseURL}${url}`, requestOptions)
       .then(sucessHandler)
       .catch(errorHandler);
+  };
 
 export const apiClient = getApiClient({
-  baseURL: process.env.NEXT_API_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   sucessHandler: defaultSuccessHandler,
   errorHandler: defaultErrorHandler
 });

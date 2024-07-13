@@ -11,19 +11,18 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 // import { signIn } from 'next-auth/react';
-import { redirect, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import GoogleSignInButton from '../github-auth-button';
-import { useRegisterUserMutation } from '../api';
+import { useLoginUserMutation, useRegisterUserMutation } from '../api';
 import { RegisterUser } from '@/types/auth.types';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, Loader2 } from 'lucide-react';
 import { useToast } from '../ui/use-toast';
 // import auth from '@/auth';
 
 const formSchema = z.object({
-  name: z.string().min(0, { message: 'Enter a valid name' }),
   email: z.string().email({ message: 'Enter a valid email address' }),
   password: z.string().min(8, {
     message: 'Password must be at least 8 characters'
@@ -32,17 +31,15 @@ const formSchema = z.object({
 
 type UserFormValue = z.infer<typeof formSchema>;
 
-export default function UserAuthForm() {
+export default function UserLoginForm() {
   const { toast } = useToast();
 
-  const {
-    mutate: registerUserFn,
-    error,
-    isPending
-  } = useRegisterUserMutation();
+  const router = useRouter();
+
+  const { mutate: loginUserFn, error, isPending } = useLoginUserMutation();
 
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl');
+  // const callbackUrl = searchParams.get('callbackUrl');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const disabled = isPending || loading;
@@ -65,34 +62,34 @@ export default function UserAuthForm() {
     //   email: data.email,
     //   callbackUrl: callbackUrl ?? '/dashboard'
     // });
-    console.log('data to be registered', data);
+    console.log('data for login', data);
     // return;
 
     try {
-      registerUserFn(data, {
+      loginUserFn(data, {
         onSuccess: (data) => {
           toast({
             title: 'Success',
-            description: 'User registered successfully',
+            description: 'User logged in successfully',
             variant: 'default'
           });
-          console.log('data from registerUserFn', data);
-          console.log('User registered successfully');
-          console.log("redirecting to '/dashboard'");
+          // console.log('data from lo', data);
+          // console.log('User registered successfully');
           localStorage.setItem('user', JSON.stringify(data));
-          redirect('/dashboard');
+          console.log("redirecting to '/dashboard'");
+          router.push('/dashboard');
         },
         onError: (error) => {
           console.error(error);
           toast({
-            title: 'Error',
+            title: 'Error message',
             description: error.message,
             variant: 'destructive'
           });
         }
       });
     } catch (err: any) {
-      console.error(`Error registering user: ${err.message}`);
+      console.error(`Error : ${err.message}`);
       toast({
         title: 'Redirect error',
         description: err.message,
@@ -108,24 +105,6 @@ export default function UserAuthForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-2"
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter your name..."
-                    disabled={loading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="email"
@@ -183,22 +162,12 @@ export default function UserAuthForm() {
             )}
           />
 
-          <Button disabled={loading} className="ml-auto w-full" type="submit">
-            Register User
+          <Button disabled={isPending} className="ml-auto w-full" type="submit">
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <span>{isPending ? 'Logging in..' : 'Login'}</span>
           </Button>
         </form>
       </Form>
-      {/* <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <GoogleSignInButton /> */}
     </>
   );
 }
