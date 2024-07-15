@@ -21,11 +21,11 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
       }
       setLoading(false);
     } catch (err) {
-      toast({
-        title: 'User Authentication Error',
-        description: 'An error occurred while fetching user data',
-        variant: 'destructive'
-      });
+      // toast({
+      //   title: 'User Authentication Error',
+      //   description: 'An error occurred while fetching user data',
+      //   variant: 'destructive'
+      // });
       console.error(err);
       router.push('/');
     } finally {

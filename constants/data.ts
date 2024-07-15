@@ -149,3 +149,19 @@ export const navItems: NavItem[] = [
     label: 'login'
   }
 ];
+
+export const fillerCities = [
+  'Agartala',
+  'Guwahati',
+  'Kolkata',
+  'Delhi',
+  'Hyderabad',
+  'Pune',
+  'Udaipur',
+  'Patna',
+  'Bhubaneswar',
+  'Bangalore',
+  'Mumbai',
+  'Chennai',
+  'Other'
+];
