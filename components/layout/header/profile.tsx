@@ -23,7 +23,7 @@ export default function ProfileComponent({}: CompProps) {
     try {
       if (user?.tokens?.accessToken) return;
       setLoading(true);
-      const currUser = localStorage.getItem('user') || ' ';
+      const currUser = localStorage.getItem('user') || '';
       if (!currUser) {
         throw new Error('User not found');
       }
@@ -32,10 +32,11 @@ export default function ProfileComponent({}: CompProps) {
     } catch (err: any) {
       toast({
         title: 'Error',
-        description: err as string,
+        description: err.message as string,
         variant: 'destructive'
       });
       console.error(err);
+      setLoading(false);
     }
   }, []);
 
