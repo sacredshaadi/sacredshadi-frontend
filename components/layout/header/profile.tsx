@@ -8,8 +8,54 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useUserContext } from '@/app/context/user-context';
+import { useCallback, useEffect, useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
+import { User } from '@/types/auth.types';
+import { Loader2 } from 'lucide-react';
 type CompProps = {};
 export default function ProfileComponent({}: CompProps) {
+  const setUser = useUserContext((state) => state.setUser);
+  const [loading, setLoading] = useState(true);
+  const user = useUserContext((state) => state.user);
+  const { toast } = useToast();
+  useEffect(() => {
+    try {
+      if (user?.tokens?.accessToken) return;
+      setLoading(true);
+      const currUser = localStorage.getItem('user') || ' ';
+      if (!currUser) {
+        throw new Error('User not found');
+      }
+      // console.log('setting new user --> ', currUser);
+      setUser(JSON.parse(currUser).data as User);
+    } catch (err: any) {
+      toast({
+        title: 'Error',
+        description: err as string,
+        variant: 'destructive'
+      });
+      console.error(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user?.tokens?.accessToken) setLoading(false);
+  }, [user]);
+
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem('user');
+    setUser(null);
+  }, [user]);
+
+  if (loading) {
+    return (
+      <Button variant={'outline'} size={'icon'}>
+        <Loader2 className="h-4 animate-spin" />
+      </Button>
+    );
+  } else if (!user) return <Button variant={'outline'}>Login</Button>;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,9 +67,7 @@ export default function ProfileComponent({}: CompProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => console.log('logout')}>
-          Logout
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

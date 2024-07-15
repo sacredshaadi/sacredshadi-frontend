@@ -7,6 +7,7 @@ import ProfileComponent from './profile';
 import { Heart } from 'lucide-react';
 import TabsDemo from './Tabs/test';
 import Tab from './Tabs';
+import { useUserContext } from '@/app/context/user-context';
 
 export default function Header() {
   return (
