@@ -2,6 +2,7 @@
 
 import UserAuthForm from '@/components/forms/user-auth-form';
 import UserLoginForm from '@/components/forms/user-login-form';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import React from 'react';
 
@@ -9,7 +10,7 @@ const AuthWraper = () => {
   const [login, setLogin] = React.useState(true);
 
   return (
-    <div className="flex h-full items-center p-4 lg:p-8">
+    <div className="flex h-full items-start p-4 pt-12 lg:p-8 lg:pt-24 xl:pt-36 ">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
@@ -19,7 +20,22 @@ const AuthWraper = () => {
             Enter your credentials below to login.
           </p>
         </div>
-        {login ? <UserLoginForm /> : <UserAuthForm />}
+        <Tabs defaultValue="user">
+          <TabsList className="w-full">
+            <TabsTrigger value="user" className="w-1/2">
+              I'm a user
+            </TabsTrigger>
+            <TabsTrigger value="vendor" className="w-1/2">
+              I'm a vendor
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="user">
+            {login ? <UserLoginForm /> : <UserAuthForm />}
+          </TabsContent>
+          <TabsContent value="vendor">
+            {login ? <UserLoginForm /> : <UserAuthForm />}
+          </TabsContent>
+        </Tabs>
         <span className="flex justify-center gap-1 space-x-2 text-sm">
           {login ? 'New user?' : 'Already have an account?'}
           <button
