@@ -15,7 +15,7 @@ import { SliderComp } from './carousel';
 import { DropDownInput } from './input-component';
 import { VendorEnum } from '@/types/user-facing';
 import { fillerCities } from '@/constants/data';
-import VendorWrapper from './vendor-wrapper';
+import VendorWrapper from '../_components/vendor-wrapper';
 
 export default function page() {
   return (

@@ -36,12 +36,11 @@ export type ErrorDto = {
   status: number;
 };
 
-export enum TabsEnum {
-  home = 'Home',
-  vendors = 'Vendors',
-  booking = 'Booking',
-  hangout = 'Hangout',
-  quiz = 'Quiz',
-  about = 'About Us',
-  contact = 'Contact Us'
-}
+export const routeMapper = {
+  Home: '/',
+  Vendors: '/vendors',
+  Booking: '/booking',
+  Hangout: '/hangout',
+  'About Us': '/about',
+  'Contact Us': '/front/contact'
+};
