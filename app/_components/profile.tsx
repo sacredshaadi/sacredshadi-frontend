@@ -13,11 +13,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { User } from '@/types/auth.types';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 type CompProps = {};
 export default function ProfileComponent({}: CompProps) {
   const setUser = useUserContext((state) => state.setUser);
   const [loading, setLoading] = useState(true);
   const user = useUserContext((state) => state.user);
+  const router = useRouter();
   const { toast } = useToast();
   useEffect(() => {
     try {
@@ -30,11 +32,11 @@ export default function ProfileComponent({}: CompProps) {
       // console.log('setting new user --> ', currUser);
       setUser(JSON.parse(currUser).data as User);
     } catch (err: any) {
-      toast({
-        title: 'Error',
-        description: err.message as string,
-        variant: 'destructive'
-      });
+      // toast({
+      //   title: 'Error',
+      //   description: err.message as string,
+      //   variant: 'destructive'
+      // });
       console.error(err);
       setLoading(false);
     }
@@ -55,7 +57,12 @@ export default function ProfileComponent({}: CompProps) {
         <Loader2 className="h-4 animate-spin" />
       </Button>
     );
-  } else if (!user) return <Button variant={'outline'}>Login</Button>;
+  } else if (!user)
+    return (
+      <Button variant={'outline'} onClick={() => router.push('/')}>
+        Login
+      </Button>
+    );
 
   return (
     <DropdownMenu>

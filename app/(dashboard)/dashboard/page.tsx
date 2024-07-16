@@ -17,34 +17,14 @@ import { VendorEnum } from '@/types/user-facing';
 import { fillerCities } from '@/constants/data';
 import VendorWrapper from './vendor-wrapper';
 
-const frameworks = [
-  {
-    value: 'next.js',
-    label: 'Next.js'
-  },
-  {
-    value: 'sveltekit',
-    label: 'SvelteKit'
-  },
-  {
-    value: 'nuxt.js',
-    label: 'Nuxt.js'
-  },
-  {
-    value: 'remix',
-    label: 'Remix'
-  },
-  {
-    value: 'astro',
-    label: 'Astro'
-  }
-];
-
 export default function page() {
   return (
     <ScrollArea className="h-full">
       <div className="flex flex-1 flex-col items-center space-y-4 p-4 md:p-8">
-        <section className="flex w-full items-center justify-center gap-12 overflow-auto p-4 lg:w-4/5 xl:w-3/5">
+        <section
+          className=" relative flex w-full flex-col items-center justify-center gap-8 overflow-visible p-4 sm:w-4/5 lg:w-3/5 lg:flex-row
+        "
+        >
           <DropDownInput
             list={Object.entries(VendorEnum).map(([key, val]) => ({
               value: key,
@@ -59,12 +39,13 @@ export default function page() {
             }))}
             placeholder="Select Cities"
           />
+          <Button
+            className="lg:absolute lg:right-[-10rem] lg:my-auto"
+            size={'lg'}
+          >
+            Get started
+          </Button>
         </section>
-        <VendorWrapper />
-        <VendorWrapper />
-        <VendorWrapper />
-        <VendorWrapper />
-        <VendorWrapper />
         <VendorWrapper />
       </div>
     </ScrollArea>

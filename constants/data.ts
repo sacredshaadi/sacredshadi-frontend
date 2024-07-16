@@ -165,3 +165,5 @@ export const fillerCities = [
   'Chennai',
   'Other'
 ];
+
+export const phoneArr = ['+91 9869908415', '+91 7890835517'];

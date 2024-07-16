@@ -1,4 +1,5 @@
 import AuthWraper from '@/app/(auth)/(signin)/auth-wrapper';
+import Footer from '@/app/_components/footer';
 import AuthWrapper from '@/app/auth-wrapper';
 import Header from '@/components/layout/header/header';
 import Sidebar from '@/components/layout/sidebar';
@@ -17,6 +18,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* <Sidebar /> */}
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
+      <Footer />
     </>
   );
 }

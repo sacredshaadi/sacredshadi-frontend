@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { MobileSidebar } from '../mobile-sidebar';
 import { UserNav } from '../user-nav';
 import Link from 'next/link';
-import ProfileComponent from './profile';
+import ProfileComponent from '@/app/_components/profile';
 import { Heart } from 'lucide-react';
 import TabsDemo from './Tabs/test';
 import Tab from './Tabs';
@@ -21,9 +21,6 @@ export default function Header() {
             India's Favourite Wedding Planning Platform
           </span>
         </div>
-        <div className={cn('block lg:!hidden')}>
-          <MobileSidebar />
-        </div>
 
         <div className="flex items-center gap-2">
           <ProfileComponent />
@@ -37,6 +34,9 @@ export default function Header() {
         </section>
         {/* <Tab route="saskl" value="aaskk" /> */}
         <TabsDemo />
+        <div className={cn('block sm:!hidden')}>
+          <MobileSidebar />
+        </div>
       </nav>
     </div>
   );

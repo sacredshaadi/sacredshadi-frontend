@@ -35,3 +35,13 @@ export type ErrorDto = {
   message: string;
   status: number;
 };
+
+export enum TabsEnum {
+  home = 'Home',
+  vendors = 'Vendors',
+  booking = 'Booking',
+  hangout = 'Hangout',
+  quiz = 'Quiz',
+  about = 'About Us',
+  contact = 'Contact Us'
+}
