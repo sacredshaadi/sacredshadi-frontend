@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 export default function Footer() {
   return (
     <footer className="bg-muted py-10 ">
-      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 sm:grid-cols-2 md:grid-cols-4">
+      <div className="container mx-auto grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 md:grid-cols-4">
         <div className="space-y-4 sm:col-span-2">
           <Link href="#" className="flex items-center" prefetch={false}>
             <Heart className="mr-2 h-6 w-6 text-primary" />
