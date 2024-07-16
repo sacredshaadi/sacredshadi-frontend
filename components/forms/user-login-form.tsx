@@ -76,8 +76,8 @@ export default function UserLoginForm() {
           // console.log('data from lo', data);
           // console.log('User registered successfully');
           localStorage.setItem('user', JSON.stringify(data));
-          console.log("redirecting to '/dashboard'");
-          router.push('/dashboard');
+          console.log("redirecting to '/'");
+          router.push('/');
         },
         onError: (error) => {
           console.error(error);

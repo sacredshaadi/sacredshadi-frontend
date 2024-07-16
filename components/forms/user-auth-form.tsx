@@ -80,7 +80,7 @@ export default function UserAuthForm() {
           console.log('User registered successfully');
           console.log("redirecting to '/dashboard'");
           localStorage.setItem('user', JSON.stringify(data));
-          redirect('/dashboard');
+          redirect('/');
         },
         onError: (error) => {
           console.error(error);

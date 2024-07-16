@@ -59,7 +59,7 @@ export default function ProfileComponent({}: CompProps) {
     );
   } else if (!user)
     return (
-      <Button variant={'outline'} onClick={() => router.push('/')}>
+      <Button variant={'outline'} onClick={() => router.push('/login')}>
         Login
       </Button>
     );

@@ -19,7 +19,6 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
       if (!user) {
         throw new Error('User not found');
       }
-      setLoading(false);
     } catch (err) {
       // toast({
       //   title: 'User Authentication Error',
@@ -27,8 +26,9 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
       //   variant: 'destructive'
       // });
       console.error(err);
-      router.push('/');
+      router.push('/login');
     } finally {
+      setLoading(false);
     }
   }, []);
 
