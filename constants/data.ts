@@ -167,3 +167,60 @@ export const fillerCities = [
 ];
 
 export const phoneArr = ['+91 9869908415', '+91 7890835517'];
+
+export const faq = {
+  userfaq: [
+    {
+      question: 'How do I create an account?',
+      answer:
+        'To create an account, click on the Sign Up button on the top right corner of the page. You will be asked to provide some basic information to create your account.'
+    },
+    {
+      question: 'How do I reset my password?',
+      answer:
+        'To reset your password, click on the Forgot Password link on the Sign In page. You will be asked to provide your email address to receive a password reset link.'
+    },
+    {
+      question: 'How do I update my profile information?',
+      answer:
+        'To update your profile information, go to your profile page and click on the Edit Profile button. You can then update your information and save the changes.'
+    },
+    {
+      question: 'How do I delete my account?',
+      answer:
+        'To delete your account, go to your profile page and click on the Delete Account button. You will be asked to confirm the deletion of your account.'
+    },
+    {
+      question: 'How do I contact customer support?',
+      answer:
+        'To contact customer support, go to the Contact Us page and fill out the form with your query. Our support team will get back to you as soon as possible.'
+    }
+  ],
+  vendorfaq: [
+    {
+      question: 'How do I create an account?',
+      answer:
+        'To create an account, click on the Sign Up button on the top right corner of the page. You will be asked to provide some basic information to create your account.'
+    },
+    {
+      question: 'How do I reset my password?',
+      answer:
+        'To reset your password, click on the Forgot Password link on the Sign In page. You will be asked to provide your email address to receive a password reset link.'
+    },
+    {
+      question: 'How do I update my profile information?',
+      answer:
+        'To update your profile information, go to your profile page and click on the Edit Profile button. You can then update your information and save the changes.'
+    },
+    {
+      question: 'How do I delete my account?',
+      answer:
+        'To delete your account, go to your profile page and click on the Delete Account button. You will be asked to confirm the deletion of your account.'
+    },
+    {
+      question: 'How do I contact customer support?',
+      answer:
+        'To contact customer support, go to the Contact Us page and fill out the form with your query. Our support team will get back to you as soon as possible.'
+    }
+  ]
+};
