@@ -224,3 +224,39 @@ export const faq = {
     }
   ]
 };
+
+export const sacredShaadiAddress =
+  'SaltLake, Sector V, Bidhannagar, Kolkata, West Bengal 700091';
+
+export const sacredShaadiTeam = [
+  {
+    id: 0,
+    name: 'Anirban',
+    role: 'CEO & Co-Founder',
+    image: '/images/designer.jpg'
+  },
+  {
+    id: 1,
+    name: 'Chinmay',
+    role: 'Co-Founder',
+    image: '/images/ceo.jpg'
+  },
+  {
+    id: 2,
+    name: 'Gazi',
+    role: 'Lead Planner & Relationship Manager',
+    image: '/images/designer.jpg'
+  },
+  {
+    id: 3,
+    name: 'Snigdha',
+    role: 'Lead Planner & Relationship Manager',
+    image: '/images/developer.jpg'
+  },
+  {
+    id: 4,
+    name: 'Join Us',
+    role: 'Send us a mail at sacredshaadi@gmail.com',
+    image: '/images/manager.jpg'
+  }
+];

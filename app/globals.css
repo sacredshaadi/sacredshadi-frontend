@@ -84,4 +84,9 @@
     height: 100vh; /* Fallback */
     height: 100dvh;
   }
+  .center-fixed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

@@ -36,7 +36,7 @@ export type ErrorDto = {
   status: number;
 };
 
-export const routeMapper = {
+export const routeMapper: { [key: string]: string } = {
   Home: '/',
   Vendors: '/vendors',
   Booking: '/booking',
