@@ -12,10 +12,11 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SliderComp } from './carousel';
-import { DropDownInput } from './input-component';
+// import { DropDownInput } from './input-component';
 import { VendorEnum } from '@/types/user-facing';
 import { fillerCities } from '@/constants/data';
 import VendorWrapper from '../_components/vendor-wrapper';
+import { VendorSelectWrapper } from './input-component';
 
 export default function page() {
   return (
@@ -25,26 +26,7 @@ export default function page() {
           className=" relative flex w-full flex-col items-center justify-center gap-8 overflow-visible p-4 sm:w-4/5 lg:w-3/5 lg:flex-row
         "
         >
-          <DropDownInput
-            list={Object.entries(VendorEnum).map(([key, val]) => ({
-              value: key,
-              label: val
-            }))}
-            placeholder="Select Vendor Types"
-          />
-          <DropDownInput
-            list={fillerCities.map((city) => ({
-              value: city,
-              label: city
-            }))}
-            placeholder="Select Cities"
-          />
-          <Button
-            className="lg:absolute lg:right-[-10rem] lg:my-auto"
-            size={'lg'}
-          >
-            Get started
-          </Button>
+          <VendorSelectWrapper />
         </section>
         <VendorWrapper />
       </div>
