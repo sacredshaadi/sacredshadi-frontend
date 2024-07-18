@@ -1,10 +1,10 @@
 'use client';
 import * as z from 'zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { CalendarIcon, Trash } from 'lucide-react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -28,31 +28,40 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 // import FileUpload from "@/components/FileUpload";
 import { useToast } from '@/components/ui/use-toast';
+import { budgetArr, fillerCities } from '@/constants/data';
+import { DatePicker } from '@/app/_components/vendor-wrapper/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 // import FileUpload from '../file-upload';
-const ImgSchema = z.object({
-  fileName: z.string(),
-  name: z.string(),
-  fileSize: z.number(),
-  size: z.number(),
-  fileKey: z.string(),
-  key: z.string(),
-  fileUrl: z.string(),
-  url: z.string()
-});
+// const ImgSchema = z.object({
+//   fileName: z.string(),
+//   name: z.string(),
+//   fileSize: z.number(),
+//   size: z.number(),
+//   fileKey: z.string(),
+//   key: z.string(),
+//   fileUrl: z.string(),
+//   url: z.string()
+// });
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
-  name: z
+  location: z
     .string()
-    .min(3, { message: 'Product Name must be at least 3 characters' }),
-  imgUrl: z
-    .array(ImgSchema)
-    .max(IMG_MAX_LIMIT, { message: 'You can only add up to 3 images' })
-    .min(1, { message: 'At least one image must be added.' }),
-  description: z
-    .string()
-    .min(3, { message: 'Product description must be at least 3 characters' }),
-  price: z.coerce.number(),
-  category: z.string().min(1, { message: 'Please select a category' })
+    .min(3, { message: 'Please select a venue from the dropdown' }),
+  city: z.string().min(1, { message: 'Please select a city from the list' }),
+  services: z
+    .array(z.string())
+    .min(1, { message: 'Please select atleast 1 service' }),
+  budget: z.string(),
+  date: z
+    .date()
+    .refine((date) => date >= new Date(), { message: 'Invalid date' })
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -62,30 +71,35 @@ interface ProductFormProps {
   categories: any;
 }
 
-export const SearchForm: React.FC<ProductFormProps> = ({
-  initialData,
-  categories
-}) => {
+enum locationEnum {
+  myvenue = 'My Venue',
+  studio = 'Studio'
+}
+
+export const SearchForm = () => {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
-  const title = initialData ? 'Edit product' : 'Create product';
-  const description = initialData ? 'Edit a product.' : 'Add a new product';
-  const toastMessage = initialData ? 'Product updated.' : 'Product created.';
-  const action = initialData ? 'Save changes' : 'Create';
+  // const title = initialData ? 'Edit product' : 'Create product';
+  // const description = initialData ? 'Edit a product.' : 'Add a new product';
+  // const toastMessage = initialData ? 'Product updated.' : 'Product created.';
+  // const action = initialData ? 'Save changes' : 'Create';
 
-  const defaultValues = initialData
-    ? initialData
-    : {
-        name: '',
-        description: '',
-        price: 0,
-        imgUrl: [],
-        category: ''
-      };
+  // useEffect(() => {
+  //   console.log('params: ', params, 'searchParams: ', searchParams.get('city'));
+  // }, [params]);
+
+  const defaultValues: ProductFormValues = {
+    budget: '50,000',
+    city: searchParams.get('city') || '',
+    date: new Date(),
+    location: locationEnum.myvenue,
+    services: []
+  };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -93,46 +107,48 @@ export const SearchForm: React.FC<ProductFormProps> = ({
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    try {
-      setLoading(true);
-      if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
-      } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
-      }
-      router.refresh();
-      router.push(`/dashboard/products`);
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } finally {
-      setLoading(false);
-    }
+    console.log('data: ', data);
+
+    // try {
+    //   setLoading(true);
+    //   if (initialData) {
+    //     // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+    //   } else {
+    //     // const res = await axios.post(`/api/products/create-product`, data);
+    //     // console.log("product", res);
+    //   }
+    //   router.refresh();
+    //   router.push(`/dashboard/products`);
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Uh oh! Something went wrong.',
+    //     description: 'There was a problem with your request.'
+    //   });
+    // } catch (error: any) {
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Uh oh! Something went wrong.',
+    //     description: 'There was a problem with your request.'
+    //   });
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
-  const onDelete = async () => {
-    try {
-      setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/products`);
-    } catch (error: any) {
-    } finally {
-      setLoading(false);
-      setOpen(false);
-    }
-  };
+  // const onDelete = async () => {
+  //   try {
+  //     setLoading(true);
+  //     //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
+  //     router.refresh();
+  //     router.push(`/${params.storeId}/products`);
+  //   } catch (error: any) {
+  //   } finally {
+  //     setLoading(false);
+  //     setOpen(false);
+  //   }
+  // };
 
-  const triggerImgUrlValidation = () => form.trigger('imgUrl');
+  // const triggerImgUrlValidation = () => form.trigger('imgUrl');
 
   return (
     <>
@@ -143,8 +159,8 @@ export const SearchForm: React.FC<ProductFormProps> = ({
         loading={loading}
       /> */}
       <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-        {initialData && (
+        {/* <Heading title={title} description={description} /> */}
+        {/* {initialData && (
           <Button
             disabled={loading}
             variant="destructive"
@@ -153,9 +169,9 @@ export const SearchForm: React.FC<ProductFormProps> = ({
           >
             <Trash className="h-4 w-4" />
           </Button>
-        )}
+        )} */}
       </div>
-      <Separator />
+      {/* <Separator /> */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -163,16 +179,27 @@ export const SearchForm: React.FC<ProductFormProps> = ({
         >
           <FormField
             control={form.control}
-            name="imgUrl"
+            name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Images</FormLabel>
+                <FormLabel>Location</FormLabel>
                 <FormControl>
-                  {/* <FileUpload
-                    onChange={field.onChange}
-                    value={field.value}
-                    onRemove={field.onChange}
-                  /> */}
+                  <Select
+                    defaultValue={defaultValues.location}
+                    onValueChange={(value) => form.setValue('location', value)}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={locationEnum.myvenue}>
+                        {locationEnum.myvenue}
+                      </SelectItem>
+                      <SelectItem value={locationEnum.studio}>
+                        {locationEnum.studio}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -181,24 +208,32 @@ export const SearchForm: React.FC<ProductFormProps> = ({
           <div className="gap-8 md:grid md:grid-cols-3">
             <FormField
               control={form.control}
-              name="name"
+              name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>City</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product name"
-                      {...field}
-                    />
+                    <Select
+                      defaultValue={defaultValues.city}
+                      onValueChange={(value) => form.setValue('city', value)}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {fillerCities.map((city) => (
+                          <SelectItem value={city}>{city}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
-              name="description"
+              name="services"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
@@ -212,15 +247,27 @@ export const SearchForm: React.FC<ProductFormProps> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
-              name="price"
+              name="budget"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} {...field} />
+                    <Select
+                      defaultValue={defaultValues.budget}
+                      onValueChange={(value) => form.setValue('budget', value)}
+                    >
+                      <SelectTrigger className="">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {budgetArr.map((budget) => (
+                          <SelectItem value={budget}>{budget}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -228,40 +275,47 @@ export const SearchForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="category"
+              name="date"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {categories.map((category) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <FormItem className="flex flex-col">
+                  <FormLabel>Pick a date for the event:</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={'outline'}
+                          className={cn(
+                            'w-[240px] pl-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground'
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, 'PPP')
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
-            {action}
+            {/* {action} */}
+            Submit
           </Button>
         </form>
       </Form>

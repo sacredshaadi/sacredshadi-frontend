@@ -9,8 +9,9 @@ export default function Page({ params }: { params: { slug: string } }) {
         </h1>
       </div>
       <section className="flex w-full flex-col items-center justify-center p-4 md:flex-row md:justify-between md:p-6">
-        skalkskakskas
-        {/* <SearchForm/> */}
+        <section className="flex flex-col items-start justify-center gap-4">
+          <SearchForm />
+        </section>
       </section>
     </section>
   );
