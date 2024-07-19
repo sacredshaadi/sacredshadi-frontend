@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 // import { signIn } from 'next-auth/react';
-import { redirect, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -34,6 +34,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const {
     mutate: registerUserFn,
@@ -78,9 +79,9 @@ export default function UserAuthForm() {
           });
           console.log('data from registerUserFn', data);
           console.log('User registered successfully');
-          console.log("redirecting to '/dashboard'");
+          console.log("redirecting to '/'");
           localStorage.setItem('user', JSON.stringify(data));
-          redirect('/');
+          router.push('/');
         },
         onError: (error) => {
           console.error(error);

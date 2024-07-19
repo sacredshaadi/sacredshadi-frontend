@@ -35,7 +35,7 @@ export const getUserProfile = (accessToken: string) => {
   return apiClient(userUrls.userProfileUrl, {
     method: 'GET',
     headers: {
-      'admin-token': accessToken
+      Authorization: `Bearer ${accessToken}`
     }
   });
 };
@@ -44,7 +44,7 @@ export const removeUser = (accessToken: string) => {
   return apiClient(userUrls.removeUserUrl, {
     method: 'DELETE',
     headers: {
-      'admin-token': accessToken
+      Authorization: `Bearer ${accessToken}`
     }
   });
 };
