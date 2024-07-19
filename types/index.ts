@@ -1,5 +1,5 @@
-import { Icons } from '@/components/icons';
-import { type UniqueIdentifier } from '@dnd-kit/core';
+import { Icons } from "@/components/icons";
+import { type UniqueIdentifier } from "@dnd-kit/core";
 
 export interface NavItem {
   title: string;
@@ -38,15 +38,21 @@ export type ErrorDto = {
 };
 
 export const routeMapper: { [key: string]: string } = {
-  Home: '/',
-  Vendors: '/vendors',
-  Booking: '/booking',
-  Hangout: '/hangout',
-  'About Us': '/about',
-  'Contact Us': '/front/contact'
+  Home: "/",
+  Vendors: "/vendors",
+  Booking: "/booking",
+  Hangout: "/hangout",
+  "About Us": "/about",
+  "Contact Us": "/front/contact"
 };
 
 export interface Column {
   id: UniqueIdentifier;
   title: string;
+}
+
+export enum ProfileTypes {
+  USER = "user",
+  VENDOR = "vendor",
+  ADMIN = "admin"
 }

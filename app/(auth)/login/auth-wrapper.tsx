@@ -3,6 +3,7 @@
 import UserAuthForm from "@/components/forms/user-auth-form";
 import UserLoginForm from "@/components/forms/user-login-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProfileTypes } from "@/types";
 import Link from "next/link";
 import React from "react";
 
@@ -18,15 +19,19 @@ const AuthParent = () => {
         </div>
         <Tabs defaultValue="user">
           <TabsList className="w-full">
-            <TabsTrigger value="user" className="w-1/2">
+            <TabsTrigger value={ProfileTypes.USER} className="w-1/2">
               I&apos;m a user
             </TabsTrigger>
-            <TabsTrigger value="vendor" className="w-1/2">
+            <TabsTrigger value={ProfileTypes.VENDOR} className="w-1/2">
               I&apos;m a vendor
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="user">{login ? <UserLoginForm /> : <UserAuthForm />}</TabsContent>
-          <TabsContent value="vendor">{login ? <UserLoginForm /> : <UserAuthForm />}</TabsContent>
+          <TabsContent value={ProfileTypes.USER}>
+            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.USER} />}
+          </TabsContent>
+          <TabsContent value={ProfileTypes.VENDOR}>
+            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.VENDOR} />}
+          </TabsContent>
         </Tabs>
         <span className="flex justify-center gap-1 space-x-2 text-sm">
           {login ? "New user?" : "Already have an account?"}
