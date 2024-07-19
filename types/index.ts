@@ -30,3 +30,17 @@ export interface FooterItem {
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
+
+export type ErrorDto = {
+  message: string;
+  status: number;
+};
+
+export const routeMapper: { [key: string]: string } = {
+  Home: '/',
+  Vendors: '/vendors',
+  Booking: '/booking',
+  Hangout: '/hangout',
+  'About Us': '/about',
+  'Contact Us': '/front/contact'
+};

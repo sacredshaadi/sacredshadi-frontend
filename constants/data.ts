@@ -149,3 +149,65 @@ export const navItems: NavItem[] = [
     label: 'login'
   }
 ];
+
+export const fillerCities = [
+  'Agartala',
+  'Guwahati',
+  'Kolkata',
+  'Delhi',
+  'Hyderabad',
+  'Pune',
+  'Udaipur',
+  'Patna',
+  'Bhubaneswar',
+  'Bangalore',
+  'Mumbai',
+  'Chennai',
+  'Other'
+];
+
+export const budgetArr = [
+  '50,000',
+  '50,000 - 1L',
+  '1L - 1.5L',
+  '1.5L - 2L',
+  'More than 2L'
+];
+
+export const phoneArr = ['+91 9869908415', '+91 7890835517'];
+
+export const sacredShaadiAddress =
+  'SaltLake, Sector V, Bidhannagar, Kolkata, West Bengal 700091';
+
+export const sacredShaadiTeam = [
+  {
+    id: 0,
+    name: 'Anirban',
+    role: 'CEO & Co-Founder',
+    image: '/images/designer.jpg'
+  },
+  {
+    id: 1,
+    name: 'Chinmay',
+    role: 'Co-Founder',
+    image: '/images/ceo.jpg'
+  },
+  {
+    id: 2,
+    name: 'Gazi',
+    role: 'Lead Planner & Relationship Manager',
+    image: '/images/designer.jpg'
+  },
+  {
+    id: 3,
+    name: 'Snigdha',
+    role: 'Lead Planner & Relationship Manager',
+    image: '/images/developer.jpg'
+  },
+  {
+    id: 4,
+    name: 'Join Us',
+    role: 'Send us a mail at sacredshaadi@gmail.com',
+    image: '/images/manager.jpg'
+  }
+];

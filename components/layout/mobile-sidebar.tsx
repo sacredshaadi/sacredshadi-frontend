@@ -1,7 +1,7 @@
 'use client';
 import { DashboardNav } from '@/components/dashboard-nav';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { navItems } from '@/constants/data';
+import { routeMapper } from '@/types';
 import { MenuIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ export function MobileSidebar({ className }: SidebarProps) {
         <SheetTrigger asChild>
           <MenuIcon />
         </SheetTrigger>
-        <SheetContent side="left" className="!px-0">
+        <SheetContent side="right" className="!px-0">
           <div className="space-y-4 py-4">
             <div className="px-3 py-2">
               <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
@@ -27,7 +27,7 @@ export function MobileSidebar({ className }: SidebarProps) {
               </h2>
               <div className="space-y-1">
                 <DashboardNav
-                  items={navItems}
+                  items={routeMapper}
                   isMobileNav={true}
                   setOpen={setOpen}
                 />
