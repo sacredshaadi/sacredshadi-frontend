@@ -2,26 +2,12 @@
 
 import * as React from 'react';
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 import { VendorEnum } from '@/types/user-facing';
 import { fillerCities } from '@/constants/data';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type Props = {
   list: { value: string; label: string }[];
@@ -58,38 +44,26 @@ export const VendorSelectWrapper = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  // React.useEffect(() => {
-  //   console.log('vendor', vendor, 'city', city);
-  // }, [city, vendor]);
-
   return (
     <>
       <DropDownInput
-        list={Object.entries(VendorEnum).map(([key, val]) => ({
-          value: key,
-          label: val
-        }))}
+        list={Object.entries(VendorEnum).map(([key, val]) => ({ value: key, label: val }))}
         placeholder="Select Vendor Types"
         setState={setVendor}
       />
+
       <DropDownInput
-        list={fillerCities.map((city) => ({
-          value: city,
-          label: city
-        }))}
+        list={fillerCities.map((city) => ({ value: city, label: city }))}
         placeholder="Select Cities"
         setState={setCity}
       />
+
       <Button
         className="lg:absolute lg:right-[-10rem] lg:my-auto"
         size={'lg'}
         onClick={() => {
           if (!vendor || !city) {
-            toast({
-              title: 'Please select both vendor and city',
-              description: '',
-              variant: 'destructive'
-            });
+            toast({ title: 'Please select both vendor and city', description: '', variant: 'destructive' });
             return;
           }
           router.push(`/${vendor}?city=${city}`);

@@ -24,22 +24,10 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false
   },
-  {
-    accessorKey: 'name',
-    header: 'NAME'
-  },
-  {
-    accessorKey: 'company',
-    header: 'COMPANY'
-  },
-  {
-    accessorKey: 'role',
-    header: 'ROLE'
-  },
-  {
-    accessorKey: 'status',
-    header: 'STATUS'
-  },
+  { accessorKey: 'name', header: 'NAME' },
+  { accessorKey: 'company', header: 'COMPANY' },
+  { accessorKey: 'role', header: 'ROLE' },
+  { accessorKey: 'status', header: 'STATUS' },
   {
     id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />

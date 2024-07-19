@@ -1,16 +1,5 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/MOegWeehcYn
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent
-} from '@/components/ui/accordion';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { faq } from '@/constants/faq';
-import { ChevronDownIcon } from 'lucide-react';
 
 interface FAQSectionProps {
   title: string;
@@ -22,9 +11,7 @@ const FAQSection = ({ title, subtitle, items }: FAQSectionProps) => {
   return (
     <div className="w-full space-y-6 px-4 md:px-0">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          {title}
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
         <p className="mt-4 text-muted-foreground md:text-xl">{subtitle}</p>
       </div>
       <Accordion type="single" collapsible className="w-full space-y-4">
@@ -33,9 +20,7 @@ const FAQSection = ({ title, subtitle, items }: FAQSectionProps) => {
             <AccordionTrigger className="flex items-center justify-between rounded-md bg-muted px-4 py-3 text-left font-medium transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ">
               {item.question}
             </AccordionTrigger>
-            <AccordionContent className="bg-muted/50 px-4 py-3 text-muted-foreground">
-              {item.answer}
-            </AccordionContent>
+            <AccordionContent className="bg-muted/50 px-4 py-3 text-muted-foreground">{item.answer}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>

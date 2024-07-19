@@ -2,15 +2,6 @@ import apiClient from '@/lib/apiConfig/apiClient';
 import { LoginUser, RegisterUser } from '@/types/auth.types';
 import { userUrls } from '@/lib/apiConfig/urls';
 
-// export const getMarketPlaceCart = (accessToken) => {
-//   return apiClient(`/api/v1/admin/cart`, {
-//     method: 'GET',
-//     headers: {
-//       'admin-token': accessToken
-//     }
-//   });
-// };
-
 export const registerUser = (payload: RegisterUser) => {
   return apiClient(userUrls.registerUserUrl, {
     method: 'POST',

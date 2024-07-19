@@ -1,20 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle
-} from '@/components/ui/card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from '@/components/ui/carousel';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { sacredShaadiTeam } from '@/constants/data';
 import { PersonIcon } from '@radix-ui/react-icons';
-import { PersonStandingIcon } from 'lucide-react';
-import React from 'react';
 
 const Team = () => {
   return (
@@ -29,11 +16,7 @@ const Team = () => {
       >
         <CarouselContent>
           {sacredShaadiTeam.map((itr, index) => (
-            <CarouselItem
-              key={index}
-              className="basis-10/12 md:basis-1/2 lg:basis-1/4"
-            >
-              {/* <div className="p-1"> */}
+            <CarouselItem key={index} className="basis-10/12 md:basis-1/2 lg:basis-1/4">
               <Card className="flex h-full flex-col items-center gap-2 p-12">
                 <PersonIcon className="h-12 w-12 text-primary" />
                 <CardContent className="text-center">{itr.name}</CardContent>
@@ -41,7 +24,6 @@ const Team = () => {
                   <span className="text-center font-semibold">{itr.role}</span>
                 </CardDescription>
               </Card>
-              {/* </div> */}
             </CarouselItem>
           ))}
         </CarouselContent>

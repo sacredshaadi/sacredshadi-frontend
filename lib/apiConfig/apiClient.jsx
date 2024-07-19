@@ -8,12 +8,11 @@ const defaultSuccessHandler = async (response) => {
     } else {
       data = await response.text();
     }
-    // const data = await response.json();
+
     if (!response.ok) {
       const error = (data && data) || response.status;
       return Promise.reject(error);
     }
-
     return data;
   } catch (error) {
     return Promise.reject(error);
@@ -28,10 +27,7 @@ const defaultErrorHandler = (error) => {
 const getApiClient =
   ({ baseURL, sucessHandler, errorHandler }) =>
   (url, requestOptions) => {
-    console.log('url coming for fetch', `${baseURL}${url}`);
-    return fetch(`${baseURL}${url}`, requestOptions)
-      .then(sucessHandler)
-      .catch(errorHandler);
+    return fetch(`${baseURL}${url}`, requestOptions).then(sucessHandler).catch(errorHandler);
   };
 
 export const apiClient = getApiClient({

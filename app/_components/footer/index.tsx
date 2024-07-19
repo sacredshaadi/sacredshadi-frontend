@@ -1,33 +1,21 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/C0AsiGR7MXd
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-import { Facebook, Heart, Instagram, Twitter, Youtube } from 'lucide-react';
+import { Facebook, Heart, Instagram, Youtube } from 'lucide-react';
 import Link from 'next/link';
 import Pinterest from './icons/pinterest';
 import { phoneArr } from '@/constants/data';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 
 export default function Footer() {
   return (
     <footer className="bg-muted py-10 ">
       <div className="container mx-auto grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 md:grid-cols-4">
         <div className="space-y-4 sm:col-span-2">
-          <Link
-            href="https://sacredshaadi.com"
-            target="_blank"
-            className="flex items-center"
-            prefetch={false}
-          >
+          <Link href="https://sacredshaadi.com" target="_blank" className="flex items-center" prefetch={false}>
             <Heart className="mr-2 h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">What's in store</span>
+            <span className="text-xl font-bold">What&apos;s in store</span>
           </Link>
           <p className="text-sm">
-            To solve all your wedding planning woes, Sacredshaadi provides a
-            range of wedding services. So sit back, relax and plan your wedding
-            with us with the click of a button.
+            To solve all your wedding planning woes, Sacredshaadi provides a range of wedding services. So sit back,
+            relax and plan your wedding with us with the click of a button.
           </p>
         </div>
 
@@ -71,17 +59,11 @@ export default function Footer() {
         <div className="space-y-2">
           <h4 className="text-sm font-medium">Contact Us</h4>
           <nav className="flex items-center gap-1">
-            <a
-              href={`tel:${phoneArr[0]}`}
-              className="text-sm text-muted-foreground hover:text-primary"
-            >
+            <a href={`tel:${phoneArr[0]}`} className="text-sm text-muted-foreground hover:text-primary">
               {phoneArr[0]}
             </a>
             <div className="text-muted-foreground">|</div>
-            <a
-              href={`tel:${phoneArr[1]}`}
-              className="text-sm text-muted-foreground hover:text-primary"
-            >
+            <a href={`tel:${phoneArr[1]}`} className="text-sm text-muted-foreground hover:text-primary">
               {phoneArr[1]}
             </a>
           </nav>
@@ -102,18 +84,15 @@ export default function Footer() {
             />
           </Link>
           <p>
-            &copy; Copyright 2024. All rights reserved Sacred Shaadi. Design and
-            developed by AimCrafters Software Pvt. Ltd..
+            &copy; Copyright 2024. All rights reserved Sacred Shaadi. Design and developed by AimCrafters Software Pvt.
+            Ltd..
           </p>
         </span>
         <section className="flex items-center justify-center gap-1">
           <Link href={'/front/faq'} className="underline hover:text-primary">
             FAQs
           </Link>
-          <Link
-            href={'/front/contact'}
-            className="underline hover:text-primary"
-          >
+          <Link href={'/front/contact'} className="underline hover:text-primary">
             Contact Us
           </Link>
         </section>

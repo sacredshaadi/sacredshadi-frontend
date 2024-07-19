@@ -24,26 +24,11 @@ export const columns: ColumnDef<Employee>[] = [
     enableSorting: false,
     enableHiding: false
   },
-  {
-    accessorKey: 'first_name',
-    header: 'NAME'
-  },
-  {
-    accessorKey: 'country',
-    header: 'COUNTRY'
-  },
-  {
-    accessorKey: 'email',
-    header: 'EMAIL'
-  },
-  {
-    accessorKey: 'job',
-    header: 'COMPANY'
-  },
-  {
-    accessorKey: 'gender',
-    header: 'GENDER'
-  },
+  { accessorKey: 'first_name', header: 'NAME' },
+  { accessorKey: 'country', header: 'COUNTRY' },
+  { accessorKey: 'email', header: 'EMAIL' },
+  { accessorKey: 'job', header: 'COMPANY' },
+  { accessorKey: 'gender', header: 'GENDER' },
   {
     id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />
