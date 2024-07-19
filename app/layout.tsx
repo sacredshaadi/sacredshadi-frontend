@@ -34,7 +34,7 @@ export default async function RootLayout({
         </Providers>
       </body> */}
 
-      <body className={`${inter.className} overflow-scroll`}>
+      <body className={`${inter.className} overflow-auto`}>
         <NextTopLoader />
         <Providers>
           <Toaster />
