@@ -1,20 +1,4 @@
-import { CalendarDateRangePicker } from '@/components/date-range-picker';
-import { Overview } from '@/components/overview';
-import { RecentSales } from '@/components/recent-sales';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { SliderComp } from './carousel';
-// import { DropDownInput } from './input-component';
-import { VendorEnum } from '@/types/user-facing';
-import { fillerCities } from '@/constants/data';
 import VendorWrapper from '../_components/vendor-wrapper';
 import { VendorSelectWrapper } from './input-component';
 import CarouselComp from '../_components/dashboard/carousel';

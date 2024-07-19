@@ -1,5 +1,4 @@
-import { Icons } from '@/components/icons';
-import { NavItem, SidebarNavItem } from '@/types';
+import { NavItem } from '@/types';
 
 export type User = {
   id: number;
@@ -9,6 +8,7 @@ export type User = {
   verified: boolean;
   status: string;
 };
+
 export const users: User[] = [
   {
     id: 1,
@@ -112,42 +112,12 @@ export type Employee = {
 };
 
 export const navItems: NavItem[] = [
-  {
-    title: 'Dashboard',
-    href: '/dashboard',
-    icon: 'dashboard',
-    label: 'Dashboard'
-  },
-  {
-    title: 'User',
-    href: '/dashboard/user',
-    icon: 'user',
-    label: 'user'
-  },
-  {
-    title: 'Employee',
-    href: '/dashboard/employee',
-    icon: 'employee',
-    label: 'employee'
-  },
-  {
-    title: 'Profile',
-    href: '/dashboard/profile',
-    icon: 'profile',
-    label: 'profile'
-  },
-  {
-    title: 'Kanban',
-    href: '/dashboard/kanban',
-    icon: 'kanban',
-    label: 'kanban'
-  },
-  {
-    title: 'Login',
-    href: '/',
-    icon: 'login',
-    label: 'login'
-  }
+  { title: 'Dashboard', href: '/dashboard', icon: 'dashboard', label: 'Dashboard' },
+  { title: 'User', href: '/dashboard/user', icon: 'user', label: 'user' },
+  { title: 'Employee', href: '/dashboard/employee', icon: 'employee', label: 'employee' },
+  { title: 'Profile', href: '/dashboard/profile', icon: 'profile', label: 'profile' },
+  { title: 'Kanban', href: '/dashboard/kanban', icon: 'kanban', label: 'kanban' },
+  { title: 'Login', href: '/', icon: 'login', label: 'login' }
 ];
 
 export const fillerCities = [
@@ -166,18 +136,11 @@ export const fillerCities = [
   'Other'
 ];
 
-export const budgetArr = [
-  '50,000',
-  '50,000 - 1L',
-  '1L - 1.5L',
-  '1.5L - 2L',
-  'More than 2L'
-];
+export const budgetArr = ['50,000', '50,000 - 1L', '1L - 1.5L', '1.5L - 2L', 'More than 2L'];
 
 export const phoneArr = ['+91 9869908415', '+91 7890835517'];
 
-export const sacredShaadiAddress =
-  'SaltLake, Sector V, Bidhannagar, Kolkata, West Bengal 700091';
+export const sacredShaadiAddress = 'SaltLake, Sector V, Bidhannagar, Kolkata, West Bengal 700091';
 
 export const sacredShaadiTeam = [
   {

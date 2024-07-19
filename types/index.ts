@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons';
+import { type UniqueIdentifier } from '@dnd-kit/core';
 
 export interface NavItem {
   title: string;
@@ -44,3 +45,8 @@ export const routeMapper: { [key: string]: string } = {
   'About Us': '/about',
   'Contact Us': '/front/contact'
 };
+
+export interface Column {
+  id: UniqueIdentifier;
+  title: string;
+}

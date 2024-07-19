@@ -27,6 +27,7 @@ export default async function page({ searchParams }: paramsProps) {
     `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
       (country ? `&search=${country}` : '')
   );
+
   const employeeRes = await res.json();
   const totalUsers = employeeRes.total_users; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
@@ -42,10 +43,7 @@ export default async function page({ searchParams }: paramsProps) {
             description="Manage employees (Server side table functionalities.)"
           />
 
-          <Link
-            href={'/dashboard/employee/new'}
-            className={cn(buttonVariants({ variant: 'default' }))}
-          >
+          <Link href={'/dashboard/employee/new'} className={cn(buttonVariants({ variant: 'default' }))}>
             <Plus className="mr-2 h-4 w-4" /> Add New
           </Link>
         </div>

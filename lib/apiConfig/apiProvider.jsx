@@ -11,10 +11,6 @@ const defaultQueryOptions = {
 
 const queryClient = new QueryClient({ defaultOptions: defaultQueryOptions });
 
-export const ApiProvider = (props) => (
-  <QueryClientProvider client={queryClient}>
-    {props.children}
-  </QueryClientProvider>
-);
+export const ApiProvider = (props) => <QueryClientProvider client={queryClient}>{props.children}</QueryClientProvider>;
 
 export default ApiProvider;

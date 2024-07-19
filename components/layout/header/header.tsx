@@ -1,13 +1,9 @@
 import ThemeToggle from '@/components/layout/ThemeToggle/theme-toggle';
 import { cn } from '@/lib/utils';
 import { MobileSidebar } from '../mobile-sidebar';
-import { UserNav } from '../user-nav';
-import Link from 'next/link';
 import ProfileComponent from '@/app/_components/profile';
 import { Heart } from 'lucide-react';
 import TabsDemo from './Tabs/test';
-import Tab from './Tabs';
-import { useUserContext } from '@/app/context/user-context';
 
 export default function Header() {
   return (
@@ -17,9 +13,7 @@ export default function Header() {
       px-4"
       >
         <div className="hidden lg:block">
-          <span className="text-sm font-light">
-            India's Favourite Wedding Planning Platform
-          </span>
+          <span className="text-sm font-light">India&apos;s Favourite Wedding Planning Platform</span>
         </div>
 
         <div className="flex items-center gap-2">
