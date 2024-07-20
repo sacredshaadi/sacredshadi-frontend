@@ -7,7 +7,9 @@ import { useGetVendorTypesQuery } from "./apis";
 type AdminSidebarItem = {
   icon: LucideIcon;
   label: string;
-} & ({ route: string } | { subRoutes: Array<Omit<AdminSidebarItem, "icon">> });
+  route?: string;
+  subRoutes?: Array<Omit<AdminSidebarItem, "icon">>;
+};
 
 function SuperAdminSidebar(props: { collapsed: boolean }) {
   const { data, isLoading } = useGetVendorTypesQuery();
