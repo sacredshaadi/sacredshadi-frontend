@@ -4,6 +4,7 @@ import { VendorSelectWrapper } from "./input-component";
 import CarouselComp from "../_components/dashboard/carousel";
 import { toast } from "@/components/ui/use-toast";
 import { sliderUrls } from "@/lib/apiConfig/urls";
+import { getAllVendorTypes } from "../utils/functions";
 
 async function getSliderNodes() {
   try {
@@ -23,6 +24,7 @@ async function getSliderNodes() {
 
 export default async function page() {
   const slider = await getSliderNodes();
+  const vendorTypes = await getAllVendorTypes();
 
   return (
     <ScrollArea className="h-full">
@@ -34,7 +36,7 @@ export default async function page() {
         >
           <VendorSelectWrapper />
         </section>
-        <VendorWrapper />
+        <VendorWrapper vendorTypes={vendorTypes} />
       </div>
     </ScrollArea>
   );

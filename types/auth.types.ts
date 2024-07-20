@@ -24,3 +24,10 @@ interface UserSub {
   };
 }
 export interface User extends UserSub {}
+
+export interface VendorType {
+  id: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+}

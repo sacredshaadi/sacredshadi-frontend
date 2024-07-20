@@ -18,3 +18,10 @@ export const sliderUrls = {
   updateCarousel: "/api/v1/sliders/update",
   removeCarousel: "/api/v1/sliders/remove"
 };
+
+export const vendorTypeUrls = {
+  createVendorTypeUrl: "/api/v1/vendor-type/add",
+  getAllVendorTypes: "/api/v1/vendor-type/all",
+  updateVendorType: "/api/v1/vendor-type/update",
+  removeVendorType: "/api/v1/vendor-type/remove"
+};

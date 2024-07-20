@@ -1,7 +1,13 @@
-import React from 'react';
+import VendorWrapper from "@/app/_components/vendor-wrapper";
+import { vendorTypeUrls } from "@/lib/apiConfig/urls";
+import { getAllVendorTypes } from "@/app/utils/functions";
+import React from "react";
 
-const Vendor = () => {
-  return <div>Vendor</div>;
+const Vendor = async () => {
+  const vendorTypes = await getAllVendorTypes();
+  console.log("vendortypes --- > ", vendorTypes);
+
+  return <VendorWrapper vendorTypes={vendorTypes} />;
 };
 
 export default Vendor;
