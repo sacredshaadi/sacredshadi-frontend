@@ -1,10 +1,10 @@
-import apiClient from '@/lib/apiConfig/apiClient';
+import apiClient from "@/lib/apiConfig/apiClient";
+import { sliderUrls } from "@/lib/apiConfig/urls";
 
-const getSlider = async (accessToken: string) => {
-  return apiClient(`/api/v1/admin/slider`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
+const getSlider = () => {
+  return apiClient(sliderUrls.getAllCarousels, {
+    method: "GET"
   });
 };
+
+export { getSlider };

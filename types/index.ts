@@ -56,3 +56,13 @@ export enum ProfileTypes {
   VENDOR = "vendor",
   ADMIN = "admin"
 }
+
+export interface ISlider {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+  createdAt: string;
+  updatedAt: string;
+}

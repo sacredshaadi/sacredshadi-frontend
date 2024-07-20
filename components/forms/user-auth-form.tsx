@@ -16,6 +16,7 @@ import { ProfileTypes } from "@/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { fillerCities } from "@/constants/data";
 import { VendorEnum } from "@/types/user-facing";
+import { useUserContext } from "@/app/context/user-context";
 // import auth from '@/auth';
 
 const formSchema = z.object({
@@ -40,6 +41,7 @@ interface UserAuthFormProps {
 export default function UserAuthForm({ type }: UserAuthFormProps) {
   const { toast } = useToast();
   const router = useRouter();
+  const { user, setUser } = useUserContext();
 
   const { mutate: registerUserFn, error, isPending } = useRegisterUserMutation();
 
@@ -64,7 +66,6 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
   // }, []);
 
   const onSubmit = async (data: UserFormValue) => {
-    return;
     // signIn('credentials', {
     //   email: data.email,
     //   callbackUrl: callbackUrl ?? '/dashboard'
@@ -80,9 +81,9 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
             description: "User registered successfully",
             variant: "default"
           });
-          console.log("data from registerUserFn", data);
-          console.log("User registered successfully");
-          console.log("redirecting to '/'");
+          // console.log("data from registerUserFn", data);
+          // console.log("User registered successfully");
+          // console.log("redirecting to '/'");
           localStorage.setItem("user", JSON.stringify(data));
           router.push("/");
         },
@@ -132,7 +133,7 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
                     <FormLabel>City</FormLabel>
                     <FormControl>
                       <Select defaultValue={defaultValues.city} onValueChange={(value) => form.setValue("city", value)}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -156,7 +157,7 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
                     <FormLabel>Service</FormLabel>
                     <FormControl>
                       <Select defaultValue={""} onValueChange={(value) => form.setValue("service", value)}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
