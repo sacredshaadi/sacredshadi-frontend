@@ -24,19 +24,7 @@ const defaultErrorHandler = (error: any) => {
   throw error;
 };
 
-// const getApiClient =
-//   ({ baseURL, sucessHandler, errorHandler }) =>
-//   (url, requestOptions) => {
-//     return fetch(`${baseURL}${url}`, requestOptions).then(sucessHandler).catch(errorHandler);
-//   };
-
-// export const apiClient = () => ({
-//   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-//   sucessHandler: defaultSuccessHandler,
-//   errorHandler: defaultErrorHandler
-// });
-
-function apiClient(url: string, requestOptions: RequestInit) {
+async function apiClient(url: string, requestOptions: RequestInit) {
   return fetch(process.env.NEXT_PUBLIC_BASE_URL + url, requestOptions)
     .then(defaultSuccessHandler)
     .catch(defaultErrorHandler);
