@@ -1,7 +1,4 @@
-'use client';
-
-import PinterestSVG from '@/public/assets/pinterest-svgrepo-com.svg';
-import Image from 'next/image';
+"use client";
 
 interface props {
   className?: string;
