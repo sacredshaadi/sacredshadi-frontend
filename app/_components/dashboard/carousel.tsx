@@ -11,32 +11,6 @@ interface CarouselCompProps {
 }
 
 export default function CarouselComp({ sliderArr }: CarouselCompProps) {
-  const { mutate: getSlider, error, isPending } = useSliderMutation();
-  // const [sliderArr, setSliderArr] = useState<ISlider>();
-
-  // useEffect(() => {
-  //   try {
-  //     getSlider(void 2, {
-  //       onSuccess: async (data: any) => {
-  //         setSliderArr(data.data as ISlider);
-  //       },
-  //       onError: (err) => {
-  //         console.error(err);
-  //         toast({
-  //           variant: "destructive",
-  //           description: "Failed to fetch slider images"
-  //         });
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast({
-  //       variant: "destructive",
-  //       description: "Failed to fetch slider images"
-  //     });
-  //   }
-  // }, []);
-
   return (
     <div className="relative w-full">
       <Carousel className="w-full">
