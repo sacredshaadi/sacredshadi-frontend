@@ -11,7 +11,7 @@ const AuthParent = () => {
   const [login, setLogin] = React.useState(true);
 
   return (
-    <div className="flex h-full items-start p-4 pt-12 lg:p-8 lg:pt-24 xl:pt-36 ">
+    <div className="flex h-full items-start p-4 pt-12 lg:p-8 lg:pt-24">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">{login ? "Login to " : "Register"} your account</h1>

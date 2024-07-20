@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
-import Header from '@/components/layout/header/header';
-import Footer from '@/app/_components/footer';
+import type { Metadata } from "next";
+import Header from "@/components/layout/header/header";
+import Footer from "@/app/_components/footer";
 
 export const metadata: Metadata = {
-  title: 'Sacred Shaadi Dashboard',
-  description: 'One stop solution for all your wedding needs'
+  title: "Sacred Shaadi Dashboard",
+  description: "One stop solution for all your wedding needs"
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

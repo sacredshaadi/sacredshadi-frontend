@@ -1,8 +1,8 @@
-import { Facebook, Heart, Instagram, Youtube } from 'lucide-react';
-import Link from 'next/link';
-import Pinterest from './icons/pinterest';
-import { phoneArr } from '@/constants/data';
-import Image from 'next/image';
+import { Facebook, Heart, Instagram, Youtube } from "lucide-react";
+import Link from "next/link";
+import Pinterest from "./icons/pinterest";
+import { phoneArr } from "@/constants/data";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -75,24 +75,23 @@ export default function Footer() {
       "
       >
         <span className="flex items-center justify-center gap-2">
-          <Link href={'https://sacredshaadi.com'} target="_blank">
+          <Link href={"https://sacredshaadi.com"} target="_blank">
             <Image
-              src={'https://sacredshaadi.com/images/shadi_logo%20copy.png'}
+              src={"https://sacredshaadi.com/images/shadi_logo%20copy.png"}
               alt="Sacred Shaadi"
               width={100}
               height={50}
             />
           </Link>
           <p>
-            &copy; Copyright 2024. All rights reserved Sacred Shaadi. Design and developed by AimCrafters Software Pvt.
-            Ltd..
+            &copy; Copyright 2024. All rights reserved Sacred Shaadi. Design and developed by Nexus Solutions Pvt. Ltd..
           </p>
         </span>
         <section className="flex items-center justify-center gap-1">
-          <Link href={'/front/faq'} className="underline hover:text-primary">
+          <Link href={"/front/faq"} className="underline hover:text-primary">
             FAQs
           </Link>
-          <Link href={'/front/contact'} className="underline hover:text-primary">
+          <Link href={"/front/contact"} className="underline hover:text-primary">
             Contact Us
           </Link>
         </section>

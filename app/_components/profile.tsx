@@ -1,18 +1,18 @@
-'use client';
-import { PersonIcon } from '@radix-ui/react-icons';
+"use client";
+import { PersonIcon } from "@radix-ui/react-icons";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { useUserContext } from '@/app/context/user-context';
-import { useCallback, useEffect, useState } from 'react';
-import { User } from '@/types/auth.types';
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/dropdown-menu";
+import { useUserContext } from "@/app/context/user-context";
+import { useCallback, useEffect, useState } from "react";
+import { User } from "@/types/auth.types";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type CompProps = {};
 export default function ProfileComponent({}: CompProps) {
@@ -24,11 +24,11 @@ export default function ProfileComponent({}: CompProps) {
     try {
       if (user?.tokens?.accessToken) return;
       setLoading(true);
-      const currUser = localStorage.getItem('user') || '';
+      const currUser = localStorage.getItem("user") || "";
       if (!currUser) {
-        throw new Error('User not found');
+        throw new Error("User not found");
       }
-      // console.log('setting new user --> ', currUser);
+      // console.log("setting new user --> ", currUser);
       setUser(JSON.parse(currUser).data as User);
     } catch (err: any) {
     } finally {
@@ -42,20 +42,20 @@ export default function ProfileComponent({}: CompProps) {
   }, [user]);
 
   const handleLogout = useCallback(() => {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
     setUser(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   if (loading) {
     return (
-      <Button variant={'outline'} size={'icon'}>
+      <Button variant={"outline"} size={"icon"}>
         <Loader2 className="h-4 animate-spin" />
       </Button>
     );
   } else if (!user)
     return (
-      <Button variant={'outline'} onClick={() => router.push('/login')}>
+      <Button variant={"outline"} onClick={() => router.push("/login")}>
         Login
       </Button>
     );
