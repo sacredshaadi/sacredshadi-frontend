@@ -28,10 +28,10 @@ export default function AboutUs() {
                     offline. We believe that internet and modern day technology can add to this industry significantly.
                     <br />
                     <br />
-                    We are building a platform for all the " to be married couples" to make the most special day of your
-                    lives even more exhilarating by offering high class vendors who are just a click away in order to
-                    ease the process for you. We understand how important these moments are for you and no matter what
-                    budget you are having, we do our best to make it magical.
+                    We are building a platform for all the &quot; to be married couples&quot; to make the most special
+                    day of your lives even more exhilarating by offering high class vendors who are just a click away in
+                    order to ease the process for you. We understand how important these moments are for you and no
+                    matter what budget you are having, we do our best to make it magical.
                   </span>
                 </p>
               </section>

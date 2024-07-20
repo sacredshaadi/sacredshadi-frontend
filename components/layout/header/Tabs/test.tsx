@@ -9,7 +9,7 @@ export default function TabsDemo() {
     <Tabs className="hidden sm:block">
       <TabsList className="gap-2">
         {Object.entries(routeMapper).map(([key, val]) => (
-          <Link href={`${val}`}>
+          <Link key={key} href={`${val}`}>
             <TabsTrigger value={key} key={key} className="!focus:bg-red-300">
               {key}
             </TabsTrigger>

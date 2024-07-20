@@ -3,11 +3,8 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 import { useSliderMutation } from "@/components/api";
-import { use, useEffect, useState } from "react";
-import { toast } from "@/components/ui/use-toast";
-import { on } from "events";
-import { useUserContext } from "@/app/context/user-context";
 import { ISlider } from "@/types";
+import Image from "next/image";
 
 interface CarouselCompProps {
   sliderArr: ISlider[];
@@ -45,14 +42,14 @@ export default function CarouselComp({ sliderArr }: CarouselCompProps) {
       <Carousel className="w-full">
         <CarouselContent>
           {sliderArr.map((sliderNode) => (
-            <CarouselItem>
+            <CarouselItem key={sliderNode.id}>
               <section className="flex h-[400px] w-full items-center justify-center bg-primary-foreground">
                 {sliderNode.description}
               </section>
             </CarouselItem>
           ))}
           <CarouselItem>
-            <img src="/placeholder.svg" alt="Carousel Image 1" className="h-[400px] w-full object-cover" />
+            <Image src="/placeholder.svg" alt="Carousel Image 1" className="h-[400px] w-full object-cover" />
           </CarouselItem>
           <CarouselItem>
             <div className="flex h-[400px] w-full items-center justify-center bg-secondary">
