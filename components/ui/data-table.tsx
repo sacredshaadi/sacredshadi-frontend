@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Input } from './input';
-import { Button } from './button';
-import { ScrollArea, ScrollBar } from './scroll-area';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "./input";
+import { Button } from "./button";
+import { ScrollArea, ScrollBar } from "./scroll-area";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -21,17 +21,18 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
     getFilteredRowModel: getFilteredRowModel()
   });
 
-  /* this can be used to get the selectedrows 
+  /* this can be used to get the selectedrows
   console.log("value", table.getFilteredSelectedRowModel()); */
 
   return (
     <>
       <Input
         placeholder={`Search ${searchKey}...`}
-        value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
+        value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
         onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
-        className="w-full md:max-w-sm"
+        className="mb-2 w-full md:max-w-sm"
       />
+
       <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
         <Table className="relative">
           <TableHeader>
@@ -50,7 +51,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}

@@ -1,9 +1,16 @@
 import SuperAdminLayout from "../_components/layout";
+import TableHOC from "../_components/tableHoc";
 
 function VendorTypes() {
   return (
     <SuperAdminLayout title="Vendor types">
-      <h1>Vendor tyoes</h1>
+      <TableHOC
+        columns={[]}
+        deleteDataEndpoint=""
+        editDataEndpoint=""
+        paginateDataEndpoint=""
+        tableTitle="Vendor Types"
+      />
     </SuperAdminLayout>
   );
 }
