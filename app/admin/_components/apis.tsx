@@ -1,6 +1,6 @@
 import apiClient from "@/lib/apiConfig/apiClient";
+import { VendorType } from "@/types/auth.types";
 import { useQuery } from "@tanstack/react-query";
-import { VendorType } from "./types";
 
 const baseUrl = "/api/v1";
 const endpoints = {
@@ -10,6 +10,6 @@ const endpoints = {
 export function useGetVendorTypesQuery() {
   return useQuery<{ data: VendorType[]; message: string; status: number }>({
     queryKey: ["getVendorTypes"],
-    queryFn: () => apiClient(endpoints.getVendorTypes, { method: "GET" })
+    queryFn: () => apiClient(baseUrl + endpoints.getVendorTypes, { method: "GET" })
   });
 }

@@ -1,43 +1,17 @@
-import { LucideIcon, CircleDotDashed, AlignLeft } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { useGetVendorTypesQuery } from "./apis";
-
-type AdminSidebarItem = {
-  icon: LucideIcon;
-  label: string;
-  route?: string;
-  subRoutes?: Array<Omit<AdminSidebarItem, "icon">>;
-};
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { getAdminSidebarRoutes } from "./sidebarItems";
+import { useMemo } from "react";
 
 function SuperAdminSidebar(props: { collapsed: boolean }) {
   const { data, isLoading } = useGetVendorTypesQuery();
-  const adminSidebarRoutes: Array<AdminSidebarItem> = [
-    { icon: CircleDotDashed, label: "Dashboard", route: "/admin/dashboard" },
-    { icon: AlignLeft, label: "Vendors", route: "/admin/vendors" },
-    { icon: AlignLeft, label: "Vendor Types", route: "/admin/vendor-types" },
-    { icon: AlignLeft, label: "Users", route: "/admin/users" },
-    {
-      icon: AlignLeft,
-      label: "E Settings",
-      subRoutes: [
-        { label: "Contacts", route: "/admin/settings/contacts" },
-        { label: "Our Team", route: "/admin/our-team" },
-        { label: "Profile", route: "/admin/profile" },
-        { label: "SEO", route: "/admin/seo" }
-      ]
-    },
-    { icon: AlignLeft, label: "City", route: "/admin/cities" },
-    { icon: AlignLeft, label: "Slider", route: "/admin/slider" },
-    { icon: AlignLeft, label: "Categories", route: "/admin/categories" },
-    { icon: AlignLeft, label: "Quiz", route: "/admin/quiz" },
-    { icon: AlignLeft, label: "Quiz MCQ", route: "/admin/quiz-mcq" },
-    { icon: AlignLeft, label: "Hangouts Quiz", route: "/admin/hangout-quiz" },
-    { icon: AlignLeft, label: "Questions", subRoutes: [] },
-    { icon: AlignLeft, label: "Services", subRoutes: [] },
-    { icon: AlignLeft, label: "User Reviews", route: "/admin/reviews" }
-  ];
+
+  const sidebarItems = useMemo(() => {
+    return getAdminSidebarRoutes(isLoading, data?.data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   return (
     <div
@@ -46,8 +20,8 @@ function SuperAdminSidebar(props: { collapsed: boolean }) {
         props.collapsed ? "w-16" : "w-56"
       )}
     >
-      {adminSidebarRoutes.map((sidebarRoute) => {
-        if ("route" in sidebarRoute) {
+      {sidebarItems.map((sidebarRoute) => {
+        if (sidebarRoute.route) {
           return (
             <Link
               key={sidebarRoute.label}
@@ -55,7 +29,7 @@ function SuperAdminSidebar(props: { collapsed: boolean }) {
               className={twMerge("flex items-center gap-2", props.collapsed ? "justify-center" : "")}
             >
               <sidebarRoute.icon size={26} stroke="red" />
-              {!props.collapsed ? <div>{sidebarRoute.label}</div> : null}
+              {!props.collapsed ? <div className="text-lg">{sidebarRoute.label}</div> : null}
             </Link>
           );
         }
@@ -65,8 +39,21 @@ function SuperAdminSidebar(props: { collapsed: boolean }) {
             key={sidebarRoute.label}
             className={twMerge("flex items-center gap-2", props.collapsed ? "justify-center" : "")}
           >
-            <sidebarRoute.icon size={26} stroke="red" />
-            {!props.collapsed ? <div>{sidebarRoute.label}</div> : null}
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value={sidebarRoute.label} className="border-none">
+                <AccordionTrigger className="flex items-center justify-start gap-2 py-0">
+                  {<sidebarRoute.icon size={26} stroke="red" />}
+                  {!props.collapsed ? <div className="text-lg">{sidebarRoute.label}</div> : null}
+                </AccordionTrigger>
+                <AccordionContent className={twMerge("mb-0 pb-0", props.collapsed ? "" : "pl-8")}>
+                  {sidebarRoute.subRoutes?.map((subRoute) => (
+                    <Link key={subRoute.label} href={subRoute.route!} className="flex items-center gap-2 text-lg">
+                      {subRoute.label}
+                    </Link>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         );
       })}
