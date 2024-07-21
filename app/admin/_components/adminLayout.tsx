@@ -1,10 +1,10 @@
 "use client";
 
 import { PropsWithChildren, ReactNode, useState } from "react";
-import SuperAdminSidebar from "./sidebar";
+import { SuperAdminSidebar } from "./sidebar";
 import AdminHeader from "./header";
 
-function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
+export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div className="bg-gray-100">
@@ -27,5 +27,3 @@ function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: Rea
     </div>
   );
 }
-
-export default SuperAdminLayout;

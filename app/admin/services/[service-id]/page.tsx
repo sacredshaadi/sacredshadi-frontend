@@ -6,4 +6,4 @@ function SpecificServiceDetails() {
   );
 }
 
-export default SpecificServiceDetails();
+export default SpecificServiceDetails;

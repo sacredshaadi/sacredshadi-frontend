@@ -1,8 +1,8 @@
 "use client";
 
-interface props {
-  className?: string;
-}
+// interface props {
+//   className?: string;
+// }
 
 const Pinterest = () => {
   return (

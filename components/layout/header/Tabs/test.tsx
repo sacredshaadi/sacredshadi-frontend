@@ -1,8 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
 import { routeMapper } from "@/types";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default function TabsDemo() {
   return (

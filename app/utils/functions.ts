@@ -12,7 +12,7 @@ export async function getAllVendorTypes(): Promise<VendorType[]> {
     const data = await response.json();
     return data.data as VendorType[];
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     return [];
   }
 }

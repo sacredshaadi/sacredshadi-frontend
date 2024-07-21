@@ -1,4 +1,5 @@
 "use client";
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -20,8 +21,8 @@ interface ProfileFormType {
 }
 
 export const CreateProfileOne: React.FC<ProfileFormType> = ({ initialData, categories }) => {
-  const params = useParams();
-  const router = useRouter();
+  // const params = useParams();
+  // const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const title = initialData ? "Edit product" : "Create Your Profile";
@@ -49,38 +50,38 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({ initialData, categ
 
   const { append, remove, fields } = useFieldArray({ control, name: "jobs" });
 
-  const onSubmit = async (data: ProfileFormValues) => {
-    try {
-      setLoading(true);
-      if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
-      } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
-      }
-      router.refresh();
-      router.push(`/dashboard/products`);
-    } catch (error: any) {
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const onSubmit = async (data: ProfileFormValues) => {
+  //   try {
+  //     setLoading(true);
+  //     if (initialData) {
+  //       // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+  //     } else {
+  //       // const res = await axios.post(`/api/products/create-product`, data);
+  //       // console.log("product", res);
+  //     }
+  //     router.refresh();
+  //     router.push(`/dashboard/products`);
+  //   } catch (error: any) {
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const onDelete = async () => {
-    try {
-      setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/products`);
-    } catch (error: any) {
-    } finally {
-      setLoading(false);
-      setOpen(false);
-    }
-  };
+  // const onDelete = async () => {
+  //   try {
+  //     setLoading(true);
+  //     //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
+  //     router.refresh();
+  //     router.push(`/${params.storeId}/products`);
+  //   } catch (error: any) {
+  //   } finally {
+  //     setLoading(false);
+  //     setOpen(false);
+  //   }
+  // };
 
   const processForm: SubmitHandler<ProfileFormValues> = (data) => {
-    console.log("data ==>", data);
+    // console.log("data ==>", data);
     setData(data);
     // api call and reset
     // form.reset();

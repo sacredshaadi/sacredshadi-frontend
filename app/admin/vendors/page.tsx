@@ -1,4 +1,4 @@
-import SuperAdminLayout from "../_components/layout";
+import { SuperAdminLayout } from "../_components/adminLayout";
 
 function AdminVendors() {
   return (
