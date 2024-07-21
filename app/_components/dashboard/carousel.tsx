@@ -49,7 +49,13 @@ export default function CarouselComp({ sliderArr }: CarouselCompProps) {
             </CarouselItem>
           ))}
           <CarouselItem>
-            <Image src="/placeholder.svg" alt="Carousel Image 1" className="h-[400px] w-full object-cover" />
+            <Image
+              src="/placeholder.svg"
+              width={400}
+              height={400}
+              alt="Carousel Image 1"
+              className="h-[400px] w-full object-cover"
+            />
           </CarouselItem>
           <CarouselItem>
             <div className="flex h-[400px] w-full items-center justify-center bg-secondary">
@@ -57,7 +63,13 @@ export default function CarouselComp({ sliderArr }: CarouselCompProps) {
             </div>
           </CarouselItem>
           <CarouselItem>
-            <img src="/placeholder.svg" alt="Carousel Image 3" className="h-[400px] w-full object-cover" />
+            <img
+              src="/placeholder.svg"
+              width={400}
+              height={400}
+              alt="Carousel Image 3"
+              className="h-[400px] w-full object-cover"
+            />
           </CarouselItem>
         </CarouselContent>
         <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-background/50 p-2 text-primary-foreground transition-colors hover:bg-background/75" />

@@ -41,7 +41,7 @@ function SuperAdminSidebar(props: { collapsed: boolean }) {
           >
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value={sidebarRoute.label} className="border-none">
-                <AccordionTrigger className="flex items-center justify-start gap-2 py-0">
+                <AccordionTrigger className="flex items-center justify-start gap-2 py-0 hover:no-underline">
                   {<sidebarRoute.icon size={26} stroke="red" />}
                   {!props.collapsed ? <div className="text-lg">{sidebarRoute.label}</div> : null}
                 </AccordionTrigger>
