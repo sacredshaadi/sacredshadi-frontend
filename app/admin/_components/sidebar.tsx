@@ -29,7 +29,7 @@ function SuperAdminSidebar(props: { collapsed: boolean }) {
               className={twMerge("flex items-center gap-2", props.collapsed ? "justify-center" : "")}
             >
               <sidebarRoute.icon size={26} stroke="red" />
-              {!props.collapsed ? <div className="text-lg">{sidebarRoute.label}</div> : null}
+              {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
             </Link>
           );
         }
@@ -43,11 +43,15 @@ function SuperAdminSidebar(props: { collapsed: boolean }) {
               <AccordionItem value={sidebarRoute.label} className="border-none">
                 <AccordionTrigger className="flex items-center justify-start gap-2 py-0 hover:no-underline">
                   {<sidebarRoute.icon size={26} stroke="red" />}
-                  {!props.collapsed ? <div className="text-lg">{sidebarRoute.label}</div> : null}
+                  {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
                 </AccordionTrigger>
-                <AccordionContent className={twMerge("mb-0 pb-0", props.collapsed ? "" : "pl-8")}>
+                <AccordionContent className={twMerge("mb-0 pb-0", props.collapsed ? "" : "pl-9")}>
                   {sidebarRoute.subRoutes?.map((subRoute) => (
-                    <Link key={subRoute.label} href={subRoute.route!} className="flex items-center gap-2 text-lg">
+                    <Link
+                      key={subRoute.label}
+                      href={subRoute.route!}
+                      className="my-2 flex items-center gap-2 text-base"
+                    >
                       {subRoute.label}
                     </Link>
                   ))}

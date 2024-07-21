@@ -6,7 +6,8 @@ import { useState } from "react";
 export type CellActionProps<T> = {
   data: T;
   editDataEndpoint: string;
-  deleteDataEndpoint: string;
+  onEditClick: () => void;
+  onDeleteClick: () => void;
 };
 
 function CellAction<T = Record<string, any> & { id: number }>(props: CellActionProps<T>) {
@@ -17,12 +18,14 @@ function CellAction<T = Record<string, any> & { id: number }>(props: CellActionP
   return (
     <>
       <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onConfirm} loading={false} />
-      <div className="">
-        <Edit className="mr-2 h-4 w-4" /> Update
-      </div>
+      <div className="flex items-center gap-4">
+        <div className="flex cursor-pointer items-center hover:text-primary" onClick={props.onEditClick}>
+          <Edit className="mr-2 h-4 w-4" /> Update
+        </div>
 
-      <div className="">
-        <Trash className="mr-2 h-4 w-4" /> Delete
+        <div className="flex cursor-pointer items-center hover:text-primary" onClick={props.onDeleteClick}>
+          <Trash className="mr-2 h-4 w-4" /> Delete
+        </div>
       </div>
     </>
   );
