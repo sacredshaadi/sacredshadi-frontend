@@ -1,11 +1,11 @@
 // import { auth } from '@/auth';
 
-import AuthWrapper from '@/app/auth-wrapper';
-import { Metadata } from 'next';
+import AuthWrapper from "@/app/auth-wrapper";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Sacred Shaadi Login',
-  description: 'Login to Sacred Shaadi'
+  title: "Sacred Shaadi Login",
+  description: "Login to Sacred Shaadi"
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

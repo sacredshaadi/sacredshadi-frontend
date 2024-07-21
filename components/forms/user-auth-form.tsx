@@ -36,9 +36,23 @@ type UserFormValue = z.infer<typeof formSchema>;
 
 interface UserAuthFormProps {
   type: ProfileTypes;
+  citiesPending?: boolean;
+  citiesError?: any;
+  vendorTypesPending?: boolean;
+  vendorTypesError?: any;
+  cities?: { id: number; name: string }[];
+  vendorTypes?: { id: number; name: string }[];
 }
 
-export default function UserAuthForm({ type }: UserAuthFormProps) {
+export default function UserAuthForm({
+  type,
+  citiesPending,
+  citiesError,
+  vendorTypesPending,
+  vendorTypesError,
+  cities,
+  vendorTypes
+}: UserAuthFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const { user, setUser } = useUserContext();
@@ -54,16 +68,11 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
     email: "demo@gmail.com",
     name: "Demo User",
     city: ""
-    // password: 'password'
   };
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues
   });
-
-  // useEffect(() => {
-  //   console.log('env base url', process.env.NEXT_API_BASE_URL);
-  // }, []);
 
   const onSubmit = async (data: UserFormValue) => {
     // signIn('credentials', {
@@ -240,17 +249,6 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
           </Button>
         </form>
       </Form>
-      {/* <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <GoogleSignInButton /> */}
     </>
   );
 }

@@ -23,7 +23,13 @@ export default function CarouselComp({ sliderArr }: CarouselCompProps) {
             </CarouselItem>
           ))}
           <CarouselItem>
-            <Image src="/placeholder.svg" alt="Carousel Image 1" className="h-[400px] w-full object-cover" />
+            <Image
+              src="/placeholder.svg"
+              alt="Carousel Image 1"
+              className="h-[400px] w-full object-cover"
+              width={"1000"}
+              height={"400"}
+            />
           </CarouselItem>
           <CarouselItem>
             <div className="flex h-[400px] w-full items-center justify-center bg-secondary">

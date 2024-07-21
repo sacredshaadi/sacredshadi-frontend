@@ -66,3 +66,8 @@ export interface ISlider {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ICity {
+  id: number;
+  name: string;
+}

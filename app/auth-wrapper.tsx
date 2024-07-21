@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import { useToast } from '../components/ui/use-toast';
-import { useRouter } from 'next/navigation';
+import React, { useEffect } from "react";
+import { useToast } from "../components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -15,10 +15,11 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
 
   useEffect(() => {
     try {
-      const user = localStorage.getItem('user');
+      const user = localStorage.getItem("user");
       if (!user) {
-        throw new Error('User not found');
+        throw new Error("User not found");
       }
+      router.push("/");
     } catch (err) {
       // toast({
       //   title: 'User Authentication Error',
@@ -26,9 +27,10 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
       //   variant: 'destructive'
       // });
       console.error(err);
-      router.push('/login');
-    } finally {
       setLoading(false);
+      // router.push("/login");
+    } finally {
+      // setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

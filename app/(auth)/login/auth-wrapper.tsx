@@ -5,10 +5,66 @@ import UserLoginForm from "@/components/forms/user-login-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProfileTypes } from "@/types";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useVendorContext } from "@/app/context/vendor-context";
+import { useGetAllVendorTypesMutation } from "@/components/api";
+import { useGetAllCitiesMutation } from "@/components/api";
+import { toast } from "@/components/ui/use-toast";
 
 const AuthParent = () => {
   const [login, setLogin] = React.useState(true);
+  const { vendorTypes, cities, setVendorTypes, setCities } = useVendorContext();
+  const { mutate: getCitiesFn, error, isPending } = useGetAllCitiesMutation();
+  const { mutate: getVendorTypesFn, error: vendorError, isPending: vendorIsPending } = useGetAllVendorTypesMutation();
+  useEffect(() => {
+    try {
+      getCitiesFn(void 0, {
+        onSuccess: (data) => {
+          console.log("cities", data);
+        },
+        onError: (err) => {
+          console.error(err);
+          toast({
+            title: "Error",
+            description: "An error occurred while fetching cities",
+            variant: "destructive"
+          });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Error",
+        description: "An error occurred while fetching cities",
+        variant: "destructive"
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      getVendorTypesFn(void 0, {
+        onSuccess: (data) => {
+          console.log("vendor types", data);
+        },
+        onError: (err) => {
+          console.error(err);
+          toast({
+            title: "Error",
+            description: "An error occurred while fetching vendor types",
+            variant: "destructive"
+          });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Error",
+        description: "An error occurred while fetching vendor types",
+        variant: "destructive"
+      });
+    }
+  }, []);
 
   return (
     <div className="flex h-full items-start p-4 pt-12 lg:p-8 lg:pt-24">
@@ -27,10 +83,25 @@ const AuthParent = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value={ProfileTypes.USER}>
-            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.USER} />}
+            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.VENDOR} />}
           </TabsContent>
           <TabsContent value={ProfileTypes.VENDOR}>
-            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.VENDOR} />}
+            {login ? (
+              <UserLoginForm />
+            ) : (
+              <UserAuthForm
+                type={ProfileTypes.USER}
+                cities={cities}
+                vendorTypes={vendorTypes.map((type) => ({
+                  id: type.id,
+                  name: type.type
+                }))}
+                citiesError={error}
+                citiesPending={isPending}
+                vendorTypesError={vendorError}
+                vendorTypesPending={vendorIsPending}
+              />
+            )}
           </TabsContent>
         </Tabs>
         <span className="flex justify-center gap-1 space-x-2 text-sm">
