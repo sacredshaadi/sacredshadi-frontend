@@ -1,10 +1,11 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,7 +17,7 @@ import { ProfileTypes } from "@/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { fillerCities } from "@/constants/data";
 import { VendorEnum } from "@/types/user-facing";
-import { useUserContext } from "@/app/context/user-context";
+// import { useUserContext } from "@/app/context/user-context";
 // import auth from '@/auth';
 
 const formSchema = z.object({
@@ -41,15 +42,18 @@ interface UserAuthFormProps {
 export default function UserAuthForm({ type }: UserAuthFormProps) {
   const { toast } = useToast();
   const router = useRouter();
-  const { user, setUser } = useUserContext();
+  // const { user, setUser } = useUserContext();
 
-  const { mutate: registerUserFn, error, isPending } = useRegisterUserMutation();
+  const {
+    mutate: registerUserFn
+    // isPending
+  } = useRegisterUserMutation();
 
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-  const [loading, setLoading] = useState(false);
+  // const searchParams = useSearchParams();
+  // const callbackUrl = searchParams.get("callbackUrl");
+  const [loading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const disabled = isPending || loading;
+  // const disabled = isPending || loading;
   const defaultValues = {
     email: "demo@gmail.com",
     name: "Demo User",
@@ -70,7 +74,7 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
     //   email: data.email,
     //   callbackUrl: callbackUrl ?? '/dashboard'
     // });
-    console.log("data to be registered", data);
+    // console.log("data to be registered", data);
     // return;
 
     try {
@@ -88,7 +92,7 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
           router.push("/");
         },
         onError: (error) => {
-          console.error(error);
+          // console.error(error);
           toast({
             title: "Error",
             description: error.message,
@@ -97,7 +101,7 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
         }
       });
     } catch (err: any) {
-      console.error(`Error registering user: ${err.message}`);
+      // console.error(`Error registering user: ${err.message}`);
       toast({
         title: "Redirect error",
         description: err.message,
@@ -216,8 +220,7 @@ export default function UserAuthForm({ type }: UserAuthFormProps) {
                       size="sm"
                       // className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => {
-                        console.log("clicked");
-
+                        // console.log("clicked");
                         setShowPassword((prev) => !prev);
                       }}
                       // disabled={disabled}

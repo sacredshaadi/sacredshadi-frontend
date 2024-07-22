@@ -1,4 +1,4 @@
-import { User, VendorType } from "@/types/auth.types";
+import { VendorType } from "@/types/auth.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

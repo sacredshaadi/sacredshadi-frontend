@@ -5,7 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { getAdminSidebarRoutes } from "./sidebarItems";
 import { useMemo } from "react";
 
-function SuperAdminSidebar(props: { collapsed: boolean }) {
+export function SuperAdminSidebar(props: { collapsed: boolean }) {
   const { data, isLoading } = useGetVendorTypesQuery();
 
   const sidebarItems = useMemo(() => {
@@ -64,5 +64,3 @@ function SuperAdminSidebar(props: { collapsed: boolean }) {
     </div>
   );
 }
-
-export default SuperAdminSidebar;

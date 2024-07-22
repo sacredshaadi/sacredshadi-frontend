@@ -1,6 +1,6 @@
 "use client";
 
-import SuperAdminLayout from "../_components/layout";
+import { SuperAdminLayout } from "../_components/adminLayout";
 import TableHOC from "../_components/tableHoc";
 import dayjs from "dayjs";
 

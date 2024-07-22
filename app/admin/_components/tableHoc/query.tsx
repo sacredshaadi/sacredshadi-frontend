@@ -11,7 +11,7 @@ export type useTableHocQueryProps = {
 
 function useTableHocQuery<T>(props: useTableHocQueryProps) {
   const { user } = useUserContext();
-  console.log({ user });
+  // console.log({ user });
 
   const { data } = useQuery({
     queryKey: [props.paginateDataEndpoint],

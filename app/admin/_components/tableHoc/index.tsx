@@ -25,13 +25,12 @@ export type TableHocProps<T> = {
 function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps<T>) {
   const [open, setOpen] = useState(false);
   const [editData, setEditData] = useState<T | null>(null);
-  const { data, handleAddData, handleDeleteData, handleEditData, isAddDataPending, isDeletePending, isEditPending } =
-    useTableHocQuery({
-      addDataEndpoint: props.addDataEndpoint,
-      paginateDataEndpoint: props.paginateDataEndpoint,
-      deleteDataEndpoint: props.deleteDataEndpoint,
-      editDataEndpoint: props.editDataEndpoint
-    });
+  const { data } = useTableHocQuery({
+    addDataEndpoint: props.addDataEndpoint,
+    paginateDataEndpoint: props.paginateDataEndpoint,
+    deleteDataEndpoint: props.deleteDataEndpoint,
+    editDataEndpoint: props.editDataEndpoint
+  });
 
   const columns: ColumnDef<T>[] = useMemo(
     () => [
@@ -66,7 +65,7 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
               setOpen(true);
             }}
             onDeleteClick={() => {
-              console.log("delete");
+              // console.log("delete");
             }}
             editDataEndpoint={props.editDataEndpoint}
             // deleteDataEndpoint={props.deleteDataEndpoint}
