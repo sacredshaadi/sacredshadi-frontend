@@ -8,17 +8,11 @@ import { getAllVendorTypes } from "../utils/functions";
 
 async function getSliderNodes() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${sliderUrls.getAllCarousels}`, {
-      method: "GET"
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${sliderUrls.getAllCarousels}`, { method: "GET" });
     const data = await res.json();
     return data.data;
   } catch (err) {
-    console.error(err);
-    toast({
-      variant: "destructive",
-      description: "Failed to fetch slider images"
-    });
+    toast({ variant: "destructive", description: "Failed to fetch slider images" });
   }
 }
 

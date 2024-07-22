@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutUs() {
   return (
@@ -54,11 +54,11 @@ export default function AboutUs() {
               </Link>
             </div> */}
           </div>
-          <img
-            src="/placeholder.svg"
-            width="550"
-            height="550"
+          <Image
+            width={550}
+            height={550}
             alt="Hero"
+            src="/placeholder.svg"
             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:aspect-square"
           />
         </div>

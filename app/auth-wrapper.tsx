@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "../components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -9,8 +9,8 @@ interface AuthWrapperProps {
 }
 
 const AuthWrapper = ({ children }: AuthWrapperProps) => {
-  const [loading, setLoading] = React.useState(true);
-  const { toast } = useToast();
+  const [loading, setLoading] = useState(true);
+  // const { toast } = useToast();
   const router = useRouter();
 
   useEffect(() => {

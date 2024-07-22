@@ -1,10 +1,11 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -27,13 +28,13 @@ export default function UserLoginForm() {
 
   const router = useRouter();
 
-  const { mutate: loginUserFn, error, isPending } = useLoginUserMutation();
+  const { mutate: loginUserFn, isPending } = useLoginUserMutation();
 
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   // const callbackUrl = searchParams.get('callbackUrl');
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const disabled = isPending || loading;
+  // const disabled = isPending || loading;
   const defaultValues = {
     email: "demo@gmail.com",
     name: "Demo User"
@@ -53,7 +54,7 @@ export default function UserLoginForm() {
     //   email: data.email,
     //   callbackUrl: callbackUrl ?? '/dashboard'
     // });
-    console.log("data for login", data);
+    // console.log("data for login", data);
     // return;
 
     try {
@@ -67,11 +68,11 @@ export default function UserLoginForm() {
           // console.log('data from lo', data);
           // console.log('User registered successfully');
           localStorage.setItem("user", JSON.stringify(data));
-          console.log("redirecting to '/'");
+          // console.log("redirecting to '/'");
           router.push("/");
         },
         onError: (error) => {
-          console.error(error);
+          // console.error(error);
           toast({
             title: "Error message",
             description: error.message,
@@ -80,7 +81,7 @@ export default function UserLoginForm() {
         }
       });
     } catch (err: any) {
-      console.error(`Error : ${err.message}`);
+      // console.error(`Error : ${err.message}`);
       toast({
         title: "Redirect error",
         description: err.message,
@@ -121,8 +122,7 @@ export default function UserLoginForm() {
                       size="sm"
                       // className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => {
-                        console.log("clicked");
-
+                        // console.log("clicked");
                         setShowPassword((prev) => !prev);
                       }}
                       // disabled={disabled}

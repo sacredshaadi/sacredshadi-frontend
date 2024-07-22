@@ -1,4 +1,5 @@
 "use client";
+
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 
@@ -25,7 +26,7 @@ import { UniqueIdentifier } from "@dnd-kit/core";
 import { Input } from "../ui/input";
 
 export function ColumnActions({ title, id }: { title: string; id: UniqueIdentifier }) {
-  const [open, setIsOpen] = React.useState(false);
+  // const [open, setIsOpen] = React.useState(false);
   const [name, setName] = React.useState(title);
   const updateCol = useTaskStore((state) => state.updateCol);
   const removeCol = useTaskStore((state) => state.removeCol);

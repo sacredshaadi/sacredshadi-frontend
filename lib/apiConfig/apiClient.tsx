@@ -1,4 +1,4 @@
-const defaultSuccessHandler = async (response) => {
+const defaultSuccessHandler = async (response: any) => {
   try {
     const contentType = response.headers.get("content-type");
 
@@ -19,21 +19,15 @@ const defaultSuccessHandler = async (response) => {
   }
 };
 
-const defaultErrorHandler = (error) => {
+const defaultErrorHandler = (error: any) => {
   // @TODO change to warning in dev prod
   throw error;
 };
 
-const getApiClient =
-  ({ baseURL, sucessHandler, errorHandler }) =>
-  (url, requestOptions) => {
-    return fetch(`${baseURL}${url}`, requestOptions).then(sucessHandler).catch(errorHandler);
-  };
-
-export const apiClient = getApiClient({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  sucessHandler: defaultSuccessHandler,
-  errorHandler: defaultErrorHandler
-});
+async function apiClient(url: string, requestOptions: RequestInit) {
+  return fetch(process.env.NEXT_PUBLIC_BASE_URL + url, requestOptions)
+    .then(defaultSuccessHandler)
+    .catch(defaultErrorHandler);
+}
 
 export default apiClient;

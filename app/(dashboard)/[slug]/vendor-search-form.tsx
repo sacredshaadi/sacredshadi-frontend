@@ -1,4 +1,5 @@
 "use client";
+
 import * as z from "zod";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,10 +27,10 @@ const formSchema = z.object({
 
 type ProductFormValues = z.infer<typeof formSchema>;
 
-interface ProductFormProps {
-  initialData: any | null;
-  categories: any;
-}
+// interface ProductFormProps {
+//   initialData: any | null;
+//   categories: any;
+// }
 
 enum locationEnum {
   myvenue = "My Venue",
@@ -38,7 +39,7 @@ enum locationEnum {
 
 export const SearchForm = () => {
   const searchParams = useSearchParams();
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   const defaultValues: ProductFormValues = {
     budget: "50,000",
@@ -54,7 +55,7 @@ export const SearchForm = () => {
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log("data: ", data);
+    // console.log("data: ", data);
   };
 
   return (
