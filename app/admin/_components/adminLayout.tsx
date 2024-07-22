@@ -7,7 +7,7 @@ import AdminHeader from "./header";
 export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="bg-gray-100">
+    <div className="flex h-screen flex-col bg-gray-100 ">
       <AdminHeader
         {...{
           collapsed,
@@ -20,9 +20,9 @@ export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extra
           )
         }}
       />
-      <div className="flex">
+      <div className="flex flex-grow overflow-auto">
         <SuperAdminSidebar {...{ collapsed }} />
-        <div className="m-2 mb-0 flex-grow rounded-sm sm:m-4 sm:mb-0">{props.children}</div>
+        <div className="m-2 mb-0 flex-grow overflow-auto rounded-sm sm:m-4 sm:mb-0">{props.children}</div>
       </div>
     </div>
   );

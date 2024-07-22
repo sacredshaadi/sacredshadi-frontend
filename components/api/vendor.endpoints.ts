@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiConfig/apiClient";
-import { vendorTypeUrls } from "@/lib/apiConfig/urls";
+import { vendorTypeUrls, vendorUrls } from "@/lib/apiConfig/urls";
 
 export const createVendorType = (accessToken: string, payload: any) => {
   return apiClient(vendorTypeUrls.createVendorTypeUrl, {
@@ -36,5 +36,36 @@ export const updateVendorType = (accessToken: string) => {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
+  });
+};
+
+export const registerVendor = (payload: any) => {
+  return apiClient(vendorUrls.registerVendorUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+};
+
+export const loginVendor = (payload: any) => {
+  return apiClient(vendorUrls.loginVendors, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+};
+
+export const vendorProfile = (accessToken: string) => {
+  return apiClient(vendorUrls.vendorProfileVendor, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`
+    }
+    // body: JSON.stringify(payload)
   });
 };

@@ -12,6 +12,12 @@ export const userUrls = {
   removeUserUrl: "/api/v1/user/remove/"
 };
 
+export const vendorUrls = {
+  registerVendorUrl: "/api/v1/vendor/add",
+  loginVendors: "/api/v1/vendor/all",
+  vendorProfileVendor: "/api/v1/vendor/update"
+};
+
 export const sliderUrls = {
   createCarouselUrl: "/api/v1/sliders/add",
   getAllCarousels: "/api/v1/sliders",

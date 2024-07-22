@@ -150,11 +150,15 @@ export default function UserAuthForm({
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {fillerCities.map((city) => (
-                            <SelectItem value={city} key={city}>
-                              {city}
-                            </SelectItem>
-                          ))}
+                          {cities ? (
+                            cities.map((city) => (
+                              <SelectItem value={city.name} key={city.id}>
+                                {city.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <div>loading...</div>
+                          )}
                         </SelectContent>
                       </Select>
                     </FormControl>

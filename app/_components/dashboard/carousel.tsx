@@ -38,7 +38,7 @@ export default function CarouselComp({ sliderArr }: CarouselCompProps) {
   // }, []);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-screen">
       <Carousel className="w-full">
         <CarouselContent>
           {(sliderArr || []).map((sliderNode) => (

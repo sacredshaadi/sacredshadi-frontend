@@ -16,7 +16,7 @@ export function SuperAdminSidebar(props: { collapsed: boolean }) {
   return (
     <div
       className={twMerge(
-        "flex flex-col gap-4 overflow-auto overflow-x-hidden bg-white p-2 shadow-lg",
+        "flex flex-col gap-4 overflow-x-hidden bg-white p-2 shadow-lg",
         props.collapsed ? "w-16" : "w-56"
       )}
     >

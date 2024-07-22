@@ -3,13 +3,14 @@
 import UserAuthForm from "@/components/forms/user-auth-form";
 import UserLoginForm from "@/components/forms/user-login-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ProfileTypes } from "@/types";
+import { ICity, ProfileTypes } from "@/types";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useVendorContext } from "@/app/context/vendor-context";
 import { useGetAllVendorTypesMutation } from "@/components/api";
 import { useGetAllCitiesMutation } from "@/components/api";
 import { toast } from "@/components/ui/use-toast";
+import { VendorType } from "@/types/auth.types";
 
 const AuthParent = () => {
   const [login, setLogin] = React.useState(true);
@@ -20,7 +21,7 @@ const AuthParent = () => {
     try {
       getCitiesFn(void 0, {
         onSuccess: (data) => {
-          console.log("cities", data);
+          setCities(data.data as ICity[]);
         },
         onError: (err) => {
           console.error(err);
@@ -45,7 +46,7 @@ const AuthParent = () => {
     try {
       getVendorTypesFn(void 0, {
         onSuccess: (data) => {
-          console.log("vendor types", data);
+          setVendorTypes(data.data as VendorType[]);
         },
         onError: (err) => {
           console.error(err);
@@ -83,14 +84,14 @@ const AuthParent = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value={ProfileTypes.USER}>
-            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.VENDOR} />}
+            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.USER} />}
           </TabsContent>
           <TabsContent value={ProfileTypes.VENDOR}>
             {login ? (
               <UserLoginForm />
             ) : (
               <UserAuthForm
-                type={ProfileTypes.USER}
+                type={ProfileTypes.VENDOR}
                 cities={cities}
                 vendorTypes={vendorTypes.map((type) => ({
                   id: type.id,
