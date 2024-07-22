@@ -60,7 +60,7 @@ export const loginVendor = (payload: any) => {
 };
 
 export const vendorProfile = (accessToken: string) => {
-  return apiClient(vendorUrls.vendorProfileVendor, {
+  return apiClient(vendorUrls.vendorProfile, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

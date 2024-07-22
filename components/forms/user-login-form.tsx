@@ -71,11 +71,11 @@ export default function UserLoginForm() {
           // console.log("redirecting to '/'");
           router.push("/");
         },
-        onError: (error) => {
+        onError: (error: any) => {
           // console.error(error);
           toast({
             title: "Error message",
-            description: error.message,
+            description: error.message || error.error || "Error logging in",
             variant: "destructive"
           });
         }

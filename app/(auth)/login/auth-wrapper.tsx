@@ -1,6 +1,6 @@
 "use client";
 
-import UserAuthForm from "@/components/forms/user-auth-form";
+import UserAuthForm from "@/components/forms/user-register-form";
 import UserLoginForm from "@/components/forms/user-login-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ICity, ProfileTypes } from "@/types";
@@ -11,6 +11,7 @@ import { useGetAllVendorTypesMutation } from "@/components/api";
 import { useGetAllCitiesMutation } from "@/components/api";
 import { toast } from "@/components/ui/use-toast";
 import { VendorType } from "@/types/auth.types";
+import VendorRegisterForm from "@/components/forms/vendor-register-form";
 
 const AuthParent = () => {
   const [login, setLogin] = React.useState(true);
@@ -83,24 +84,18 @@ const AuthParent = () => {
               I&apos;m a vendor
             </TabsTrigger>
           </TabsList>
-          <TabsContent value={ProfileTypes.USER}>
-            {login ? <UserLoginForm /> : <UserAuthForm type={ProfileTypes.USER} />}
-          </TabsContent>
+          <TabsContent value={ProfileTypes.USER}>{login ? <UserLoginForm /> : <UserAuthForm />}</TabsContent>
           <TabsContent value={ProfileTypes.VENDOR}>
             {login ? (
               <UserLoginForm />
             ) : (
-              <UserAuthForm
-                type={ProfileTypes.VENDOR}
+              <VendorRegisterForm
                 cities={cities}
-                vendorTypes={vendorTypes.map((type) => ({
-                  id: type.id,
-                  name: type.type
-                }))}
-                citiesError={error}
-                citiesPending={isPending}
-                vendorTypesError={vendorError}
+                vendorTypes={vendorTypes.map((type) => ({ name: type.type, id: type.id }))}
                 vendorTypesPending={vendorIsPending}
+                citiesError={error}
+                vendorTypesError={vendorError}
+                citiesPending={isPending}
               />
             )}
           </TabsContent>

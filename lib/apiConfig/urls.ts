@@ -13,9 +13,9 @@ export const userUrls = {
 };
 
 export const vendorUrls = {
-  registerVendorUrl: "/api/v1/vendor/add",
-  loginVendors: "/api/v1/vendor/all",
-  vendorProfileVendor: "/api/v1/vendor/update"
+  registerVendorUrl: "/api/v1/vendor/register",
+  loginVendors: "/api/v1/vendor/login",
+  vendorProfile: "/api/v1/vendor/profile"
 };
 
 export const sliderUrls = {

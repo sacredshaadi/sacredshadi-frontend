@@ -10,8 +10,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 // import GoogleSignInButton from "../github-auth-button";
-import { useRegisterUserMutation } from "../api";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { registerVendorMutation, useRegisterUserMutation } from "../api";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 import { ProfileTypes } from "@/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -21,9 +21,7 @@ import { VendorEnum } from "@/types/user-facing";
 // import auth from '@/auth';
 
 const formSchema = z.object({
-  name: z.string().min(0, { message: "Enter a valid name" }),
-  city: z.string().min(1, { message: "Please select a city from the list" }),
-  service: z.string().min(1, { message: "Please select atleast 1 service" }),
+  name: z.string().min(1, { message: "Enter your name" }),
   phoneNo: z.string().min(0, { message: "Enter a valid phone number" }).length(10, {
     message: "Enter a valid 10 digit phone number"
   }),
@@ -33,57 +31,29 @@ const formSchema = z.object({
   })
 });
 
+const vendorRegisterFormSchema = formSchema.extend({
+  city: z.number().min(1, { message: "Please select a city" }),
+  service: z.number().min(1, { message: "Please select a service" })
+});
+
 type UserFormValue = z.infer<typeof formSchema>;
 
-interface UserAuthFormProps {
-  type: ProfileTypes;
-  citiesPending?: boolean;
-  citiesError?: any;
-  vendorTypesPending?: boolean;
-  vendorTypesError?: any;
-  cities?: { id: number; name: string }[];
-  vendorTypes?: { id: number; name: string }[];
-}
-
-export default function UserAuthForm({
-  type,
-  citiesPending,
-  citiesError,
-  vendorTypesPending,
-  vendorTypesError,
-  cities,
-  vendorTypes
-}: UserAuthFormProps) {
+export default function UserAuthForm() {
   const { toast } = useToast();
   const router = useRouter();
-  // const { user, setUser } = useUserContext();
 
-  const {
-    mutate: registerUserFn
-    // isPending
-  } = useRegisterUserMutation();
-
-  // const searchParams = useSearchParams();
-  // const callbackUrl = searchParams.get("callbackUrl");
-  const [loading] = useState(false);
+  const { mutate: registerUserFn, isPending: isUserPending } = useRegisterUserMutation();
   const [showPassword, setShowPassword] = useState(false);
-  // const disabled = isPending || loading;
-  const defaultValues = {
-    email: "demo@gmail.com",
-    name: "Demo User",
-    city: ""
-  };
+
+  const baseDefaultValues = { email: "demo@gmail.com", name: "Demo User", city: "", phoneNo: "1234567890" };
+
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
-    defaultValues
+    defaultValues: baseDefaultValues
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    // signIn('credentials', {
-    //   email: data.email,
-    //   callbackUrl: callbackUrl ?? '/dashboard'
-    // });
-    // console.log("data to be registered", data);
+    console.log("data: ", data);
     // return;
 
     try {
@@ -94,23 +64,20 @@ export default function UserAuthForm({
             description: "User registered successfully",
             variant: "default"
           });
-          // console.log("data from registerUserFn", data);
-          // console.log("User registered successfully");
-          // console.log("redirecting to '/'");
           localStorage.setItem("user", JSON.stringify(data));
           router.push("/");
         },
-        onError: (error) => {
+        onError: (error: any) => {
           // console.error(error);
           toast({
             title: "Error",
-            description: error.message,
+            description: error.message || error.error || "Error registering user",
             variant: "destructive"
           });
         }
       });
     } catch (err: any) {
-      // console.error(`Error registering user: ${err.message}`);
+      console.error(err);
       toast({
         title: "Redirect error",
         description: err.message,
@@ -130,68 +97,12 @@ export default function UserAuthForm({
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter your name..." disabled={loading} {...field} />
+                  <Input type="text" placeholder="Enter your name..." disabled={isUserPending} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {type == ProfileTypes.VENDOR && (
-            <>
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Select defaultValue={defaultValues.city} onValueChange={(value) => form.setValue("city", value)}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {cities ? (
-                            cities.map((city) => (
-                              <SelectItem value={city.name} key={city.id}>
-                                {city.name}
-                              </SelectItem>
-                            ))
-                          ) : (
-                            <div>loading...</div>
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="service"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Service</FormLabel>
-                    <FormControl>
-                      <Select defaultValue={""} onValueChange={(value) => form.setValue("service", value)}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.keys(VendorEnum).map((vendorType) => (
-                            <SelectItem value={vendorType} key={vendorType}>
-                              {vendorType}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
           <FormField
             control={form.control}
             name="email"
@@ -199,7 +110,7 @@ export default function UserAuthForm({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Enter your email..." disabled={loading} {...field} />
+                  <Input type="email" placeholder="Enter your email..." disabled={isUserPending} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -212,7 +123,13 @@ export default function UserAuthForm({
               <FormItem>
                 <FormLabel>Phone No.</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Enter your phone no..." disabled={loading} {...field} min={0} />
+                  <Input
+                    type="number"
+                    placeholder="Enter your phone no..."
+                    disabled={isUserPending}
+                    {...field}
+                    min={0}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -226,7 +143,12 @@ export default function UserAuthForm({
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <section className="flex items-center justify-between gap-2">
-                    <Input type={showPassword ? "text" : "password"} placeholder="" disabled={loading} {...field} />
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder=""
+                      disabled={isUserPending}
+                      {...field}
+                    />
                     <Button
                       type="button"
                       variant="ghost"
@@ -251,7 +173,8 @@ export default function UserAuthForm({
             )}
           />
 
-          <Button disabled={loading} className="ml-auto w-full" type="submit">
+          <Button disabled={isUserPending} className="ml-auto w-full" type="submit">
+            {isUserPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Register User
           </Button>
         </form>
