@@ -16,9 +16,8 @@ export function getAdminSidebarRoutes(
 ): Array<AdminSidebarItem> {
   const base = vendorSide ? "/vendor" : "/admin";
 
-  return [
+  const adminRoutes = [
     { icon: CircleDotDashed, label: "Dashboard", route: "/admin/dashboard" },
-    { icon: PersonStandingIcon, label: "Profile", subRoutes: [{ label: "Edit Profile", route: "/admin/profile" }] },
     { icon: AlignLeft, label: "Vendors", route: "/admin/vendors" },
     { icon: AlignLeft, label: "Vendor Types", route: "/admin/vendor-types" },
     { icon: AlignLeft, label: "Users", route: "/admin/users" },
@@ -60,4 +59,17 @@ export function getAdminSidebarRoutes(
     },
     { icon: AlignLeft, label: "User Reviews", route: "/admin/reviews" }
   ];
+
+  const vendorRoutes = [
+    { icon: PersonStandingIcon, label: "Profile", subRoutes: [{ label: "Edit Profile", route: "/vendor/profile" }] },
+    { icon: AlignLeft, label: "Service Type", route: "/vendor/service-type" },
+    { icon: AlignLeft, label: "Function Type", route: "/vendor/function-type" },
+    { icon: AlignLeft, label: "Package", route: "/vendor/package" },
+    { icon: AlignLeft, label: "Additional Details", route: "/vendor/additional-details" },
+    { icon: AlignLeft, label: "Portfolio List", route: "/vendor/portfolio-list" },
+    { icon: AlignLeft, label: "Booking", route: "/vendor/booking" },
+    { icon: AlignLeft, label: "Feedback", route: "/vendor/feedback" }
+  ];
+
+  return vendorSide ? vendorRoutes : adminRoutes;
 }

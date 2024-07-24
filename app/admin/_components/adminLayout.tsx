@@ -23,7 +23,7 @@ export function SuperAdminLayout(
         }}
       />
       <div className="flex flex-grow overflow-auto">
-        <SuperAdminSidebar {...{ collapsed }} />
+        <SuperAdminSidebar {...{ collapsed }} vendorSide={props.vendorSide} />
         <div className="m-2 mb-0 flex-grow overflow-auto rounded-sm sm:m-4 sm:mb-0">{props.children}</div>
       </div>
     </div>
