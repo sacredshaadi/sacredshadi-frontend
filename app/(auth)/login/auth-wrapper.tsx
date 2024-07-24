@@ -84,10 +84,12 @@ const AuthParent = () => {
               I&apos;m a vendor
             </TabsTrigger>
           </TabsList>
-          <TabsContent value={ProfileTypes.USER}>{login ? <UserLoginForm /> : <UserAuthForm />}</TabsContent>
+          <TabsContent value={ProfileTypes.USER}>
+            {login ? <UserLoginForm type={ProfileTypes.USER} /> : <UserAuthForm />}
+          </TabsContent>
           <TabsContent value={ProfileTypes.VENDOR}>
             {login ? (
-              <UserLoginForm />
+              <UserLoginForm type={ProfileTypes.VENDOR} />
             ) : (
               <VendorRegisterForm
                 cities={cities}

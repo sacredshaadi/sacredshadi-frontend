@@ -12,6 +12,7 @@ import * as z from "zod";
 import { useLoginUserMutation } from "../api";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { useToast } from "../ui/use-toast";
+import { ProfileTypes } from "@/types";
 // import auth from '@/auth';
 
 const formSchema = z.object({
@@ -23,7 +24,11 @@ const formSchema = z.object({
 
 type UserFormValue = z.infer<typeof formSchema>;
 
-export default function UserLoginForm() {
+interface UserAuthFormProps {
+  type: ProfileTypes;
+}
+
+export default function UserLoginForm(props: UserAuthFormProps) {
   const { toast } = useToast();
 
   const router = useRouter();
@@ -69,7 +74,7 @@ export default function UserLoginForm() {
           // console.log('User registered successfully');
           localStorage.setItem("user", JSON.stringify(data));
           // console.log("redirecting to '/'");
-          router.push("/");
+          props.type == ProfileTypes.VENDOR ? router.push("/vendor") : router.push("/");
         },
         onError: (error: any) => {
           // console.error(error);

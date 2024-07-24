@@ -61,6 +61,7 @@ export function getAdminSidebarRoutes(
   ];
 
   const vendorRoutes = [
+    { icon: AlignLeft, label: "Dashboard", route: "/vendor/dashboard" },
     { icon: PersonStandingIcon, label: "Profile", subRoutes: [{ label: "Edit Profile", route: "/vendor/profile" }] },
     { icon: AlignLeft, label: "Service Type", route: "/vendor/service-type" },
     { icon: AlignLeft, label: "Function Type", route: "/vendor/function-type" },

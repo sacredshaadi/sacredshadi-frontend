@@ -1,6 +1,10 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { Menu } from "lucide-react";
+import { Menu, Settings } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import ProfileComponent from "@/app/_components/profile";
+import NotificationComp from "./notification-comp";
+import { Button } from "@/components/ui/button";
+import MessagesComp from "./messages-comp";
 
 function AdminHeader(props: {
   collapsed: boolean;
@@ -18,7 +22,14 @@ function AdminHeader(props: {
 
       <div className="mx-2 flex flex-grow items-center justify-between sm:mx-4">
         {props.extras}
-        <div>Settings</div>
+        <section className="flex items-center gap-2">
+          <MessagesComp />
+          <NotificationComp />
+          <ProfileComponent />
+          <Button className="flex items-center justify-center rounded-full p-2" title="Settings" variant={"outline"}>
+            <Settings className="h-4 w-4 cursor-pointer" />
+          </Button>
+        </section>
       </div>
     </div>
   );
