@@ -71,3 +71,10 @@ export interface ICity {
   id: number;
   name: string;
 }
+
+export enum DashboardLogisticType {
+  viewed = "Viewed",
+  contacted = "Contacted",
+  booked = "Booked",
+  quotation = "Quotation"
+}

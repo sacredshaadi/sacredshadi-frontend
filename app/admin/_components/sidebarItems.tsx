@@ -1,5 +1,6 @@
 import { VendorType } from "@/types/auth.types";
-import { LucideIcon, CircleDotDashed, AlignLeft } from "lucide-react";
+import { PersonIcon } from "@radix-ui/react-icons";
+import { LucideIcon, CircleDotDashed, AlignLeft, PersonStandingIcon } from "lucide-react";
 
 export type AdminSidebarItem = {
   icon: LucideIcon;
@@ -8,9 +9,16 @@ export type AdminSidebarItem = {
   subRoutes?: Array<Omit<AdminSidebarItem, "icon">>;
 };
 
-export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorType>): Array<AdminSidebarItem> {
+export function getAdminSidebarRoutes(
+  isLoading: boolean,
+  vendorSide?: boolean,
+  data?: Array<VendorType>
+): Array<AdminSidebarItem> {
+  const base = vendorSide ? "/vendor" : "/admin";
+
   return [
     { icon: CircleDotDashed, label: "Dashboard", route: "/admin/dashboard" },
+    { icon: PersonStandingIcon, label: "Profile", subRoutes: [{ label: "Edit Profile", route: "/admin/profile" }] },
     { icon: AlignLeft, label: "Vendors", route: "/admin/vendors" },
     { icon: AlignLeft, label: "Vendor Types", route: "/admin/vendor-types" },
     { icon: AlignLeft, label: "Users", route: "/admin/users" },

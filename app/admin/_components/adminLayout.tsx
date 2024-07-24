@@ -4,7 +4,9 @@ import { PropsWithChildren, ReactNode, useState } from "react";
 import { SuperAdminSidebar } from "./sidebar";
 import AdminHeader from "./header";
 
-export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
+export function SuperAdminLayout(
+  props: PropsWithChildren<{ title: string; vendorSide?: boolean; extras?: ReactNode }>
+) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div className="flex h-screen flex-col bg-gray-100 ">
