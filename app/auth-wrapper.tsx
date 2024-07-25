@@ -1,42 +1,35 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useToast } from "../components/ui/use-toast";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "./context/user-context";
+import { UserAuthType } from "@/types";
 
 interface AuthWrapperProps {
+  type: UserAuthType;
   children: React.ReactNode;
 }
 
-const AuthWrapper = ({ children }: AuthWrapperProps) => {
+const AuthWrapper = (props: AuthWrapperProps) => {
   const [loading, setLoading] = useState(true);
-  // const { toast } = useToast();
   const router = useRouter();
+  const userStore = useUserStore();
 
   useEffect(() => {
     try {
-      const user = localStorage.getItem("user");
-      if (!user) {
-        throw new Error("User not found");
-      }
-      router.push("/");
+      const user = userStore[props.type];
+      if (!user) throw new Error(`"${props.type}" user not found`);
     } catch (err) {
-      // toast({
-      //   title: 'User Authentication Error',
-      //   description: 'An error occurred while fetching user data',
-      //   variant: 'destructive'
-      // });
-      console.error(err);
+      router.push("/login");
+    } finally {
       setLoading(false);
       // router.push("/login");
-    } finally {
-      // setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <div>loading...</div>;
-  return <>{children}</>;
+  return <>{props.children}</>;
 };
 
 export default AuthWrapper;

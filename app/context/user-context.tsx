@@ -1,21 +1,26 @@
+import { UserAuthType } from "@/types";
 import { User } from "@/types/auth.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type State = {
-  user: User | null;
-};
+export type State = Record<UserAuthType, User | null>;
 
 export type Actions = {
   setUser: (user: User | null) => void;
+  setVendor: (vendor: User | null) => void;
+  setSuperAdmin: (super_admin: User | null) => void;
 };
 
-export const useUserContext = create<State & Actions>()(
+export const useUserStore = create<State & Actions>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user: User | null) => set({ user })
+      vendor: null,
+      super_admin: null,
+      setUser: (user: User | null) => set({ user }),
+      setVendor: (vendor: User | null) => set({ vendor }),
+      setSuperAdmin: (super_admin: User | null) => set({ super_admin })
     }),
-    { name: "user-context", skipHydration: true }
+    { name: "users", skipHydration: true }
   )
 );

@@ -1,6 +1,3 @@
-// import { auth } from '@/auth';
-
-import AuthWrapper from "@/app/auth-wrapper";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,10 +7,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AuthWrapper>
-      <div className="flex flex-col overflow-hidden">
-        <main className="flex-1 overflow-auto">{children}</main>
-      </div>
-    </AuthWrapper>
+    <div className="flex flex-col overflow-hidden">
+      <main className="flex-1 overflow-auto">{children}</main>
+    </div>
   );
 }

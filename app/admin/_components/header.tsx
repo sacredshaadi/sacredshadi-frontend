@@ -12,7 +12,7 @@ function AdminHeader(props: {
   extras: ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between bg-white py-4">
+    <div className="flex items-center justify-between bg-background py-4 dark:text-white">
       <div
         className={twMerge("flex items-center justify-between", props.collapsed ? "w-16 justify-center" : "w-56 pl-4")}
       >

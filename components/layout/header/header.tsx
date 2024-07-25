@@ -1,7 +1,7 @@
 import ThemeToggle from "@/components/layout/ThemeToggle/theme-toggle";
 import { cn } from "@/lib/utils";
 import { MobileSidebar } from "../mobile-sidebar";
-import ProfileComponent from "@/app/_components/profile";
+import Profile from "@/app/_components/profile";
 import { Heart } from "lucide-react";
 import TabsDemo from "./Tabs/test";
 
@@ -14,7 +14,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-          <ProfileComponent />
+          <Profile type="user" />
           <ThemeToggle />
         </div>
       </section>
