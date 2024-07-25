@@ -18,7 +18,7 @@ const AuthParent = () => {
   };
 
   useEffect(() => {
-    if (!useUserStore.persist.hasHydrated()) useUserStore.persist.rehydrate();
+    if (!useUserStore.persist?.hasHydrated()) useUserStore.persist.rehydrate();
   }, []);
 
   return (

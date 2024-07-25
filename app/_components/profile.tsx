@@ -31,7 +31,7 @@ export default function Profile(props: ProfileComponentProps) {
   };
 
   useEffect(() => {
-    if (!useUserStore.persist.hasHydrated()) useUserStore.persist.rehydrate();
+    if (!useUserStore.persist?.hasHydrated()) useUserStore.persist.rehydrate();
   }, []);
 
   const handleLogout = useCallback(() => {
@@ -42,7 +42,7 @@ export default function Profile(props: ProfileComponentProps) {
 
   if (!props.type) throw new Error("Please specify auth type for ProfileComponent");
 
-  if (!useUserStore.persist.hasHydrated()) {
+  if (!useUserStore.persist?.hasHydrated()) {
     return (
       <Button variant={"outline"} size={"icon"}>
         <Loader2 className="h-4 animate-spin" />

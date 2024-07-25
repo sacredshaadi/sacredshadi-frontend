@@ -12,18 +12,18 @@ export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extra
   const { super_admin } = useUserStore();
   const [loading, setLoading] = useState(true);
 
-  useUserStore.persist.onFinishHydration((data) => {
+  useUserStore.persist?.onFinishHydration((data) => {
     if (!data.super_admin) router.replace("/login");
     else setLoading(false);
   });
 
   useEffect(() => {
-    if (!useUserStore.persist.hasHydrated()) useUserStore.persist.rehydrate();
+    if (!useUserStore.persist?.hasHydrated()) useUserStore.persist.rehydrate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (useUserStore.persist.hasHydrated()) setLoading(false);
+    if (useUserStore.persist?.hasHydrated()) setLoading(false);
   }, [super_admin]);
 
   if (loading) {
