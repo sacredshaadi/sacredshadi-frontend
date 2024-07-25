@@ -2,11 +2,11 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Menu, Settings } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import ProfileComponent from "@/app/_components/profile";
-import NotificationComp from "./notification-comp";
+import NotificationComp from "@/app/admin/_components/notification-comp";
 import { Button } from "@/components/ui/button";
-import MessagesComp from "./messages-comp";
+import MessagesComp from "@/app/admin/_components/messages-comp";
 
-function AdminHeader(props: {
+function VendorHeader(props: {
   collapsed: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
   extras: ReactNode;
@@ -35,4 +35,4 @@ function AdminHeader(props: {
   );
 }
 
-export default AdminHeader;
+export default VendorHeader;

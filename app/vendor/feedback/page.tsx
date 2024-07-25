@@ -1,11 +1,12 @@
 import { SuperAdminLayout } from "@/app/admin/_components/adminLayout";
 import React from "react";
+import { VendorLayout } from "../_components/vendor-layout";
 
 const page = () => {
   return (
-    <SuperAdminLayout title="Feedback" vendorSide>
+    <VendorLayout title="Feedback">
       <div>page</div>
-    </SuperAdminLayout>
+    </VendorLayout>
   );
 };
 

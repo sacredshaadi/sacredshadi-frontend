@@ -7,10 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { CameraIcon } from "lucide-react";
 import React from "react";
+import { VendorLayout } from "../_components/vendor-layout";
 
 const page = () => {
   return (
-    <SuperAdminLayout title="Profile" vendorSide>
+    <VendorLayout title="Profile">
       <div className="mx-auto rounded-md bg-background p-6 sm:p-8">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
           <div className="relative">
@@ -103,7 +104,7 @@ const page = () => {
           </div> */}
         </div>
       </div>
-    </SuperAdminLayout>
+    </VendorLayout>
   );
 };
 
