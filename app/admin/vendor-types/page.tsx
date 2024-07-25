@@ -49,7 +49,7 @@ function VendorTypes() {
             props: { name: "shortDescription", className: "mb-4", required: true }
           }
         ]}
-        addDataEndpoint=""
+        addDataEndpoint="/api/v1/vendor-type/add"
         editDataEndpoint="/api/v1/vendor-type/update"
         paginateDataEndpoint="/api/v1/vendor-type/all"
         deleteDataEndpoint="/api/v1/vendor-type/remove"

@@ -25,13 +25,28 @@ export const widgetMap: Record<SupportedWidgetNames, FC<any>> = {
   label: FormLabel
 };
 
-export function FormRenderer(props: { meta: FormElementInstance[] }) {
+export type FormRendererProps = {
+  meta: FormElementInstance[];
+  defaults?: Record<string, any>;
+};
+
+export function FormRenderer(props: FormRendererProps) {
   return (
     <Fragment>
       {props.meta.map((item) => {
         const Widget = widgetMap[item.name];
         if (!Widget) return null;
-        return <Widget key={item.id} {...item.props} />;
+        return (
+          <Widget
+            key={item.id}
+            {...{
+              ...item.props,
+              ...(props.defaults && (item.props as any)?.name && props.defaults[(item.props as any).name]
+                ? { defaultValue: props.defaults[(item.props as any).name] }
+                : {})
+            }}
+          />
+        );
       })}
     </Fragment>
   );

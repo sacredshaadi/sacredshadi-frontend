@@ -27,7 +27,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, headingExtr
   console.log("value", table.getFilteredSelectedRowModel()); */
 
   return (
-    <div className="bg-white p-2 shadow-md sm:p-4">
+    <div className="bg-background p-2 shadow-md sm:p-4">
       <div className="mb-2 flex items-center justify-between">
         <Input
           placeholder={`Search ${searchKey}...`}

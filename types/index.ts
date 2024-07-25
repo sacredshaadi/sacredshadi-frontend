@@ -46,15 +46,13 @@ export const routeMapper: { [key: string]: string } = {
   "Contact Us": "/front/contact"
 };
 
+export const userAuthTypes = { user: "user", vendor: "vendor", super_admin: "super_admin" } as const;
+
+export type UserAuthType = keyof typeof userAuthTypes;
+
 export interface Column {
   id: UniqueIdentifier;
   title: string;
-}
-
-export enum ProfileTypes {
-  USER = "user",
-  VENDOR = "vendor",
-  ADMIN = "admin"
 }
 
 export interface ISlider {
