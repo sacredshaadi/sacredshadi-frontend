@@ -10,7 +10,7 @@ export type Actions = {
   setVendorTypes: (temp: VendorType[] | null) => void;
 };
 
-export const useUserContext = create<State & Actions>()(
+export const useVendorContext = create<State & Actions>()(
   persist(
     (set) => ({
       vendorTypes: [],

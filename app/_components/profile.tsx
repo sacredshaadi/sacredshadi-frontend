@@ -1,4 +1,5 @@
 "use client";
+
 import { PersonIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
@@ -8,57 +9,54 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useUserContext } from "@/app/context/user-context";
+import { useUserStore } from "@/app/context/user-context";
 import { useCallback, useEffect, useState } from "react";
 import { User } from "@/types/auth.types";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { UserAuthType } from "@/types";
 
-type CompProps = {};
-export default function ProfileComponent({}: CompProps) {
-  const setUser = useUserContext((state) => state.setUser);
-  const [loading, setLoading] = useState(true);
-  const user = useUserContext((state) => state.user);
+type ProfileComponentProps = {
+  type: UserAuthType;
+};
+
+export default function Profile(props: ProfileComponentProps) {
   const router = useRouter();
+  const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
+
+  const setCurrentUser = (currentUser: User | null) => {
+    if (props.type === "super_admin") setSuperAdmin(currentUser);
+    else if (props.type === "vendor") setVendor(currentUser);
+    else setUser(currentUser);
+  };
+
   useEffect(() => {
-    try {
-      if (user?.tokens?.accessToken) return;
-      setLoading(true);
-      const currUser = localStorage.getItem("user") || "";
-      if (!currUser) {
-        throw new Error("User not found");
-      }
-      // console.log("setting new user --> ", currUser);
-      setUser(JSON.parse(currUser).data as User);
-    } catch (err: any) {
-    } finally {
-      setLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!useUserStore.persist.hasHydrated()) useUserStore.persist.rehydrate();
   }, []);
 
-  useEffect(() => {
-    if (user?.tokens?.accessToken) setLoading(false);
-  }, [user]);
-
   const handleLogout = useCallback(() => {
-    localStorage.removeItem("user");
-    setUser(null);
+    setCurrentUser(null);
+    router.replace("/login");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [props.type]);
 
-  if (loading) {
+  if (!props.type) throw new Error("Please specify auth type for ProfileComponent");
+
+  if (!useUserStore.persist.hasHydrated()) {
     return (
       <Button variant={"outline"} size={"icon"}>
         <Loader2 className="h-4 animate-spin" />
       </Button>
     );
-  } else if (!user)
+  }
+
+  if (!users[props.type]) {
     return (
-      <Button variant={"outline"} onClick={() => router.push("/login")}>
+      <Button variant="outline" onClick={() => router.push("/login")}>
         Login
       </Button>
     );
+  }
 
   return (
     <DropdownMenu>
@@ -68,6 +66,7 @@ export default function ProfileComponent({}: CompProps) {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>

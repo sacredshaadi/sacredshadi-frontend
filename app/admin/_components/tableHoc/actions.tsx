@@ -5,25 +5,36 @@ import { useState } from "react";
 
 export type CellActionProps<T> = {
   data: T;
-  editDataEndpoint: string;
   onEditClick: () => void;
-  onDeleteClick: () => void;
+  handleDelete: () => void;
 };
 
 function CellAction<T = Record<string, any> & { id: number }>(props: CellActionProps<T>) {
   const [open, setOpen] = useState(false);
 
-  const onConfirm = () => {};
+  const onDeleteClick = () => setOpen(true);
+
+  const onConfirmDelete = () => {
+    props.handleDelete();
+    setOpen(false);
+  };
 
   return (
     <>
-      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onConfirm} loading={false} />
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onConfirmDelete}
+        loading={false}
+        okText="Delete"
+        title="Are you sure you want to delete this ?"
+      />
       <div className="flex items-center gap-4">
         <div className="flex cursor-pointer items-center hover:text-primary" onClick={props.onEditClick}>
           <Edit className="mr-2 h-4 w-4" /> Update
         </div>
 
-        <div className="flex cursor-pointer items-center hover:text-primary" onClick={props.onDeleteClick}>
+        <div className="flex cursor-pointer items-center hover:text-primary" onClick={onDeleteClick}>
           <Trash className="mr-2 h-4 w-4" /> Delete
         </div>
       </div>
