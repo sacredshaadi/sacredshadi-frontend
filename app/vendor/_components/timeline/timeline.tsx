@@ -27,7 +27,7 @@ const Timeline = (props: MultiStepProgressBarProps) => {
   }
 
   return (
-    <section className="mx-auto w-4/5">
+    <section className="mx-auto w-4/5 pb-14">
       <ProgressBar percent={stepPercentage.current}>
         <Step>
           {({ accomplished, index }: any) => (

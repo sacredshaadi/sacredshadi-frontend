@@ -25,7 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </body> */}
 
       <body className={`${inter.className} overflow-auto`}>
-        <NextTopLoader />
+        <NextTopLoader showSpinner={false} color="#E11D48" />
         <Providers>
           <Toaster />
           {children}
