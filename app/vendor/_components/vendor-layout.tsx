@@ -13,10 +13,10 @@ export function VendorLayout(props: PropsWithChildren<{ title: string; extras?: 
   const { vendor } = useUserStore();
   const [loading, setLoading] = useState(true);
 
-  useUserStore.persist?.onFinishHydration((data) => {
-    if (!data.vendor) router.replace("/login");
-    else setLoading(false);
-  });
+  // useUserStore.persist?.onFinishHydration((data) => {
+  //   if (!data.vendor) router.replace("/login");
+  //   else setLoading(false);
+  // });
 
   useEffect(() => {
     if (!useUserStore.persist?.hasHydrated()) useUserStore.persist.rehydrate();
@@ -46,9 +46,9 @@ export function VendorLayout(props: PropsWithChildren<{ title: string; extras?: 
           )
         }}
       />
-      <div className="flex h-[calc(100vh-68px)]">
+      <div className="flex h-[calc(100vh-68px)] ">
         <VendorSidebar {...{ collapsed }} />
-        <div className="m-2 mb-0 flex-grow overflow-y-auto rounded-sm sm:m-4 sm:mb-0">{props.children}</div>
+        <div className="m-2 mb-0 flex-grow overflow-y-auto rounded-sm p-4 sm:m-4 sm:mb-0">{props.children}</div>
       </div>
     </div>
   );
