@@ -6,7 +6,7 @@ const Vendor = async () => {
   const vendorTypes = await getAllVendorTypes();
   // console.log("vendortypes --- > ", vendorTypes);
 
-  return <VendorWrapper vendorTypes={vendorTypes} />;
+  return <VendorWrapper vendorTypes={vendorTypes || []} />;
 };
 
 export default Vendor;

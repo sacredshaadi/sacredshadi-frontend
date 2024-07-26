@@ -33,7 +33,7 @@ export default function Footer() {
             <Link
               href="https://www.instagram.com/sacredshaadi/"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-background dark:hover:text-background"
+              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary dark:hover:text-background"
               prefetch={false}
             >
               <Instagram className="h-5 w-5" />

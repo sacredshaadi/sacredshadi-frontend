@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { UserAuthType, userAuthTypes } from "@/types";
-import UserAuthForm from "@/components/forms/user-auth-form";
+import UserAuthForm from "@/components/forms/user-register-form";
 import UserLoginForm from "@/components/forms/user-login-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserStore } from "@/app/context/user-context";
@@ -72,7 +72,7 @@ const AuthParent = () => {
 
         {userType !== userAuthTypes.super_admin ? (
           <span className="flex justify-center gap-1 space-x-2 text-sm">
-            {login ? "New user?" : "Already have an account?"}
+            {login ? `New ${userType}?` : "Already have an account?"}
             <button onClick={handleChangeLoginType} className="text-primary underline">
               {login ? "Create an account" : "Login"}
             </button>

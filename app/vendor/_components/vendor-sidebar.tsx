@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
-import { useGetVendorTypesQuery } from "./apis";
+// import { useGetVendorTypesQuery } from "./apis";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { getAdminSidebarRoutes } from "./sidebarItems";
+// import { getAdminSidebarRoutes } from "./sidebarItems";
 import { useMemo } from "react";
+import { getVendorSidebarRoutes } from "./sidebarItems";
 
-export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: boolean }) {
-  const { data, isLoading } = useGetVendorTypesQuery();
+export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean }) {
+  // const { data, isLoading } = useGetVendorTypesQuery();
 
   const sidebarItems = useMemo(() => {
-    return getAdminSidebarRoutes(isLoading, props.vendorSide, data?.data);
+    return getVendorSidebarRoutes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+  }, []);
 
   return (
     <div

@@ -18,11 +18,12 @@ const AuthWrapper = (props: AuthWrapperProps) => {
   useEffect(() => {
     try {
       const user = userStore[props.type];
-      if (!user) throw new Error(`"${props.type}" user not found`);
+      if (!user) throw new Error(`"${props.type}" not found`);
     } catch (err) {
       router.push("/login");
     } finally {
       setLoading(false);
+      // router.push("/login");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

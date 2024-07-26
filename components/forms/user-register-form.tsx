@@ -19,9 +19,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useUserStore } from "@/app/context/user-context";
 
 const formSchema = z.object({
-  name: z.string().min(0, { message: "Enter a valid name" }),
-  city: z.string().min(1, { message: "Please select a city from the list" }),
-  service: z.string().min(1, { message: "Please select atleast 1 service" }),
+  name: z.string().min(1, { message: "Enter your name" }),
   phoneNo: z.string().min(0, { message: "Enter a valid phone number" }).length(10, {
     message: "Enter a valid 10 digit phone number"
   }),
@@ -29,6 +27,11 @@ const formSchema = z.object({
   password: z.string().min(8, {
     message: "Password must be at least 8 characters"
   })
+});
+
+const vendorRegisterFormSchema = formSchema.extend({
+  city: z.number().min(1, { message: "Please select a city" }),
+  service: z.number().min(1, { message: "Please select a service" })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -48,7 +51,7 @@ export default function UserAuthForm(props: UserAuthFormProps) {
 
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
-    defaultValues
+    defaultValues: baseDefaultValues
   });
 
   const onSubmit = async (data: UserFormValue) => {
@@ -95,7 +98,7 @@ export default function UserAuthForm(props: UserAuthFormProps) {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter your name..." disabled={loading} {...field} />
+                  <Input type="text" placeholder="Enter your name..." disabled={isUserPending} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -179,7 +182,13 @@ export default function UserAuthForm(props: UserAuthFormProps) {
               <FormItem>
                 <FormLabel>Phone No.</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Enter your phone no..." disabled={loading} {...field} min={0} />
+                  <Input
+                    type="number"
+                    placeholder="Enter your phone no..."
+                    disabled={isUserPending}
+                    {...field}
+                    min={0}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

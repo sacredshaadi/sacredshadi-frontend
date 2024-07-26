@@ -1,5 +1,6 @@
 import { VendorType } from "@/types/auth.types";
-import { LucideIcon, CircleDotDashed, AlignLeft } from "lucide-react";
+import { PersonIcon } from "@radix-ui/react-icons";
+import { LucideIcon, CircleDotDashed, AlignLeft, PersonStandingIcon } from "lucide-react";
 
 export type AdminSidebarItem = {
   icon: LucideIcon;
@@ -8,8 +9,14 @@ export type AdminSidebarItem = {
   subRoutes?: Array<Omit<AdminSidebarItem, "icon">>;
 };
 
-export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorType>): Array<AdminSidebarItem> {
-  return [
+export function getAdminSidebarRoutes(
+  isLoading: boolean,
+  vendorSide?: boolean,
+  data?: Array<VendorType>
+): Array<AdminSidebarItem> {
+  const base = vendorSide ? "/vendor" : "/admin";
+
+  const adminRoutes = [
     { icon: CircleDotDashed, label: "Dashboard", route: "/admin/dashboard" },
     { icon: AlignLeft, label: "Vendors", route: "/admin/vendors" },
     { icon: AlignLeft, label: "Vendor Types", route: "/admin/vendor-types" },
@@ -52,4 +59,18 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
     },
     { icon: AlignLeft, label: "User Reviews", route: "/admin/reviews" }
   ];
+
+  const vendorRoutes = [
+    { icon: AlignLeft, label: "Dashboard", route: "/vendor/dashboard" },
+    { icon: PersonStandingIcon, label: "Profile", subRoutes: [{ label: "Edit Profile", route: "/vendor/profile" }] },
+    { icon: AlignLeft, label: "Service Type", route: "/vendor/service-type" },
+    { icon: AlignLeft, label: "Function Type", route: "/vendor/function-type" },
+    { icon: AlignLeft, label: "Package", route: "/vendor/package" },
+    { icon: AlignLeft, label: "Additional Details", route: "/vendor/additional-details" },
+    { icon: AlignLeft, label: "Portfolio List", route: "/vendor/portfolio-list" },
+    { icon: AlignLeft, label: "Booking", route: "/vendor/booking" },
+    { icon: AlignLeft, label: "Feedback", route: "/vendor/feedback" }
+  ];
+
+  return vendorSide ? vendorRoutes : adminRoutes;
 }
