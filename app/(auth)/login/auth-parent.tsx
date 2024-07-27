@@ -7,6 +7,7 @@ import UserAuthForm from "@/components/forms/user-register-form";
 import UserLoginForm from "@/components/forms/user-login-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserStore } from "@/app/context/user-context";
+import VendorRegisterForm from "@/components/forms/vendor-register-form";
 
 const AuthParent = () => {
   const [login, setLogin] = useState(true);

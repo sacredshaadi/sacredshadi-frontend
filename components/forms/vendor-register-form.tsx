@@ -10,10 +10,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 // import GoogleSignInButton from "../github-auth-button";
-import { registerVendorMutation, useRegisterUserMutation } from "../api";
+import { useRegisterVendorMutation } from "../api";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { useToast } from "../ui/use-toast";
-import { ProfileTypes } from "@/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { fillerCities } from "@/constants/data";
 import { VendorEnum } from "@/types/user-facing";
@@ -55,7 +54,7 @@ export default function VendorRegisterForm({
   const { toast } = useToast();
   const router = useRouter();
 
-  const { mutate: registerVendorFn, isPending: isVendorPending, error: vendorError } = registerVendorMutation();
+  const { mutate: registerVendorFn, isPending: isVendorPending, error: vendorError } = useRegisterVendorMutation();
 
   const [showPassword, setShowPassword] = useState(false);
 

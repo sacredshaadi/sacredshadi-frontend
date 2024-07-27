@@ -51,21 +51,21 @@ export const useGetAllVendorTypesMutation = () => {
   });
 };
 
-export const registerVendorMutation = () => {
+export const useRegisterVendorMutation = () => {
   return useMutation({
     mutationFn: VENDOR_ENDPOINTS.registerVendor,
     mutationKey: [QUERY_KEYS.registerVendor]
   });
 };
 
-export const loginVendorMutation = () => {
+export const useLoginVendorMutation = () => {
   return useMutation({
     mutationFn: VENDOR_ENDPOINTS.loginVendor,
     mutationKey: [QUERY_KEYS.loginVendor]
   });
 };
 
-export const vendorProfileMutation = () => {
+export const useVendorProfileMutation = () => {
   return useMutation({
     mutationFn: VENDOR_ENDPOINTS.vendorProfile,
     mutationKey: [QUERY_KEYS.vendorProfile]
