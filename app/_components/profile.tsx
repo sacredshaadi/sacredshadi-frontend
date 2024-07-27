@@ -10,17 +10,13 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useUserStore } from "@/app/context/user-context";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { User } from "@/types/auth.types";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { UserAuthType } from "@/types";
+import { UserAuthType, userAuthTypes } from "@/types";
 
-type ProfileComponentProps = {
-  type: UserAuthType;
-};
-
-export default function Profile(props: ProfileComponentProps) {
+export default function Profile(props: { type: UserAuthType }) {
   const router = useRouter();
   const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
 
@@ -36,7 +32,7 @@ export default function Profile(props: ProfileComponentProps) {
 
   const handleLogout = useCallback(() => {
     setCurrentUser(null);
-    router.replace("/login");
+    router.replace(props.type === userAuthTypes.super_admin ? "/admin/login" : "/login");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.type]);
 

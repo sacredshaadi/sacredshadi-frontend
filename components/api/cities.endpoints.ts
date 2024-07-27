@@ -1,34 +1,22 @@
-import apiClient from '@/lib/apiConfig/apiClient';
-import { citiesUrls } from '@/lib/apiConfig/urls';
+import apiClient from "@/lib/apiConfig/apiClient";
+import { citiesEndpoints } from "@/lib/apiConfig/endpoints";
 
 export const createCity = (payload: any) => {
-  return apiClient(citiesUrls.createCityUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
+  return apiClient(citiesEndpoints.createCity, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" }
   });
 };
 
-export const getAllCities = () => {
-  return apiClient(citiesUrls.getAllCities, {
-    method: 'GET'
-  });
-};
+export const getAllCities = () => apiClient(citiesEndpoints.getAllCities, { method: "GET" });
 
 export const updateCity = (payload: any) => {
-  return apiClient(citiesUrls.updateCity, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
+  return apiClient(citiesEndpoints.updateCity, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" }
   });
 };
 
-export const removeCity = (id: string) => {
-  return apiClient(`${citiesUrls.removeCity}/${id}`, {
-    method: 'DELETE'
-  });
-};
+export const removeCity = (id: string) => apiClient(`${citiesEndpoints.removeCity}/${id}`, { method: "DELETE" });

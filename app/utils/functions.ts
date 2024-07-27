@@ -1,5 +1,5 @@
 import { VendorType } from "@/types/auth.types";
-import { vendorTypeUrls } from "../../lib/apiConfig/urls";
+import { vendorTypeEndpoints } from "@/lib/apiConfig/endpoints";
 
 /**
  *  Get all vendor types
@@ -8,7 +8,7 @@ import { vendorTypeUrls } from "../../lib/apiConfig/urls";
 
 export async function getAllVendorTypes(): Promise<VendorType[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${vendorTypeUrls.getAllVendorTypes}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${vendorTypeEndpoints.getAllVendorTypes}`);
     const data = await response.json();
     return data.data as VendorType[];
   } catch (err) {

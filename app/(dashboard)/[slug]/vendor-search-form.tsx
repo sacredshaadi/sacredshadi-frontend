@@ -27,11 +27,6 @@ const formSchema = z.object({
 
 type ProductFormValues = z.infer<typeof formSchema>;
 
-// interface ProductFormProps {
-//   initialData: any | null;
-//   categories: any;
-// }
-
 enum locationEnum {
   myvenue = "My Venue",
   studio = "Studio"
@@ -87,8 +82,8 @@ export const SearchForm = () => {
         />
         <div className="gap-8 md:grid md:grid-cols-3">
           <FormField
-            control={form.control}
             name="city"
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>City</FormLabel>
@@ -118,7 +113,7 @@ export const SearchForm = () => {
                 <FormLabel>Price</FormLabel>
                 <FormControl>
                   <Select defaultValue={defaultValues.budget} onValueChange={(value) => form.setValue("budget", value)}>
-                    <SelectTrigger className="">
+                    <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

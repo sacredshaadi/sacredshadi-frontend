@@ -1,33 +1,45 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { ColumnDef } from "@tanstack/react-table";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { FormEvent, useMemo, useState } from "react";
 
+import { cn } from "@/lib/utils";
 import CellAction from "./actions";
 import useTableHocQuery from "./query";
 import { userAuthTypes } from "@/types";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/components/ui/use-toast";
 import { DataTable } from "@/components/ui/data-table";
 import { FormElementInstance, FormRenderer } from "../forms";
-import { useToast } from "@/components/ui/use-toast";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { cn } from "@/lib/utils";
 
 export type TableHocProps<T> = {
-  addDataEndpoint: string;
-  editDataEndpoint: string;
-  deleteDataEndpoint: string;
-  paginateDataEndpoint: string;
-  createDataTransformer?: (data: any) => any;
-  editDataTransformer?: (data: any) => any;
   columns: ColumnDef<T>[];
-  addModalTitle?: string;
-  updateModalTitle?: string;
-  addEditFormMeta: FormElementInstance[];
-};
+  paginateDataEndpoint: string;
+} & (
+  | {
+      editable: true;
+      editDataEndpoint: string;
+      addEditFormMeta: FormElementInstance[];
+      updateModalTitle?: string;
+      editDataTransformer?: (data: any) => any;
+    }
+  | { editable: false }
+) &
+  (
+    | {
+        addable: true;
+        addDataEndpoint: string;
+        addEditFormMeta: FormElementInstance[];
+        addModalTitle?: string;
+        createDataTransformer?: (data: any) => any;
+      }
+    | { addable: false }
+  ) &
+  ({ deleteable: true; deleteDataEndpoint: string } | { deleteable: false });
 
 function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps<T>) {
   const { toast } = useToast();
@@ -36,10 +48,10 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
 
   const { data, handleAddData, handleEditData, refetchData, isFetchingData, handleDeleteData } = useTableHocQuery({
     type: userAuthTypes.super_admin,
-    addDataEndpoint: props.addDataEndpoint,
+    addDataEndpoint: props.addable ? props.addDataEndpoint : "",
     paginateDataEndpoint: props.paginateDataEndpoint,
-    deleteDataEndpoint: props.deleteDataEndpoint,
-    editDataEndpoint: props.editDataEndpoint
+    deleteDataEndpoint: props.deleteable ? props.deleteDataEndpoint : "",
+    editDataEndpoint: props.editable ? props.editDataEndpoint : ""
   });
 
   const columns: ColumnDef<T>[] = useMemo(
@@ -64,23 +76,34 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
         enableHiding: false
       },
       ...props.columns,
-      {
-        id: "actions",
-        header: "Actions",
-        cell: ({ row }) => (
-          <CellAction
-            data={row.original}
-            onEditClick={() => {
-              setEditData(row.original);
-              setOpen(true);
-            }}
-            handleDelete={() => handleDeleteData((row.original as any).id)}
-          />
-        )
-      }
+      ...(props.editable || props.deleteable
+        ? [
+            {
+              id: "actions",
+              header: "Actions",
+              cell: ({ row }: CellContext<T, unknown>) => (
+                <CellAction
+                  {...(props.editable
+                    ? {
+                        editable: true,
+                        onEditClick: () => {
+                          setEditData(row.original);
+                          setOpen(true);
+                        }
+                      }
+                    : { editable: false })}
+                  data={row.original}
+                  {...(props.deleteable
+                    ? { deleteable: true, handleDelete: () => handleDeleteData((row.original as any).id) }
+                    : { deleteable: false })}
+                />
+              )
+            }
+          ]
+        : [])
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.editDataEndpoint, props.deleteDataEndpoint]
+    []
   );
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -89,6 +112,7 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
     try {
       const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()) as any;
       if (!!editData) {
+        if (!props.editable) return;
         const data = { ...editData, ...((formData as any) || {}) };
         const transformedData = props.editDataTransformer ? props.editDataTransformer(data) : data;
         handleEditData(transformedData, {
@@ -98,11 +122,11 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
             setEditData(null);
           },
           onError: (err: any) => {
-            console.log(err);
             toast({ title: "Error", description: err.error });
           }
         });
       } else {
+        if (!props.addable) return;
         const transformedData = props.createDataTransformer ? props.createDataTransformer(formData) : formData;
         handleAddData(transformedData, {
           onSuccess: () => {
@@ -111,7 +135,6 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
             setEditData(null);
           },
           onError: (err: any) => {
-            console.log(err);
             toast({ title: "Error", description: err.error });
           }
         });
@@ -121,43 +144,55 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
 
   return (
     <>
-      <Modal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        title={!!editData ? props.updateModalTitle || `Update` : props.addModalTitle || `Add`}
-      >
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4 flex flex-col gap-1">
-            <FormRenderer meta={props.addEditFormMeta} {...(!!editData ? { defaults: editData } : {})} />
-          </div>
+      {props.editable || props.addable ? (
+        <Modal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          title={
+            !!editData && props.editable
+              ? props.updateModalTitle || `Update`
+              : props.addable
+              ? props.addModalTitle || `Add`
+              : ""
+          }
+        >
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4 flex flex-col gap-1">
+              <FormRenderer meta={props.addEditFormMeta} {...(!!editData ? { defaults: editData } : {})} />
+            </div>
 
-          <div className="flex items-center justify-between">
-            <Button type="reset" variant="outline">
-              Reset
-            </Button>
-            <Button type="submit">Submit</Button>
-          </div>
-        </form>
-      </Modal>
+            <div className="flex items-center justify-between">
+              <Button type="reset" variant="outline">
+                Reset
+              </Button>
+              <Button type="submit">Submit</Button>
+            </div>
+          </form>
+        </Modal>
+      ) : null}
 
       <DataTable
-        columns={columns}
-        data={data ? data.data : []}
         searchKey="type"
+        columns={columns}
+        loading={isFetchingData}
+        data={data ? data.data : []}
         headingExtra={
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => refetchData()} disabled={isFetchingData}>
               <ReloadIcon className={cn(isFetchingData ? "animate-spin" : "")} />
             </Button>
-            <Button
-              className="text-xs md:text-sm"
-              onClick={() => {
-                setOpen(true);
-                setEditData(null);
-              }}
-            >
-              <Plus className="mr-2 h-4 w-4" /> Add New
-            </Button>
+
+            {props.addable ? (
+              <Button
+                className="text-xs md:text-sm"
+                onClick={() => {
+                  setOpen(true);
+                  setEditData(null);
+                }}
+              >
+                <Plus className="mr-2 h-4 w-4" /> Add New
+              </Button>
+            ) : null}
           </div>
         }
       />

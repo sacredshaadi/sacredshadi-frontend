@@ -1,8 +1,8 @@
 import apiClient from "@/lib/apiConfig/apiClient";
-import { vendorTypeUrls, vendorUrls } from "@/lib/apiConfig/urls";
+import { vendorTypeEndpoints, authEdnpoints, vendorEndpoints } from "@/lib/apiConfig/endpoints";
 
 export const createVendorType = (accessToken: string, payload: any) => {
-  return apiClient(vendorTypeUrls.createVendorTypeUrl, {
+  return apiClient(vendorTypeEndpoints.createVendorType, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export const createVendorType = (accessToken: string, payload: any) => {
 };
 
 export const getAllVendorTypes = () => {
-  return apiClient(vendorTypeUrls.getAllVendorTypes, {
+  return apiClient(vendorTypeEndpoints.getAllVendorTypes, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
@@ -22,7 +22,7 @@ export const getAllVendorTypes = () => {
 };
 
 export const removeVendorType = (accessToken: string) => {
-  return apiClient(vendorTypeUrls.removeVendorType, {
+  return apiClient(vendorTypeEndpoints.removeVendorType, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${accessToken}`
@@ -31,7 +31,7 @@ export const removeVendorType = (accessToken: string) => {
 };
 
 export const updateVendorType = (accessToken: string) => {
-  return apiClient(vendorTypeUrls.updateVendorType, {
+  return apiClient(vendorTypeEndpoints.updateVendorType, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${accessToken}`
@@ -40,7 +40,7 @@ export const updateVendorType = (accessToken: string) => {
 };
 
 export const registerVendor = (payload: any) => {
-  return apiClient(vendorUrls.registerVendorUrl, {
+  return apiClient(authEdnpoints.registerVendor, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -50,7 +50,7 @@ export const registerVendor = (payload: any) => {
 };
 
 export const loginVendor = (payload: any) => {
-  return apiClient(vendorUrls.loginVendors, {
+  return apiClient(authEdnpoints.loginVendor, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -60,7 +60,7 @@ export const loginVendor = (payload: any) => {
 };
 
 export const vendorProfile = (accessToken: string) => {
-  return apiClient(vendorUrls.vendorProfile, {
+  return apiClient(vendorEndpoints.vendorProfile, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

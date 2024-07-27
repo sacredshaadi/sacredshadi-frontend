@@ -1,24 +1,24 @@
 "use client";
 
-import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table";
-
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "./input";
+import { ReactNode } from "react";
 import { Button } from "./button";
 import { ScrollArea, ScrollBar } from "./scroll-area";
-import { ReactNode } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
+  loading?: boolean;
   headingExtra?: ReactNode;
 }
 
-export function DataTable<TData, TValue>({ columns, data, searchKey, headingExtra }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const table = useReactTable({
-    data,
-    columns,
+    data: props.data,
+    columns: props.columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel()
   });
@@ -30,16 +30,16 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, headingExtr
     <div className="bg-background p-2 shadow-md sm:p-4">
       <div className="mb-2 flex items-center justify-between">
         <Input
-          placeholder={`Search ${searchKey}...`}
-          value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
+          placeholder={`Search ${props.searchKey}...`}
+          value={(table.getColumn(props.searchKey)?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn(props.searchKey)?.setFilterValue(event.target.value)}
           className="w-full md:max-w-sm"
         />
 
-        {headingExtra}
+        {props.headingExtra}
       </div>
 
-      <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
+      <ScrollArea className="min-h-[calc(100vh-250px)] rounded-md border">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -65,8 +65,8 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, headingExtr
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                <TableCell colSpan={props.columns.length} className="h-24 text-center">
+                  {props.loading ? "Loading . . ." : "No results."}
                 </TableCell>
               </TableRow>
             )}

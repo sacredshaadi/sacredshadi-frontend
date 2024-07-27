@@ -1,34 +1,18 @@
 "use client";
-import React, { useRef } from "react";
 import "./timeline.css";
+import React from "react";
 import "react-step-progress-bar/styles.css";
 // @ts-expect-error
 import { ProgressBar, Step } from "react-step-progress-bar";
 
-interface MultiStepProgressBarProps {
-  currentStep: number;
-}
+const percentages = [0, 20, 40, 60, 80, 100];
 
-const Timeline = (props: MultiStepProgressBarProps) => {
-  const stepPercentage = useRef(0);
-
-  if (props.currentStep === 1) {
-    stepPercentage.current = 0;
-  } else if (props.currentStep === 2) {
-    stepPercentage.current = 20;
-  } else if (props.currentStep === 3) {
-    stepPercentage.current = 40;
-  } else if (props.currentStep === 4) {
-    stepPercentage.current = 60;
-  } else if (props.currentStep === 5) {
-    stepPercentage.current = 80;
-  } else if (props.currentStep === 6) {
-    stepPercentage.current = 100;
-  }
+const Timeline = (props: { currentStep: number }) => {
+  const stepPercentage = percentages[props.currentStep + 1];
 
   return (
     <section className="mx-auto w-4/5 pb-14">
-      <ProgressBar percent={stepPercentage.current}>
+      <ProgressBar percent={stepPercentage}>
         <Step>
           {({ accomplished, index }: any) => (
             <section className="relative">
