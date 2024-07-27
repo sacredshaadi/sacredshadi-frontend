@@ -3,7 +3,7 @@
 import UserAuthForm from "@/components/forms/user-register-form";
 import UserLoginForm from "@/components/forms/user-login-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ICity, ProfileTypes } from "@/types";
+import { ICity, userAuthTypes } from "@/types";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useVendorContext } from "@/app/context/vendor-context";
@@ -75,16 +75,16 @@ const AuthParent = () => {
           <h1 className="text-2xl font-semibold tracking-tight">{login ? "Login to " : "Register"} your account</h1>
           <p className="text-sm text-muted-foreground">Enter your credentials below to login.</p>
         </div>
-        <Tabs defaultValue="user">
+        {/* <Tabs defaultValue="user">
           <TabsList className="w-full">
-            <TabsTrigger value={ProfileTypes.USER} className="w-1/2">
+            <TabsTrigger value={userAuthTypes.user} className="w-1/2">
               I&apos;m a user
             </TabsTrigger>
-            <TabsTrigger value={ProfileTypes.VENDOR} className="w-1/2">
+            <TabsTrigger value={userAuthTypes.vendor} className="w-1/2">
               I&apos;m a vendor
             </TabsTrigger>
           </TabsList>
-          <TabsContent value={ProfileTypes.USER}>
+          <TabsContent value={.USER}>
             {login ? <UserLoginForm type={ProfileTypes.USER} /> : <UserAuthForm />}
           </TabsContent>
           <TabsContent value={ProfileTypes.VENDOR}>
@@ -101,7 +101,7 @@ const AuthParent = () => {
               />
             )}
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
         <span className="flex justify-center gap-1 space-x-2 text-sm">
           {login ? "New user?" : "Already have an account?"}
           <button onClick={() => setLogin((prev) => !prev)} className="text-primary underline">

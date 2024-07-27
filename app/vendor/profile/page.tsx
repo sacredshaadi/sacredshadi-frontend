@@ -28,8 +28,8 @@ const page = () => {
             <h1 className="text-2xl font-bold">Catherine Nguyen</h1>
             <p className="text-muted-foreground">Software Engineer at Acme Inc.</p>
             <p className="text-sm text-muted-foreground">
-              I'm a passionate software engineer with a love for building innovative products. In my free time, I enjoy
-              hiking and exploring the great outdoors.
+              I&apos;m a passionate software engineer with a love for building innovative products. In my free time, I
+              enjoy hiking and exploring the great outdoors.
             </p>
           </div>
         </div>

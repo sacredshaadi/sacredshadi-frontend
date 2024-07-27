@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { fillerCities } from "@/constants/data";
 import { VendorEnum } from "@/types/user-facing";
-import { useRegisterUserMutation } from "../api";
+import { useRegisterUserMutation, useRegisterVendorMutation } from "../api";
 import { UserAuthType, userAuthTypes } from "@/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -46,36 +46,65 @@ export default function UserAuthForm(props: UserAuthFormProps) {
   const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
   const [loading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: registerUserFn } = useRegisterUserMutation();
-  const defaultValues = { email: "demo@gmail.com", name: "Demo User", city: "" };
+  const { mutate: registerUserFn, isPending: isUserPending } = useRegisterUserMutation();
+  const { mutate: registerVendorFn, isPending: isVendorPending } = useRegisterVendorMutation();
+  const defaultValues = { email: "demo@gmail.com", name: "Demo User" };
 
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
-    defaultValues: baseDefaultValues
+    defaultValues
   });
 
-  const onSubmit = async (data: UserFormValue) => {
+  const registerVendor = useCallback(async (data: UserFormValue) => {
     try {
-      registerUserFn(data, {
+      registerVendorFn(data, {
         onSuccess: (data) => {
-          toast({ title: "Success", description: "User registered successfully", variant: "default" });
-          if (props.type === userAuthTypes.super_admin) {
-            setSuperAdmin(data.data);
-            router.push("/admin/dashboard");
-          } else if (props.type === userAuthTypes.vendor) {
-            setVendor(data.data);
-            router.push("/");
-          } else if (props.type === userAuthTypes.user) {
-            setUser(data.data);
-            router.push("/");
-          }
+          toast({
+            title: "Success",
+            description: "User registered successfully",
+            variant: "default"
+          });
+          localStorage.setItem("user", JSON.stringify(data));
+          router.push("/vendor/dashboard");
         },
-        onError: (error) => {
-          toast({ title: "Error", description: (error as any).error, variant: "destructive" });
+        onError: (error: any) => {
+          console.error(error);
+          throw error;
         }
       });
     } catch (err: any) {
-      toast({ title: "Redirect error", description: err.message, variant: "destructive" });
+      throw err;
+    }
+  }, []);
+
+  const registerUser = useCallback(async (data: UserFormValue) => {
+    try {
+      registerUserFn(data, {
+        onSuccess: (data) => {
+          toast({
+            title: "Success",
+            description: "User registered successfully",
+            variant: "default"
+          });
+          setUser(data.data);
+          router.push("/");
+        },
+        onError: (error: any) => {
+          console.error(error);
+          throw error;
+        }
+      });
+    } catch (err: any) {
+      throw err;
+    }
+  }, []);
+
+  const onSubmit = async (data: UserFormValue) => {
+    try {
+      if (props.type === userAuthTypes.vendor) registerVendor(data);
+      else if (props.type === userAuthTypes.user) registerUser(data);
+    } catch (err: any) {
+      toast({ title: "Error in authentication", description: err.message, variant: "destructive" });
     }
   };
 
@@ -105,60 +134,6 @@ export default function UserAuthForm(props: UserAuthFormProps) {
             )}
           />
         ) : null}
-
-        {props.type == userAuthTypes.vendor && (
-          <>
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Select defaultValue={defaultValues.city} onValueChange={(value) => form.setValue("city", value)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {fillerCities.map((city) => (
-                          <SelectItem value={city} key={city}>
-                            {city}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="service"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Service</FormLabel>
-                  <FormControl>
-                    <Select defaultValue={""} onValueChange={(value) => form.setValue("service", value)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Object.keys(VendorEnum).map((vendorType) => (
-                          <SelectItem value={vendorType} key={vendorType}>
-                            {vendorType}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </>
-        )}
 
         <FormField
           control={form.control}
