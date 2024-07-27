@@ -2,7 +2,8 @@ import * as ENDPOINTS from "./user.endpoints";
 import * as SLIDER_ENDPOINTS from "./carousel.endpoints";
 import * as CITY_ENDPOINTS from "./cities.endpoints";
 import * as VENDOR_ENDPOINTS from "./vendor.endpoints";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ICity } from "@/types";
 
 export const QUERY_KEYS = {
   getCart: "getCart",
@@ -37,10 +38,10 @@ export const useSliderMutation = () => {
   });
 };
 
-export const useGetAllCitiesMutation = () => {
-  return useMutation({
-    mutationFn: CITY_ENDPOINTS.getAllCities,
-    mutationKey: [QUERY_KEYS.getAllCities]
+export const useGetAllCitiesQuery = () => {
+  return useQuery<{ data: ICity[]; message: string; status: number }>({
+    queryFn: CITY_ENDPOINTS.getAllCities,
+    queryKey: [QUERY_KEYS.getAllCities]
   });
 };
 

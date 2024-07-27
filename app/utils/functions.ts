@@ -1,10 +1,6 @@
 import { VendorType } from "@/types/auth.types";
-import { vendorTypeEndpoints } from "@/lib/apiConfig/endpoints";
-
-/**
- *  Get all vendor types
- * @returns @interface VendorType the list of all vendor types
- */
+import { vendorTypeEndpoints, citiesEndpoints } from "@/lib/apiConfig/endpoints";
+import { ICity } from "@/types";
 
 export async function getAllVendorTypes(): Promise<VendorType[]> {
   try {
@@ -12,16 +8,19 @@ export async function getAllVendorTypes(): Promise<VendorType[]> {
     const data = await response.json();
     return data.data as VendorType[];
   } catch (err) {
-    // console.error(err);
     return [];
   }
 }
 
-/**
- * Get the route from the title
- * @param title
- * @returns the route from the title
- */
+export async function getAllCities(): Promise<ICity[]> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${citiesEndpoints.getAllCities}`);
+    const data = await response.json();
+    return data.data as ICity[];
+  } catch (err) {
+    return [];
+  }
+}
 
 export const getRouteFromTitle = (title: string) => {
   return title.toLowerCase().split(" ").join("-");

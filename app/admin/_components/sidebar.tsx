@@ -14,7 +14,7 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
   return (
     <div
       className={twMerge(
-        "flex h-full flex-col gap-4 overflow-auto overflow-x-hidden bg-background p-2 shadow-lg dark:shadow-gray-800",
+        "flex h-full flex-col gap-4 overflow-auto overflow-x-hidden bg-background p-2 shadow-lg dark:shadow-gray-900",
         props.collapsed ? "w-16" : "w-56"
       )}
     >
@@ -25,12 +25,12 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
               key={sidebarRoute.label}
               href={sidebarRoute.route}
               className={twMerge(
-                "flex items-center gap-2 rounded-md p-2 transition hover:bg-gray-200",
+                "flex items-center gap-2 rounded-md py-0.5 transition",
                 props.collapsed ? "justify-center" : ""
               )}
             >
               <sidebarRoute.icon size={26} stroke="rgb(225, 29, 72)" />
-              {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
+              {!props.collapsed ? <div className="text-base">{sidebarRoute.label}</div> : null}
             </Link>
           );
         }
@@ -42,9 +42,9 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
           >
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value={sidebarRoute.label} className="border-none">
-                <AccordionTrigger className="flex items-center justify-start gap-2 py-0 hover:no-underline">
+                <AccordionTrigger className="flex items-center justify-start gap-2 py-0.5 hover:no-underline">
                   {<sidebarRoute.icon size={26} stroke="rgb(225, 29, 72)" />}
-                  {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
+                  {!props.collapsed ? <div className="text-base">{sidebarRoute.label}</div> : null}
                 </AccordionTrigger>
                 <AccordionContent className={twMerge("mb-0 pb-0", props.collapsed ? "" : "pl-9")}>
                   {sidebarRoute.subRoutes?.map((subRoute) => (
