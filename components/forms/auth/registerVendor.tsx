@@ -6,32 +6,42 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 import { User } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
-import { fillerCities } from "@/constants/data";
 import { Button } from "@/components/ui/button";
-import { VendorEnum } from "@/types/user-facing";
+import { registerVendorFormSchema } from "./helpers";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserStore } from "@/app/context/user-context";
+import { useGetVendorTypesQuery } from "@/app/admin/_components/apis";
+import { useGetAllCitiesQuery, useRegisterVendorMutation } from "@/components/api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { registerVendorFormSchema } from "./helpers";
-import { useRegisterVendorMutation } from "@/components/api";
 
 const RegisterVendor = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { setUser } = useUserStore();
+  const { setVendor } = useUserStore();
+  const { data: citiesRes } = useGetAllCitiesQuery();
   const [showPassword, setShowPassword] = useState(false);
+  const { data: vendorTypesRes } = useGetVendorTypesQuery();
   const { mutate: registerVendorFn, isPending } = useRegisterVendorMutation();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    const values = Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()) as any;
+    const _values = Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()) as any;
+    const values = { ..._values, cityId: parseInt(_values.cityId), vendorTypeId: parseInt(_values.vendorTypeId) };
     const { success, data, error } = registerVendorFormSchema.safeParse(values);
     if (!success || (error as any)?.errors.length > 0) {
       toast({
         variant: "destructive",
         title: "Could not create account",
-        description: <ul>{error?.errors.map((err, idx) => <li key={idx}>{err.message}</li>)}</ul>
+        description: (
+          <ul>
+            {error?.errors.map((err, idx) => (
+              <li key={idx}>
+                {err.path}: {err.message}
+              </li>
+            ))}
+          </ul>
+        )
       });
       return;
     }
@@ -39,7 +49,7 @@ const RegisterVendor = () => {
     registerVendorFn(data, {
       onSuccess: (data: { data: User }) => {
         toast({ title: "Success", description: "Created Account Successfully", variant: "default" });
-        setUser(data.data);
+        setVendor(data.data);
         router.replace("/");
       },
       onError: (err: any) => {
@@ -57,14 +67,14 @@ const RegisterVendor = () => {
 
       <div className="space-y-2">
         <label>City</label>
-        <Select name="city" required>
+        <Select name="cityId" required>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {fillerCities.map((city) => (
-              <SelectItem value={city} key={city}>
-                {city}
+            {citiesRes?.data.map((city) => (
+              <SelectItem value={city.id as any} key={city.id}>
+                {city.name}
               </SelectItem>
             ))}
           </SelectContent>
@@ -73,14 +83,14 @@ const RegisterVendor = () => {
 
       <div className="space-y-2">
         <label>Service</label>
-        <Select name="service" required>
+        <Select name="vendorTypeId" required>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {Object.keys(VendorEnum).map((vendorType) => (
-              <SelectItem value={vendorType} key={vendorType}>
-                {vendorType}
+            {vendorTypesRes?.data.map((vendorType) => (
+              <SelectItem value={vendorType.id as any} key={vendorType.id}>
+                {vendorType.type}
               </SelectItem>
             ))}
           </SelectContent>

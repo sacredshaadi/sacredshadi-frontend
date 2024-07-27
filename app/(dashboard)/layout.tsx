@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Header from "@/components/layout/header/header";
 import Footer from "@/app/_components/footer";
+import Header from "@/components/layout/header/header";
 
 export const metadata: Metadata = {
   title: "Sacred Shaadi Dashboard",

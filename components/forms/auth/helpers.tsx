@@ -24,8 +24,8 @@ export type RegisterUserBodyType = z.infer<typeof registerUserFormSchema>;
 export const registerUserDefaultValues: Partial<RegisterUserBodyType> = { email: "demo@gmail.com", name: "Demo User" };
 
 export const registerVendorFormSchema = registerUserFormSchema.extend({
-  city: z.string().min(1, { message: "Please select a city from the list" }),
-  service: z.string().min(1, { message: "Please select atleast 1 service" })
+  cityId: z.number().min(1, { message: "Please select a city from the list" }),
+  vendorTypeId: z.number().min(1, { message: "Please select atleast 1 service" })
 });
 export type RegisterVendorBodyType = z.infer<typeof registerVendorFormSchema>;
 export const registerVendorDefaultValues: Partial<RegisterVendorBodyType> = { ...registerUserDefaultValues };
