@@ -1,26 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { UserAuthType, userAuthTypes } from "@/types";
-import UserAuthForm from "@/components/forms/user-register-form";
-import UserLoginForm from "@/components/forms/user-login-form";
+import { useState } from "react";
+import { userAuthTypes } from "@/types";
+import LoginForm from "@/components/forms/auth/login";
+import RegisterUser from "@/components/forms/auth/registerUser";
+import RegisterVendor from "@/components/forms/auth/registerVendor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useUserStore } from "@/app/context/user-context";
-import VendorRegisterForm from "@/components/forms/vendor-register-form";
 
 const AuthParent = () => {
   const [login, setLogin] = useState(true);
-  const [userType, setUserType] = useState<UserAuthType>(userAuthTypes.user);
-
-  const handleChangeLoginType = () => {
-    if (userType === userAuthTypes.super_admin) return;
-    setLogin((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (!useUserStore.persist?.hasHydrated()) useUserStore.persist.rehydrate();
-  }, []);
+  const handleChangeLoginType = () => setLogin((prev) => !prev);
 
   return (
     <div className="flex h-full items-start p-4 pt-12 lg:p-8 lg:pt-24">
@@ -30,55 +20,31 @@ const AuthParent = () => {
           <p className="text-sm text-muted-foreground">Enter your credentials below to login.</p>
         </div>
 
-        <Tabs value={userType}>
+        <Tabs defaultValue={userAuthTypes.user}>
           <TabsList className="w-full">
-            <TabsTrigger value={userAuthTypes.user} onClick={() => setUserType(userAuthTypes.user)} className="w-1/2">
+            <TabsTrigger value={userAuthTypes.user} className="w-1/2">
               I&apos;m a User
             </TabsTrigger>
 
-            <TabsTrigger
-              className="w-1/2"
-              value={userAuthTypes.vendor}
-              onClick={() => setUserType(userAuthTypes.vendor)}
-            >
+            <TabsTrigger className="w-1/2" value={userAuthTypes.vendor}>
               I&apos;m a Vendor
-            </TabsTrigger>
-
-            <TabsTrigger
-              className="w-1/2"
-              value={userAuthTypes.super_admin}
-              onClick={() => {
-                setLogin(true);
-                setUserType(userAuthTypes.super_admin);
-              }}
-            >
-              I&apos;m an Admin
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value={userAuthTypes.user}>
-            {login ? <UserLoginForm type={userAuthTypes.user} /> : <UserAuthForm type={userAuthTypes.user} />}
+            {login ? <LoginForm type={userAuthTypes.user} /> : <RegisterUser />}
           </TabsContent>
           <TabsContent value={userAuthTypes.vendor}>
-            {login ? <UserLoginForm type={userAuthTypes.vendor} /> : <UserAuthForm type={userAuthTypes.vendor} />}
-          </TabsContent>
-          <TabsContent value={userAuthTypes.super_admin}>
-            {login ? (
-              <UserLoginForm type={userAuthTypes.super_admin} />
-            ) : (
-              <UserAuthForm type={userAuthTypes.super_admin} />
-            )}
+            {login ? <LoginForm type={userAuthTypes.vendor} /> : <RegisterVendor />}
           </TabsContent>
         </Tabs>
 
-        {userType !== userAuthTypes.super_admin ? (
-          <span className="flex justify-center gap-1 space-x-2 text-sm">
-            {login ? `New ${userType}?` : "Already have an account?"}
-            <button onClick={handleChangeLoginType} className="text-primary underline">
-              {login ? "Create an account" : "Login"}
-            </button>
-          </span>
-        ) : null}
+        <span className="flex justify-center gap-1 space-x-2 text-sm">
+          {login ? "New user?" : "Already have an account?"}
+          <button onClick={handleChangeLoginType} className="text-primary underline">
+            {login ? "Create an account" : "Login"}
+          </button>
+        </span>
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           By clicking continue, you agree to our&nbsp;

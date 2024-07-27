@@ -1,10 +1,4 @@
 import apiClient from "@/lib/apiConfig/apiClient";
-import { sliderUrls } from "@/lib/apiConfig/urls";
+import { sliderEndpoints } from "@/lib/apiConfig/endpoints";
 
-const getSlider = () => {
-  return apiClient(sliderUrls.getAllCarousels, {
-    method: "GET"
-  });
-};
-
-export { getSlider };
+export const getSlider = () => apiClient(sliderEndpoints.getAllCarousels, { method: "GET" });

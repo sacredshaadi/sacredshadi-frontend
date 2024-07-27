@@ -1,17 +1,15 @@
 import Link from "next/link";
+import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { useGetVendorTypesQuery } from "./apis";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getAdminSidebarRoutes } from "./sidebarItems";
-import { useMemo } from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: boolean }) {
   const { data, isLoading } = useGetVendorTypesQuery();
 
-  const sidebarItems = useMemo(() => {
-    return getAdminSidebarRoutes(isLoading, props.vendorSide, data?.data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const sidebarItems = useMemo(() => getAdminSidebarRoutes(isLoading, data?.data), [isLoading]);
 
   return (
     <div
@@ -31,7 +29,7 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
                 props.collapsed ? "justify-center" : ""
               )}
             >
-              <sidebarRoute.icon size={26} stroke="red" />
+              <sidebarRoute.icon size={26} stroke="rgb(225, 29, 72)" />
               {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
             </Link>
           );
@@ -43,9 +41,9 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
             className={twMerge("flex items-center gap-2", props.collapsed ? "justify-center" : "")}
           >
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value={sidebarRoute.label} className="rounded-md border-none">
-                <AccordionTrigger className="flex items-center justify-start gap-2 p-2 transition hover:bg-gray-200 hover:no-underline">
-                  {<sidebarRoute.icon size={26} stroke="red" />}
+              <AccordionItem value={sidebarRoute.label} className="border-none">
+                <AccordionTrigger className="flex items-center justify-start gap-2 py-0 hover:no-underline">
+                  {<sidebarRoute.icon size={26} stroke="rgb(225, 29, 72)" />}
                   {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
                 </AccordionTrigger>
                 <AccordionContent className={twMerge("mb-0 pb-0", props.collapsed ? "" : "pl-9")}>

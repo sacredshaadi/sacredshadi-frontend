@@ -1,53 +1,22 @@
 "use client";
 
+import Image from "next/image";
+import { ISlider } from "@/types";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
-// import { useSliderMutation } from "@/components/api";
-import { ISlider } from "@/types";
-import Image from "next/image";
-
-interface CarouselCompProps {
-  sliderArr: ISlider[];
-}
-
-export default function CarouselComp({ sliderArr }: CarouselCompProps) {
-  // const { mutate: getSlider, error, isPending } = useSliderMutation();
-  // const [sliderArr, setSliderArr] = useState<ISlider>();
-
-  // useEffect(() => {
-  //   try {
-  //     getSlider(void 2, {
-  //       onSuccess: async (data: any) => {
-  //         setSliderArr(data.data as ISlider);
-  //       },
-  //       onError: (err) => {
-  //         console.error(err);
-  //         toast({
-  //           variant: "destructive",
-  //           description: "Failed to fetch slider images"
-  //         });
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast({
-  //       variant: "destructive",
-  //       description: "Failed to fetch slider images"
-  //     });
-  //   }
-  // }, []);
-
+export default function CarouselComp(props: { sliderArr: ISlider[] }) {
   return (
     <div className="relative w-full">
       <Carousel className="w-full">
         <CarouselContent>
-          {(sliderArr || []).map((sliderNode) => (
+          {(props.sliderArr || []).map((sliderNode) => (
             <CarouselItem key={sliderNode.id}>
               <section className="flex h-[400px] w-full items-center justify-center bg-primary-foreground">
                 {sliderNode.description}
               </section>
             </CarouselItem>
           ))}
+
           <CarouselItem>
             <Image
               src="/placeholder.svg"
@@ -57,6 +26,7 @@ export default function CarouselComp({ sliderArr }: CarouselCompProps) {
               className="h-[400px] w-full object-cover"
             />
           </CarouselItem>
+
           <CarouselItem>
             <div className="flex h-[400px] w-full items-center justify-center bg-secondary">
               <h2 className="text-4xl font-bold text-secondary-foreground">Slide 2</h2>

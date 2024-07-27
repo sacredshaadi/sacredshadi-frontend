@@ -8,6 +8,9 @@ function VendorTypes() {
   return (
     <SuperAdminLayout title="Vendor types">
       <TableHOC
+        addable
+        editable
+        deleteable
         columns={[
           { accessorKey: "type", header: "Type" },
           { accessorKey: "description", header: "Description" },
@@ -24,27 +27,27 @@ function VendorTypes() {
           }
         ]}
         addEditFormMeta={[
-          { id: "typeLabel", name: "label", props: { text: "Type", htmlFor: "type", required: true } },
-          { id: "type", name: "input", props: { name: "type", className: "mb-4", required: true } },
+          { id: "typeLabel", name: "label", props: { text: "Type", htmlFor: "vendorTypeType", required: true } },
+          { id: "vendorTypeType", name: "input", props: { name: "type", className: "mb-4", required: true } },
 
           {
-            id: "descriptionLabel",
+            id: "vendorTypeDescriptionLabel",
             name: "label",
-            props: { text: "Description", htmlFor: "description", required: true }
+            props: { text: "Description", htmlFor: "vendorTypeDescription", required: true }
           },
           {
-            id: "description",
+            id: "vendorTypeDescription",
             name: "textAreaInput",
             props: { name: "description", className: "mb-4", required: true }
           },
 
           {
-            id: "shortDescriptionLabel",
+            id: "vendorTypeShortDescriptionLabel",
             name: "label",
-            props: { text: "Short Description", htmlFor: "shortDescription", required: true }
+            props: { text: "Short Description", htmlFor: "vendorTypeShortDescription", required: true }
           },
           {
-            id: "shortDescription",
+            id: "vendorTypeShortDescription",
             name: "textAreaInput",
             props: { name: "shortDescription", className: "mb-4", required: true }
           }

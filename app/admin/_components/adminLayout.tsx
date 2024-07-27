@@ -1,19 +1,19 @@
 "use client";
 
-import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import AdminHeader from "./header";
+import { useRouter } from "next/navigation";
 import { SuperAdminSidebar } from "./sidebar";
 import { useUserStore } from "@/app/context/user-context";
-import { useRouter } from "next/navigation";
+import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 
 export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
   const router = useRouter();
-  const [collapsed, setCollapsed] = useState(false);
   const { super_admin } = useUserStore();
   const [loading, setLoading] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   useUserStore.persist?.onFinishHydration((data) => {
-    if (!data.super_admin) router.replace("/login");
+    if (!data.super_admin) router.replace("/admin/login");
     else setLoading(false);
   });
 

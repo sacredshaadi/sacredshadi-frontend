@@ -1,6 +1,21 @@
 import { VendorType } from "@/types/auth.types";
-import { PersonIcon } from "@radix-ui/react-icons";
-import { LucideIcon, CircleDotDashed, AlignLeft, PersonStandingIcon } from "lucide-react";
+import {
+  Cog,
+  Star,
+  Users,
+  UserCog,
+  Replace,
+  Building,
+  AlignLeft,
+  ImagePlus,
+  BoxSelect,
+  LucideIcon,
+  DatabaseZap,
+  MailQuestion,
+  GraduationCap,
+  CircleDotDashed,
+  MailQuestionIcon
+} from "lucide-react";
 
 export type AdminSidebarItem = {
   icon: LucideIcon;
@@ -9,20 +24,14 @@ export type AdminSidebarItem = {
   subRoutes?: Array<Omit<AdminSidebarItem, "icon">>;
 };
 
-export function getAdminSidebarRoutes(
-  isLoading: boolean,
-  vendorSide?: boolean,
-  data?: Array<VendorType>
-): Array<AdminSidebarItem> {
-  const base = vendorSide ? "/vendor" : "/admin";
-
+export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorType>): Array<AdminSidebarItem> {
   const adminRoutes = [
     { icon: CircleDotDashed, label: "Dashboard", route: "/admin/dashboard" },
-    { icon: AlignLeft, label: "Vendors", route: "/admin/vendors" },
+    { icon: UserCog, label: "Vendors", route: "/admin/vendors" },
     { icon: AlignLeft, label: "Vendor Types", route: "/admin/vendor-types" },
-    { icon: AlignLeft, label: "Users", route: "/admin/users" },
+    { icon: Users, label: "Users", route: "/admin/users" },
     {
-      icon: AlignLeft,
+      icon: Cog,
       label: "E Settings",
       subRoutes: [
         { label: "Contacts", route: "/admin/contacts" },
@@ -31,14 +40,14 @@ export function getAdminSidebarRoutes(
         { label: "SEO", route: "/admin/seo" }
       ]
     },
-    { icon: AlignLeft, label: "City", route: "/admin/cities" },
-    { icon: AlignLeft, label: "Slider", route: "/admin/slider" },
-    { icon: AlignLeft, label: "Categories", route: "/admin/categories" },
-    { icon: AlignLeft, label: "Quiz", route: "/admin/quiz" },
-    { icon: AlignLeft, label: "Quiz MCQ", route: "/admin/quiz-mcq" },
-    { icon: AlignLeft, label: "Hangouts Quiz", route: "/admin/hangout-quiz" },
+    { icon: Building, label: "City", route: "/admin/cities" },
+    { icon: ImagePlus, label: "Slider", route: "/admin/slider" },
+    { icon: BoxSelect, label: "Categories", route: "/admin/categories" },
+    { icon: GraduationCap, label: "Quiz", route: "/admin/quiz" },
+    { icon: MailQuestion, label: "Quiz MCQ", route: "/admin/quiz-mcq" },
+    { icon: Replace, label: "Hangouts Quiz", route: "/admin/hangout-quiz" },
     {
-      icon: AlignLeft,
+      icon: MailQuestionIcon,
       label: "Questions",
       subRoutes: !isLoading
         ? data?.map((vendorType) => ({
@@ -48,29 +57,14 @@ export function getAdminSidebarRoutes(
         : []
     },
     {
-      icon: AlignLeft,
+      icon: DatabaseZap,
       label: "Services",
       subRoutes: !isLoading
-        ? data?.map((vendorType) => ({
-            label: vendorType.type,
-            route: `/admin/services/${vendorType.id}`
-          }))
+        ? data?.map((vendorType) => ({ label: vendorType.type, route: `/admin/services/${vendorType.id}` }))
         : []
     },
-    { icon: AlignLeft, label: "User Reviews", route: "/admin/reviews" }
+    { icon: Star, label: "User Reviews", route: "/admin/reviews" }
   ];
 
-  const vendorRoutes = [
-    { icon: AlignLeft, label: "Dashboard", route: "/vendor/dashboard" },
-    { icon: PersonStandingIcon, label: "Profile", subRoutes: [{ label: "Edit Profile", route: "/vendor/profile" }] },
-    { icon: AlignLeft, label: "Service Type", route: "/vendor/service-type" },
-    { icon: AlignLeft, label: "Function Type", route: "/vendor/function-type" },
-    { icon: AlignLeft, label: "Package", route: "/vendor/package" },
-    { icon: AlignLeft, label: "Additional Details", route: "/vendor/additional-details" },
-    { icon: AlignLeft, label: "Portfolio List", route: "/vendor/portfolio-list" },
-    { icon: AlignLeft, label: "Booking", route: "/vendor/booking" },
-    { icon: AlignLeft, label: "Feedback", route: "/vendor/feedback" }
-  ];
-
-  return vendorSide ? vendorRoutes : adminRoutes;
+  return adminRoutes;
 }

@@ -1,10 +1,12 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Menu, Settings } from "lucide-react";
 import { twMerge } from "tailwind-merge";
-import ProfileComponent from "@/app/_components/profile";
+import Profile from "@/app/_components/profile";
 import NotificationComp from "./notification-comp";
 import { Button } from "@/components/ui/button";
 import MessagesComp from "./messages-comp";
+import ThemeToggle from "@/components/layout/ThemeToggle/theme-toggle";
+import { userAuthTypes } from "@/types";
 
 function AdminHeader(props: {
   collapsed: boolean;
@@ -25,8 +27,9 @@ function AdminHeader(props: {
         <section className="flex items-center gap-2">
           <MessagesComp />
           <NotificationComp />
-          <ProfileComponent type={"super_admin"} />
-          <Button className="flex items-center justify-center rounded-full p-2" title="Settings" variant={"outline"}>
+          <Profile type={userAuthTypes.super_admin} />
+          <ThemeToggle />
+          <Button className="flex items-center justify-center rounded-full p-2" title="Settings" variant="outline">
             <Settings className="h-4 w-4 cursor-pointer" />
           </Button>
         </section>
