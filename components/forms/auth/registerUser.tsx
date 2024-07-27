@@ -1,17 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Form, useForm } from "react-hook-form";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { RegisterUserBodyType, registerUserDefaultValues, registerUserFormSchema } from "./helpers";
 import { User } from "@/types/auth.types";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { registerUserFormSchema } from "./helpers";
+import { useToast } from "@/components/ui/use-toast";
 import { useUserStore } from "@/app/context/user-context";
 import { useRegisterUserMutation } from "@/components/api";
 
@@ -20,15 +17,22 @@ const RegisterUser = () => {
   const { toast } = useToast();
   const { setUser } = useUserStore();
   const [showPassword, setShowPassword] = useState(false);
-
-  const form = useForm<RegisterUserBodyType>({
-    resolver: zodResolver(registerUserFormSchema),
-    defaultValues: registerUserDefaultValues
-  });
-
   const { mutate: registerUserFn } = useRegisterUserMutation();
 
-  const onSubmit = (data: RegisterUserBodyType) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const values = Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()) as any;
+    const { success, data, error } = registerUserFormSchema.safeParse(values);
+    if (!success || (error as any)?.errors.length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Could not create account",
+        description: <ul>{error?.errors.map((err, idx) => <li key={idx}>{err.message}</li>)}</ul>
+      });
+      return;
+    }
+
     registerUserFn(data, {
       onSuccess: (data: { data: User }) => {
         toast({ title: "Success", description: "Created Account Successfully", variant: "default" });
@@ -42,78 +46,36 @@ const RegisterUser = () => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
-        <FormField
-          name="name"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="Enter your name..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form onSubmit={onSubmit} className="w-full space-y-4">
+      <div className="space-y-2">
+        <label>Name</label>
+        <Input required name="name" type="text" placeholder="Enter your name..." />
+      </div>
 
-        <FormField
-          name="email"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="user@sacredshadi.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div className="space-y-2">
+        <label>Email</label>
+        <Input required name="email" type="email" placeholder="user@sacredshadi.com" />
+      </div>
 
-        <FormField
-          name="phoneNo"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone No.</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="Enter your phone no..." {...field} min={0} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div className="space-y-2">
+        <label>Phone No.</label>
+        <Input required name="phoneNo" type="number" placeholder="Enter your phone no..." />
+      </div>
 
-        <FormField
-          name="password"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <section className="flex items-center justify-between gap-2">
-                  <Input type={showPassword ? "text" : "password"} {...field} />
-                  <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword((prev) => !prev)}>
-                    {showPassword ? (
-                      <EyeIcon className="h-4 w-4" aria-hidden="true" />
-                    ) : (
-                      <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
-                    )}
-                  </Button>
-                </section>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div className="space-y-2">
+        <label>Password</label>
+        <section className="flex items-center justify-between gap-2">
+          <Input required name="password" type={showPassword ? "text" : "password"} />
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword((prev) => !prev)}>
+            {showPassword ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
+          </Button>
+        </section>
+      </div>
 
-        <Button className="ml-auto w-full" type="submit">
-          Create Account
-        </Button>
-      </form>
-    </Form>
+      <Button className="ml-auto w-full" type="submit">
+        Create Account
+      </Button>
+    </form>
   );
 };
 
