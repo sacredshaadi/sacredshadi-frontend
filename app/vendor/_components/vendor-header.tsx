@@ -3,8 +3,9 @@ import { Menu, Settings } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import ProfileComponent from "@/app/_components/profile";
 import NotificationComp from "@/app/admin/_components/notification-comp";
-import { Button } from "@/components/ui/button";
 import MessagesComp from "@/app/admin/_components/messages-comp";
+import { userAuthTypes } from "@/types";
+import VendorSettings from "./vendor-settings-sheet";
 
 function VendorHeader(props: {
   collapsed: boolean;
@@ -25,10 +26,8 @@ function VendorHeader(props: {
         <section className="flex items-center gap-2">
           <MessagesComp />
           <NotificationComp />
-          <ProfileComponent type={"super_admin"} />
-          <Button className="flex items-center justify-center rounded-full p-2" title="Settings" variant={"outline"}>
-            <Settings className="h-4 w-4 cursor-pointer" />
-          </Button>
+          <ProfileComponent type={userAuthTypes.vendor} />
+          <VendorSettings />
         </section>
       </div>
     </div>

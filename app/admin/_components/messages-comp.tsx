@@ -24,9 +24,9 @@ const MessagesComp = () => {
         <div className="p-2 text-sm">No new messages</div>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => {
-            console.log("View all messages");
-          }}
+        // onClick={() => {
+        //   console.log("View all messages");
+        // }}
         >
           View all messages
         </DropdownMenuItem>

@@ -4,6 +4,9 @@ import Timeline from "../timeline/timeline";
 import { Separator } from "@/components/ui/separator";
 import SubServiceCard from "../../service-type/sub-service-card";
 import CardWrapper from "./card-wrapper";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { AddDialog } from "./add-modal";
 
 interface VendorRouteWrapperProps {
   title: string;
@@ -11,11 +14,13 @@ interface VendorRouteWrapperProps {
   serviceType?: string;
   guidelines?: string[];
   children?: React.ReactNode;
+  headerNav?: React.ReactNode;
 }
 
 const VendorRouteWrapper = (props: VendorRouteWrapperProps) => {
   return (
     <VendorLayout title={props.title}>
+      {props.headerNav}
       <Timeline currentStep={props.currentStep} />
       <section className="flex flex-col gap-4">
         {props.serviceType && (

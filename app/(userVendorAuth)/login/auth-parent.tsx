@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { userAuthTypes } from "@/types";
+import { UserAuthType, userAuthTypes } from "@/types";
 import LoginForm from "@/components/forms/auth/login";
 import RegisterUser from "@/components/forms/auth/registerUser";
 import RegisterVendor from "@/components/forms/auth/registerVendor";
@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const AuthParent = () => {
   const [login, setLogin] = useState(true);
+  const [userType, setUserType] = useState<UserAuthType>(userAuthTypes.user);
   const handleChangeLoginType = () => setLogin((prev) => !prev);
 
   return (
@@ -22,11 +23,15 @@ const AuthParent = () => {
 
         <Tabs defaultValue={userAuthTypes.user}>
           <TabsList className="w-full">
-            <TabsTrigger value={userAuthTypes.user} className="w-1/2">
+            <TabsTrigger value={userAuthTypes.user} className="w-1/2" onClick={() => setUserType(userAuthTypes.user)}>
               I&apos;m a User
             </TabsTrigger>
 
-            <TabsTrigger className="w-1/2" value={userAuthTypes.vendor}>
+            <TabsTrigger
+              className="w-1/2"
+              value={userAuthTypes.vendor}
+              onClick={() => setUserType(userAuthTypes.vendor)}
+            >
               I&apos;m a Vendor
             </TabsTrigger>
           </TabsList>
@@ -40,7 +45,7 @@ const AuthParent = () => {
         </Tabs>
 
         <span className="flex justify-center gap-1 space-x-2 text-sm">
-          {login ? "New user?" : "Already have an account?"}
+          {login ? `New ${userType}?` : "Already have an account?"}
           <button onClick={handleChangeLoginType} className="text-primary underline">
             {login ? "Create an account" : "Login"}
           </button>

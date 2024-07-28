@@ -14,7 +14,8 @@ export const QUERY_KEYS = {
   getAllVendorTypes: "getAllVendorTypes",
   registerVendor: "registerVendor",
   loginVendor: "loginVendor",
-  vendorProfile: "vendorProfile"
+  vendorProfile: "vendorProfile",
+  getAllVendorSubTypes: "getAllVendorSubTypes"
 };
 
 export const useRegisterUserMutation = () => {
@@ -70,5 +71,12 @@ export const useVendorProfileMutation = () => {
   return useMutation({
     mutationFn: VENDOR_ENDPOINTS.vendorProfile,
     mutationKey: [QUERY_KEYS.vendorProfile]
+  });
+};
+
+export const useGetVendorAllSubTypesMutation = () => {
+  return useMutation({
+    mutationFn: VENDOR_ENDPOINTS.getAllVendorSubTypes,
+    mutationKey: [QUERY_KEYS.getAllVendorSubTypes]
   });
 };

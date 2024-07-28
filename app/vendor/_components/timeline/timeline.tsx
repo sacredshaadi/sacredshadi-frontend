@@ -8,7 +8,7 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 const percentages = [0, 20, 40, 60, 80, 100];
 
 const Timeline = (props: { currentStep: number }) => {
-  const stepPercentage = percentages[props.currentStep + 1];
+  const stepPercentage = percentages[props.currentStep - 1];
 
   return (
     <section className="mx-auto w-4/5 pb-14">

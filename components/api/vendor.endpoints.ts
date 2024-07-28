@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiConfig/apiClient";
-import { vendorTypeEndpoints, authEdnpoints, vendorEndpoints } from "@/lib/apiConfig/endpoints";
+import { vendorTypeEndpoints, authEdnpoints, vendorEndpoints, vendorSubTypeEndpoints } from "@/lib/apiConfig/endpoints";
 
 export const createVendorType = (accessToken: string, payload: any) => {
   return apiClient(vendorTypeEndpoints.createVendorType, {
@@ -61,11 +61,20 @@ export const loginVendor = (payload: any) => {
 
 export const vendorProfile = (accessToken: string) => {
   return apiClient(vendorEndpoints.vendorProfile, {
-    method: "PUT",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`
     }
     // body: JSON.stringify(payload)
+  });
+};
+
+export const getAllVendorSubTypes = (vendorTypeId: number) => {
+  return apiClient(`${vendorSubTypeEndpoints.getAllVendorSubTypes}?vendorTypeId=${vendorTypeId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
   });
 };

@@ -16,7 +16,7 @@ export const loginConfig: Record<UserAuthType, { endpoint: string; defaultRedire
 
 export const registerUserFormSchema = loginFormSchema.extend({
   name: z.string().min(0, { message: "Enter a valid name" }),
-  phoneNo: z.string().min(0, { message: "Invalid phone number" }).length(10, {
+  phoneNo: z.string().length(10, {
     message: "Phone number must have 10 digits"
   })
 });
@@ -24,8 +24,8 @@ export type RegisterUserBodyType = z.infer<typeof registerUserFormSchema>;
 export const registerUserDefaultValues: Partial<RegisterUserBodyType> = { email: "demo@gmail.com", name: "Demo User" };
 
 export const registerVendorFormSchema = registerUserFormSchema.extend({
-  cityId: z.number().min(1, { message: "Please select a city from the list" }),
-  vendorTypeId: z.number().min(1, { message: "Please select atleast 1 service" })
+  cityId: z.number().min(1, { message: "Please select a city from the given list" }),
+  vendorTypeId: z.number().min(1, { message: "Please select a service from the given list" })
 });
 export type RegisterVendorBodyType = z.infer<typeof registerVendorFormSchema>;
 export const registerVendorDefaultValues: Partial<RegisterVendorBodyType> = { ...registerUserDefaultValues };

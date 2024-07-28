@@ -42,7 +42,7 @@ export const VendorSelectWrapper = (props: { vendors: VendorType[]; cities: ICit
   const { toast } = useToast();
   const router = useRouter();
 
-  console.log(props.cities);
+  // console.log(props.cities);
 
   return (
     <>
