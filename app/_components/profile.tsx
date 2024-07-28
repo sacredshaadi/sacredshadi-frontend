@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUserStore } from "@/app/context/user-context";
 import { useCallback, useEffect } from "react";
-import { User } from "@/types/auth.types";
+import { User, Vendor } from "@/types/auth.types";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { UserAuthType, userAuthTypes } from "@/types";
@@ -24,7 +24,7 @@ export default function Profile(props: { type: UserAuthType }) {
   const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
   const { mutate: getVendorProfileFn } = useVendorProfileMutation();
 
-  const setCurrentUser = (currentUser: User | null) => {
+  const setCurrentUser = (currentUser: any | null) => {
     if (props.type === userAuthTypes.super_admin) setSuperAdmin(currentUser);
     else if (props.type === userAuthTypes.vendor) setVendor(currentUser);
     else setUser(currentUser);
@@ -44,11 +44,13 @@ export default function Profile(props: { type: UserAuthType }) {
 
   useEffect(() => {
     if (props.type !== userAuthTypes.vendor) return;
-    if (users?.vendor?.vendorType) return;
+    if (!users.vendor) handleLogout();
+    else if (users?.vendor?.vendorType) return;
     getVendorProfileFn(users.vendor?.tokens?.accessToken || "", {
       onSuccess: (data) => {
         console.log("vendorprofile: ", data);
-        setVendor(data.data);
+        const tokens = users.vendor?.tokens;
+        setVendor({ ...data.data, tokens } as Vendor);
         toast({
           variant: "default",
           description: "Vendor profile fetched successfully"

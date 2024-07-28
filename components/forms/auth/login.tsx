@@ -2,9 +2,9 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MouseEvent, useEffect, useMemo, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
 import { UserAuthType } from "@/types";
@@ -17,7 +17,7 @@ import { useUserStore } from "@/app/context/user-context";
 import { LoginFormDataType, loginConfig, loginFormDefaultValues, loginFormSchema } from "./helpers";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
-const LoginForm = (props: { type: UserAuthType }) => {
+const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationResult<any, Error, any, unknown> }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
@@ -27,33 +27,50 @@ const LoginForm = (props: { type: UserAuthType }) => {
     defaultValues: loginFormDefaultValues
   });
 
+  const { mutate: loginFn, isPending } = props.useMutation();
+
   useEffect(() => {
     if (!useUserStore.persist.hasHydrated()) useUserStore.persist.rehydrate();
   }, []);
 
-  const setUserStoreFn: Record<UserAuthType, (u: User | null) => void> = useMemo(
-    () => ({ user: setUser, vendor: setVendor, super_admin: setSuperAdmin }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  // const setUserStoreFn: Record<UserAuthType, (u: User | null) => void> = useMemo(
+  //   () => ({ user: setUser, vendor: setVendor, super_admin: setSuperAdmin }),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   []
+  // );
 
-  const { mutate: loginFn, isPending } = useMutation({
-    mutationKey: [props.type],
-    mutationFn: (payload: LoginFormDataType) => {
-      return apiClient(loginConfig[props.type].endpoint, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
-      });
-    }
-  });
+  // const { mutate: loginFn, isPending } = useMutation({
+  //   mutationKey: [props.type],
+  //   mutationFn: (payload: LoginFormDataType) => {
+  //     return apiClient(loginConfig[props.type].endpoint, {
+  //       method: "POST",
+  //       body: JSON.stringify(payload),
+  //       headers: { "Content-Type": "application/json" }
+  //     });
+  //   }
+  // });
+
+  const cleanUp = useCallback(
+    (data: any) => {
+      if (props.type === "super_admin") {
+        setSuperAdmin(data);
+        router.push("/admin/dashboard");
+      } else if (props.type === "vendor") {
+        setVendor(data);
+        router.push("/vendor/dashboard");
+      } else {
+        setUser(data);
+        router.push("/");
+      }
+    },
+    [form]
+  );
 
   const onSubmit = (data: LoginFormDataType) => {
     loginFn(data, {
-      onSuccess: (data: { data: User }) => {
+      onSuccess: (data: { data: any }) => {
         toast({ title: "Success", description: "Logged in successfully", variant: "default" });
-        setUserStoreFn[props.type](data.data);
-        router.replace(loginConfig[props.type].defaultRedirect); // TODO: also check for redirects
+        cleanUp(data.data);
       },
       onError: (err: any) => {
         toast({ title: "Could not log in", description: err.error, variant: "destructive" });

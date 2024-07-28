@@ -1,6 +1,6 @@
 import z from "zod";
 import { UserAuthType } from "@/types";
-import { authEdnpoints } from "@/lib/apiConfig/endpoints";
+import { authEndpoints } from "@/lib/apiConfig/endpoints";
 
 export const loginFormSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -9,9 +9,9 @@ export const loginFormSchema = z.object({
 export type LoginFormDataType = z.infer<typeof loginFormSchema>;
 export const loginFormDefaultValues: Partial<LoginFormDataType> = { email: "", password: "" };
 export const loginConfig: Record<UserAuthType, { endpoint: string; defaultRedirect: string }> = {
-  user: { endpoint: authEdnpoints.loginUser, defaultRedirect: "/" },
-  vendor: { endpoint: authEdnpoints.loginVendor, defaultRedirect: "/" },
-  super_admin: { endpoint: authEdnpoints.loginSuperAdmin, defaultRedirect: "/admin/dashboard" }
+  user: { endpoint: authEndpoints.loginUser, defaultRedirect: "/" },
+  vendor: { endpoint: authEndpoints.loginVendor, defaultRedirect: "/" },
+  super_admin: { endpoint: authEndpoints.loginSuperAdmin, defaultRedirect: "/admin/dashboard" }
 };
 
 export const registerUserFormSchema = loginFormSchema.extend({

@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiConfig/apiClient";
-import { vendorTypeEndpoints, authEdnpoints, vendorEndpoints, vendorSubTypeEndpoints } from "@/lib/apiConfig/endpoints";
+import { vendorTypeEndpoints, authEndpoints, vendorEndpoints, vendorSubTypeEndpoints } from "@/lib/apiConfig/endpoints";
 
 export const createVendorType = (accessToken: string, payload: any) => {
   return apiClient(vendorTypeEndpoints.createVendorType, {
@@ -40,7 +40,7 @@ export const updateVendorType = (accessToken: string) => {
 };
 
 export const registerVendor = (payload: any) => {
-  return apiClient(authEdnpoints.registerVendor, {
+  return apiClient(authEndpoints.registerVendor, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -50,7 +50,7 @@ export const registerVendor = (payload: any) => {
 };
 
 export const loginVendor = (payload: any) => {
-  return apiClient(authEdnpoints.loginVendor, {
+  return apiClient(authEndpoints.loginVendor, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

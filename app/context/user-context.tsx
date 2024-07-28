@@ -1,4 +1,3 @@
-import { UserAuthType } from "@/types";
 import { User, Vendor } from "@/types/auth.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

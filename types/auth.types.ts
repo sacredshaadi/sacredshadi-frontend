@@ -51,4 +51,8 @@ export interface Vendor {
   email: string;
   phone?: string;
   vendorType: VendorType;
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }

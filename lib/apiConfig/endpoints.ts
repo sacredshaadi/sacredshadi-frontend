@@ -1,4 +1,4 @@
-export const authEdnpoints = {
+export const authEndpoints = {
   registerUser: "/api/v1/user/register",
   loginUser: "/api/v1/user/login",
   registerVendor: "/api/v1/vendor/register",

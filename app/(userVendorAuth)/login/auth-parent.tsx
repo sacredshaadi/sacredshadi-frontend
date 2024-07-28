@@ -6,6 +6,7 @@ import { UserAuthType, userAuthTypes } from "@/types";
 import LoginForm from "@/components/forms/auth/login";
 import RegisterUser from "@/components/forms/auth/registerUser";
 import RegisterVendor from "@/components/forms/auth/registerVendor";
+import { useLoginUserMutation, useLoginVendorMutation } from "@/components/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const AuthParent = () => {
@@ -37,10 +38,14 @@ const AuthParent = () => {
           </TabsList>
 
           <TabsContent value={userAuthTypes.user}>
-            {login ? <LoginForm type={userAuthTypes.user} /> : <RegisterUser />}
+            {login ? <LoginForm type={userAuthTypes.user} useMutation={useLoginUserMutation} /> : <RegisterUser />}
           </TabsContent>
           <TabsContent value={userAuthTypes.vendor}>
-            {login ? <LoginForm type={userAuthTypes.vendor} /> : <RegisterVendor />}
+            {login ? (
+              <LoginForm type={userAuthTypes.vendor} useMutation={useLoginVendorMutation} />
+            ) : (
+              <RegisterVendor />
+            )}
           </TabsContent>
         </Tabs>
 
