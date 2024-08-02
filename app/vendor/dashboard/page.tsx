@@ -14,7 +14,6 @@ const page = () => {
         <LogisticCard logisticType={DashboardLogisticType.contacted} />
         <LogisticCard logisticType={DashboardLogisticType.booked} />
       </section>
-      <AddDialog />
     </VendorLayout>
   );
 };

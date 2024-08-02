@@ -2,7 +2,6 @@
 
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import VendorHeader from "./vendor-header";
-import { getVendorSidebarRoutes } from "./sidebarItems";
 import { useUserStore } from "@/app/context/user-context";
 import { useRouter } from "next/navigation";
 import { VendorSidebar } from "./vendor-sidebar";

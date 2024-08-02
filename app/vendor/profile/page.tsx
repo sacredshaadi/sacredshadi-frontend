@@ -1,6 +1,5 @@
 "use client";
 
-import { SuperAdminLayout } from "@/app/admin/_components/adminLayout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +11,7 @@ import React, { useEffect } from "react";
 import { VendorLayout } from "../_components/vendor-layout";
 import { useUserStore } from "@/app/context/user-context";
 
-const page = () => {
+const Page = () => {
   const { vendor, setVendor } = useUserStore();
   const loadingRef = React.useRef<boolean>(false);
 
@@ -135,4 +134,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
