@@ -89,3 +89,5 @@ export const useAdminLoginMutation = () => {
     mutationKey: [QUERY_KEYS.loginAdmin]
   });
 };
+
+export const createSubVendorTypeMutation = () => {};
