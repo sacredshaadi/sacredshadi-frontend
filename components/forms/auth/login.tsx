@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
-import { UserAuthType } from "@/types";
+import { UserAuthType, userAuthTypes } from "@/types";
 import { User } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -52,10 +52,11 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
 
   const cleanUp = useCallback(
     (data: any) => {
-      if (props.type === "super_admin") {
+      console.log("props.type: ", props.type);
+      if (props.type === userAuthTypes.super_admin) {
         setSuperAdmin(data);
         router.push("/admin/dashboard");
-      } else if (props.type === "vendor") {
+      } else if (props.type === userAuthTypes.vendor) {
         setVendor(data);
         router.push("/vendor/dashboard");
       } else {

@@ -43,8 +43,8 @@ export default function Profile(props: { type: UserAuthType }) {
   if (!props.type) throw new Error("Please specify auth type for ProfileComponent");
 
   useEffect(() => {
-    if (props.type !== userAuthTypes.vendor) return;
-    if (!users.vendor) handleLogout();
+    if (props.type !== userAuthTypes.vendor || !users.vendor) return;
+    // if (!users.vendor) handleLogout();
     else if (users?.vendor?.vendorType) return;
     getVendorProfileFn(users.vendor?.tokens?.accessToken || "", {
       onSuccess: (data) => {

@@ -3,6 +3,7 @@ import React from "react";
 import LogisticCard from "./logistic-card";
 import { DashboardLogisticType } from "@/types";
 import { VendorLayout } from "../_components/vendor-layout";
+import { AddDialog } from "../_components/vendor-route-wrapper/add-modal";
 
 const page = () => {
   return (
@@ -13,6 +14,7 @@ const page = () => {
         <LogisticCard logisticType={DashboardLogisticType.contacted} />
         <LogisticCard logisticType={DashboardLogisticType.booked} />
       </section>
+      <AddDialog />
     </VendorLayout>
   );
 };

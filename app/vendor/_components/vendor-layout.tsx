@@ -13,10 +13,10 @@ export function VendorLayout(props: PropsWithChildren<{ title: string; extras?: 
   const { vendor } = useUserStore();
   const [loading, setLoading] = useState(true);
 
-  // useUserStore.persist?.onFinishHydration((data) => {
-  //   if (!data.vendor) router.replace("/login");
-  //   else setLoading(false);
-  // });
+  useUserStore.persist?.onFinishHydration((data) => {
+    if (!data.vendor) router.replace("/login");
+    else setLoading(false);
+  });
 
   useEffect(() => {
     if (!useUserStore.persist?.hasHydrated()) useUserStore.persist.rehydrate();
