@@ -12,55 +12,66 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { useUserStore } from "@/app/context/user-context";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SelectGroup } from "@radix-ui/react-select";
-
-const FormSchema = z.object({
-  email: z
-    .string({
-      required_error: "Please select an email to display."
-    })
-    .email()
-});
+import { Vendor, VendorSubType } from "@/types/auth.types";
+import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
+import { Option } from "@/components/ui/multiselect";
 
 interface AddDialogProps {
   useMutation: () => UseMutationResult<any, Error, any, unknown>;
+  submitMutation: () => UseMutationResult<any, Error, { accessToken: string; data: any }, unknown>;
 }
 
 const formSchema = z.object({
-  vendorTypeId: z.number().min(1, "Please select a service type"),
+  vendorSubTypeIds: z.number().array().nonempty("Please select a service type"),
   description: z.string().min(1, "Please enter a description")
 });
 
 export function AddDialog(props: AddDialogProps) {
-  const { vendor } = useUserStore();
-  const [arr, setArr] = useState<any[]>([]);
+  const { vendor, setVendor } = useUserStore();
+  const [arr, setArr] = useState<Option[]>([]);
+  const [selected, setSelected] = useState<Option[]>(
+    (vendor?.SelectedVendorSubTypes || []).map((item) => ({
+      label: item.subType,
+      value: item.vendorSubTypeId.toString()
+    }))
+  );
+  const [open, setOpen] = useState(false);
 
   const { mutate: mutateFn, isPending, isError } = props.useMutation();
+  const { mutate: submitFn, isPending: submitPending, isError: submitError } = props.submitMutation();
 
   type formType = z.infer<typeof formSchema>;
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: "",
-      vendorTypeId: 0
+      description: ""
     }
   });
 
   useEffect(() => {
-    console.log("arr rendered again");
-  }, [arr]);
+    form.setValue("vendorSubTypeIds", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
+  }, [selected]);
 
   useEffect(() => {
     // console.log("vendorType id: ", vendor?.vendorType?.id);
 
     mutateFn(vendor?.vendorType?.id, {
       onSuccess: (data) => {
-        console.log(data.data);
-
-        setArr(() => data.data);
+        // console.log(data.data);
+        const temp = data.data as VendorSubType[];
+        setArr(() => temp.map((item) => ({ label: item.subType, value: item.id.toString() })));
+        // setArr(() =>
+        //   temp
+        //     .filter((item) => !selected.find((sel) => sel.value === item.id.toString()))
+        //     .map((item) => ({
+        //       label: item.subType,
+        //       value: item.id.toString()
+        //     }))
+        // );
       },
       onError: (err) => {
         console.error(err);
@@ -72,19 +83,68 @@ export function AddDialog(props: AddDialogProps) {
     });
   }, []);
 
-  function onSubmit(data: formType) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      )
-    });
+  function onSubmit(formData: formType) {
+    try {
+      console.log("data: ", formData);
+      submitFn(
+        {
+          accessToken: vendor?.tokens?.accessToken || "",
+          data: {
+            ids: formData.vendorSubTypeIds
+          }
+        },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            setVendor({
+              ...vendor,
+              SelectedVendorSubTypes: data.data as VendorSubType[]
+            } as Vendor);
+            // setVendor({
+            //   ...vendor,
+            //   SelectedVendorSubTypes: vendor?.SelectedVendorSubTypes.concat()
+            // })
+            toast({
+              variant: "default",
+              description: "Data submitted successfully"
+            });
+            // const temp = (vendor?.SelectedVendorSubTypes || []).concat({
+            //   subType: arr.find((item) => item.id === formData.vendorSubTypeId)?.subType,
+            //   vendorSubTypeId: formData.vendorSubTypeId
+            // });
+            // setVendor({
+            //   ...(vendor as Vendor),
+            //   SelectedVendorSubTypes: (vendor?.SelectedVendorSubTypes || []).concat({
+            //     subType: arr.find((item) => item.id === formData.vendorSubTypeId)?.subType,
+            //     vendorSubTypeId: formData.vendorSubTypeId
+            //   })
+            // });
+            setOpen(false);
+          },
+          onError: (err) => {
+            throw err;
+          }
+        }
+      );
+    } catch (err: any) {
+      console.error(err);
+      toast({
+        variant: "destructive",
+        description: err.error || err.message || "Error submitting data"
+      });
+    }
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   )
+    // });
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="default" className="ml-auto font-semibold">
           <span className="flex items-center justify-center gap-2">
@@ -101,22 +161,22 @@ export function AddDialog(props: AddDialogProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
             <FormField
               control={form.control}
-              name="vendorTypeId"
+              name="vendorSubTypeIds"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Service Type</FormLabel>
-                  <Select
+                  {/* <Select
                     onValueChange={(value) => {
                       console.log("onchange: ", value, parseInt(value));
-                      form.setValue("vendorTypeId", parseInt(value));
+                      form.setValue("vendorSubTypeId", parseInt(value));
                     }}
                   >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue>
-                          {form.getValues("vendorTypeId") === 0
+                          {form.getValues("vendorSubTypeId") === 0
                             ? "Select a service type"
-                            : arr.find((item) => item.id === form.getValues("vendorTypeId"))?.subType}
+                            : arr.find((item) => item.id === form.getValues("vendorSubTypeId"))?.subType}
                         </SelectValue>
                       </SelectTrigger>
                     </FormControl>
@@ -130,6 +190,8 @@ export function AddDialog(props: AddDialogProps) {
                             <Skeleton key={idx} className="h-6 w-full bg-gray-100" />
                           ))}
                         </ul>
+                      ) : isError ? (
+                        <div className="h-12 text-gray-600">Error fetching data</div>
                       ) : (
                         arr.map((item) => (
                           <SelectItem key={item.id} value={`${item.id}`} className="transition hover:bg-gray-100">
@@ -138,7 +200,8 @@ export function AddDialog(props: AddDialogProps) {
                         ))
                       )}
                     </SelectContent>
-                  </Select>
+                  </Select> */}
+                  <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
                   <FormDescription></FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -159,7 +222,10 @@ export function AddDialog(props: AddDialogProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={submitPending}>
+              {submitPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Submit
+            </Button>
           </form>
         </Form>
       </DialogContent>

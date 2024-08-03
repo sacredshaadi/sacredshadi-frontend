@@ -79,13 +79,13 @@ export const getAllVendorSubTypes = (vendorTypeId: number) => {
   });
 };
 
-export const addVendorSubType = (accessToken: string, payload: any) => {
-  return apiClient(vendorSubTypeEndpoints.createVendorSubType, {
+export const vendorUpdateSubType = (payload: { accessToken: string; data: any }) => {
+  return apiClient(vendorEndpoints.vendorUpdateSubType, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`
+      Authorization: `Bearer ${payload.accessToken}`
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload.data)
   });
 };

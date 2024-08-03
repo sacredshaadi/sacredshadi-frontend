@@ -17,7 +17,8 @@ export const QUERY_KEYS = {
   loginVendor: "loginVendor",
   vendorProfile: "vendorProfile",
   getAllVendorSubTypes: "getAllVendorSubTypes",
-  loginAdmin: "loginAdmin"
+  loginAdmin: "loginAdmin",
+  vendorUpdateSubType: "vendorUpdateSubType"
 };
 
 export const useRegisterUserMutation = () => {
@@ -90,4 +91,9 @@ export const useAdminLoginMutation = () => {
   });
 };
 
-export const createSubVendorTypeMutation = () => {};
+export const useVendorUpdateSubTypeMutation = () => {
+  return useMutation({
+    mutationFn: VENDOR_ENDPOINTS.vendorUpdateSubType,
+    mutationKey: [QUERY_KEYS.vendorUpdateSubType]
+  });
+};

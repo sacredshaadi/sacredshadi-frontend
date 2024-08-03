@@ -42,7 +42,8 @@ export const vendorSubTypeEndpoints = {
 
 export const vendorEndpoints = {
   vendorProfile: "/api/v1/vendor/profile",
-  removeVendor: "/api/v1/vendor/remove"
+  removeVendor: "/api/v1/vendor/remove",
+  vendorUpdateSubType: "/api/v1/vendor/update/sub-types"
 } as const;
 
 export const adminEndpoints = {
