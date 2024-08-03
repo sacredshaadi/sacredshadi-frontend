@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiConfig/apiClient";
-import { vendorTypeEndpoints, authEdnpoints, vendorEndpoints } from "@/lib/apiConfig/endpoints";
+import { vendorTypeEndpoints, authEndpoints, vendorEndpoints, vendorSubTypeEndpoints } from "@/lib/apiConfig/endpoints";
 
 export const createVendorType = (accessToken: string, payload: any) => {
   return apiClient(vendorTypeEndpoints.createVendorType, {
@@ -40,7 +40,7 @@ export const updateVendorType = (accessToken: string) => {
 };
 
 export const registerVendor = (payload: any) => {
-  return apiClient(authEdnpoints.registerVendor, {
+  return apiClient(authEndpoints.registerVendor, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -50,7 +50,7 @@ export const registerVendor = (payload: any) => {
 };
 
 export const loginVendor = (payload: any) => {
-  return apiClient(authEdnpoints.loginVendor, {
+  return apiClient(authEndpoints.loginVendor, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -61,11 +61,31 @@ export const loginVendor = (payload: any) => {
 
 export const vendorProfile = (accessToken: string) => {
   return apiClient(vendorEndpoints.vendorProfile, {
-    method: "PUT",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`
     }
     // body: JSON.stringify(payload)
+  });
+};
+
+export const getAllVendorSubTypes = (vendorTypeId: number) => {
+  return apiClient(`${vendorSubTypeEndpoints.getAllVendorSubTypes}?vendorTypeId=${vendorTypeId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+};
+
+export const vendorUpdateSubType = (payload: { accessToken: string; data: any }) => {
+  return apiClient(vendorEndpoints.vendorUpdateSubType, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${payload.accessToken}`
+    },
+    body: JSON.stringify(payload.data)
   });
 };

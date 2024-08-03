@@ -2,9 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader, Loader2 } from "lucide-react";
 
-import { User } from "@/types/auth.types";
+import { User, Vendor } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { registerVendorFormSchema } from "./helpers";
@@ -13,15 +13,18 @@ import { useUserStore } from "@/app/context/user-context";
 import { useGetVendorTypesQuery } from "@/app/admin/_components/apis";
 import { useGetAllCitiesQuery, useRegisterVendorMutation } from "@/components/api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const RegisterVendor = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { setVendor } = useUserStore();
-  const { data: citiesRes } = useGetAllCitiesQuery();
+  const { data: citiesRes, isPending: citiesPending } = useGetAllCitiesQuery();
   const [showPassword, setShowPassword] = useState(false);
-  const { data: vendorTypesRes } = useGetVendorTypesQuery();
+  const { data: vendorTypesRes, isPending: vendorTypesPending } = useGetVendorTypesQuery();
   const { mutate: registerVendorFn, isPending } = useRegisterVendorMutation();
+  const [city, setCity] = useState("");
+  const [serviceType, setServiceType] = useState("");
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,10 +50,10 @@ const RegisterVendor = () => {
     }
 
     registerVendorFn(data, {
-      onSuccess: (data: { data: User }) => {
+      onSuccess: (data: { data: Vendor }) => {
         toast({ title: "Success", description: "Created Account Successfully", variant: "default" });
         setVendor(data.data);
-        router.replace("/");
+        router.replace("/vendor/dashboard");
       },
       onError: (err: any) => {
         toast({ title: "Could not create account", description: err.error, variant: "destructive" });
@@ -67,32 +70,62 @@ const RegisterVendor = () => {
 
       <div className="space-y-2">
         <label>City</label>
-        <Select name="cityId" required>
+        <Select
+          name="cityId"
+          required
+          onValueChange={(value) => {
+            if (citiesPending) return;
+            setCity(citiesRes?.data.find((city) => String(city.id) === value)?.name || "");
+          }}
+        >
           <SelectTrigger>
-            <SelectValue />
+            <SelectValue>{city}</SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {citiesRes?.data.map((city) => (
-              <SelectItem value={city.id as any} key={city.id}>
-                {city.name}
-              </SelectItem>
-            ))}
+            {citiesPending ? (
+              <ul className="flex flex-col gap-2">
+                {[1, 2, 3, 4].map((_, idx) => (
+                  <Skeleton key={idx} className="h-6 w-full   bg-gray-100" />
+                ))}
+              </ul>
+            ) : (
+              citiesRes?.data.map((city) => (
+                <SelectItem value={city.id as any} key={city.id}>
+                  {city.name}
+                </SelectItem>
+              ))
+            )}
           </SelectContent>
         </Select>
       </div>
 
       <div className="space-y-2">
         <label>Service</label>
-        <Select name="vendorTypeId" required>
+        <Select
+          name="vendorTypeId"
+          required
+          onValueChange={(value) => {
+            if (vendorTypesPending) return;
+            setServiceType(vendorTypesRes?.data.find((vendorType) => String(vendorType.id) === value)?.type || "");
+          }}
+        >
           <SelectTrigger>
-            <SelectValue />
+            <SelectValue>{serviceType}</SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {vendorTypesRes?.data.map((vendorType) => (
-              <SelectItem value={vendorType.id as any} key={vendorType.id}>
-                {vendorType.type}
-              </SelectItem>
-            ))}
+            {vendorTypesPending ? (
+              <ul className="flex flex-col gap-2">
+                {[1, 2, 3, 4].map((_, idx) => (
+                  <Skeleton key={idx} className="h-6 w-full   bg-gray-100" />
+                ))}
+              </ul>
+            ) : (
+              vendorTypesRes?.data.map((vendorType) => (
+                <SelectItem value={vendorType.id as any} key={vendorType.id}>
+                  {vendorType.type}
+                </SelectItem>
+              ))
+            )}
           </SelectContent>
         </Select>
       </div>
@@ -118,6 +151,7 @@ const RegisterVendor = () => {
       </div>
 
       <Button disabled={isPending} className="ml-auto w-full" type="submit">
+        {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Register Vendor
       </Button>
     </form>

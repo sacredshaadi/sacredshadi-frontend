@@ -25,12 +25,10 @@ interface UserSub {
 }
 export interface User extends UserSub {}
 
-interface SubVendorType {
-  id: number;
+export interface VendorSubType {
   subType: string;
-  vendorTypeId: number;
-  createdAt: string;
-  updatedAt: string;
+  vendorSubTypeId: number;
+  id: number;
 }
 
 export interface VendorType {
@@ -38,5 +36,21 @@ export interface VendorType {
   type: string;
   createdAt: string;
   updatedAt: string;
-  vendorSubTypes: SubVendorType[];
+}
+
+export interface Vendor {
+  vendorId: number;
+  description?: string;
+  details?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  name: string;
+  email: string;
+  phone?: string;
+  vendorType: VendorType;
+  SelectedVendorSubTypes: VendorSubType[];
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }

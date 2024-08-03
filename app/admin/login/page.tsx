@@ -1,5 +1,7 @@
+"use client";
 import { userAuthTypes } from "@/types";
 import LoginForm from "@/components/forms/auth/login";
+import { useAdminLoginMutation } from "@/components/api";
 
 const AdminLogin = () => {
   return (
@@ -10,7 +12,7 @@ const AdminLogin = () => {
           <p className="text-sm text-muted-foreground">Enter your credentials below to login.</p>
         </div>
 
-        <LoginForm type={userAuthTypes.super_admin} />
+        <LoginForm type={userAuthTypes.super_admin} useMutation={useAdminLoginMutation} />
       </div>
     </div>
   );

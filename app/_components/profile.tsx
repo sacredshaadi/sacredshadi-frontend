@@ -11,18 +11,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUserStore } from "@/app/context/user-context";
 import { useCallback, useEffect } from "react";
-import { User } from "@/types/auth.types";
+import { User, Vendor } from "@/types/auth.types";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { UserAuthType, userAuthTypes } from "@/types";
+import { useVendorContext } from "../context/vendor-context";
+import { useVendorProfileMutation } from "@/components/api";
+import { toast } from "@/components/ui/use-toast";
 
 export default function Profile(props: { type: UserAuthType }) {
   const router = useRouter();
   const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
+  const { mutate: getVendorProfileFn } = useVendorProfileMutation();
 
-  const setCurrentUser = (currentUser: User | null) => {
-    if (props.type === "super_admin") setSuperAdmin(currentUser);
-    else if (props.type === "vendor") setVendor(currentUser);
+  const setCurrentUser = (currentUser: any | null) => {
+    if (props.type === userAuthTypes.super_admin) setSuperAdmin(currentUser);
+    else if (props.type === userAuthTypes.vendor) setVendor(currentUser);
     else setUser(currentUser);
   };
 
@@ -37,6 +41,30 @@ export default function Profile(props: { type: UserAuthType }) {
   }, [props.type]);
 
   if (!props.type) throw new Error("Please specify auth type for ProfileComponent");
+
+  useEffect(() => {
+    if (props.type !== userAuthTypes.vendor || !users.vendor) return;
+    // if (!users.vendor) handleLogout();
+    else if (users?.vendor?.vendorType) return;
+    getVendorProfileFn(users.vendor?.tokens?.accessToken || "", {
+      onSuccess: (data) => {
+        console.log("vendorprofile: ", data);
+        const tokens = users.vendor?.tokens;
+        setVendor({ ...data.data, tokens } as Vendor);
+        toast({
+          variant: "default",
+          description: "Vendor profile fetched successfully"
+        });
+      },
+      onError: (error) => {
+        console.error("Error fetching vendor profile: ", error);
+        toast({
+          variant: "destructive",
+          description: (error as any).error || error.message || "Error fetching vendor profile"
+        });
+      }
+    });
+  }, [users.vendor]);
 
   if (!useUserStore.persist?.hasHydrated()) {
     return (

@@ -2,6 +2,7 @@ import * as ENDPOINTS from "./user.endpoints";
 import * as SLIDER_ENDPOINTS from "./carousel.endpoints";
 import * as CITY_ENDPOINTS from "./cities.endpoints";
 import * as VENDOR_ENDPOINTS from "./vendor.endpoints";
+import * as ADMIN_ENDPOINTS from "./admin.endpoints";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
@@ -14,7 +15,10 @@ export const QUERY_KEYS = {
   getAllVendorTypes: "getAllVendorTypes",
   registerVendor: "registerVendor",
   loginVendor: "loginVendor",
-  vendorProfile: "vendorProfile"
+  vendorProfile: "vendorProfile",
+  getAllVendorSubTypes: "getAllVendorSubTypes",
+  loginAdmin: "loginAdmin",
+  vendorUpdateSubType: "vendorUpdateSubType"
 };
 
 export const useRegisterUserMutation = () => {
@@ -70,5 +74,26 @@ export const useVendorProfileMutation = () => {
   return useMutation({
     mutationFn: VENDOR_ENDPOINTS.vendorProfile,
     mutationKey: [QUERY_KEYS.vendorProfile]
+  });
+};
+
+export const useGetVendorAllSubTypesMutation = () => {
+  return useMutation({
+    mutationFn: VENDOR_ENDPOINTS.getAllVendorSubTypes,
+    mutationKey: [QUERY_KEYS.getAllVendorSubTypes]
+  });
+};
+
+export const useAdminLoginMutation = () => {
+  return useMutation({
+    mutationFn: ADMIN_ENDPOINTS.loginAdmin,
+    mutationKey: [QUERY_KEYS.loginAdmin]
+  });
+};
+
+export const useVendorUpdateSubTypeMutation = () => {
+  return useMutation({
+    mutationFn: VENDOR_ENDPOINTS.vendorUpdateSubType,
+    mutationKey: [QUERY_KEYS.vendorUpdateSubType]
   });
 };

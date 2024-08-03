@@ -1,4 +1,4 @@
-export const authEdnpoints = {
+export const authEndpoints = {
   registerUser: "/api/v1/user/register",
   loginUser: "/api/v1/user/login",
   registerVendor: "/api/v1/vendor/register",
@@ -33,9 +33,17 @@ export const vendorTypeEndpoints = {
   removeVendorType: "/api/v1/vendor-type/remove"
 } as const;
 
+export const vendorSubTypeEndpoints = {
+  createVendorSubType: "/api/v1/vendor-sub-type/add",
+  getAllVendorSubTypes: "/api/v1/vendor-sub-type/all",
+  updateVendorSubType: "/api/v1/vendor-sub-type/update",
+  removeVendorSubType: "/api/v1/vendor-sub-type/remove"
+} as const;
+
 export const vendorEndpoints = {
   vendorProfile: "/api/v1/vendor/profile",
-  removeVendor: "/api/v1/vendor/remove"
+  removeVendor: "/api/v1/vendor/remove",
+  vendorUpdateSubType: "/api/v1/vendor/update/sub-types"
 } as const;
 
 export const adminEndpoints = {

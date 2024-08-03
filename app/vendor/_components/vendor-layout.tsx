@@ -2,7 +2,6 @@
 
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import VendorHeader from "./vendor-header";
-import { getVendorSidebarRoutes } from "./sidebarItems";
 import { useUserStore } from "@/app/context/user-context";
 import { useRouter } from "next/navigation";
 import { VendorSidebar } from "./vendor-sidebar";
@@ -13,10 +12,10 @@ export function VendorLayout(props: PropsWithChildren<{ title: string; extras?: 
   const { vendor } = useUserStore();
   const [loading, setLoading] = useState(true);
 
-  // useUserStore.persist?.onFinishHydration((data) => {
-  //   if (!data.vendor) router.replace("/login");
-  //   else setLoading(false);
-  // });
+  useUserStore.persist?.onFinishHydration((data) => {
+    if (!data.vendor) router.replace("/login");
+    else setLoading(false);
+  });
 
   useEffect(() => {
     if (!useUserStore.persist?.hasHydrated()) useUserStore.persist.rehydrate();

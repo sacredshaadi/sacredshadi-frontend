@@ -1,4 +1,5 @@
-import { SuperAdminLayout } from "@/app/admin/_components/adminLayout";
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,10 +7,19 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { CameraIcon } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { VendorLayout } from "../_components/vendor-layout";
+import { useUserStore } from "@/app/context/user-context";
 
-const page = () => {
+const Page = () => {
+  const { vendor, setVendor } = useUserStore();
+  const loadingRef = React.useRef<boolean>(false);
+
+  useEffect(() => {
+    if (!vendor) loadingRef.current = true;
+    else loadingRef.current = false;
+  }, [vendor]);
+
   return (
     <VendorLayout title="Profile">
       <div className="mx-auto rounded-md bg-background p-6 sm:p-8">
@@ -17,7 +27,13 @@ const page = () => {
           <div className="relative">
             <Avatar className="h-24 w-24 sm:h-32 sm:w-32">
               <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback className="text-2xl">AN</AvatarFallback>
+              <AvatarFallback className="text-2xl">
+                {// the initials of the name
+                vendor?.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </AvatarFallback>
             </Avatar>
             <Button variant="secondary" size="sm" className="absolute bottom-0 right-0 rounded-full">
               <CameraIcon className="h-4 w-4" />
@@ -25,13 +41,16 @@ const page = () => {
             </Button>
           </div>
           <div className="grid gap-2 text-center sm:text-left">
-            <h1 className="text-2xl font-bold">Catherine Nguyen</h1>
-            <p className="text-muted-foreground">Software Engineer at Acme Inc.</p>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-2xl font-bold">{vendor?.name}</h1>
+            {/* <p className="text-muted-foreground">Software Engineer at Acme Inc.</p> */}
+            {/* <p className="text-sm text-muted-foreground">
               I&apos;m a passionate software engineer with a love for building innovative products. In my free time, I
               enjoy hiking and exploring the great outdoors.
-            </p>
+            </p> */}
           </div>
+          <Button variant="default" size="sm" className="ml-auto mt-auto text-base font-semibold">
+            Save Profile
+          </Button>
         </div>
         <Separator className="my-8" />
         <div className="grid gap-8">
@@ -40,11 +59,17 @@ const page = () => {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="catherine@acme.com" />
+                <Input
+                  id="email"
+                  type="email"
+                  defaultValue="catherine@acme.com"
+                  value={vendor?.email}
+                  onChange={(e) => vendor && setVendor({ ...vendor, email: e.target.value })}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" type="tel" defaultValue="+1 (555) 123-4567" />
+                <Input id="phone" type="tel" value={vendor?.phone} />
               </div>
             </div>
           </div>
@@ -52,13 +77,14 @@ const page = () => {
             <h2 className="text-lg font-semibold">Introduction</h2>
             <Textarea
               rows={2}
-              defaultValue="I like to build things and make the world a better place. I'm a software engineer at Acme Inc. and I love what I do."
+              value={vendor?.description}
+              onChange={(e) => vendor && setVendor({ ...vendor, description: e.target.value })}
             />
           </div>
-          <div className="grid gap-2">
+          {/* <div className="grid gap-2">
             <h2 className="text-lg font-semibold">Address</h2>
             <Textarea rows={2} defaultValue="1234 Elm Street, Springfield, IL 62701" />
-          </div>
+          </div> */}
 
           {/* <div className="grid gap-4">
             <h2 className="text-lg font-semibold">Achievements</h2>
@@ -108,4 +134,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
