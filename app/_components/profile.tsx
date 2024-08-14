@@ -86,7 +86,7 @@ export default function Profile(props: { type: UserAuthType }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          <PersonIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:text-white " />
+          <PersonIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

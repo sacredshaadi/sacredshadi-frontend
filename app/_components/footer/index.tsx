@@ -25,7 +25,7 @@ export default function Footer() {
             <Link
               href="https://www.facebook.com/SacredShaadi/"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary dark:hover:text-background"
+              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
               <Facebook className="h-5 w-5" />
@@ -33,7 +33,7 @@ export default function Footer() {
             <Link
               href="https://www.instagram.com/sacredshaadi/"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary dark:hover:text-background"
+              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
               <Instagram className="h-5 w-5" />
@@ -41,7 +41,7 @@ export default function Footer() {
             <Link
               href="https://www.pinterest.com/sacredshaadi/"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary dark:hover:text-background"
+              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
               <Pinterest />
@@ -49,7 +49,7 @@ export default function Footer() {
             <Link
               href="https://www.youtube.com/c/SacredShaadi"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary dark:hover:text-background"
+              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
               <Youtube className="h-5 w-5" />

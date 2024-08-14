@@ -5,7 +5,6 @@ import Profile from "@/app/_components/profile";
 import NotificationComp from "./notification-comp";
 import { Button } from "@/components/ui/button";
 import MessagesComp from "./messages-comp";
-import ThemeToggle from "@/components/layout/ThemeToggle/theme-toggle";
 import { userAuthTypes } from "@/types";
 
 function AdminHeader(props: {
@@ -14,7 +13,7 @@ function AdminHeader(props: {
   extras: ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between bg-background py-4 dark:text-white">
+    <div className="flex items-center justify-between bg-background py-4">
       <div
         className={twMerge("flex items-center justify-between", props.collapsed ? "w-16 justify-center" : "w-56 pl-4")}
       >
@@ -28,7 +27,6 @@ function AdminHeader(props: {
           <MessagesComp />
           <NotificationComp />
           <Profile type={userAuthTypes.super_admin} />
-          <ThemeToggle />
           <Button className="flex items-center justify-center rounded-full p-2" title="Settings" variant="outline">
             <Settings className="h-4 w-4 cursor-pointer" />
           </Button>

@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { Menu, Settings } from "lucide-react";
+import { Menu } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import ProfileComponent from "@/app/_components/profile";
 import NotificationComp from "@/app/admin/_components/notification-comp";
@@ -13,7 +13,7 @@ function VendorHeader(props: {
   extras: ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between bg-background py-4 dark:text-white">
+    <div className="flex items-center justify-between bg-background py-4">
       <div
         className={twMerge("flex items-center justify-between", props.collapsed ? "w-16 justify-center" : "w-56 pl-4")}
       >

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
-// import { useGetVendorTypesQuery } from "./apis";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-// import { getAdminSidebarRoutes } from "./sidebarItems";
 import { useMemo } from "react";
 import { getVendorSidebarRoutes } from "./sidebarItems";
 
@@ -17,7 +15,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
   return (
     <div
       className={twMerge(
-        "flex h-full flex-col gap-4 overflow-auto overflow-x-hidden bg-background p-2 shadow-lg dark:shadow-gray-800",
+        "flex h-full flex-col gap-4 overflow-auto overflow-x-hidden bg-background p-2 shadow-lg",
         props.collapsed ? "w-16" : "w-56"
       )}
     >
