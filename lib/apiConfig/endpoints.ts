@@ -49,3 +49,5 @@ export const vendorEndpoints = {
 export const adminEndpoints = {
   getDashboardData: "/api/v1/admin/get-dashboard"
 } as const;
+
+export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

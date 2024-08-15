@@ -9,7 +9,7 @@ const nextConfig = {
         pathname: "/images/shadi_logo%20copy.png"
       }
     ],
-    domains: ["utfs.io"]
+    domains: ["utfs.io", "res.cloudinary.com"]
   },
   async redirects() {
     return [
