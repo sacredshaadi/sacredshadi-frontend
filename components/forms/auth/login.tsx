@@ -14,17 +14,30 @@ import { Button } from "@/components/ui/button";
 import apiClient from "@/lib/apiConfig/apiClient";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserStore } from "@/app/context/user-context";
-import { LoginFormDataType, loginConfig, loginFormDefaultValues, loginFormSchema } from "./helpers";
+import {
+  LoginFormDataType,
+  loginConfig,
+  loginFormDefaultValues,
+  loginFormSchema,
+  vendorLoginDefaultValues,
+  vendorLoginFormSchema
+} from "./helpers";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { z } from "zod";
 
 const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationResult<any, Error, any, unknown> }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
-  const form = useForm<LoginFormDataType>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: loginFormDefaultValues
+  const defaults = {
+    schema: props.type === userAuthTypes.user ? loginFormSchema : vendorLoginFormSchema,
+    defaultValues: props.type === userAuthTypes.user ? loginFormDefaultValues : vendorLoginDefaultValues
+  };
+
+  const form = useForm<z.infer<typeof defaults.schema>>({
+    resolver: zodResolver(defaults.schema),
+    defaultValues: defaults.defaultValues
   });
 
   const { mutate: loginFn, isPending } = props.useMutation();
@@ -67,16 +80,25 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
     [form]
   );
 
-  const onSubmit = (data: LoginFormDataType) => {
-    loginFn(data, {
-      onSuccess: (data: { data: any }) => {
-        toast({ title: "Success", description: "Logged in successfully", variant: "default" });
-        cleanUp(data.data);
-      },
-      onError: (err: any) => {
-        toast({ title: "Could not log in", description: err.error, variant: "destructive" });
-      }
-    });
+  const onSubmit = (data: any) => {
+    try {
+      loginFn(data, {
+        onSuccess: (data: { data: any }) => {
+          toast({ title: "Success", description: "Logged in successfully", variant: "default" });
+          cleanUp(data.data);
+        },
+        onError: (err: any) => {
+          toast({ title: "Could not log in", description: err.error, variant: "destructive" });
+        }
+      });
+    } catch (err: any) {
+      console.error(err);
+      toast({
+        title: "Could not log in",
+        description: err.error || err.msg || "An error occurred while logging in, please try again later",
+        variant: "destructive"
+      });
+    }
   };
 
   const navigateToUserScreen = (e: MouseEvent<HTMLButtonElement>) => {
@@ -87,19 +109,35 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <FormField
-          name="email"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Enter your email..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {props.type === userAuthTypes.user ? (
+          <FormField
+            name="phoneNo"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone No</FormLabel>
+                <FormControl>
+                  <Input type="number" min={0} placeholder="Enter your phone No..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : (
+          <FormField
+            name="email"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="Enter your email..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           name="password"

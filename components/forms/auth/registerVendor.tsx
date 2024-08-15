@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeOffIcon, Loader, Loader2 } from "lucide-react";
 
-import { User, Vendor } from "@/types/auth.types";
+import { User, Vendor, VendorType } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { registerVendorFormSchema } from "./helpers";
@@ -75,7 +75,7 @@ const RegisterVendor = () => {
           required
           onValueChange={(value) => {
             if (citiesPending) return;
-            setCity(citiesRes?.data.find((city) => String(city.id) === value)?.name || "");
+            setCity(citiesRes?.data.find((city: any) => String(city.id) === value)?.name || "");
           }}
         >
           <SelectTrigger>
@@ -89,7 +89,7 @@ const RegisterVendor = () => {
                 ))}
               </ul>
             ) : (
-              citiesRes?.data.map((city) => (
+              citiesRes?.data.map((city: any) => (
                 <SelectItem value={city.id as any} key={city.id}>
                   {city.name}
                 </SelectItem>
@@ -106,7 +106,9 @@ const RegisterVendor = () => {
           required
           onValueChange={(value) => {
             if (vendorTypesPending) return;
-            setServiceType(vendorTypesRes?.data.find((vendorType) => String(vendorType.id) === value)?.type || "");
+            setServiceType(
+              vendorTypesRes?.data.find((vendorType: VendorType) => String(vendorType.id) === value)?.type || ""
+            );
           }}
         >
           <SelectTrigger>
@@ -120,7 +122,7 @@ const RegisterVendor = () => {
                 ))}
               </ul>
             ) : (
-              vendorTypesRes?.data.map((vendorType) => (
+              vendorTypesRes?.data.map((vendorType: VendorType) => (
                 <SelectItem value={vendorType.id as any} key={vendorType.id}>
                   {vendorType.type}
                 </SelectItem>

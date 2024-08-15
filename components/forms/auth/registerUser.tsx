@@ -52,10 +52,10 @@ const RegisterUser = () => {
         <Input required name="name" type="text" placeholder="Enter your name..." />
       </div>
 
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         <label>Email</label>
         <Input required name="email" type="email" placeholder="user@sacredshadi.com" />
-      </div>
+      </div> */}
 
       <div className="space-y-2">
         <label>Phone No.</label>
