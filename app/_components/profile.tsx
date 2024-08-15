@@ -47,7 +47,7 @@ export default function Profile(props: { type: UserAuthType }) {
     // if (!users.vendor) handleLogout();
     else if (users?.vendor?.vendorType) return;
     getVendorProfileFn(users.vendor?.tokens?.accessToken || "", {
-      onSuccess: (data) => {
+      onSuccess: (data: any) => {
         console.log("vendorprofile: ", data);
         const tokens = users.vendor?.tokens;
         setVendor({ ...data.data, tokens } as Vendor);
@@ -56,7 +56,7 @@ export default function Profile(props: { type: UserAuthType }) {
           description: "Vendor profile fetched successfully"
         });
       },
-      onError: (error) => {
+      onError: (error: any) => {
         console.error("Error fetching vendor profile: ", error);
         toast({
           variant: "destructive",
