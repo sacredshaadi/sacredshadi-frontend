@@ -34,7 +34,7 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
       icon: Cog,
       label: "E Settings",
       subRoutes: [
-        { label: "Contacts", route: "/admin/contacts" },
+        { label: "Contact Us", route: "/admin/contact-us" },
         { label: "Our Team", route: "/admin/our-team" },
         { label: "Profile", route: "/admin/profile" },
         { label: "SEO", route: "/admin/seo" }

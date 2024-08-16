@@ -6,6 +6,7 @@ import { Button } from "./button";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table";
+import { Loading } from "@/app/_components/loading";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -66,7 +67,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             ) : (
               <TableRow>
                 <TableCell colSpan={props.columns.length} className="h-24 text-center">
-                  {props.loading ? "Loading . . ." : "No results."}
+                  {props.loading ? <Loading className="h-96" spinnerClassName="h-16 w-16" /> : "No results."}
                 </TableCell>
               </TableRow>
             )}

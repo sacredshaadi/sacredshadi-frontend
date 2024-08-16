@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { DataTable } from "@/components/ui/data-table";
 import { FormElementInstance, FormRenderer } from "../forms";
+import { WithLoading } from "@/app/_components/loading";
 
 export type TableHocProps<T> = {
   columns: ColumnDef<T>[];
@@ -46,7 +47,17 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
   const [open, setOpen] = useState(false);
   const [editData, setEditData] = useState<T | null>(null);
 
-  const { data, handleAddData, handleEditData, refetchData, isFetchingData, handleDeleteData } = useTableHocQuery({
+  const {
+    data,
+    handleAddData,
+    handleEditData,
+    refetchData,
+    isFetchingData,
+    handleDeleteData,
+    isEditPending,
+    isDeletePending,
+    isAddDataPending
+  } = useTableHocQuery({
     type: userAuthTypes.super_admin,
     addDataEndpoint: props.addable ? props.addDataEndpoint : "",
     paginateDataEndpoint: props.paginateDataEndpoint,
@@ -156,18 +167,25 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
               : ""
           }
         >
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4 flex flex-col gap-1">
-              <FormRenderer meta={props.addEditFormMeta} {...(!!editData ? { defaults: editData } : {})} />
-            </div>
+          <WithLoading loading={isEditPending || isDeletePending || isAddDataPending} spinnerClassName="h-16 w-16">
+            <form onSubmit={handleSubmit}>
+              <fieldset
+                className="mb-4 flex flex-col gap-1"
+                disabled={isEditPending || isDeletePending || isAddDataPending}
+              >
+                <FormRenderer meta={props.addEditFormMeta} {...(!!editData ? { defaults: editData } : {})} />
+              </fieldset>
 
-            <div className="flex items-center justify-between">
-              <Button type="reset" variant="outline">
-                Reset
-              </Button>
-              <Button type="submit">Submit</Button>
-            </div>
-          </form>
+              <div className="flex items-center justify-between">
+                <Button type="reset" variant="outline" disabled={isEditPending || isDeletePending || isAddDataPending}>
+                  Reset
+                </Button>
+                <Button type="submit" disabled={isEditPending || isDeletePending || isAddDataPending}>
+                  Submit
+                </Button>
+              </div>
+            </form>
+          </WithLoading>
         </Modal>
       ) : null}
 

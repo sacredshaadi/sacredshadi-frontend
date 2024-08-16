@@ -31,19 +31,22 @@ function useTableHocQuery<T>(props: useTableHocQueryProps) {
   const { mutate: handleEditData, isPending: isEditPending } = useMutation({
     mutationKey: [props.editDataEndpoint],
     mutationFn: (data: Partial<T>) =>
-      apiClient(props.editDataEndpoint, { method: "PUT", body: JSON.stringify(data), headers })
+      apiClient(props.editDataEndpoint, { method: "PUT", body: JSON.stringify(data), headers }),
+    onSuccess: () => refetchData()
   });
 
   const { mutate: handleDeleteData, isPending: isDeletePending } = useMutation({
     mutationKey: [props.deleteDataEndpoint],
     mutationFn: (id: number | string) =>
-      apiClient(props.deleteDataEndpoint, { method: "DELETE", body: JSON.stringify({ id }), headers })
+      apiClient(props.deleteDataEndpoint, { method: "DELETE", body: JSON.stringify({ id }), headers }),
+    onSuccess: () => refetchData()
   });
 
   const { mutate: handleAddData, isPending: isAddDataPending } = useMutation({
     mutationKey: [props.addDataEndpoint],
     mutationFn: (data: Partial<T>) =>
-      apiClient(props.addDataEndpoint, { method: "POST", body: JSON.stringify(data), headers })
+      apiClient(props.addDataEndpoint, { method: "POST", body: JSON.stringify(data), headers }),
+    onSuccess: () => refetchData()
   });
 
   return {
