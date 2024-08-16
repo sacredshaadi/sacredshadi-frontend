@@ -3,14 +3,13 @@ import { twMerge } from "tailwind-merge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useMemo } from "react";
 import { getVendorSidebarRoutes } from "./sidebarItems";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean }) {
   // const { data, isLoading } = useGetVendorTypesQuery();
 
-  const sidebarItems = useMemo(() => {
-    return getVendorSidebarRoutes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const sidebarItems = useMemo(() => getVendorSidebarRoutes(), []);
 
   return (
     <div
@@ -26,7 +25,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
               key={sidebarRoute.label}
               href={sidebarRoute.route}
               className={twMerge(
-                "flex items-center gap-2 rounded-md p-2 transition hover:bg-gray-200",
+                "flex items-center gap-2 rounded-md p-1 transition hover:bg-gray-200",
                 props.collapsed ? "justify-center" : ""
               )}
             >
@@ -41,25 +40,48 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
             key={sidebarRoute.label}
             className={twMerge("flex items-center gap-2", props.collapsed ? "justify-center" : "")}
           >
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value={sidebarRoute.label} className="rounded-md border-none">
-                <AccordionTrigger className="flex items-center justify-start gap-2 p-2 transition hover:bg-gray-200 hover:no-underline">
-                  {<sidebarRoute.icon size={26} stroke="red" />}
-                  {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
-                </AccordionTrigger>
-                <AccordionContent className={twMerge("mb-0 pb-0", props.collapsed ? "" : "pl-9")}>
+            {props.collapsed ? (
+              <Popover>
+                <PopoverTrigger
+                  className="flex cursor-pointer items-center justify-start gap-2 rounded-md p-1 transition hover:bg-gray-200 hover:no-underline"
+                  asChild
+                >
+                  <sidebarRoute.icon size={36} stroke="red" />
+                </PopoverTrigger>
+
+                <PopoverContent className="-mt-2 ml-10 w-full rounded-lg p-2">
                   {sidebarRoute.subRoutes?.map((subRoute) => (
                     <Link
                       key={subRoute.label}
                       href={subRoute.route!}
-                      className="my-2 flex items-center gap-2 text-base"
+                      className="flex items-center gap-3 rounded-md px-2 py-1 text-base hover:bg-gray-200"
                     >
                       {subRoute.label}
                     </Link>
                   ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value={sidebarRoute.label} className="rounded-md border-none">
+                  <AccordionTrigger className="flex items-center justify-start gap-2 p-1 transition hover:bg-gray-200 hover:no-underline">
+                    <sidebarRoute.icon size={26} stroke="red" />
+                    <div className="text-base font-semibold">{sidebarRoute.label}</div>
+                  </AccordionTrigger>
+                  <AccordionContent className="mb-0 pb-0 pl-8">
+                    {sidebarRoute.subRoutes?.map((subRoute) => (
+                      <Link
+                        key={subRoute.label}
+                        href={subRoute.route!}
+                        className="flex items-center gap-3 rounded-md px-2 py-1 text-base hover:bg-gray-200"
+                      >
+                        {subRoute.label}
+                      </Link>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            )}
           </div>
         );
       })}

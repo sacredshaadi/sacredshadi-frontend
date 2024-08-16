@@ -1,6 +1,4 @@
-import { VendorType } from "@/types/auth.types";
-import { PersonIcon } from "@radix-ui/react-icons";
-import { LucideIcon, CircleDotDashed, AlignLeft, PersonStandingIcon } from "lucide-react";
+import { LucideIcon, AlignLeft, PersonStandingIcon } from "lucide-react";
 
 export type SidebarItem = {
   icon: LucideIcon;
