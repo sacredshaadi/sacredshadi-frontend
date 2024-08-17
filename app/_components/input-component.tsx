@@ -48,9 +48,8 @@ export const VendorSelectWrapper = (props: { vendors: VendorType[]; cities: ICit
   React.useEffect(() => {
     setVendorTypes(props.vendors || []);
     setCities(props.cities || []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.vendors]);
-
-  // console.log(props.cities);
 
   return (
     <>

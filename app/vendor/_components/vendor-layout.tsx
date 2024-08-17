@@ -5,6 +5,7 @@ import VendorHeader from "./vendor-header";
 import { useUserStore } from "@/app/context/user-context";
 import { useRouter } from "next/navigation";
 import { VendorSidebar } from "./vendor-sidebar";
+import { Loading } from "@/app/_components/loading";
 
 export function VendorLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
   const router = useRouter();
@@ -26,11 +27,7 @@ export function VendorLayout(props: PropsWithChildren<{ title: string; extras?: 
     if (useUserStore.persist?.hasHydrated()) setLoading(false);
   }, [vendor]);
 
-  if (loading) {
-    // TODO: Better loading UI
-    return <div className="h-screen bg-background">Loading...</div>;
-  }
-
+  if (loading) return <Loading className="h-96" />;
   return (
     <div className="h-screen bg-background">
       <VendorHeader

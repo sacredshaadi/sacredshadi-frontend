@@ -54,38 +54,27 @@ export function AddDialog(props: AddDialogProps) {
 
   useEffect(() => {
     form.setValue("vendorSubTypeIds", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   useEffect(() => {
-    // console.log("vendorType id: ", vendor?.vendorType?.id);
-
     mutateFn(vendor?.vendorType?.id, {
       onSuccess: (data) => {
-        // console.log(data.data);
         const temp = data.data as VendorSubType[];
         setArr(() => temp.map((item) => ({ label: item.subType, value: item.id.toString() })));
-        // setArr(() =>
-        //   temp
-        //     .filter((item) => !selected.find((sel) => sel.value === item.id.toString()))
-        //     .map((item) => ({
-        //       label: item.subType,
-        //       value: item.id.toString()
-        //     }))
-        // );
       },
       onError: (err) => {
-        console.error(err);
         toast({
           variant: "destructive",
           description: "Error fetching data"
         });
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function onSubmit(formData: formType) {
     try {
-      console.log("data: ", formData);
       submitFn(
         {
           accessToken: vendor?.tokens?.accessToken || "",
@@ -95,7 +84,6 @@ export function AddDialog(props: AddDialogProps) {
         },
         {
           onSuccess: (data) => {
-            console.log(data);
             setVendor({
               ...vendor,
               SelectedVendorSubTypes: data.data as VendorSubType[]
@@ -127,7 +115,6 @@ export function AddDialog(props: AddDialogProps) {
         }
       );
     } catch (err: any) {
-      console.error(err);
       toast({
         variant: "destructive",
         description: err.error || err.message || "Error submitting data"
@@ -167,7 +154,6 @@ export function AddDialog(props: AddDialogProps) {
                   <FormLabel>Service Type</FormLabel>
                   {/* <Select
                     onValueChange={(value) => {
-                      console.log("onchange: ", value, parseInt(value));
                       form.setValue("vendorSubTypeId", parseInt(value));
                     }}
                   >

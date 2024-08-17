@@ -5,6 +5,7 @@ import apiClient from "@/lib/apiConfig/apiClient";
 import { adminEndpoints } from "@/lib/apiConfig/endpoints";
 import { useUserStore } from "@/app/context/user-context";
 import { Card, CardContent } from "@/components/ui/card";
+import { Loading } from "@/app/_components/loading";
 
 type DashboardData = {
   totalBookings: number;
@@ -43,7 +44,7 @@ const AdminDashboardSingleCard = (props: { label: string; value: number }) => {
 const AdminDashboardCards = () => {
   const { data: res, isLoading } = useAdminDashboardQuery();
 
-  if (isLoading || !res) return <div>Loading...</div>;
+  if (isLoading || !res) return <Loading className="h-96" />;
   return (
     <div className="flex flex-col flex-wrap gap-4 md:flex-row">
       <AdminDashboardSingleCard label="Total Bookings" value={res.data.totalBookings || 0} />

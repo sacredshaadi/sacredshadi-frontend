@@ -37,8 +37,6 @@ export const SearchForm = () => {
   const searchParams = useSearchParams();
   const [loading] = useState(false);
 
-  console.log("city: ", searchParams.get("city"));
-
   const defaultValues: ProductFormValues = {
     budget: "50,000",
     city: searchParams.get("city") || "",
@@ -52,10 +50,7 @@ export const SearchForm = () => {
     defaultValues
   });
 
-  const onSubmit = async (data: ProductFormValues) => {
-    console.log("clicked");
-    console.log("data: ", data);
-  };
+  const onSubmit = async (data: ProductFormValues) => {};
 
   return (
     <Form {...form}>

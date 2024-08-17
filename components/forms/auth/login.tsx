@@ -65,7 +65,6 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
 
   const cleanUp = useCallback(
     (data: any) => {
-      console.log("props.type: ", props.type);
       if (props.type === userAuthTypes.super_admin) {
         setSuperAdmin(data);
         router.push("/admin/dashboard");
@@ -77,6 +76,7 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
         router.push("/");
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [form]
   );
 

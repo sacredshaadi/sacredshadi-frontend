@@ -68,9 +68,6 @@ export default function VendorRegisterForm({
   });
 
   const onSubmit = async (data: VendorFormValue) => {
-    console.log("data: ", data);
-    // return;
-
     try {
       registerVendorFn(data, {
         onSuccess: (data) => {
@@ -83,21 +80,11 @@ export default function VendorRegisterForm({
           router.push("/vendor/dashboard");
         },
         onError: (error: any) => {
-          console.error(error);
-          toast({
-            title: "Error",
-            description: error.error || error.message || "",
-            variant: "destructive"
-          });
+          toast({ title: "Error", description: error.error || error.message || "", variant: "destructive" });
         }
       });
     } catch (err: any) {
-      console.error(err);
-      toast({
-        title: "Redirect error",
-        description: err.message,
-        variant: "destructive"
-      });
+      toast({ title: "Redirect error", description: err.message, variant: "destructive" });
     }
   };
 
@@ -225,17 +212,7 @@ export default function VendorRegisterForm({
                       disabled={isVendorPending}
                       {...field}
                     />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      // className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => {
-                        // console.log("clicked");
-                        setShowPassword((prev) => !prev);
-                      }}
-                      // disabled={disabled}
-                    >
+                    <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword((prev) => !prev)}>
                       {showPassword ? (
                         <EyeIcon className="h-4 w-4" aria-hidden="true" />
                       ) : (

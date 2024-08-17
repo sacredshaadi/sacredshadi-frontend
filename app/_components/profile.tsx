@@ -48,7 +48,6 @@ export default function Profile(props: { type: UserAuthType }) {
     else if (users?.vendor?.vendorType) return;
     getVendorProfileFn(users.vendor?.tokens?.accessToken || "", {
       onSuccess: (data: any) => {
-        console.log("vendorprofile: ", data);
         const tokens = users.vendor?.tokens;
         setVendor({ ...data.data, tokens } as Vendor);
         toast({
@@ -57,13 +56,13 @@ export default function Profile(props: { type: UserAuthType }) {
         });
       },
       onError: (error: any) => {
-        console.error("Error fetching vendor profile: ", error);
         toast({
           variant: "destructive",
           description: (error as any).error || error.message || "Error fetching vendor profile"
         });
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users.vendor]);
 
   if (!useUserStore.persist?.hasHydrated()) {

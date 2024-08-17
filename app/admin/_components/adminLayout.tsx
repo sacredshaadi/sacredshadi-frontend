@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SuperAdminSidebar } from "./sidebar";
 import { useUserStore } from "@/app/context/user-context";
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
+import { Loading } from "@/app/_components/loading";
 
 export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
   const router = useRouter();
@@ -26,11 +27,7 @@ export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extra
     if (useUserStore.persist?.hasHydrated()) setLoading(false);
   }, [super_admin]);
 
-  if (loading) {
-    // TODO: Better loading UI
-    return <div className="h-screen bg-background">Loading...</div>;
-  }
-
+  if (loading) return <Loading className="h-96" />;
   return (
     <div className="h-screen bg-background">
       <AdminHeader
