@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import VendorModal from "./vendor-modal";
 import { VendorType } from "@/types/auth.types";
@@ -24,7 +22,7 @@ const VendorWrapper = ({ vendorTypes }: VendorWrapperProps) => {
       </header>
       <section className="grid grid-cols-1 gap-4 overflow-hidden p-2 lg:grid-cols-2 3xl:grid-cols-3">
         {(vendorTypes || []).map((vendorType) => (
-          <VendorModal key={vendorType.id} description="" route="" title={vendorType.type} />
+          <VendorModal key={vendorType.id} description="" route="" vendorType={vendorType} />
         ))}
       </section>
     </section>

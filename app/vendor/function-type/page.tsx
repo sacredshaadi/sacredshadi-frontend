@@ -4,6 +4,7 @@ import { VendorLayout } from "../_components/vendor-layout";
 import Timeline from "../_components/timeline/timeline";
 import VendorRouteWrapper from "../_components/vendor-route-wrapper";
 import CardWrapper from "../_components/vendor-route-wrapper/card-wrapper";
+import ServiceModal from "../service-type/service-modal";
 
 const page = () => {
   return (
@@ -12,6 +13,7 @@ const page = () => {
       currentStep={3}
       serviceType="Function Type"
       guidelines={["Please add what are the function you cover and add a cover photo for the same."]}
+      headerNav={<ServiceModal />}
     >
       <CardWrapper type="Function" />
     </VendorRouteWrapper>
