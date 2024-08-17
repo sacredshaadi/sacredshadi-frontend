@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VendorType } from "@/types/auth.types";
 import { ICity } from "@/types";
+import { useVendorContext } from "../context/vendor-context";
+import Link from "next/link";
 
 type Props = {
   list: { value: string; label: string }[];
@@ -37,10 +39,16 @@ function DropDownInput({ list, placeholder, setState }: Props) {
 }
 
 export const VendorSelectWrapper = (props: { vendors: VendorType[]; cities: ICity[] }) => {
+  const { setCities, setVendorTypes } = useVendorContext();
   const [vendor, setVendor] = React.useState("");
   const [city, setCity] = React.useState("");
   const { toast } = useToast();
   const router = useRouter();
+
+  React.useEffect(() => {
+    setVendorTypes(props.vendors || []);
+    setCities(props.cities || []);
+  }, [props.vendors]);
 
   // console.log(props.cities);
 

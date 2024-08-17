@@ -6,14 +6,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { getRouteFromTitle } from "@/app/utils/functions";
+import { VendorType } from "@/types/auth.types";
 
 interface VendorProps {
-  title: string;
+  vendorType: VendorType;
   description: string;
   route: string;
 }
 
-const VendorModal = ({ title, description }: VendorProps) => {
+const VendorModal = ({ vendorType, description }: VendorProps) => {
   return (
     <motion.section
       initial={{ opacity: 0, translateY: "5rem" }}
@@ -25,17 +26,12 @@ const VendorModal = ({ title, description }: VendorProps) => {
     >
       <Card className="flex w-[400px] flex-col items-center justify-center p-4">
         <CardContent>this is img</CardContent>
-        <CardHeader>{title}</CardHeader>
+        <CardHeader>{vendorType.type}</CardHeader>
         <CardDescription>WEDDING</CardDescription>
         <CardContent>{description}</CardContent>
         <CardFooter>
-          <Link href={`/${getRouteFromTitle(title)}`}>
-            <Button
-              variant={"outline"}
-              // onClick={() => onClick()}
-            >
-              View and Booking
-            </Button>
+          <Link href={`/${vendorType.id}`}>
+            <Button variant={"outline"}>View and Booking</Button>
           </Link>
         </CardFooter>
       </Card>

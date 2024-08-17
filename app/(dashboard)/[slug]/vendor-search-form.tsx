@@ -14,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/use-toast";
 
 export const IMG_MAX_LIMIT = 3;
 
@@ -36,6 +37,8 @@ export const SearchForm = () => {
   const searchParams = useSearchParams();
   const [loading] = useState(false);
 
+  console.log("city: ", searchParams.get("city"));
+
   const defaultValues: ProductFormValues = {
     budget: "50,000",
     city: searchParams.get("city") || "",
@@ -50,24 +53,25 @@ export const SearchForm = () => {
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    // console.log("data: ", data);
+    console.log("clicked");
+    console.log("data: ", data);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8 pr-8">
         <FormField
           control={form.control}
           name="location"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Location</FormLabel>
               <FormControl>
                 <Select
                   defaultValue={defaultValues.location}
                   onValueChange={(value) => form.setValue("location", value)}
                 >
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -80,31 +84,31 @@ export const SearchForm = () => {
             </FormItem>
           )}
         />
-        <div className="gap-8 md:grid md:grid-cols-3">
-          <FormField
-            name="city"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City</FormLabel>
-                <FormControl>
-                  <Select defaultValue={defaultValues.city} onValueChange={(value) => form.setValue("city", value)}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {fillerCities.map((city) => (
-                        <SelectItem value={city} key={city}>
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          name="city"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>City</FormLabel>
+              <FormControl>
+                <Select defaultValue={defaultValues.city} onValueChange={(value) => form.setValue("city", value)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {fillerCities.map((city) => (
+                      <SelectItem value={city} key={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="grid-cols-1 gap-8 md:grid lg:grid-cols-2">
           <FormField
             control={form.control}
             name="budget"
@@ -133,21 +137,18 @@ export const SearchForm = () => {
             control={form.control}
             name="date"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem>
                 <FormLabel>Pick a date for the event:</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
-                      >
+                      <Button variant={"outline"} className={cn("w-full", !field.value && "text-muted-foreground")}>
                         {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-full p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={field.value}
@@ -162,7 +163,17 @@ export const SearchForm = () => {
             )}
           />
         </div>
-        <Button disabled={loading} className="ml-auto" type="submit">
+        <Button
+          disabled={loading}
+          className="ml-auto"
+          type="submit"
+          onClick={(e) => {
+            toast({
+              description: JSON.stringify(form.getValues()),
+              variant: "default"
+            });
+          }}
+        >
           Submit
         </Button>
       </form>

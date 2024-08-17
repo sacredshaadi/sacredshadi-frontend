@@ -149,7 +149,7 @@ export function AddDialog(props: AddDialogProps) {
         <Button variant="default" className="ml-auto font-semibold">
           <span className="flex items-center justify-center gap-2">
             <Plus size={16} />
-            Add new
+            Update services
           </span>
         </Button>
       </DialogTrigger>

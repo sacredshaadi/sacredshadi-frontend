@@ -16,22 +16,6 @@ const CardWrapper = (props: CardWrapperProps) => {
         {vendor?.SelectedVendorSubTypes.map((item) => (
           <SubServiceCard key={item.vendorSubTypeId} vendorSubtype={item} />
         ))}
-        {/* <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard />
-        <SubServiceCard /> */}
       </section>
     </section>
   );

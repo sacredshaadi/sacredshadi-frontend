@@ -10,6 +10,7 @@ async function getSliderNodes() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${sliderEndpoints.getAllCarousels}`, { method: "GET" });
     const data = await res.json();
+    console.log("carousel data: ", data.data);
     return data.data;
   } catch (err) {
     toast({ variant: "destructive", description: "Failed to fetch slider images" });
