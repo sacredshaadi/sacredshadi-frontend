@@ -18,7 +18,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           !w-full object-cover"
         />
         <section className="flex flex-col items-start justify-center gap-4">
-          <SearchForm />
+          <SearchForm vendorTypeId={Number(params.slug)} />
         </section>
       </section>
     </section>

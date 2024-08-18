@@ -3,7 +3,7 @@ import * as SLIDER_ENDPOINTS from "./carousel.endpoints";
 import * as CITY_ENDPOINTS from "./cities.endpoints";
 import * as VENDOR_ENDPOINTS from "./vendor.endpoints";
 import * as ADMIN_ENDPOINTS from "./admin.endpoints";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
 export const QUERY_KEYS = {
@@ -49,7 +49,7 @@ export const useGetAllCitiesQuery = () => {
   });
 };
 
-export const useGetAllVendorTypesMutation = () => {
+export const useGetAllVendorTypesMutation = (): UseMutationResult<any, Error, any, unknown> => {
   return useMutation({
     mutationFn: VENDOR_ENDPOINTS.getAllVendorTypes,
     mutationKey: [QUERY_KEYS.getAllVendorTypes]
