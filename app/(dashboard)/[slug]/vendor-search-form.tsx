@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CalendarIcon } from "lucide-react";
@@ -15,12 +15,14 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
+import { useVendorContext } from "@/app/context/vendor-context";
+import useStateRef from "react-usestateref";
 
 export const IMG_MAX_LIMIT = 3;
 
 const formSchema = z.object({
   location: z.string().min(3, { message: "Please select a venue from the dropdown" }),
-  city: z.string().min(1, { message: "Please select a city from the list" }),
+  cityId: z.number().min(1, { message: "Please select a valid city from the dropdown" }),
   services: z.array(z.string()).min(1, { message: "Please select atleast 1 service" }),
   budget: z.string(),
   date: z.date().refine((date) => date >= new Date(), { message: "Invalid date" })
@@ -35,11 +37,25 @@ enum locationEnum {
 
 export const SearchForm = () => {
   const searchParams = useSearchParams();
+  const { cities } = useVendorContext();
   const [loading] = useState(false);
+  const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
+
+  useEffect(() => {
+    console.log("city: ", searchParams.get("city"));
+    if (!searchParams.get("city")) {
+      setCityId(1);
+      form.setValue("cityId", 1);
+      return;
+    }
+    const id = Number(searchParams.get("city"));
+    setCityId(id);
+    form.setValue("cityId", id);
+  }, [cities]);
 
   const defaultValues: ProductFormValues = {
     budget: "50,000",
-    city: searchParams.get("city") || "",
+    cityId: 1,
     date: new Date(),
     location: locationEnum.myvenue,
     services: []
@@ -80,15 +96,17 @@ export const SearchForm = () => {
           )}
         />
         <FormField
-          name="city"
+          name="cityId"
           control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>City</FormLabel>
               <FormControl>
-                <Select defaultValue={defaultValues.city} onValueChange={(value) => form.setValue("city", value)}>
+                <Select onValueChange={(value) => form.setValue("cityId", Number(value))}>
                   <SelectTrigger>
-                    <SelectValue />
+                    <SelectValue>
+                      {cities.find((city) => city.id === cityIdRef.current)?.name || "Select a city"}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {fillerCities.map((city) => (
