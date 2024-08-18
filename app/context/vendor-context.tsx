@@ -6,6 +6,7 @@ import { persist } from "zustand/middleware";
 export type State = {
   vendorTypes: VendorType[];
   cities: ICity[];
+  // vendorSubTypes:
   // vendorProfile: Vendor | null;
 };
 
