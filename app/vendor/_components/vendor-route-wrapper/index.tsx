@@ -2,11 +2,6 @@ import React from "react";
 import { VendorLayout } from "../vendor-layout";
 import Timeline from "../timeline/timeline";
 import { Separator } from "@/components/ui/separator";
-import SubServiceCard from "../../service-type/sub-service-card";
-import CardWrapper from "./card-wrapper";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { AddDialog } from "./add-modal";
 
 interface VendorRouteWrapperProps {
   title: string;
@@ -26,7 +21,6 @@ const VendorRouteWrapper = (props: VendorRouteWrapperProps) => {
         {props.serviceType && (
           <section className="flex flex-col gap-4">
             <h1 className="text-lg font-bold sm:text-xl lg:text-3xl">Guidelines for {props.serviceType}</h1>
-            {/* unordered list */}
             {props.guidelines && (
               <ul className="list-inside list-disc pl-2">
                 {props.guidelines.map((guideline, index) => (
