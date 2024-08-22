@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const loginUserSchema = z.object({
-  phoneNo: z.string(),
+  phone: z.string(),
   password: z.string()
 });
 

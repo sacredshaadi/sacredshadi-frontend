@@ -58,7 +58,7 @@ export default function VendorRegisterForm({
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const baseDefaultValues = { email: "demo@gmail.com", name: "Demo User", city: "", phoneNo: "1234567890" };
+  const baseDefaultValues = { email: "demo@gmail.com", name: "Demo User", city: "", phone: "1234567890" };
 
   const defaultValues = { ...baseDefaultValues, service: 0, city: 0 };
 

@@ -59,7 +59,7 @@ const RegisterUser = () => {
 
       <div className="space-y-2">
         <label>Phone No.</label>
-        <Input required name="phoneNo" type="number" placeholder="Enter your phone no..." />
+        <Input required name="phone" type="number" placeholder="Enter your phone no..." />
       </div>
 
       <div className="space-y-2">
