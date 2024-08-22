@@ -9,7 +9,7 @@ function Slider() {
   return (
     <SuperAdminLayout title="Slider">
       <TableHOC
-        searchKey="name"
+        searchKey="title"
         addable
         editable
         deleteable
@@ -61,20 +61,15 @@ function Slider() {
           {
             id: "sliderImageLabel",
             name: "label",
-            props: { text: "isActive", htmlFor: "sliderImageName", required: true }
+            props: { text: "Slider image", htmlFor: "sliderImageName", required: true }
           },
-          // {
-          //   id: "sliderImageName",
-          //   name: "input",
-          //   props: { name: "image", className: "mb-4", required: true, type: "file" }
-          // }
           {
             id: "sliderImageName",
             name: "imageInput",
             props: { name: "image", className: "mb-4", required: true }
           }
         ]}
-        addDataEndpoint="/api/v1/sliders/create"
+        addDataEndpoint="/api/v1/sliders/add"
         editDataEndpoint="/api/v1/sliders/update"
         paginateDataEndpoint="/api/v1/sliders"
         deleteDataEndpoint="/api/v1/sliders/remove"

@@ -1,48 +1,64 @@
-import { CldUploadWidget } from "next-cloudinary";
-import { Button } from "./button";
+"use client";
+
 import { Input, InputProps } from "./input";
-import { useState } from "react";
+import { ChangeEvent, ForwardedRef, forwardRef, useImperativeHandle, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-export type FormImageUploaderProps = InputProps & {};
+export type FormImageUploaderProps = InputProps & {
+  value?: string;
+};
 
-export function FormImageUploader(props: FormImageUploaderProps) {
-  const [inputValue, setInputValue] = useState(props.value || "");
+function ImageUploader(props: FormImageUploaderProps, ref: ForwardedRef<{ getValue: () => string }>) {
+  const [loading, setLoading] = useState(false);
+  const [imageRemoteUrl, setImageRemoteUrl] = useState<string>(props.value || "");
+
+  useImperativeHandle(ref, () => ({
+    getValue: () => imageRemoteUrl
+  }));
+
+  const uploadToCloudinary = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "sacredshadi_unsigned");
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        { method: "POST", body: formData }
+      );
+      const data = await res.json();
+
+      setImageRemoteUrl(data.secure_url);
+    } catch (err: any) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="flex items-center gap-4">
-      <Input disabled value={inputValue} {...props} className={twMerge("flex-grow", props.className)} />
+    <div className="flex flex-col items-center gap-4">
+      {loading ? (
+        <div className="">Loading...</div>
+      ) : imageRemoteUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="max-h-44" src={imageRemoteUrl} alt="Input image" />
+      ) : null}
 
-      <CldUploadWidget
-        config={{
-          cloud: {
-            cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-            apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-            apiSecret: process.env.CLOUDINARY_API_SECRET
-          },
-          url: {
-            signUrl: true
-          }
-        }}
-        uploadPreset="ynppe6iu"
-        onPublicIdAction={(publicIdActionRes) => {
-          console.log({ publicIdActionRes });
-        }}
-        onUploadAddedAction={(uploadAddedRes) => {
-          console.log({ uploadAddedRes });
-        }}
-        onUploadAdded={(uploadAddedRes) => {
-          console.log({ uploadAddedRes });
-        }}
-      >
-        {({ open }) => {
-          return (
-            <Button variant="outline" type="button" onClick={() => open()}>
-              Upload
-            </Button>
-          );
-        }}
-      </CldUploadWidget>
+      <Input type="hidden" {...props} value={imageRemoteUrl} />
+
+      <Input
+        type="file"
+        disabled={loading}
+        onChange={uploadToCloudinary}
+        className={twMerge("flex-grow", props.className)}
+      />
     </div>
   );
 }
+
+export const FormImageUploader = forwardRef(ImageUploader);
