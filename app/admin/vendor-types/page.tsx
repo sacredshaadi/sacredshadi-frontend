@@ -8,6 +8,7 @@ function VendorTypes() {
   return (
     <SuperAdminLayout title="Vendor types">
       <TableHOC
+        searchKey="type"
         addable
         editable
         deleteable

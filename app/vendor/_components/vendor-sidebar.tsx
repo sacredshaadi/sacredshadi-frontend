@@ -6,8 +6,6 @@ import { getVendorSidebarRoutes } from "./sidebarItems";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean }) {
-  // const { data, isLoading } = useGetVendorTypesQuery();
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const sidebarItems = useMemo(() => getVendorSidebarRoutes(), []);
 

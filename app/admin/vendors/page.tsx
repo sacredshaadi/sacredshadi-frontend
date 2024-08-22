@@ -8,6 +8,7 @@ function AdminVendors() {
   return (
     <SuperAdminLayout title="Vendors">
       <TableHOC
+        searchKey="name"
         columns={[
           { accessorKey: "name", header: "Name" },
           { accessorKey: "email", header: "Email" },

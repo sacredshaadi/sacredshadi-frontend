@@ -8,6 +8,7 @@ function Categories() {
   return (
     <SuperAdminLayout title="Categories">
       <TableHOC
+        searchKey="name"
         addable
         editable
         deleteable

@@ -8,6 +8,7 @@ function ContactSettings() {
   return (
     <SuperAdminLayout title="Contacts">
       <TableHOC
+        searchKey="contactAddress"
         addable
         editable
         deleteable

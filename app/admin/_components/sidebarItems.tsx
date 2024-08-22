@@ -43,9 +43,9 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
     { icon: Building, label: "City", route: "/admin/cities" },
     { icon: ImagePlus, label: "Slider", route: "/admin/slider" },
     { icon: BoxSelect, label: "Categories", route: "/admin/categories" },
-    { icon: GraduationCap, label: "Quiz", route: "/admin/quiz" },
-    { icon: MailQuestion, label: "Quiz MCQ", route: "/admin/quiz-mcq" },
-    { icon: Replace, label: "Hangouts Quiz", route: "/admin/hangout-quiz" },
+    // { icon: GraduationCap, label: "Quiz", route: "/admin/quiz" },
+    // { icon: MailQuestion, label: "Quiz MCQ", route: "/admin/quiz-mcq" },
+    // { icon: Replace, label: "Hangouts Quiz", route: "/admin/hangout-quiz" },
     {
       icon: MailQuestionIcon,
       label: "Questions",

@@ -3,16 +3,23 @@
 import dayjs from "dayjs";
 import TableHOC from "../_components/tableHoc";
 import { SuperAdminLayout } from "../_components/adminLayout";
+import Image from "next/image";
 
 function Slider() {
   return (
     <SuperAdminLayout title="Slider">
       <TableHOC
+        searchKey="name"
         addable
         editable
         deleteable
         columns={[
-          { accessorKey: "name", header: "Name" },
+          { accessorKey: "title", header: "Title" },
+          {
+            header: "Image",
+            accessorKey: "image",
+            cell: (data) => <Image height={80} width={100} src={data.getValue() as string} alt="slider" />
+          },
           {
             accessorKey: "createdAt",
             header: "Created At",
@@ -56,10 +63,15 @@ function Slider() {
             name: "label",
             props: { text: "isActive", htmlFor: "sliderImageName", required: true }
           },
+          // {
+          //   id: "sliderImageName",
+          //   name: "input",
+          //   props: { name: "image", className: "mb-4", required: true, type: "file" }
+          // }
           {
             id: "sliderImageName",
-            name: "input",
-            props: { name: "image", className: "mb-4", required: true, type: "file" }
+            name: "imageInput",
+            props: { name: "image", className: "mb-4", required: true }
           }
         ]}
         addDataEndpoint="/api/v1/sliders/create"

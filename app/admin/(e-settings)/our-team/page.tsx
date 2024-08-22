@@ -8,6 +8,7 @@ function OurTeamSettings() {
   return (
     <SuperAdminLayout title="Our Team">
       <TableHOC
+        searchKey="name"
         addable
         editable
         deleteable
