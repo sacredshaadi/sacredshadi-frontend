@@ -111,7 +111,7 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         {props.type === userAuthTypes.user ? (
           <FormField
-            name="phoneNo"
+            name="phone"
             control={form.control}
             render={({ field }) => (
               <FormItem>

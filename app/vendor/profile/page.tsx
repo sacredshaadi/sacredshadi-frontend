@@ -42,11 +42,6 @@ const Page = () => {
           </div>
           <div className="grid gap-2 text-center sm:text-left">
             <h1 className="text-2xl font-bold">{vendor?.name}</h1>
-            {/* <p className="text-muted-foreground">Software Engineer at Acme Inc.</p> */}
-            {/* <p className="text-sm text-muted-foreground">
-              I&apos;m a passionate software engineer with a love for building innovative products. In my free time, I
-              enjoy hiking and exploring the great outdoors.
-            </p> */}
           </div>
           <Button variant="default" size="sm" className="ml-auto mt-auto text-base font-semibold">
             Save Profile
@@ -81,53 +76,6 @@ const Page = () => {
               onChange={(e) => vendor && setVendor({ ...vendor, description: e.target.value })}
             />
           </div>
-          {/* <div className="grid gap-2">
-            <h2 className="text-lg font-semibold">Address</h2>
-            <Textarea rows={2} defaultValue="1234 Elm Street, Springfield, IL 62701" />
-          </div> */}
-
-          {/* <div className="grid gap-4">
-            <h2 className="text-lg font-semibold">Achievements</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <Card className="group">
-                <CardContent className="flex flex-col items-center justify-center gap-2 p-4">
-                  <div className="rounded-full bg-primary p-2 text-primary-foreground transition-colors group-hover:bg-primary-foreground group-hover:text-primary">
-                    <AwardIcon className="h-8 w-8" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold">Hackathon Winner 2022</h3>
-                    <p className="text-sm text-muted-foreground">Won the annual Acme Inc. hackathon with my team.</p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="group">
-                <CardContent className="flex flex-col items-center justify-center gap-2 p-4">
-                  <div className="rounded-full bg-primary p-2 text-primary-foreground transition-colors group-hover:bg-primary-foreground group-hover:text-primary">
-                    <StarIcon className="h-8 w-8" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold">Employee of the Month</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Recognized for outstanding performance and dedication.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="group">
-                <CardContent className="flex flex-col items-center justify-center gap-2 p-4">
-                  <div className="rounded-full bg-primary p-2 text-primary-foreground transition-colors group-hover:bg-primary-foreground group-hover:text-primary">
-                    <RocketIcon className="h-8 w-8" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold">Promoted to Senior Engineer</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Recognized for my technical expertise and leadership.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div> */}
         </div>
       </div>
     </VendorLayout>

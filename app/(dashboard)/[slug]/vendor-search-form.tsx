@@ -99,7 +99,7 @@ export const SearchForm = (props: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8 pr-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
         <FormField
           control={form.control}
           name="location"
@@ -217,19 +217,21 @@ export const SearchForm = (props: Props) => {
             )}
           />
         </div>
-        <Button
-          disabled={loading}
-          className="ml-auto"
-          type="submit"
-          onClick={(e) => {
-            toast({
-              description: JSON.stringify(form.getValues()),
-              variant: "default"
-            });
-          }}
-        >
-          Submit
-        </Button>
+        <div className="flex w-full items-center justify-end">
+          <Button
+            disabled={loading}
+            className="ml-auto px-10 font-semibold"
+            type="submit"
+            onClick={(e) => {
+              toast({
+                description: JSON.stringify(form.getValues()),
+                variant: "default"
+              });
+            }}
+          >
+            Submit
+          </Button>
+        </div>
       </form>
     </Form>
   );

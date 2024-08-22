@@ -3,7 +3,7 @@ import { UserAuthType } from "@/types";
 import { authEndpoints } from "@/lib/apiConfig/endpoints";
 
 export const loginFormSchema = z.object({
-  phoneNo: z.string().length(10, {
+  phone: z.string().length(10, {
     message: "Phone number must have 10 digits"
   }),
   password: z.string().min(8, { message: "Password must be at least 8 characters" })
@@ -19,7 +19,7 @@ export const vendorLoginDefaultValues: Partial<z.infer<typeof vendorLoginFormSch
   password: ""
 };
 export type LoginFormDataType = z.infer<typeof loginFormSchema>;
-export const loginFormDefaultValues: Partial<LoginFormDataType> = { phoneNo: "", password: "" };
+export const loginFormDefaultValues: Partial<LoginFormDataType> = { phone: "", password: "" };
 export const loginConfig: Record<UserAuthType, { endpoint: string; defaultRedirect: string }> = {
   user: { endpoint: authEndpoints.loginUser, defaultRedirect: "/" },
   vendor: { endpoint: authEndpoints.loginVendor, defaultRedirect: "/vendor" },
@@ -32,7 +32,7 @@ export const registerUserFormSchema = loginFormSchema.extend({
 export type RegisterUserBodyType = z.infer<typeof registerUserFormSchema>;
 export const registerUserDefaultValues: Partial<RegisterUserBodyType> = {
   password: "",
-  phoneNo: "",
+  phone: "",
   name: "Demo User"
 };
 

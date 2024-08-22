@@ -139,7 +139,7 @@ const RegisterVendor = () => {
 
       <div className="space-y-2">
         <label>Phone No.</label>
-        <Input name="phoneNo" type="number" placeholder="Enter your phone no..." required />
+        <Input name="phone" type="number" placeholder="Enter your phone no..." required />
       </div>
 
       <div className="space-y-2">

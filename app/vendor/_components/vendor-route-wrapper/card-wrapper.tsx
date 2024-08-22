@@ -13,9 +13,7 @@ const CardWrapper = (props: CardWrapperProps) => {
     <section className="flex flex-col gap-4">
       <h1 className="text-lg font-bold sm:text-xl lg:text-3xl">Type(s) of {props.type}</h1>
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4 3xl:grid-cols-6">
-        {vendor?.SelectedVendorSubTypes.map((item) => (
-          <SubServiceCard key={item.vendorSubTypeId} vendorSubtype={item} />
-        ))}
+        {vendor?.SelectedVendorSubTypes.map((item) => <SubServiceCard key={item.id} vendorSubtype={item} />)}
       </section>
     </section>
   );
