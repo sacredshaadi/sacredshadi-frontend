@@ -8,6 +8,7 @@ function SeoSettings() {
   return (
     <SuperAdminLayout title="SEO Settings">
       <TableHOC
+        searchKey="metaTitle"
         addable
         editable
         deleteable

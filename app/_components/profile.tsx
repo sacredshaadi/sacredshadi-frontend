@@ -1,21 +1,19 @@
 "use client";
 
-import { PersonIcon } from "@radix-ui/react-icons";
-
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  DropdownMenuContent
 } from "@/components/ui/dropdown-menu";
 import { useUserStore } from "@/app/context/user-context";
 import { useCallback, useEffect } from "react";
-import { User, Vendor } from "@/types/auth.types";
+import { Vendor } from "@/types/auth.types";
+import { Button } from "@/components/ui/button";
+import { PersonIcon } from "@radix-ui/react-icons";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { UserAuthType, userAuthTypes } from "@/types";
-import { useVendorContext } from "../context/vendor-context";
 import { useVendorProfileMutation } from "@/components/api";
 import { toast } from "@/components/ui/use-toast";
 
@@ -50,10 +48,6 @@ export default function Profile(props: { type: UserAuthType }) {
       onSuccess: (data: any) => {
         const tokens = users.vendor?.tokens;
         setVendor({ ...data.data, tokens } as Vendor);
-        toast({
-          variant: "default",
-          description: "Vendor profile fetched successfully"
-        });
       },
       onError: (error: any) => {
         toast({

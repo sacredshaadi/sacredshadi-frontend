@@ -19,6 +19,7 @@ import { WithLoading } from "@/app/_components/loading";
 
 export type TableHocProps<T> = {
   columns: ColumnDef<T>[];
+  searchKey: string;
   paginateDataEndpoint: string;
 } & (
   | {
@@ -190,9 +191,9 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
       ) : null}
 
       <DataTable
-        searchKey="type"
         columns={columns}
         loading={isFetchingData}
+        searchKey={props.searchKey}
         data={data ? data.data : []}
         headingExtra={
           <div className="flex items-center gap-2">

@@ -8,6 +8,7 @@ function UsersList() {
   return (
     <SuperAdminLayout title="Users">
       <TableHOC
+        searchKey="name"
         columns={[
           { accessorKey: "name", header: "Name" },
           { accessorKey: "email", header: "Email" },

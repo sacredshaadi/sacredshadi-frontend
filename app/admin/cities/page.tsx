@@ -8,6 +8,7 @@ function Cities() {
   return (
     <SuperAdminLayout title="Cities">
       <TableHOC
+        searchKey="name"
         addable
         editable
         deleteable

@@ -5,12 +5,14 @@ import { Switch } from "@/components/ui/switch";
 import { FC } from "react";
 import { SwitchProps } from "@radix-ui/react-switch";
 import { FormLabel, FormLabelProps } from "@/components/ui/label";
+import { FormImageUploader, FormImageUploaderProps } from "@/components/ui/imageUploader";
 
 export type SupportedWidgets =
   | { name: "input"; props: InputProps }
   | { name: "textAreaInput"; props: TextareaProps }
   | { name: "toggleInput"; props: SwitchProps }
-  | { name: "label"; props: FormLabelProps };
+  | { name: "label"; props: FormLabelProps }
+  | { name: "imageInput"; props: FormImageUploaderProps };
 
 export type SupportedWidgetNames = SupportedWidgets["name"];
 
@@ -22,7 +24,8 @@ export const widgetMap: Record<SupportedWidgetNames, FC<any>> = {
   input: Input,
   textAreaInput: Textarea,
   toggleInput: Switch,
-  label: FormLabel
+  label: FormLabel,
+  imageInput: FormImageUploader
 };
 
 export type FormRendererProps = {
