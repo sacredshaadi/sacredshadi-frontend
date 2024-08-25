@@ -60,4 +60,13 @@ export const feedbackEndpoints = {
   getFeedbackById: "/api/v1/feedback"
 } as const;
 
+export const functionsEndpoints = {
+  createFunction: "/api/v1/function/create",
+  updateFunction: "/api/v1/function/update",
+  removeFunction: "/api/v1/function/remove",
+  getAllFunctions: "/api/v1/function/all",
+  getAllVendorFunctions: "/api/v1/function/vendor-all",
+  getFunctionById: "/api/v1/functions"
+} as const;
+
 export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

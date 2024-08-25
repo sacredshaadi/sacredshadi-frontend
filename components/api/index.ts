@@ -4,6 +4,7 @@ import * as CITY_ENDPOINTS from "./cities.endpoints";
 import * as VENDOR_ENDPOINTS from "./vendor.endpoints";
 import * as ADMIN_ENDPOINTS from "./admin.endpoints";
 import * as FEEDBACK_ENDPOINTS from "./feedback.endpoints";
+import * as FUNCTION_ENDPOINTS from "./functions.endpoints";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
@@ -14,6 +15,15 @@ const feedbackKeys = {
   updateFeedback: "updateFeedback",
   removeFeedback: "removeFeedback",
   createFeedback: "createFeedback"
+};
+
+const functionsKeys = {
+  createFunction: "createFunction",
+  updateFunction: "updateFunction",
+  removeFunction: "removeFunction",
+  getAllFunctions: "getAllFunctions",
+  getAllVendorFunctions: "getAllVendorFunctions",
+  getFunctionById: "getFunctionById"
 };
 
 export const QUERY_KEYS = {
@@ -148,5 +158,47 @@ export const useCreateFeedbackMutation = () => {
   return useMutation({
     mutationFn: FEEDBACK_ENDPOINTS.createFeedback,
     mutationKey: [QUERY_KEYS.createFeedback]
+  });
+};
+
+export const useCreateFunctionMutation = () => {
+  return useMutation({
+    mutationFn: FUNCTION_ENDPOINTS.createFunction,
+    mutationKey: [functionsKeys.createFunction]
+  });
+};
+
+export const useUpdateFunctionMutation = () => {
+  return useMutation({
+    mutationFn: FUNCTION_ENDPOINTS.updateFunction,
+    mutationKey: [functionsKeys.updateFunction]
+  });
+};
+
+export const useRemoveFunctionMutation = () => {
+  return useMutation({
+    mutationFn: FUNCTION_ENDPOINTS.removeFunction,
+    mutationKey: [functionsKeys.removeFunction]
+  });
+};
+
+export const useGetAllFunctionsMutation = () => {
+  return useMutation({
+    mutationFn: FUNCTION_ENDPOINTS.getAllFunctions,
+    mutationKey: [functionsKeys.getAllFunctions]
+  });
+};
+
+export const useGetAllVendorFunctionsMutation = () => {
+  return useMutation({
+    mutationFn: FUNCTION_ENDPOINTS.getAllVendorFunctions,
+    mutationKey: [functionsKeys.getAllVendorFunctions]
+  });
+};
+
+export const useGetFunctionByIdMutation = () => {
+  return useMutation({
+    mutationFn: FUNCTION_ENDPOINTS.getFunctionById,
+    mutationKey: [functionsKeys.getFunctionById]
   });
 };
