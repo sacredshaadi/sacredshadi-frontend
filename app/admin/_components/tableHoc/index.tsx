@@ -123,9 +123,20 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
     e.stopPropagation();
     try {
       const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()) as any;
+
       if (!!editData) {
         if (!props.editable) return;
         const data = { ...editData, ...((formData as any) || {}) };
+
+        props.addEditFormMeta.forEach((field) => {
+          if (field.name !== "toggleInput") return;
+          if (field.props.name && field.props.name in data && data[field.props.name] === "on") {
+            data[field.props.name] = true;
+          } else if (field.props.name && field.props.name in data && data[field.props.name] === "off") {
+            data[field.props.name] = false;
+          }
+        });
+
         const transformedData = props.editDataTransformer ? props.editDataTransformer(data) : data;
         handleEditData(transformedData, {
           onSuccess: () => {
@@ -139,7 +150,17 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
         });
       } else {
         if (!props.addable) return;
-        const transformedData = props.createDataTransformer ? props.createDataTransformer(formData) : formData;
+        const data = { ...((formData as any) || {}) };
+        props.addEditFormMeta.forEach((field) => {
+          if (field.name !== "toggleInput") return;
+          if (field.props.name && field.props.name in data && data[field.props.name] === "on") {
+            data[field.props.name] = true;
+          } else if (field.props.name && field.props.name in data && data[field.props.name] === "off") {
+            data[field.props.name] = false;
+          }
+        });
+
+        const transformedData = props.createDataTransformer ? props.createDataTransformer(data) : data;
         handleAddData(transformedData, {
           onSuccess: () => {
             toast({ title: "Created Successfully", description: "" });

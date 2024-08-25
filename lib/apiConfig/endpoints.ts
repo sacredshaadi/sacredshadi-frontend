@@ -50,4 +50,14 @@ export const adminEndpoints = {
   getDashboardData: "/api/v1/admin/get-dashboard"
 } as const;
 
+export const feedbackEndpoints = {
+  createFeedback: "/api/v1/feedback/create",
+  updateFeedback: "/api/v1/feedback/update",
+  removeFeedback: "/api/v1/feedback/remove",
+  getAllFeedbacks: "/api/v1/feedback/all",
+  getAllUserFeedbacks: "/api/v1/feedback/user-all",
+  getAllVendorFeedbacks: "/api/v1/feedback/vendor-all",
+  getFeedbackById: "/api/v1/feedback"
+} as const;
+
 export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

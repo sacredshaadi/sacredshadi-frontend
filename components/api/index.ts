@@ -3,8 +3,18 @@ import * as SLIDER_ENDPOINTS from "./carousel.endpoints";
 import * as CITY_ENDPOINTS from "./cities.endpoints";
 import * as VENDOR_ENDPOINTS from "./vendor.endpoints";
 import * as ADMIN_ENDPOINTS from "./admin.endpoints";
+import * as FEEDBACK_ENDPOINTS from "./feedback.endpoints";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
+
+const feedbackKeys = {
+  getAllFeedbacks: "getAllFeedbacks",
+  getAllUserFeedbacks: "getAllUserFeedbacks",
+  getAllVendorFeedbacks: "getAllVendorFeedbacks",
+  updateFeedback: "updateFeedback",
+  removeFeedback: "removeFeedback",
+  createFeedback: "createFeedback"
+};
 
 export const QUERY_KEYS = {
   getCart: "getCart",
@@ -18,7 +28,8 @@ export const QUERY_KEYS = {
   vendorProfile: "vendorProfile",
   getAllVendorSubTypes: "getAllVendorSubTypes",
   loginAdmin: "loginAdmin",
-  vendorUpdateSubType: "vendorUpdateSubType"
+  vendorUpdateSubType: "vendorUpdateSubType",
+  ...feedbackKeys
 };
 
 export const useRegisterUserMutation = () => {
@@ -95,5 +106,47 @@ export const useVendorUpdateSubTypeMutation = () => {
   return useMutation({
     mutationFn: VENDOR_ENDPOINTS.vendorUpdateSubType,
     mutationKey: [QUERY_KEYS.vendorUpdateSubType]
+  });
+};
+
+export const useGetAllFeedbacksMutation = () => {
+  return useMutation({
+    mutationFn: FEEDBACK_ENDPOINTS.getAllFeedbacks,
+    mutationKey: [QUERY_KEYS.getAllFeedbacks]
+  });
+};
+
+export const useGetAllUserFeedbacksMutation = () => {
+  return useMutation({
+    mutationFn: FEEDBACK_ENDPOINTS.getAllUserFeedbacks,
+    mutationKey: [QUERY_KEYS.getAllUserFeedbacks]
+  });
+};
+
+export const useGetAllVendorFeedbacksMutation = () => {
+  return useMutation({
+    mutationFn: FEEDBACK_ENDPOINTS.getAllVendorFeedbacks,
+    mutationKey: [QUERY_KEYS.getAllVendorFeedbacks]
+  });
+};
+
+export const useUpdateFeedbackMutation = () => {
+  return useMutation({
+    mutationFn: FEEDBACK_ENDPOINTS.updateFeedback,
+    mutationKey: [QUERY_KEYS.updateFeedback]
+  });
+};
+
+export const useRemoveFeedbackMutation = () => {
+  return useMutation({
+    mutationFn: FEEDBACK_ENDPOINTS.removeFeedback,
+    mutationKey: [QUERY_KEYS.removeFeedback]
+  });
+};
+
+export const useCreateFeedbackMutation = () => {
+  return useMutation({
+    mutationFn: FEEDBACK_ENDPOINTS.createFeedback,
+    mutationKey: [QUERY_KEYS.createFeedback]
   });
 };
