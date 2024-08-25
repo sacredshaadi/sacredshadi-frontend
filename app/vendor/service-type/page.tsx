@@ -21,6 +21,7 @@ const page = () => {
         "Please choose other if the service you provide are not listed here."
       ]}
       headerNav={<ServiceModal />}
+      nextBtnLink="/vendor/function-type"
     >
       <CardWrapper type="Service" />
     </VendorRouteWrapper>

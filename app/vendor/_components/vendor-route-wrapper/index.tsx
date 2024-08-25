@@ -10,11 +10,13 @@ interface VendorRouteWrapperProps {
   guidelines?: string[];
   children?: React.ReactNode;
   headerNav?: React.ReactNode;
+  hideNextBtn?: boolean;
+  nextBtnLink?: string;
 }
 
 const VendorRouteWrapper = (props: VendorRouteWrapperProps) => {
   return (
-    <VendorLayout title={props.title}>
+    <VendorLayout title={props.title} hideNextBtn={props.hideNextBtn} nextBtnLink={props.nextBtnLink}>
       {props.headerNav}
       <Timeline currentStep={props.currentStep} />
       <section className="flex flex-col gap-4">

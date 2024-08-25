@@ -21,7 +21,7 @@ const Page = () => {
   }, [vendor]);
 
   return (
-    <VendorLayout title="Profile">
+    <VendorLayout title="Profile" nextBtnLink="/vendor/service-type">
       <div className="mx-auto rounded-md bg-background p-6 sm:p-8">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
           <div className="relative">
@@ -43,7 +43,7 @@ const Page = () => {
           <div className="grid gap-2 text-center sm:text-left">
             <h1 className="text-2xl font-bold">{vendor?.name}</h1>
           </div>
-          <Button variant="default" size="sm" className="ml-auto mt-auto text-base font-semibold">
+          <Button variant="default" size="sm" className="ml-auto mt-auto p-4 text-base font-semibold lg:p-6">
             Save Profile
           </Button>
         </div>

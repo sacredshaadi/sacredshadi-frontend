@@ -7,7 +7,7 @@ import { AddDialog } from "../_components/vendor-route-wrapper/add-modal";
 
 const page = () => {
   return (
-    <VendorLayout title="Dashboard">
+    <VendorLayout title="Dashboard" hideNextBtn>
       <section className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
         <LogisticCard logisticType={DashboardLogisticType.viewed} />
         <LogisticCard logisticType={DashboardLogisticType.quotation} />

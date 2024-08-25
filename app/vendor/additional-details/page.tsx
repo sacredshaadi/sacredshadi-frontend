@@ -11,6 +11,7 @@ const page = () => {
       currentStep={5}
       serviceType="Additional Details"
       guidelines={[" Please give us more information which will help us understand you better."]}
+      nextBtnLink="/vendor/portfolio-list"
     >
       {/* <CardWrapper type="Packages" /> */}
     </VendorRouteWrapper>
