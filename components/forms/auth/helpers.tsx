@@ -9,15 +9,12 @@ export const loginFormSchema = z.object({
   password: z.string().min(8, { message: "Password must be at least 8 characters" })
 });
 
-export const vendorLoginFormSchema = z.object({
-  email: z.string().email({ message: "Enter a valid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" })
-});
+// export const vendorLoginFormSchema = z.object({
+//   email: z.string().email({ message: "Enter a valid email address" }),
+//   password: z.string().min(8, { message: "Password must be at least 8 characters" })
+// });
+// export const vendorLoginDefaultValues: Partial<z.infer<typeof vendorLoginFormSchema>> = { email: "", password: "" };
 
-export const vendorLoginDefaultValues: Partial<z.infer<typeof vendorLoginFormSchema>> = {
-  email: "",
-  password: ""
-};
 export type LoginFormDataType = z.infer<typeof loginFormSchema>;
 export const loginFormDefaultValues: Partial<LoginFormDataType> = { phone: "", password: "" };
 export const loginConfig: Record<UserAuthType, { endpoint: string; defaultRedirect: string }> = {

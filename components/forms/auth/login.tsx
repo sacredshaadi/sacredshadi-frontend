@@ -2,26 +2,17 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { UseMutationResult } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
 import { UserAuthType, userAuthTypes } from "@/types";
-import { User } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import apiClient from "@/lib/apiConfig/apiClient";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserStore } from "@/app/context/user-context";
-import {
-  LoginFormDataType,
-  loginConfig,
-  loginFormDefaultValues,
-  loginFormSchema,
-  vendorLoginDefaultValues,
-  vendorLoginFormSchema
-} from "./helpers";
+import { loginConfig, loginFormDefaultValues, loginFormSchema } from "./helpers";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 
@@ -31,8 +22,8 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
   const [showPassword, setShowPassword] = useState(false);
   const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
   const defaults = {
-    schema: props.type === userAuthTypes.user ? loginFormSchema : vendorLoginFormSchema,
-    defaultValues: props.type === userAuthTypes.user ? loginFormDefaultValues : vendorLoginDefaultValues
+    schema: loginFormSchema,
+    defaultValues: loginFormDefaultValues
   };
 
   const form = useForm<z.infer<typeof defaults.schema>>({
@@ -92,7 +83,6 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
         }
       });
     } catch (err: any) {
-      console.error(err);
       toast({
         title: "Could not log in",
         description: err.error || err.msg || "An error occurred while logging in, please try again later",
@@ -109,35 +99,19 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        {props.type === userAuthTypes.user ? (
-          <FormField
-            name="phone"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone No</FormLabel>
-                <FormControl>
-                  <Input type="number" min={0} placeholder="Enter your phone No..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ) : (
-          <FormField
-            name="email"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="Enter your email..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
+        <FormField
+          name="phone"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone No</FormLabel>
+              <FormControl>
+                <Input type="number" min={0} placeholder="Enter your phone No..." {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           name="password"

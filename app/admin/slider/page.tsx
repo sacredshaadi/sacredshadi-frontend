@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import TableHOC from "../_components/tableHoc";
 import { SuperAdminLayout } from "../_components/adminLayout";
 import Image from "next/image";
+import { ErrorBoundary } from "@/components/errorBoundary";
 
 function Slider() {
   return (
@@ -15,10 +16,16 @@ function Slider() {
         deleteable
         columns={[
           { accessorKey: "title", header: "Title" },
+          { accessorKey: "link", header: "Link" },
+          { accessorKey: "description", header: "Description" },
           {
             header: "Image",
             accessorKey: "image",
-            cell: (data) => <Image height={80} width={100} src={data.getValue() as string} alt="slider" />
+            cell: (data) => (
+              <ErrorBoundary fallback={<p className="text-sm font-semibold text-red-500">Image render error</p>}>
+                <Image height={80} width={100} src={data.getValue() as string} alt="slider" />
+              </ErrorBoundary>
+            )
           },
           {
             accessorKey: "createdAt",
@@ -31,7 +38,6 @@ function Slider() {
             accessorFn: (data) => dayjs(data.updatedAt).format("DD-MM-YYYY HH:mm A")
           }
         ]}
-        // { "title": "string", "description": "string", "image": "string", "isActive": true }
         addEditFormMeta={[
           { id: "sliderTitleLabel", name: "label", props: { text: "Title", htmlFor: "sliderTitle", required: true } },
           { id: "sliderTitleName", name: "input", props: { name: "title", className: "mb-4", required: true } },
@@ -48,14 +54,14 @@ function Slider() {
           },
 
           {
-            id: "sliderIsActiveLabel",
+            id: "sliderLinkLabel",
             name: "label",
-            props: { text: "isActive", htmlFor: "sliderIsActiveName", required: true }
+            props: { text: "Link", htmlFor: "sliderLinkName", required: true }
           },
           {
-            id: "sliderIsActiveName",
-            name: "toggleInput",
-            props: { name: "isActive", className: "mb-4", required: true }
+            id: "sliderLinkName",
+            name: "input",
+            props: { name: "link", className: "mb-4", required: true }
           },
 
           {
@@ -69,9 +75,9 @@ function Slider() {
             props: { name: "image", className: "mb-4", required: true }
           }
         ]}
-        addDataEndpoint="/api/v1/sliders/add"
+        addDataEndpoint="/api/v1/sliders/create"
         editDataEndpoint="/api/v1/sliders/update"
-        paginateDataEndpoint="/api/v1/sliders"
+        paginateDataEndpoint="/api/v1/sliders/all"
         deleteDataEndpoint="/api/v1/sliders/remove"
       />
     </SuperAdminLayout>
