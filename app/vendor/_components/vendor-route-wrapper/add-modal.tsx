@@ -36,7 +36,7 @@ export function AddDialog(props: AddDialogProps) {
   const [selected, setSelected] = useState<Option[]>(
     (vendor?.SelectedVendorSubTypes || []).map((item) => ({
       label: item.subType,
-      value: item.vendorSubTypeId.toString()
+      value: item.id.toString()
     }))
   );
   const [open, setOpen] = useState(false);
@@ -152,41 +152,6 @@ export function AddDialog(props: AddDialogProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Service Type</FormLabel>
-                  {/* <Select
-                    onValueChange={(value) => {
-                      form.setValue("vendorSubTypeId", parseInt(value));
-                    }}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue>
-                          {form.getValues("vendorSubTypeId") === 0
-                            ? "Select a service type"
-                            : arr.find((item) => item.id === form.getValues("vendorSubTypeId"))?.subType}
-                        </SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      className="flex max-h-60 w-full
-                    flex-col gap-2 overflow-y-auto"
-                    >
-                      {isPending ? (
-                        <ul className="flex flex-col gap-2">
-                          {[1, 2, 3, 4].map((_, idx) => (
-                            <Skeleton key={idx} className="h-6 w-full bg-gray-100" />
-                          ))}
-                        </ul>
-                      ) : isError ? (
-                        <div className="h-12 text-gray-600">Error fetching data</div>
-                      ) : (
-                        arr.map((item) => (
-                          <SelectItem key={item.id} value={`${item.id}`} className="transition hover:bg-gray-100">
-                            {item.subType}
-                          </SelectItem>
-                        ))
-                      )}
-                    </SelectContent>
-                  </Select> */}
                   <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
                   <FormDescription></FormDescription>
                   <FormMessage />

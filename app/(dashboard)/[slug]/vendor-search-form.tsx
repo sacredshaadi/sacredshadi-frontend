@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { CalendarIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { budgetArr, fillerCities } from "@/constants/data";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -17,13 +17,19 @@ import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
 import { useVendorContext } from "@/app/context/vendor-context";
 import useStateRef from "react-usestateref";
+import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
+import { useGetAllVendorTypesMutation, useGetVendorAllSubTypesMutation } from "@/components/api";
+import { UseMutationResult } from "@tanstack/react-query";
+import { VendorSubType } from "@/types/auth.types";
+import { Option } from "@/components/ui/multiselect";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const IMG_MAX_LIMIT = 3;
 
 const formSchema = z.object({
   location: z.string().min(3, { message: "Please select a venue from the dropdown" }),
   cityId: z.number().min(1, { message: "Please select a valid city from the dropdown" }),
-  services: z.array(z.string()).min(1, { message: "Please select atleast 1 service" }),
+  services: z.array(z.number()).min(1, { message: "Please select atleast 1 service" }),
   budget: z.string(),
   date: z.date().refine((date) => date >= new Date(), { message: "Invalid date" })
 });
@@ -35,11 +41,35 @@ enum locationEnum {
   studio = "Studio"
 }
 
-export const SearchForm = () => {
+interface Props {
+  vendorTypeId: number;
+}
+
+export const SearchForm = (props: Props) => {
   const searchParams = useSearchParams();
   const { cities } = useVendorContext();
+  const [arr, setArr] = useState<Option[]>([]);
+  const [selected, setSelected] = useState<Option[]>([]);
   const [loading] = useState(false);
   const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
+  const { mutate: mutateFn, isPending: subTypesPending, isError: subTypesError } = useGetVendorAllSubTypesMutation();
+
+  useEffect(() => {
+    mutateFn(props.vendorTypeId, {
+      onSuccess: (data) => {
+        // console.log("data: ", data);
+        const temp = data.data as VendorSubType[];
+        setArr(() => temp.map((item) => ({ label: item.subType, value: item.id.toString() }) as Option));
+      },
+      onError: (error) => {
+        console.log("error: ", error);
+        toast({
+          description: "Error fetching data",
+          variant: "destructive"
+        });
+      }
+    });
+  }, [props.vendorTypeId]);
 
   useEffect(() => {
     console.log("city: ", searchParams.get("city"));
@@ -66,11 +96,13 @@ export const SearchForm = () => {
     defaultValues
   });
 
-  const onSubmit = async (data: ProductFormValues) => {};
+  const onSubmit = async (data: ProductFormValues) => {
+    console.log("data: ", data);
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8 pr-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
         <FormField
           control={form.control}
           name="location"
@@ -117,6 +149,22 @@ export const SearchForm = () => {
                   </SelectContent>
                 </Select>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="services"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Select services</FormLabel>
+              {subTypesPending ? (
+                <Skeleton className="h-10 w-full bg-muted" />
+              ) : (
+                <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
+              )}
+              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -176,19 +224,25 @@ export const SearchForm = () => {
             )}
           />
         </div>
-        <Button
-          disabled={loading}
-          className="ml-auto"
-          type="submit"
-          onClick={(e) => {
-            toast({
-              description: JSON.stringify(form.getValues()),
-              variant: "default"
-            });
-          }}
-        >
-          Submit
-        </Button>
+        <div className="flex w-full items-center justify-end">
+          <Button
+            disabled={loading}
+            className="ml-auto px-10 font-semibold"
+            type="submit"
+            onClick={(e) => {
+              form.setValue(
+                "services",
+                selected.map((item) => Number(item.value))
+              );
+              toast({
+                description: JSON.stringify(form.getValues()),
+                variant: "default"
+              });
+            }}
+          >
+            Submit
+          </Button>
+        </div>
       </form>
     </Form>
   );

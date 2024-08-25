@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
 import { User } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ const RegisterUser = () => {
   const { toast } = useToast();
   const { setUser } = useUserStore();
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: registerUserFn } = useRegisterUserMutation();
+  const { mutate: registerUserFn, isPending: registerPending, isError: registerError } = useRegisterUserMutation();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +32,6 @@ const RegisterUser = () => {
       });
       return;
     }
-
     registerUserFn(data, {
       onSuccess: (data: { data: User }) => {
         toast({ title: "Success", description: "Created Account Successfully", variant: "default" });
@@ -72,7 +71,8 @@ const RegisterUser = () => {
         </section>
       </div>
 
-      <Button className="ml-auto w-full" type="submit">
+      <Button className="ml-auto w-full" type="submit" disabled={registerPending}>
+        {registerPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Create Account
       </Button>
     </form>

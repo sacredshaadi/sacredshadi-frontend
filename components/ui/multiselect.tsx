@@ -196,6 +196,10 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
     const [inputValue, setInputValue] = React.useState("");
     const debouncedSearchTerm = useDebounce(inputValue, delay || 500);
 
+    useEffect(() => {
+      console.log("defaultoptions to the multi select component: ", arrayDefaultOptions);
+    }, [options]);
+
     React.useImperativeHandle(
       ref,
       () => ({
