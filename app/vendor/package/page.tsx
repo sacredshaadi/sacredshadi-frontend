@@ -15,6 +15,7 @@ const page = () => {
         "Please click on create new to add a new package.",
         "Select service type, select function type and what will be the charge for that service for the corresponding function."
       ]}
+      nextBtnLink="/vendor/additional-details"
     >
       <CardWrapper type="Packages" />
     </VendorRouteWrapper>

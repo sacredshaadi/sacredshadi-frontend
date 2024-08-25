@@ -53,7 +53,7 @@ const RegisterVendor = () => {
       onSuccess: (data: { data: Vendor }) => {
         toast({ title: "Success", description: "Created Account Successfully", variant: "default" });
         setVendor(data.data);
-        router.replace("/vendor/dashboard");
+        router.replace("/vendor/profile");
       },
       onError: (err: any) => {
         toast({ title: "Could not create account", description: err.error, variant: "destructive" });
