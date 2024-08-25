@@ -22,6 +22,7 @@ import { useGetAllVendorTypesMutation, useGetVendorAllSubTypesMutation } from "@
 import { UseMutationResult } from "@tanstack/react-query";
 import { VendorSubType } from "@/types/auth.types";
 import { Option } from "@/components/ui/multiselect";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const IMG_MAX_LIMIT = 3;
 
@@ -95,7 +96,9 @@ export const SearchForm = (props: Props) => {
     defaultValues
   });
 
-  const onSubmit = async (data: ProductFormValues) => {};
+  const onSubmit = async (data: ProductFormValues) => {
+    console.log("data: ", data);
+  };
 
   return (
     <Form {...form}>
@@ -156,7 +159,11 @@ export const SearchForm = (props: Props) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Select services</FormLabel>
-              <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
+              {subTypesPending ? (
+                <Skeleton className="h-10 w-full bg-muted" />
+              ) : (
+                <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
+              )}
               <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
@@ -223,6 +230,10 @@ export const SearchForm = (props: Props) => {
             className="ml-auto px-10 font-semibold"
             type="submit"
             onClick={(e) => {
+              form.setValue(
+                "services",
+                selected.map((item) => Number(item.value))
+              );
               toast({
                 description: JSON.stringify(form.getValues()),
                 variant: "default"

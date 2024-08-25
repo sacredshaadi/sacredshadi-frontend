@@ -58,8 +58,10 @@ export default function AboutUs() {
             width={550}
             height={550}
             alt="Hero"
-            src="/placeholder.svg"
+            src="https://sacredshaadi.com/assets/slider/30-04-2023_10-38-00am_316945245_6119453994740894_9106820734715075120_n.jpg"
             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:aspect-square"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
         </div>
       </section>

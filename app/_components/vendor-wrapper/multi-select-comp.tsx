@@ -10,8 +10,12 @@ interface MultipleSelectorCompProps {
 
 const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorCompProps) => {
   useEffect(() => {
-    console.log("arr to the multi select: ", defaultOptions);
+    console.log("defaultoptions to the multi select: ", defaultOptions);
   }, [defaultOptions]);
+
+  useEffect(() => {
+    console.log("arr to the multi select: ", arr);
+  }, [arr]);
 
   return (
     <div className="flex w-full flex-col gap-5">
@@ -19,6 +23,7 @@ const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorC
         value={arr}
         onChange={setArr}
         placeholder="Select\update your services"
+        hidePlaceholderWhenSelected
         defaultOptions={defaultOptions}
         emptyIndicator={<p className="text-center text-lg leading-10 text-gray-600">No results found.</p>}
       />
