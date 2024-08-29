@@ -5,6 +5,7 @@ import * as VENDOR_ENDPOINTS from "./vendor.endpoints";
 import * as ADMIN_ENDPOINTS from "./admin.endpoints";
 import * as FEEDBACK_ENDPOINTS from "./feedback.endpoints";
 import * as FUNCTION_ENDPOINTS from "./functions.endpoints";
+import * as OFFER_ENDPOINTS from "./services-offered.endpoints";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
@@ -26,6 +27,13 @@ const functionsKeys = {
   getFunctionById: "getFunctionById"
 };
 
+const offerKeys = {
+  createOffer: "createOffer",
+  updateOffer: "updateOffer",
+  getAllOffers: "getAllOffers",
+  removeOffer: "removeOffer"
+};
+
 export const QUERY_KEYS = {
   getCart: "getCart",
   registerUser: "registerUser",
@@ -39,7 +47,8 @@ export const QUERY_KEYS = {
   getAllVendorSubTypes: "getAllVendorSubTypes",
   loginAdmin: "loginAdmin",
   vendorUpdateSubType: "vendorUpdateSubType",
-  ...feedbackKeys
+  ...feedbackKeys,
+  ...offerKeys
 };
 
 export const useRegisterUserMutation = () => {
@@ -200,5 +209,33 @@ export const useGetFunctionByIdMutation = () => {
   return useMutation({
     mutationFn: FUNCTION_ENDPOINTS.getFunctionById,
     mutationKey: [functionsKeys.getFunctionById]
+  });
+};
+
+export const useCreateOfferMutation = () => {
+  return useMutation({
+    mutationFn: OFFER_ENDPOINTS.createOffer,
+    mutationKey: [offerKeys.createOffer]
+  });
+};
+
+export const useUpdateOfferMutation = () => {
+  return useMutation({
+    mutationFn: OFFER_ENDPOINTS.updateOffer,
+    mutationKey: [offerKeys.updateOffer]
+  });
+};
+
+export const useGetAllOffersMutation = () => {
+  return useMutation({
+    mutationFn: OFFER_ENDPOINTS.getAllOffers,
+    mutationKey: [offerKeys.getAllOffers]
+  });
+};
+
+export const useRemoveOfferMutation = () => {
+  return useMutation({
+    mutationFn: OFFER_ENDPOINTS.removeOffer,
+    mutationKey: [offerKeys.removeOffer]
   });
 };

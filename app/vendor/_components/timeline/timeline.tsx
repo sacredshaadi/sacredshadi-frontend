@@ -19,7 +19,7 @@ const Timeline = (props: { currentStep: number }) => {
               <div className={`indexedStep ${accomplished ? "accomplished" : null}`}>
                 {index + 1}
                 <span className="absolute left-auto right-auto top-8 text-center text-sm font-semibold text-black">
-                  Portfolio
+                  Profile
                 </span>
               </div>
             </section>

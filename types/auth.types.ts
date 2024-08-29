@@ -27,10 +27,7 @@ export interface User extends UserSub {}
 
 export interface VendorSubType {
   subType: string;
-  vendorTypeId: number;
-  id: number;
-  createdAt: string;
-  updatedAt: string;
+  vendorSubTypeId: number;
 }
 
 export interface VendorType {

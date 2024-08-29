@@ -14,7 +14,7 @@ const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorC
   }, [defaultOptions]);
 
   useEffect(() => {
-    console.log("arr to the multi select: ", arr);
+    console.log("arr to tsshe multi select: ", arr);
   }, [arr]);
 
   return (

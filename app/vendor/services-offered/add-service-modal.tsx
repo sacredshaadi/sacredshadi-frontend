@@ -19,30 +19,31 @@ import { SelectGroup } from "@radix-ui/react-select";
 import { Vendor, VendorSubType } from "@/types/auth.types";
 import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
 import { Option } from "@/components/ui/multiselect";
+import { useCreateOfferMutation, useGetAllOffersMutation } from "@/components/api";
+import { useRouter } from "next/navigation";
 
-interface AddDialogProps {
-  useMutation: () => UseMutationResult<any, Error, any, unknown>;
-  submitMutation: () => UseMutationResult<any, Error, { accessToken: string; data: any }, unknown>;
-}
+interface AddDialogProps {}
 
 const formSchema = z.object({
   vendorSubTypeIds: z.number().array().nonempty("Please select a service type"),
   description: z.string().min(1, "Please enter a description")
 });
 
-export function AddDialog(props: AddDialogProps) {
+export function AddServiceModal(props: AddDialogProps) {
   const { vendor, setVendor } = useUserStore();
   const [arr, setArr] = useState<Option[]>([]);
   const [selected, setSelected] = useState<Option[]>(
     (vendor?.SelectedVendorSubTypes || []).map((item) => ({
       label: item.subType,
-      value: item.vendorSubTypeId.toString()
+      value: item.id.toString()
     }))
   );
+
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const { mutate: mutateFn, isPending, isError } = props.useMutation();
-  const { mutate: submitFn, isPending: submitPending, isError: submitError } = props.submitMutation();
+  const { mutate: mutateFn, isPending, isError } = useGetAllOffersMutation();
+  const { mutate: submitFn, isPending: submitPending, isError: submitError } = useCreateOfferMutation();
 
   type formType = z.infer<typeof formSchema>;
   const form = useForm<formType>({
@@ -52,26 +53,40 @@ export function AddDialog(props: AddDialogProps) {
     }
   });
 
-  useEffect(() => {
-    console.log("selected: ", selected);
-    form.setValue("vendorSubTypeIds", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  // useEffect(() => {
+  //   form.setValue("vendorSubTypeIds", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selected]);
 
   useEffect(() => {
-    mutateFn(vendor?.vendorType?.id, {
-      onSuccess: (data) => {
-        const temp = data.data;
-        console.log("data from service types: ", temp);
-        setArr(() => temp.map((item: any) => ({ label: item.subType, value: item.id.toString() })));
-      },
-      onError: (err) => {
-        toast({
-          variant: "destructive",
-          description: "Error fetching data"
-        });
+    try {
+      if (!vendor?.tokens.accessToken) {
+        setVendor(null);
+        router.push("/login");
+        return;
       }
-    });
+      mutateFn(vendor?.tokens.accessToken, {
+        onSuccess: (data) => {
+          console.log("data from get all offers", data);
+          // const temp = data.data as VendorSubType[];
+          // setArr(() => temp.map((item) => ({ label: item.subType, value: item.id.toString() })));
+        },
+        onError: (err: any) => {
+          const desc: string = err.message || err.error || "Error fetching data";
+          toast({
+            variant: "destructive",
+            description: desc
+          });
+          if (desc.includes("token expired")) {
+            setVendor(null);
+            router.push("/login");
+          }
+          throw err;
+        }
+      });
+    } catch (err: any) {
+      // console.log("in the catch block");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,43 +101,58 @@ export function AddDialog(props: AddDialogProps) {
         },
         {
           onSuccess: (data) => {
-            console.log("data from submit service types: ", data);
             setVendor({
               ...vendor,
               SelectedVendorSubTypes: data.data as VendorSubType[]
             } as Vendor);
-            setSelected(
-              (data.data || []).map((item: any) => ({
-                label: item.subType,
-                value: item.id.toString()
-              }))
-            );
+            // setVendor({
+            //   ...vendor,
+            //   SelectedVendorSubTypes: vendor?.SelectedVendorSubTypes.concat()
+            // })
             toast({
               variant: "default",
               description: "Data submitted successfully"
             });
+            // const temp = (vendor?.SelectedVendorSubTypes || []).concat({
+            //   subType: arr.find((item) => item.id === formData.vendorSubTypeId)?.subType,
+            //   vendorSubTypeId: formData.vendorSubTypeId
+            // });
+            // setVendor({
+            //   ...(vendor as Vendor),
+            //   SelectedVendorSubTypes: (vendor?.SelectedVendorSubTypes || []).concat({
+            //     subType: arr.find((item) => item.id === formData.vendorSubTypeId)?.subType,
+            //     vendorSubTypeId: formData.vendorSubTypeId
+            //   })
+            // });
             setOpen(false);
           },
-          onError: (err: any) => {
-            toast({
-              variant: "destructive",
-              description: err.error || err.message || "Error submitting data"
-            });
+          onError: (err) => {
             throw err;
           }
         }
       );
     } catch (err: any) {
-      console.error("Error submitting data: ", err);
+      toast({
+        variant: "destructive",
+        description: err.error || err.message || "Error submitting data"
+      });
     }
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   )
+    // });
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="ml-auto font-semibold" disabled={isPending || submitPending}>
+        <Button variant="default" className="ml-auto font-semibold">
           <span className="flex items-center justify-center gap-2">
-            {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus size={16} />}
+            <Plus size={16} />
             Update services
           </span>
         </Button>
@@ -161,7 +191,7 @@ export function AddDialog(props: AddDialogProps) {
               )}
             />
             <Button type="submit" disabled={submitPending}>
-              {submitPending && !submitError && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {submitPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit
             </Button>
           </form>
