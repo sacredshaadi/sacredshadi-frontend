@@ -21,23 +21,21 @@ import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-
 import { Option } from "@/components/ui/multiselect";
 import { useCreateOfferMutation, useGetAllOffersMutation } from "@/components/api";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 interface AddDialogProps {}
 
 const formSchema = z.object({
-  vendorSubTypeIds: z.number().array().nonempty("Please select a service type"),
-  description: z.string().min(1, "Please enter a description")
+  serviceOfferedId: z.number().min(1, "Please select a service type"),
+  price: z.number().min(1, "Please enter a valid price"),
+  description: z.string().min(1, "Please enter a valid description"),
+  details: z.string().min(1, "Please enter a valid description")
 });
 
 export function AddServiceModal(props: AddDialogProps) {
   const { vendor, setVendor } = useUserStore();
-  const [arr, setArr] = useState<Option[]>([]);
-  const [selected, setSelected] = useState<Option[]>(
-    (vendor?.SelectedVendorSubTypes || []).map((item) => ({
-      label: item.subType,
-      value: item.id.toString()
-    }))
-  );
+  const [arr, setArr] = useState<VendorSubType[]>(vendor?.SelectedVendorSubTypes || []);
+  const [selected, setSelected] = useState<Option[]>([]);
 
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -49,14 +47,11 @@ export function AddServiceModal(props: AddDialogProps) {
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: ""
+      details: "",
+      description: "",
+      serviceOfferedId: 0
     }
   });
-
-  // useEffect(() => {
-  //   form.setValue("vendorSubTypeIds", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selected]);
 
   useEffect(() => {
     try {
@@ -84,27 +79,25 @@ export function AddServiceModal(props: AddDialogProps) {
           throw err;
         }
       });
-    } catch (err: any) {
-      // console.log("in the catch block");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    } catch (err: any) {}
   }, []);
 
   function onSubmit(formData: formType) {
+    // console.log("form data: ", formData);
+    // return;
     try {
       submitFn(
         {
           accessToken: vendor?.tokens?.accessToken || "",
-          data: {
-            ids: formData.vendorSubTypeIds
-          }
+          data: formData
         },
         {
           onSuccess: (data) => {
-            setVendor({
-              ...vendor,
-              SelectedVendorSubTypes: data.data as VendorSubType[]
-            } as Vendor);
+            console.log("succes on creating offer; data from submit", data);
+            // setVendor({
+            //   ...vendor,
+            //   SelectedVendorSubTypes: data.data as VendorSubType[]
+            // } as Vendor);
             // setVendor({
             //   ...vendor,
             //   SelectedVendorSubTypes: vendor?.SelectedVendorSubTypes.concat()
@@ -113,17 +106,6 @@ export function AddServiceModal(props: AddDialogProps) {
               variant: "default",
               description: "Data submitted successfully"
             });
-            // const temp = (vendor?.SelectedVendorSubTypes || []).concat({
-            //   subType: arr.find((item) => item.id === formData.vendorSubTypeId)?.subType,
-            //   vendorSubTypeId: formData.vendorSubTypeId
-            // });
-            // setVendor({
-            //   ...(vendor as Vendor),
-            //   SelectedVendorSubTypes: (vendor?.SelectedVendorSubTypes || []).concat({
-            //     subType: arr.find((item) => item.id === formData.vendorSubTypeId)?.subType,
-            //     vendorSubTypeId: formData.vendorSubTypeId
-            //   })
-            // });
             setOpen(false);
           },
           onError: (err) => {
@@ -137,14 +119,6 @@ export function AddServiceModal(props: AddDialogProps) {
         description: err.error || err.message || "Error submitting data"
       });
     }
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   )
-    // });
   }
 
   return (
@@ -153,24 +127,89 @@ export function AddServiceModal(props: AddDialogProps) {
         <Button variant="default" className="ml-auto font-semibold">
           <span className="flex items-center justify-center gap-2">
             <Plus size={16} />
-            Update services
+            Update service packages
           </span>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add new service type</DialogTitle>
+          <DialogTitle>Add new service package to be offered</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
             <FormField
               control={form.control}
-              name="vendorSubTypeIds"
+              name="serviceOfferedId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Service Type</FormLabel>
-                  <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
-                  <FormDescription></FormDescription>
+                  <FormControl>
+                    <Select
+                      onValueChange={(value) => {
+                        // // console.log("arr details: ", arr, "value: ", value);
+                        // const temp = vendor?.SelectedVendorSubTypes || [];
+                        form.setValue(
+                          "serviceOfferedId",
+                          arr.find((item) => item.vendorSubTypeId === parseInt(value))?.vendorSubTypeId || 0
+                        );
+                        console.log("input value: ", form.getValues("serviceOfferedId"));
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {vendor?.SelectedVendorSubTypes?.length ?? 0 > 0 ? (
+                          vendor?.SelectedVendorSubTypes.map((selectedVendorType) => (
+                            <SelectItem
+                              value={`${selectedVendorType.vendorSubTypeId}`}
+                              key={selectedVendorType.vendorSubTypeId}
+                            >
+                              {selectedVendorType.subType}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div>loading...</div>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Enter the price of the service package"
+                      disabled={isPending || submitPending}
+                      onChange={(e) => {
+                        form.setValue("price", parseInt(e.target.value));
+                      }}
+                      // {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="details"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Details</FormLabel>
+                  <Textarea
+                    {...field}
+                    // className="input"
+                    placeholder="Enter details about the service package offered"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -183,14 +222,14 @@ export function AddServiceModal(props: AddDialogProps) {
                   <FormLabel>Description</FormLabel>
                   <Textarea
                     {...field}
-                    className="input"
-                    placeholder="Enter description for your selected service type"
+                    // className="input"
+                    placeholder="Give description of the service package offered"
                   />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={submitPending}>
+            <Button type="submit" disabled={isPending || submitPending}>
               {submitPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit
             </Button>

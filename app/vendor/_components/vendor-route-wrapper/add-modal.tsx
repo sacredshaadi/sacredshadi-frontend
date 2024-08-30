@@ -53,7 +53,6 @@ export function AddDialog(props: AddDialogProps) {
   });
 
   useEffect(() => {
-    console.log("selected: ", selected);
     form.setValue("vendorSubTypeIds", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
@@ -62,7 +61,6 @@ export function AddDialog(props: AddDialogProps) {
     mutateFn(vendor?.vendorType?.id, {
       onSuccess: (data) => {
         const temp = data.data;
-        console.log("data from service types: ", temp);
         setArr(() => temp.map((item: any) => ({ label: item.subType, value: item.id.toString() })));
       },
       onError: (err) => {
@@ -94,7 +92,7 @@ export function AddDialog(props: AddDialogProps) {
             setSelected(
               (data.data || []).map((item: any) => ({
                 label: item.subType,
-                value: item.id.toString()
+                value: item.vendorSubTypeId.toString()
               }))
             );
             toast({

@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { number, string } from "zod";
 
 export const loginUserSchema = z.object({
   phone: z.string(),
@@ -37,6 +37,13 @@ export interface VendorType {
   updatedAt: string;
 }
 
+export interface ServiceOffered {
+  price: number;
+  description: string;
+  details: string;
+  vendorSubTypeId: number;
+}
+
 export interface Vendor {
   vendorId: number;
   description?: string;
@@ -52,4 +59,5 @@ export interface Vendor {
     accessToken: string;
     refreshToken: string;
   };
+  offeredServices: ServiceOffered[];
 }
