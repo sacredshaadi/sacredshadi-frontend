@@ -40,7 +40,7 @@ const FunctionsComp = () => {
 
   return (
     <section className="grid grid-cols-2 gap-4 lg:grid-cols-4 3xl:grid-cols-6">
-      {vendor?.SelectedVendorSubTypes.map((item) => <SubServiceCard key={item.id} vendorSubtype={item} />)}
+      {vendor?.SelectedVendorSubTypes.map((item) => <SubServiceCard key={item.vendorSubTypeId} vendorSubtype={item} />)}
     </section>
   );
 };

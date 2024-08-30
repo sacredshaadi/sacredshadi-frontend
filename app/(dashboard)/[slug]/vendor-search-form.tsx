@@ -59,7 +59,7 @@ export const SearchForm = (props: Props) => {
       onSuccess: (data) => {
         // console.log("data: ", data);
         const temp = data.data as VendorSubType[];
-        setArr(() => temp.map((item) => ({ label: item.subType, value: item.id.toString() }) as Option));
+        setArr(() => temp.map((item) => ({ label: item.subType, value: item.vendorSubTypeId.toString() }) as Option));
       },
       onError: (error) => {
         console.log("error: ", error);
