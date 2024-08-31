@@ -8,7 +8,7 @@ const page = () => {
   return (
     <VendorRouteWrapper
       title="Additional Details"
-      currentStep={5}
+      currentStep={4}
       serviceType="Additional Details"
       guidelines={[" Please give us more information which will help us understand you better."]}
       nextBtnLink="/vendor/portfolio-list"

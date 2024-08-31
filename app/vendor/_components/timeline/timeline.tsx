@@ -5,7 +5,7 @@ import "react-step-progress-bar/styles.css";
 // @ts-expect-error
 import { ProgressBar, Step } from "react-step-progress-bar";
 
-const percentages = [0, 20, 40, 60, 80, 100];
+const percentages = [0, 25, 50, 75, 100];
 
 const Timeline = (props: { currentStep: number }) => {
   const stepPercentage = percentages[props.currentStep - 1];
@@ -43,19 +43,7 @@ const Timeline = (props: { currentStep: number }) => {
               <div className={`indexedStep ${accomplished ? "accomplished" : null}`}>
                 {index + 1}
                 <span className="absolute left-auto right-auto top-8 text-center text-sm font-semibold text-black">
-                  Function Type
-                </span>
-              </div>
-            </section>
-          )}
-        </Step>
-        <Step>
-          {({ accomplished, index }: any) => (
-            <section className="relative">
-              <div className={`indexedStep ${accomplished ? "accomplished" : null}`}>
-                {index + 1}
-                <span className="absolute left-auto right-auto top-8 text-center text-sm font-semibold text-black">
-                  Packages
+                  Service Package
                 </span>
               </div>
             </section>

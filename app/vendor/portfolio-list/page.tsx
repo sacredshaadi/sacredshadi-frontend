@@ -3,7 +3,7 @@ import VendorRouteWrapper from "../_components/vendor-route-wrapper";
 
 const page = () => {
   return (
-    <VendorRouteWrapper title="Portfolio List" currentStep={6} nextBtnLink="/vendor/booking">
+    <VendorRouteWrapper title="Portfolio List" currentStep={5} nextBtnLink="/vendor/booking">
       <section>Portfolio List</section>
     </VendorRouteWrapper>
   );

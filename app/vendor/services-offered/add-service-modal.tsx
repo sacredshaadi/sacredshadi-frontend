@@ -16,12 +16,13 @@ import { Loader2, Plus } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SelectGroup } from "@radix-ui/react-select";
-import { Vendor, VendorSubType } from "@/types/auth.types";
+import { ServiceOffered, Vendor, VendorSubType } from "@/types/auth.types";
 import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
 import { Option } from "@/components/ui/multiselect";
 import { useCreateOfferMutation, useGetAllOffersMutation } from "@/components/api";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { useVendorContext } from "@/app/context/vendor-context";
 
 interface AddDialogProps {}
 
@@ -36,11 +37,11 @@ export function AddServiceModal(props: AddDialogProps) {
   const { vendor, setVendor } = useUserStore();
   const [arr, setArr] = useState<VendorSubType[]>(vendor?.SelectedVendorSubTypes || []);
   const [selected, setSelected] = useState<Option[]>([]);
+  const { servicesOffered, setServicesOffered } = useVendorContext();
 
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const { mutate: mutateFn, isPending, isError } = useGetAllOffersMutation();
   const { mutate: submitFn, isPending: submitPending, isError: submitError } = useCreateOfferMutation();
 
   type formType = z.infer<typeof formSchema>;
@@ -53,38 +54,7 @@ export function AddServiceModal(props: AddDialogProps) {
     }
   });
 
-  useEffect(() => {
-    try {
-      if (!vendor?.tokens.accessToken) {
-        setVendor(null);
-        router.push("/login");
-        return;
-      }
-      mutateFn(vendor?.tokens.accessToken, {
-        onSuccess: (data) => {
-          console.log("data from get all offers", data);
-          // const temp = data.data as VendorSubType[];
-          // setArr(() => temp.map((item) => ({ label: item.subType, value: item.id.toString() })));
-        },
-        onError: (err: any) => {
-          const desc: string = err.message || err.error || "Error fetching data";
-          toast({
-            variant: "destructive",
-            description: desc
-          });
-          if (desc.includes("token expired")) {
-            setVendor(null);
-            router.push("/login");
-          }
-          throw err;
-        }
-      });
-    } catch (err: any) {}
-  }, []);
-
   function onSubmit(formData: formType) {
-    // console.log("form data: ", formData);
-    // return;
     try {
       submitFn(
         {
@@ -94,14 +64,7 @@ export function AddServiceModal(props: AddDialogProps) {
         {
           onSuccess: (data) => {
             console.log("succes on creating offer; data from submit", data);
-            // setVendor({
-            //   ...vendor,
-            //   SelectedVendorSubTypes: data.data as VendorSubType[]
-            // } as Vendor);
-            // setVendor({
-            //   ...vendor,
-            //   SelectedVendorSubTypes: vendor?.SelectedVendorSubTypes.concat()
-            // })
+            setServicesOffered([...servicesOffered, data.data]);
             toast({
               variant: "default",
               description: "Data submitted successfully"
@@ -127,7 +90,7 @@ export function AddServiceModal(props: AddDialogProps) {
         <Button variant="default" className="ml-auto font-semibold">
           <span className="flex items-center justify-center gap-2">
             <Plus size={16} />
-            Update service packages
+            Add service package
           </span>
         </Button>
       </DialogTrigger>
@@ -188,7 +151,7 @@ export function AddServiceModal(props: AddDialogProps) {
                     <Input
                       type="number"
                       placeholder="Enter the price of the service package"
-                      disabled={isPending || submitPending}
+                      disabled={submitPending}
                       onChange={(e) => {
                         form.setValue("price", parseInt(e.target.value));
                       }}
@@ -229,7 +192,7 @@ export function AddServiceModal(props: AddDialogProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isPending || submitPending}>
+            <Button type="submit" disabled={submitPending}>
               {submitPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit
             </Button>

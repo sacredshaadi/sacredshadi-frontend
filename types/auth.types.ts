@@ -41,7 +41,7 @@ export interface ServiceOffered {
   price: number;
   description: string;
   details: string;
-  vendorSubTypeId: number;
+  serviceOfferedId: number;
 }
 
 export interface Vendor {
