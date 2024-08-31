@@ -31,7 +31,7 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
     defaultValues: defaults.defaultValues
   });
 
-  const { mutate: loginFn, isPending } = props.useMutation();
+  const { mutate: loginFn, isPending, isError } = props.useMutation();
 
   useEffect(() => {
     if (!useUserStore.persist.hasHydrated()) useUserStore.persist.rehydrate();
@@ -137,7 +137,7 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
         />
 
         <Button disabled={isPending} className="ml-auto w-full" type="submit">
-          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isPending && !isError && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           <span>{isPending ? "Logging in.." : "Login"}</span>
         </Button>
 

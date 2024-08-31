@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useUserStore } from "@/app/context/user-context";
 import { useVendorContext } from "@/app/context/vendor-context";
-import ServiceCard from "./service-card";
+import ServiceCard from "./card-details/service-card";
 import { useRouter } from "next/navigation";
 import { useGetAllOffersMutation } from "@/components/api";
 import { ServiceOffered } from "@/types/auth.types";
@@ -50,42 +50,6 @@ const OffersCardWrapper = (props: CardWrapperProps) => {
     <section className="flex flex-col gap-4">
       <h1 className="text-lg font-bold sm:text-xl lg:text-3xl">Service package(s) offered</h1>
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4 3xl:grid-cols-6">
-        {isPending && servicesOffered.length === 0
-          ? [1, 2, 3, 4].map((_, idx) => <Skeleton key={idx} className="h-10 w-10" />)
-          : servicesOffered?.map((service, index) => (
-              <ServiceCard
-                key={index}
-                offerObj={service}
-                vendorSubType={
-                  vendor?.SelectedVendorSubTypes?.find((item) => item.vendorSubTypeId === service.serviceOfferedId)
-                    ?.subType || ""
-                }
-              />
-            ))}
-        {isPending && servicesOffered.length === 0
-          ? [1, 2, 3, 4].map((_, idx) => <Skeleton key={idx} className="h-10 w-10" />)
-          : servicesOffered?.map((service, index) => (
-              <ServiceCard
-                key={index}
-                offerObj={service}
-                vendorSubType={
-                  vendor?.SelectedVendorSubTypes?.find((item) => item.vendorSubTypeId === service.serviceOfferedId)
-                    ?.subType || ""
-                }
-              />
-            ))}
-        {isPending && servicesOffered.length === 0
-          ? [1, 2, 3, 4].map((_, idx) => <Skeleton key={idx} className="h-10 w-10" />)
-          : servicesOffered?.map((service, index) => (
-              <ServiceCard
-                key={index}
-                offerObj={service}
-                vendorSubType={
-                  vendor?.SelectedVendorSubTypes?.find((item) => item.vendorSubTypeId === service.serviceOfferedId)
-                    ?.subType || ""
-                }
-              />
-            ))}
         {isPending && servicesOffered.length === 0
           ? [1, 2, 3, 4].map((_, idx) => <Skeleton key={idx} className="h-10 w-10" />)
           : servicesOffered?.map((service, index) => (

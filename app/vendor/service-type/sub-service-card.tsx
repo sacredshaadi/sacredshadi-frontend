@@ -10,7 +10,6 @@ const SubServiceCard = ({ vendorSubtype }: SubServiceCardProps) => {
   return (
     <Card className="flex flex-col gap-4 p-4">
       <CardHeader title="Service Type">{vendorSubtype.subType}</CardHeader>
-      <CardDescription>this is some stuff</CardDescription>
       <CardContent>card content</CardContent>
     </Card>
   );

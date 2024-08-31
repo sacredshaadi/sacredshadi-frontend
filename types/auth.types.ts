@@ -38,6 +38,7 @@ export interface VendorType {
 }
 
 export interface ServiceOffered {
+  id: number;
   price: number;
   description: string;
   details: string;

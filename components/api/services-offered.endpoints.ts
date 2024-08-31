@@ -36,10 +36,11 @@ export const getAllOffers = (accessToken: string) => {
 };
 
 export const removeOffer = (payload: mutationReqType) => {
-  return apiClient(offerEndpoints.removeOffer + `/${payload.data}`, {
+  return apiClient(offerEndpoints.removeOffer, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${payload.accessToken}`
-    }
+    },
+    body: JSON.stringify(payload.data)
   });
 };
