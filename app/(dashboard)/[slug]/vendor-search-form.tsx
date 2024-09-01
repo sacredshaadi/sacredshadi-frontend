@@ -18,7 +18,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useVendorContext } from "@/app/context/vendor-context";
 import useStateRef from "react-usestateref";
 import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
-import { useGetAllVendorTypesMutation, useGetVendorAllSubTypesMutation } from "@/components/api";
+import { useGetVendorAllSubTypesMutation } from "@/components/api";
 import { UseMutationResult } from "@tanstack/react-query";
 import { VendorSubType } from "@/types/auth.types";
 import { Option } from "@/components/ui/multiselect";
@@ -47,32 +47,49 @@ interface Props {
 
 export const SearchForm = (props: Props) => {
   const searchParams = useSearchParams();
-  const { cities } = useVendorContext();
+  const { cities, vendorTypes } = useVendorContext();
   const [arr, setArr] = useState<Option[]>([]);
+
   const [selected, setSelected] = useState<Option[]>([]);
   const [loading] = useState(false);
   const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
-  const { mutate: mutateFn, isPending: subTypesPending, isError: subTypesError } = useGetVendorAllSubTypesMutation();
+
+  const [vendorSubTypesLoading, setVendorSubTypesLoading] = useState(true);
 
   useEffect(() => {
-    mutateFn(props.vendorTypeId, {
-      onSuccess: (data) => {
-        // console.log("data: ", data);
-        const temp = data.data as VendorSubType[];
-        setArr(() => temp.map((item) => ({ label: item.subType, value: item.vendorSubTypeId.toString() }) as Option));
-      },
-      onError: (error) => {
-        console.log("error: ", error);
-        toast({
-          description: "Error fetching data",
-          variant: "destructive"
-        });
-      }
-    });
-  }, [props.vendorTypeId]);
+    const vendorType = vendorTypes.find((item) => item.id === props.vendorTypeId);
+    setArr(
+      () =>
+        //@ts-expect-error
+        vendorType?.vendorSubTypes.map((item) => ({ label: item.subType, value: item.id.toString() }) as Option) || []
+    );
+  }, [vendorTypes]);
 
   useEffect(() => {
-    console.log("city: ", searchParams.get("city"));
+    if (arr.length === 0) return;
+    setVendorSubTypesLoading(false);
+  }, [arr]);
+  // const { mutate: mutateFn, isPending: subTypesPending, isError: subTypesError } = useGetVendorAllSubTypesMutation();
+
+  // useEffect(() => {
+  //   mutateFn(props.vendorTypeId, {
+  //     onSuccess: (data) => {
+  //       // console.log("data: ", data);
+  //       const temp = data.data as VendorSubType[];
+  //       setArr(() => temp.map((item) => ({ label: item.subType, value: item.vendorSubTypeId.toString() }) as Option));
+  //     },
+  //     onError: (error) => {
+  //       console.log("error: ", error);
+  //       toast({
+  //         description: "Error fetching data",
+  //         variant: "destructive"
+  //       });
+  //     }
+  //   });
+  // }, [props.vendorTypeId]);
+
+  useEffect(() => {
+    // console.log("city: ", searchParams.get("city"));
     if (!searchParams.get("city")) {
       setCityId(1);
       form.setValue("cityId", 1);
@@ -134,16 +151,21 @@ export const SearchForm = (props: Props) => {
             <FormItem>
               <FormLabel>City</FormLabel>
               <FormControl>
-                <Select onValueChange={(value) => form.setValue("cityId", Number(value))}>
+                <Select
+                  onValueChange={(value) => {
+                    form.setValue("cityId", Number(value));
+                    setCityId(Number(value));
+                  }}
+                >
                   <SelectTrigger>
                     <SelectValue>
                       {cities.find((city) => city.id === cityIdRef.current)?.name || "Select a city"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    {fillerCities.map((city) => (
-                      <SelectItem value={city} key={city}>
-                        {city}
+                    {cities.map((city) => (
+                      <SelectItem value={`${city.id}`} key={city.id}>
+                        {city.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -159,7 +181,7 @@ export const SearchForm = (props: Props) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Select services</FormLabel>
-              {subTypesPending ? (
+              {vendorSubTypesLoading ? (
                 <Skeleton className="h-10 w-full bg-muted" />
               ) : (
                 <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />

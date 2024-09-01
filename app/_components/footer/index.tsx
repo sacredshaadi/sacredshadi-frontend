@@ -3,6 +3,7 @@ import Link from "next/link";
 import Pinterest from "./icons/pinterest";
 import { phoneArr } from "@/constants/data";
 import Image from "next/image";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
 
 export default function Footer() {
   return (
@@ -10,7 +11,7 @@ export default function Footer() {
       <div className="container mx-auto grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 md:grid-cols-4">
         <div className="space-y-4 sm:col-span-2">
           <Link href="https://sacredshaadi.com" target="_blank" className="flex items-center" prefetch={false}>
-            <Heart className="mr-2 h-6 w-6 text-primary" />
+            <HeartFilledIcon className="mr-2 h-6 w-6 text-primary" />
             <span className="text-xl font-bold">What&apos;s in store</span>
           </Link>
           <p className="text-sm">
@@ -20,7 +21,7 @@ export default function Footer() {
         </div>
 
         <div className="space-y-2">
-          <h4 className="text-sm font-medium">Follow Us</h4>
+          <h4 className="text-sm font-semibold">Follow Us</h4>
           <div className="flex gap-2">
             <Link
               href="https://www.facebook.com/SacredShaadi/"
@@ -57,7 +58,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="space-y-2">
-          <h4 className="text-sm font-medium">Contact Us</h4>
+          <h4 className="text-sm font-semibold">Contact Us</h4>
           <nav className="flex items-center gap-1">
             <a href={`tel:${phoneArr[0]}`} className="text-sm text-muted-foreground hover:text-primary">
               {phoneArr[0]}

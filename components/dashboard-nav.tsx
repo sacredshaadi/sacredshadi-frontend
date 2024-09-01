@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { cn } from '@/lib/utils';
-import { NavItem, routeMapper } from '@/types';
-import { Dispatch, SetStateAction } from 'react';
-import { useSidebar } from '@/hooks/useSidebar';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { cn } from "@/lib/utils";
+import { NavItem, routeMapper } from "@/types";
+import { Dispatch, SetStateAction } from "react";
+import { useSidebar } from "@/hooks/useSidebar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 interface DashboardNavProps {
   items: NavItem[];
@@ -27,23 +27,24 @@ export function DashboardNav({ items, setOpen, isMobileNav = false }: DashboardN
             <Tooltip key={idx}>
               <TooltipTrigger asChild>
                 <Link
-                  href={val ? val : '/'}
+                  href={val ? val : "/"}
                   className={cn(
-                    'flex items-center gap-2 overflow-hidden rounded-md p-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
-                    path === val ? 'bg-accent' : 'transparent'
+                    "flex items-center gap-2 overflow-hidden rounded-md p-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                    path === val ? "bg-accent" : "transparent",
+                    "text-primary"
                   )}
                   onClick={() => {
                     if (setOpen) setOpen(false);
                   }}
                 >
-                  {isMobileNav || (!isMinimized && !isMobileNav) ? <span className="mr-2 truncate">{key}</span> : ''}
+                  {isMobileNav || (!isMinimized && !isMobileNav) ? <span className="mr-2 truncate">{key}</span> : ""}
                 </Link>
               </TooltipTrigger>
               <TooltipContent
                 align="center"
                 side="right"
                 sideOffset={8}
-                className={!isMinimized ? 'hidden' : 'inline-block'}
+                className={!isMinimized ? "hidden" : "inline-block"}
               >
                 {key}
               </TooltipContent>

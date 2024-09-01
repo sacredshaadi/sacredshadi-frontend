@@ -9,13 +9,9 @@ interface MultipleSelectorCompProps {
 }
 
 const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorCompProps) => {
-  // useEffect(() => {
-  //   console.log("defaultoptions to the multi select: ", defaultOptions);
-  // }, [defaultOptions]);
-
-  // useEffect(() => {
-  //   console.log("arr to tsshe multi select: ", arr);
-  // }, [arr]);
+  useEffect(() => {
+    console.log("defaultoptions to the multi select: ", defaultOptions);
+  }, [defaultOptions]);
 
   return (
     <div className="flex w-full flex-col gap-5">

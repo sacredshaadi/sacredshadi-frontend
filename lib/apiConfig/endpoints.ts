@@ -21,7 +21,7 @@ export const userEndpoints = {
 
 export const sliderEndpoints = {
   createCarousel: "/api/v1/sliders/add",
-  getAllCarousels: "/api/v1/sliders",
+  getAllCarousels: "/api/v1/sliders/all",
   updateCarousel: "/api/v1/sliders/update",
   removeCarousel: "/api/v1/sliders/remove"
 } as const;

@@ -28,6 +28,9 @@ export interface User extends UserSub {}
 export interface VendorSubType {
   subType: string;
   vendorSubTypeId: number;
+  vendorTypeId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface VendorType {
@@ -35,6 +38,8 @@ export interface VendorType {
   type: string;
   createdAt: string;
   updatedAt: string;
+  image: string;
+  vendorSubTypes: VendorSubType[];
 }
 
 export interface ServiceOffered {
