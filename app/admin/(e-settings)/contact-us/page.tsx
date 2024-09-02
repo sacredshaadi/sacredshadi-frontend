@@ -102,7 +102,7 @@ function ContactSettings() {
           {
             id: "contactYoutubeUrlLabel",
             name: "label",
-            props: { text: "Contact Uoutube Url", htmlFor: "contactYoutubeUrlName", required: true }
+            props: { text: "Contact Youtube Url", htmlFor: "contactYoutubeUrlName", required: true }
           },
           {
             id: "contactYoutubeUrlName",

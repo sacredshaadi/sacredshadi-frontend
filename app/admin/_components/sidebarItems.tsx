@@ -4,17 +4,13 @@ import {
   Star,
   Users,
   UserCog,
-  Replace,
   Building,
   AlignLeft,
   ImagePlus,
   BoxSelect,
   LucideIcon,
   DatabaseZap,
-  MailQuestion,
-  GraduationCap,
-  CircleDotDashed,
-  MailQuestionIcon
+  CircleDotDashed
 } from "lucide-react";
 
 export type AdminSidebarItem = {
@@ -43,19 +39,6 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
     { icon: Building, label: "City", route: "/admin/cities" },
     { icon: ImagePlus, label: "Slider", route: "/admin/slider" },
     { icon: BoxSelect, label: "Categories", route: "/admin/categories" },
-    // { icon: GraduationCap, label: "Quiz", route: "/admin/quiz" },
-    // { icon: MailQuestion, label: "Quiz MCQ", route: "/admin/quiz-mcq" },
-    // { icon: Replace, label: "Hangouts Quiz", route: "/admin/hangout-quiz" },
-    {
-      icon: MailQuestionIcon,
-      label: "Questions",
-      subRoutes: !isLoading
-        ? data?.map((vendorType) => ({
-            label: vendorType.type,
-            route: `/admin/questions/${vendorType.id}`
-          }))
-        : []
-    },
     {
       icon: DatabaseZap,
       label: "Services",

@@ -3,6 +3,8 @@
 import dayjs from "dayjs";
 import { SuperAdminLayout } from "../../_components/adminLayout";
 import TableHOC from "../../_components/tableHoc";
+import { ErrorBoundary } from "@/components/errorBoundary";
+import Image from "next/image";
 
 function OurTeamSettings() {
   return (
@@ -16,7 +18,15 @@ function OurTeamSettings() {
           { accessorKey: "name", header: "Name" },
           { accessorKey: "description", header: "Description" },
           { accessorKey: "role", header: "Role" },
-          { accessorKey: "image", header: "Image" },
+          {
+            header: "Image",
+            accessorKey: "image",
+            cell: (data) => (
+              <ErrorBoundary fallback={<p className="text-sm font-semibold text-red-500">Image render error</p>}>
+                <Image height={80} width={100} src={data.getValue() as string} alt="slider" />
+              </ErrorBoundary>
+            )
+          },
           {
             accessorKey: "createdAt",
             header: "Created At",
@@ -56,7 +66,11 @@ function OurTeamSettings() {
             name: "label",
             props: { text: "Image", htmlFor: "teamMemberImage", required: true }
           },
-          { id: "teamMemberImage", name: "input", props: { name: "image", className: "mb-4", required: true } }
+          {
+            id: "teamMemberImage",
+            name: "imageInput",
+            props: { name: "image", className: "mb-4", required: true }
+          }
         ]}
         addDataEndpoint="/api/v1/team/create"
         editDataEndpoint="/api/v1/team/update"
