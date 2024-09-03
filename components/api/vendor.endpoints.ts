@@ -71,7 +71,7 @@ export const vendorProfile = (accessToken: string) => {
 };
 
 export const getAllVendorSubTypes = (vendorTypeId: number) => {
-  return apiClient(`${vendorSubTypeEndpoints.getAllVendorSubTypes}?vendorTypeId=${vendorTypeId}`, {
+  return apiClient(vendorSubTypeEndpoints.getAllVendorSubTypes(vendorTypeId), {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
