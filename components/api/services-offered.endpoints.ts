@@ -39,6 +39,7 @@ export const removeOffer = (payload: mutationReqType) => {
   return apiClient(offerEndpoints.removeOffer, {
     method: "DELETE",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${payload.accessToken}`
     },
     body: JSON.stringify(payload.data)

@@ -40,7 +40,7 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
         },
         {
           onSuccess(data) {
-            console.log("onSuccess removed ", data);
+            toast({ variant: "default", description: "Service package removed successfully" });
           },
           onError(error: any) {
             toast({
@@ -59,7 +59,8 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
         router.push;
       }
     }
-  }, [removeFn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Dialog open={props.open} onOpenChange={props.setOpen}>
