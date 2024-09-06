@@ -18,9 +18,9 @@ import { toast } from "@/components/ui/use-toast";
 import { useVendorContext } from "@/app/context/vendor-context";
 import useStateRef from "react-usestateref";
 import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
-import { useGetVendorAllSubTypesMutation } from "@/components/api";
-import { UseMutationResult } from "@tanstack/react-query";
-import { VendorSubType } from "@/types/auth.types";
+// import { useGetVendorAllSubTypesMutation } from "@/components/api";
+// import { UseMutationResult } from "@tanstack/react-query";
+// import { VendorSubType } from "@/types/auth.types";
 import { Option } from "@/components/ui/multiselect";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -74,12 +74,10 @@ export const SearchForm = (props: Props) => {
   // useEffect(() => {
   //   mutateFn(props.vendorTypeId, {
   //     onSuccess: (data) => {
-  //       // console.log("data: ", data);
   //       const temp = data.data as VendorSubType[];
   //       setArr(() => temp.map((item) => ({ label: item.subType, value: item.vendorSubTypeId.toString() }) as Option));
   //     },
   //     onError: (error) => {
-  //       console.log("error: ", error);
   //       toast({
   //         description: "Error fetching data",
   //         variant: "destructive"
@@ -89,7 +87,6 @@ export const SearchForm = (props: Props) => {
   // }, [props.vendorTypeId]);
 
   useEffect(() => {
-    // console.log("city: ", searchParams.get("city"));
     if (!searchParams.get("city")) {
       setCityId(1);
       form.setValue("cityId", 1);
@@ -98,6 +95,7 @@ export const SearchForm = (props: Props) => {
     const id = Number(searchParams.get("city"));
     setCityId(id);
     form.setValue("cityId", id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cities]);
 
   const defaultValues: ProductFormValues = {
@@ -252,14 +250,13 @@ export const SearchForm = (props: Props) => {
             className="ml-auto px-10 font-semibold"
             type="submit"
             onClick={(e) => {
+              e.preventDefault();
               form.setValue(
                 "services",
                 selected.map((item) => Number(item.value))
               );
-              toast({
-                description: JSON.stringify(form.getValues()),
-                variant: "default"
-              });
+              console.log(form.getValues());
+              // toast({ description: JSON.stringify(form.getValues()), variant: "default" });
             }}
           >
             Submit

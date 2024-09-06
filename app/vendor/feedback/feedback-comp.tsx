@@ -21,9 +21,7 @@ const FeedbackComp = () => {
     }
     try {
       getFn(vendor.tokens.accessToken, {
-        onSuccess(data, variables, context) {
-          console.log("onSuccess", data, variables, context);
-        },
+        onSuccess(data, variables, context) {},
         onError(error) {
           throw error;
         }
@@ -40,6 +38,7 @@ const FeedbackComp = () => {
       }
       throw err;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor?.vendorId]);
 
   return (

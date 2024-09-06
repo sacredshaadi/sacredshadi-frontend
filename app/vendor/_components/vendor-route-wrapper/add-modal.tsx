@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useUserStore } from "@/app/context/user-context";
@@ -14,8 +13,6 @@ import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Loader2, Plus } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { Skeleton } from "@/components/ui/skeleton";
-import { SelectGroup } from "@radix-ui/react-select";
 import { Vendor, VendorSubType } from "@/types/auth.types";
 import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
 import { Option } from "@/components/ui/multiselect";
@@ -84,28 +81,15 @@ export function AddDialog(props: AddDialogProps) {
         },
         {
           onSuccess: (data) => {
-            console.log("data from submit service types: ", data);
-            setVendor({
-              ...vendor,
-              SelectedVendorSubTypes: data.data as VendorSubType[]
-            } as Vendor);
+            setVendor({ ...vendor, SelectedVendorSubTypes: data.data as VendorSubType[] } as Vendor);
             setSelected(
-              (data.data || []).map((item: any) => ({
-                label: item.subType,
-                value: item.vendorSubTypeId.toString()
-              }))
+              (data.data || []).map((item: any) => ({ label: item.subType, value: item.vendorSubTypeId.toString() }))
             );
-            toast({
-              variant: "default",
-              description: "Data submitted successfully"
-            });
+            toast({ variant: "default", description: "Data submitted successfully" });
             setOpen(false);
           },
           onError: (err: any) => {
-            toast({
-              variant: "destructive",
-              description: err.error || err.message || "Error submitting data"
-            });
+            toast({ variant: "destructive", description: err.error || err.message || "Error submitting data" });
             throw err;
           }
         }

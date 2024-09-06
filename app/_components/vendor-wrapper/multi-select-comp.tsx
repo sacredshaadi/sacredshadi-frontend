@@ -1,18 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+
+import React, { Dispatch, SetStateAction } from "react";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
 
 interface MultipleSelectorCompProps {
   arr: Option[];
-  setArr: React.Dispatch<React.SetStateAction<Option[]>>;
+  setArr: Dispatch<SetStateAction<Option[]>>;
   defaultOptions: Option[];
 }
 
 const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorCompProps) => {
-  useEffect(() => {
-    console.log("defaultoptions to the multi select: ", defaultOptions);
-  }, [defaultOptions]);
-
   return (
     <div className="flex w-full flex-col gap-5">
       <MultipleSelector

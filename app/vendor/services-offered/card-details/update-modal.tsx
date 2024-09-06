@@ -1,20 +1,13 @@
 "use client";
 
 import React, { useCallback } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Edit, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useUpdateOfferMutation } from "@/components/api";
@@ -64,7 +57,6 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
           },
           {
             onSuccess(data) {
-              console.log("onSuccess updated", data);
               setServicesOffered([...servicesOffered.filter((item) => item.id !== props.id), data.data[1][0]]);
             },
             onError(error: any) {
@@ -85,7 +77,8 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
         }
       }
     },
-    [updateFn]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   return (

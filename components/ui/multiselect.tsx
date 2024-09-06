@@ -189,16 +189,12 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [open, setOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
-    const firstTimeRef = React.useRef(true);
+    // const firstTimeRef = React.useRef(true);
 
     const [selected, setSelected] = React.useState<Option[]>(value || []);
     const [options, setOptions] = React.useState<GroupOption>(transToGroupOption(arrayDefaultOptions, groupBy));
     const [inputValue, setInputValue] = React.useState("");
     const debouncedSearchTerm = useDebounce(inputValue, delay || 500);
-
-    useEffect(() => {
-      console.log("defaultoptions to the multi select component: ", arrayDefaultOptions);
-    }, [options]);
 
     React.useImperativeHandle(
       ref,

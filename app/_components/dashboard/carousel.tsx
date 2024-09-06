@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function CarouselComp(props: { sliderArr: ISlider[] }) {
-  // console.log("sliderArr: ", props.sliderArr);
-
   return (
     <div className="relative w-full">
       <Carousel className="w-full">

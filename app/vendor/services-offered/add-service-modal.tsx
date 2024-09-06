@@ -57,18 +57,11 @@ export function AddServiceModal(props: AddDialogProps) {
   function onSubmit(formData: formType) {
     try {
       submitFn(
-        {
-          accessToken: vendor?.tokens?.accessToken || "",
-          data: formData
-        },
+        { accessToken: vendor?.tokens?.accessToken || "", data: formData },
         {
           onSuccess: (data) => {
-            console.log("succes on creating offer; data from submit", data);
             setServicesOffered([...servicesOffered, data.data]);
-            toast({
-              variant: "default",
-              description: "Data submitted successfully"
-            });
+            toast({ variant: "default", description: "Data submitted successfully" });
             setOpen(false);
           },
           onError: (err) => {
@@ -109,13 +102,10 @@ export function AddServiceModal(props: AddDialogProps) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => {
-                        // // console.log("arr details: ", arr, "value: ", value);
-                        // const temp = vendor?.SelectedVendorSubTypes || [];
                         form.setValue(
                           "serviceOfferedId",
                           arr.find((item) => item.vendorSubTypeId === parseInt(value))?.vendorSubTypeId || 0
                         );
-                        console.log("input value: ", form.getValues("serviceOfferedId"));
                       }}
                     >
                       <SelectTrigger>
