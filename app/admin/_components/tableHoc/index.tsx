@@ -7,7 +7,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import CellAction from "./actions";
 import useTableHocQuery from "./query";
-import { userAuthTypes } from "@/types";
+import { UserAuthType, userAuthTypes } from "@/types";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -18,6 +18,7 @@ import { FormElementInstance, FormRenderer } from "../forms";
 import { WithLoading } from "@/app/_components/loading";
 
 export type TableHocProps<T> = {
+  authType?: UserAuthType;
   columns: ColumnDef<T>[];
   searchKey: string;
   paginateDataEndpoint: string;
@@ -59,7 +60,7 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
     isDeletePending,
     isAddDataPending
   } = useTableHocQuery({
-    type: userAuthTypes.super_admin,
+    type: props.authType || userAuthTypes.super_admin,
     addDataEndpoint: props.addable ? props.addDataEndpoint : "",
     paginateDataEndpoint: props.paginateDataEndpoint,
     deleteDataEndpoint: props.deleteable ? props.deleteDataEndpoint : "",
@@ -123,6 +124,7 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
     e.stopPropagation();
     try {
       const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()) as any;
+      console.log({ formData });
 
       if (!!editData) {
         if (!props.editable) return;

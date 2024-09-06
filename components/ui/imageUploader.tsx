@@ -1,20 +1,16 @@
 "use client";
 
 import { Input, InputProps } from "./input";
-import { ChangeEvent, ForwardedRef, forwardRef, useImperativeHandle, useState } from "react";
+import { ChangeEvent, forwardRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type FormImageUploaderProps = InputProps & {
   value?: string;
 };
 
-function ImageUploader(props: FormImageUploaderProps, ref: ForwardedRef<{ getValue: () => string }>) {
+function ImageUploader(props: FormImageUploaderProps) {
   const [loading, setLoading] = useState(false);
-  const [imageRemoteUrl, setImageRemoteUrl] = useState<string>(props.value || "");
-
-  useImperativeHandle(ref, () => ({
-    getValue: () => imageRemoteUrl
-  }));
+  const [imageRemoteUrl, setImageRemoteUrl] = useState<string>(props.value || String(props.defaultValue) || "");
 
   const uploadToCloudinary = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -43,7 +39,7 @@ function ImageUploader(props: FormImageUploaderProps, ref: ForwardedRef<{ getVal
   return (
     <div className="flex flex-col items-center gap-4">
       {loading ? (
-        <div className="">Loading...</div>
+        <div className="">Uploading . . .</div>
       ) : imageRemoteUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img className="max-h-44" src={imageRemoteUrl} alt="Input image" />

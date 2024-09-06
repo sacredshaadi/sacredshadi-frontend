@@ -1,11 +1,12 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Menu, Settings } from "lucide-react";
-import { twMerge } from "tailwind-merge";
 import Profile from "@/app/_components/profile";
 import NotificationComp from "./notification-comp";
 import { Button } from "@/components/ui/button";
 import MessagesComp from "./messages-comp";
 import { userAuthTypes } from "@/types";
+import { cn } from "@/lib/utils";
+import { Logo } from "@/components/globals/logo";
 
 function AdminHeader(props: {
   collapsed: boolean;
@@ -13,11 +14,14 @@ function AdminHeader(props: {
   extras: ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between bg-background py-4">
+    <div className="flex items-center justify-between bg-primary-foreground py-4">
       <div
-        className={twMerge("flex items-center justify-between", props.collapsed ? "w-16 justify-center" : "w-56 pl-4")}
+        className={cn(
+          "flex items-center justify-between font-semibold text-primary",
+          props.collapsed ? "w-16 justify-center" : "w-56 pl-4"
+        )}
       >
-        {!props.collapsed ? <div>Sacred Shadi</div> : null}
+        {!props.collapsed ? <Logo /> : null}
         <Menu className="h-8 w-8 cursor-pointer" onClick={() => props.setCollapsed((prev) => !prev)} />
       </div>
 

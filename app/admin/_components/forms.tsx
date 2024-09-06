@@ -6,13 +6,15 @@ import { FC } from "react";
 import { SwitchProps } from "@radix-ui/react-switch";
 import { FormLabel, FormLabelProps } from "@/components/ui/label";
 import { FormImageUploader, FormImageUploaderProps } from "@/components/ui/imageUploader";
+import { SimpleSingleSelect, SimpleSingleSelectProps } from "@/components/ui/simpleSingleSelect";
 
 export type SupportedWidgets =
   | { name: "input"; props: InputProps }
   | { name: "textAreaInput"; props: TextareaProps }
   | { name: "toggleInput"; props: SwitchProps }
   | { name: "label"; props: FormLabelProps }
-  | { name: "imageInput"; props: FormImageUploaderProps };
+  | { name: "imageInput"; props: FormImageUploaderProps }
+  | { name: "singleSelect"; props: SimpleSingleSelectProps };
 
 export type SupportedWidgetNames = SupportedWidgets["name"];
 
@@ -25,7 +27,8 @@ export const widgetMap: Record<SupportedWidgetNames, FC<any>> = {
   textAreaInput: Textarea,
   toggleInput: Switch,
   label: FormLabel,
-  imageInput: FormImageUploader
+  imageInput: FormImageUploader,
+  singleSelect: SimpleSingleSelect
 };
 
 export type FormRendererProps = {

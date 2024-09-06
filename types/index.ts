@@ -41,7 +41,6 @@ export const routeMapper: { [key: string]: string } = {
   Home: "/",
   Vendors: "/vendors",
   Booking: "/booking",
-  Hangout: "/hangout",
   "About Us": "/about",
   "Contact Us": "/front/contact"
 };

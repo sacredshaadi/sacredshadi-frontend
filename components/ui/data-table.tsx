@@ -40,7 +40,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         {props.headingExtra}
       </div>
 
-      <ScrollArea className="min-h-[calc(100vh-250px)] rounded-md border">
+      <ScrollArea className="max-h-screen min-h-[calc(100vh-520px)] rounded-md border">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

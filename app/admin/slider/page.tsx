@@ -39,7 +39,11 @@ function Slider() {
           }
         ]}
         addEditFormMeta={[
-          { id: "sliderTitleLabel", name: "label", props: { text: "Title", htmlFor: "sliderTitle", required: true } },
+          {
+            id: "sliderTitleLabel",
+            name: "label",
+            props: { text: "Title", htmlFor: "sliderTitleName", required: true }
+          },
           { id: "sliderTitleName", name: "input", props: { name: "title", className: "mb-4", required: true } },
 
           {
