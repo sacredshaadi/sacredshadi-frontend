@@ -1,9 +1,5 @@
 "use client";
 
-import * as React from "react";
-
-import { VendorEnum } from "@/types/user-facing";
-import { fillerCities } from "@/constants/data";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
@@ -11,12 +7,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { VendorType } from "@/types/auth.types";
 import { ICity } from "@/types";
 import { useVendorContext } from "../context/vendor-context";
-import Link from "next/link";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type Props = {
   list: { value: string; label: string }[];
   placeholder?: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
+  setState: Dispatch<SetStateAction<string>>;
 };
 
 function DropDownInput({ list, placeholder, setState }: Props) {
@@ -40,12 +36,12 @@ function DropDownInput({ list, placeholder, setState }: Props) {
 
 export const VendorSelectWrapper = (props: { vendors: VendorType[]; cities: ICity[] }) => {
   const { setCities, setVendorTypes } = useVendorContext();
-  const [vendor, setVendor] = React.useState("");
-  const [city, setCity] = React.useState("");
+  const [vendor, setVendor] = useState("");
+  const [city, setCity] = useState("");
   const { toast } = useToast();
   const router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setVendorTypes(props.vendors || []);
     setCities(props.cities || []);
     // eslint-disable-next-line react-hooks/exhaustive-deps

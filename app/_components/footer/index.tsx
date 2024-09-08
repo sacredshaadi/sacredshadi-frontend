@@ -1,4 +1,4 @@
-import { Facebook, Heart, Instagram, Youtube } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 import Link from "next/link";
 import Pinterest from "./icons/pinterest";
 import { phoneArr } from "@/constants/data";

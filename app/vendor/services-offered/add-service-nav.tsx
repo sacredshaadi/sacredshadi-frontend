@@ -1,5 +1,4 @@
 import React from "react";
-import { AddDialog } from "../_components/vendor-route-wrapper/add-modal";
 import { AddServiceModal } from "./add-service-modal";
 
 const AddServiceNav = () => {

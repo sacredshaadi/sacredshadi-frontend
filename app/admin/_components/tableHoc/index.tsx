@@ -124,7 +124,7 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
     e.stopPropagation();
     try {
       const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()) as any;
-      console.log({ formData });
+      // console.log({ formData });
 
       if (!!editData) {
         if (!props.editable) return;

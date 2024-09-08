@@ -4,7 +4,7 @@ import { PortfolioList } from "../_components/portfolio-list";
 
 const page = () => {
   return (
-    <VendorRouteWrapper title="Portfolio List" currentStep={4} nextBtnLink="/vendor/booking">
+    <VendorRouteWrapper title="Portfolio List" currentStep={4}>
       <PortfolioList />
     </VendorRouteWrapper>
   );

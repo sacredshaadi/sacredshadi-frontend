@@ -5,26 +5,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import { UseMutationResult } from "@tanstack/react-query";
 import { useUserStore } from "@/app/context/user-context";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Loader2, Plus } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { Skeleton } from "@/components/ui/skeleton";
-import { SelectGroup } from "@radix-ui/react-select";
-import { ServiceOffered, Vendor, VendorSubType } from "@/types/auth.types";
-import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
-import { Option } from "@/components/ui/multiselect";
-import { useCreateOfferMutation, useGetAllOffersMutation } from "@/components/api";
-import { useRouter } from "next/navigation";
+import { VendorSubType } from "@/types/auth.types";
+import { useCreateOfferMutation } from "@/components/api";
 import { Input } from "@/components/ui/input";
 import { useVendorContext } from "@/app/context/vendor-context";
-
-interface AddDialogProps {}
 
 const formSchema = z.object({
   serviceOfferedId: z.number().min(1, "Please select a service type"),
@@ -33,25 +25,18 @@ const formSchema = z.object({
   details: z.string().min(1, "Please enter a valid description")
 });
 
-export function AddServiceModal(props: AddDialogProps) {
-  const { vendor, setVendor } = useUserStore();
-  const [arr, setArr] = useState<VendorSubType[]>(vendor?.SelectedVendorSubTypes || []);
-  const [selected, setSelected] = useState<Option[]>([]);
+export function AddServiceModal() {
+  const { vendor } = useUserStore();
   const { servicesOffered, setServicesOffered } = useVendorContext();
 
-  const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const { mutate: submitFn, isPending: submitPending, isError: submitError } = useCreateOfferMutation();
+  const { mutate: submitFn, isPending: submitPending } = useCreateOfferMutation();
 
   type formType = z.infer<typeof formSchema>;
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      details: "",
-      description: "",
-      serviceOfferedId: 0
-    }
+    defaultValues: { details: "", description: "", serviceOfferedId: 0 }
   });
 
   function onSubmit(formData: formType) {
@@ -70,10 +55,7 @@ export function AddServiceModal(props: AddDialogProps) {
         }
       );
     } catch (err: any) {
-      toast({
-        variant: "destructive",
-        description: err.error || err.message || "Error submitting data"
-      });
+      toast({ variant: "destructive", description: err.error || err.message || "Error submitting data" });
     }
   }
 
@@ -104,7 +86,9 @@ export function AddServiceModal(props: AddDialogProps) {
                       onValueChange={(value) => {
                         form.setValue(
                           "serviceOfferedId",
-                          arr.find((item) => item.vendorSubTypeId === parseInt(value))?.vendorSubTypeId || 0
+                          ((vendor?.SelectedVendorSubTypes as VendorSubType[]) || []).find(
+                            (item) => item.vendorSubTypeId === parseInt(value)
+                          )?.vendorSubTypeId || 0
                         );
                       }}
                     >
@@ -142,10 +126,7 @@ export function AddServiceModal(props: AddDialogProps) {
                       type="number"
                       placeholder="Enter the price of the service package"
                       disabled={submitPending}
-                      onChange={(e) => {
-                        form.setValue("price", parseInt(e.target.value));
-                      }}
-                      // {...field}
+                      onChange={(e) => form.setValue("price", parseInt(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -158,11 +139,7 @@ export function AddServiceModal(props: AddDialogProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Details</FormLabel>
-                  <Textarea
-                    {...field}
-                    // className="input"
-                    placeholder="Enter details about the service package offered"
-                  />
+                  <Textarea {...field} placeholder="Enter details about the service package offered" />
                   <FormMessage />
                 </FormItem>
               )}
@@ -173,11 +150,7 @@ export function AddServiceModal(props: AddDialogProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
-                  <Textarea
-                    {...field}
-                    // className="input"
-                    placeholder="Give description of the service package offered"
-                  />
+                  <Textarea {...field} placeholder="Give description of the service package offered" />
                   <FormMessage />
                 </FormItem>
               )}

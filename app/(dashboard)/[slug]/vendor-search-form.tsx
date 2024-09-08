@@ -47,8 +47,8 @@ export const SearchForm = (props: Props) => {
   const { cities, vendorTypes } = useVendorContext();
   const [arr, setArr] = useState<Option[]>([]);
   const { onFormSubmit, isPending } = useVendorSearch();
-
   const [selected, setSelected] = useState<Option[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
 
   const [vendorSubTypesLoading, setVendorSubTypesLoading] = useState(true);

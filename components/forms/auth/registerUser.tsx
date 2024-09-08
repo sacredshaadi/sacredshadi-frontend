@@ -17,7 +17,7 @@ const RegisterUser = () => {
   const { toast } = useToast();
   const { setUser } = useUserStore();
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: registerUserFn, isPending: registerPending, isError: registerError } = useRegisterUserMutation();
+  const { mutate: registerUserFn, isPending: registerPending } = useRegisterUserMutation();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

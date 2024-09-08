@@ -2,9 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeIcon, EyeOffIcon, Loader, Loader2 } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
-import { User, Vendor, VendorType } from "@/types/auth.types";
+import { Vendor, VendorType } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { registerVendorFormSchema } from "./helpers";

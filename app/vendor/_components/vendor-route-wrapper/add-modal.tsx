@@ -38,15 +38,13 @@ export function AddDialog(props: AddDialogProps) {
   );
   const [open, setOpen] = useState(false);
 
-  const { mutate: mutateFn, isPending, isError } = props.useMutation();
+  const { mutate: mutateFn, isPending } = props.useMutation();
   const { mutate: submitFn, isPending: submitPending, isError: submitError } = props.submitMutation();
 
   type formType = z.infer<typeof formSchema>;
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      description: ""
-    }
+    defaultValues: { description: "" }
   });
 
   useEffect(() => {
@@ -95,7 +93,7 @@ export function AddDialog(props: AddDialogProps) {
         }
       );
     } catch (err: any) {
-      console.error("Error submitting data: ", err);
+      // console.error("Error submitting data: ", err);
     }
   }
 

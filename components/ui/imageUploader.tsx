@@ -30,7 +30,7 @@ function ImageUploader(props: FormImageUploaderProps) {
 
       setImageRemoteUrl(data.secure_url);
     } catch (err: any) {
-      console.log(err);
+      // console.log(err);
     } finally {
       setLoading(false);
     }

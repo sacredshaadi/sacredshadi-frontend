@@ -1,7 +1,10 @@
 "use client";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 
-import { Task, useTaskStore } from "@/lib/store";
+import {
+  // Task,
+  useTaskStore
+} from "@/lib/store";
 import { hasDraggableData } from "@/lib/utils";
 import {
   Announcements,
@@ -61,10 +64,10 @@ export function KanbanBoard() {
 
   const tasks = useTaskStore((state) => state.tasks);
   const setTasks = useTaskStore((state) => state.setTasks);
-  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
+  // const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [isMounted, setIsMounted] = useState<Boolean>(false);
 
-  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  // const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -206,19 +209,19 @@ export function KanbanBoard() {
     if (!hasDraggableData(event.active)) return;
     const data = event.active.data.current;
     if (data?.type === "Column") {
-      setActiveColumn(data.column);
+      // setActiveColumn(data.column);
       return;
     }
 
     if (data?.type === "Task") {
-      setActiveTask(data.task);
+      // setActiveTask(data.task);
       return;
     }
   }
 
   function onDragEnd(event: DragEndEvent) {
-    setActiveColumn(null);
-    setActiveTask(null);
+    // setActiveColumn(null);
+    // setActiveTask(null);
 
     const { active, over } = event;
     if (!over) return;

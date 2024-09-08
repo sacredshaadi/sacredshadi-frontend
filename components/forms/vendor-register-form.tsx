@@ -4,20 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { signIn } from 'next-auth/react';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-// import GoogleSignInButton from "../github-auth-button";
 import { useRegisterVendorMutation } from "../api";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { fillerCities } from "@/constants/data";
-import { VendorEnum } from "@/types/user-facing";
-// import { useUserContext } from "@/app/context/user-context";
-// import auth from '@/auth';
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Enter your name" }),
@@ -54,7 +48,7 @@ export default function VendorRegisterForm({
   const { toast } = useToast();
   const router = useRouter();
 
-  const { mutate: registerVendorFn, isPending: isVendorPending, error: vendorError } = useRegisterVendorMutation();
+  const { mutate: registerVendorFn, isPending: isVendorPending } = useRegisterVendorMutation();
 
   const [showPassword, setShowPassword] = useState(false);
 

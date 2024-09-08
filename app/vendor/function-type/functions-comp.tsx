@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
-
+import { useEffect } from "react";
 import { useGetAllVendorFunctionsMutation } from "@/components/api";
 import { useUserStore } from "@/app/context/user-context";
 import { toast } from "@/components/ui/use-toast";
@@ -9,7 +8,7 @@ import SubServiceCard from "../service-type/sub-service-card";
 import { useRouter } from "next/navigation";
 
 const FunctionsComp = () => {
-  const { mutate, isPending, isError } = useGetAllVendorFunctionsMutation();
+  const { mutate } = useGetAllVendorFunctionsMutation();
   const { vendor, setVendor } = useUserStore();
   const router = useRouter();
 
@@ -17,9 +16,7 @@ const FunctionsComp = () => {
     if (!vendor?.tokens.accessToken) return;
     try {
       mutate(vendor.tokens.accessToken, {
-        onSuccess: (data) => {
-          console.log(data);
-        },
+        // onSuccess: (data) => console.log(data),
         onError: (error) => {
           throw error;
         }
@@ -36,6 +33,7 @@ const FunctionsComp = () => {
       }
       throw err;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor?.tokens.accessToken]);
 
   return (

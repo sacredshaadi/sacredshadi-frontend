@@ -1,5 +1,5 @@
 import { ICity } from "@/types";
-import { ServiceOffered, Vendor, VendorSubType, VendorType } from "@/types/auth.types";
+import { ServiceOffered, VendorSubType, VendorType } from "@/types/auth.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

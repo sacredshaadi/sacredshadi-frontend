@@ -5,16 +5,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { getRouteFromTitle } from "@/app/utils/functions";
 import { VendorType } from "@/types/auth.types";
 import Image from "next/image";
-import { useVendorContext } from "@/app/context/vendor-context";
 
-interface VendorProps {
+type VendorProps = {
   vendorType: VendorType;
   description: string;
   route: string;
-}
+};
 
 const VendorModal = ({ vendorType, description }: VendorProps) => {
   return (

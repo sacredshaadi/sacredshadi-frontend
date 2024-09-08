@@ -11,6 +11,7 @@ interface TitleProps {
 
 const Title = (props: TitleProps) => {
   const { vendorTypes } = useVendorContext();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setVendorName, vendorNameRef] = useStateRef<string | null>(null);
 
   useEffect(() => {
