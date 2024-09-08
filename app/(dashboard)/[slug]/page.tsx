@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { SearchForm } from "./vendor-search-form";
 import Title from "./title";
+import { VendorSearchGrid } from "./vendor-search-grid";
 
 export default function Page(props: { params: { slug: string } }) {
   return (
@@ -20,10 +21,13 @@ export default function Page(props: { params: { slug: string } }) {
           className="absolute
           inset-0 m-auto !w-full object-fill"
         />
+
         <section className="z-10 flex flex-col items-start justify-center gap-4 rounded-md bg-white p-4">
           <SearchForm vendorTypeId={Number(props.params.slug)} />
         </section>
       </section>
+
+      <VendorSearchGrid />
     </section>
   );
 }

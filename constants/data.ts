@@ -136,7 +136,8 @@ export const fillerCities = [
   "Other"
 ];
 
-export const budgetArr = ["50,000", "50,000 - 1L", "1L - 1.5L", "1.5L - 2L", "More than 2L"];
+// export const budgetArr = ["50,000", "50,000 - 1L", "1L - 1.5L", "1.5L - 2L", "More than 2L"];
+export const budgetArr = Array.from({ length: 25 }).map((_, index) => (index * 5000).toString());
 
 export const phoneArr = ["+91 9869908415", "+91 7890835517"];
 

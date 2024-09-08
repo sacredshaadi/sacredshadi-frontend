@@ -15,7 +15,7 @@ const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorC
       <MultipleSelector
         value={arr}
         onChange={setArr}
-        placeholder="Select\update your services"
+        placeholder="Select / update your services"
         hidePlaceholderWhenSelected
         defaultOptions={defaultOptions}
         emptyIndicator={<p className="text-center text-lg leading-10 text-gray-600">No results found.</p>}

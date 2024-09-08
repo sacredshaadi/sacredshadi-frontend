@@ -89,3 +89,13 @@ export const vendorUpdateSubType = (payload: { accessToken: string; data: any })
     body: JSON.stringify(payload.data)
   });
 };
+
+export const searchVendors = (payload: any) => {
+  return apiClient(vendorEndpoints.searchVendors, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+};

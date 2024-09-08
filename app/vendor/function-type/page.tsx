@@ -1,9 +1,5 @@
-import { SuperAdminLayout } from "@/app/admin/_components/adminLayout";
 import React from "react";
-import { VendorLayout } from "../_components/vendor-layout";
-import Timeline from "../_components/timeline/timeline";
 import VendorRouteWrapper from "../_components/vendor-route-wrapper";
-import CardWrapper from "../_components/vendor-route-wrapper/card-wrapper";
 import ServiceModal from "../service-type/service-modal";
 import FunctionsComp from "./functions-comp";
 

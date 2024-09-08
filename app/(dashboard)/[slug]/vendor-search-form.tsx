@@ -1,28 +1,25 @@
 "use client";
 
 import * as z from "zod";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CalendarIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { budgetArr, fillerCities } from "@/constants/data";
+import { budgetArr } from "@/constants/data";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { toast } from "@/components/ui/use-toast";
 import { useVendorContext } from "@/app/context/vendor-context";
 import useStateRef from "react-usestateref";
 import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
-// import { useGetVendorAllSubTypesMutation } from "@/components/api";
-// import { UseMutationResult } from "@tanstack/react-query";
-// import { VendorSubType } from "@/types/auth.types";
 import { Option } from "@/components/ui/multiselect";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useVendorSearch } from "@/hooks/useVendorSearch";
 
 export const IMG_MAX_LIMIT = 3;
 
@@ -30,7 +27,7 @@ const formSchema = z.object({
   location: z.string().min(3, { message: "Please select a venue from the dropdown" }),
   cityId: z.number().min(1, { message: "Please select a valid city from the dropdown" }),
   services: z.array(z.number()).min(1, { message: "Please select atleast 1 service" }),
-  budget: z.string(),
+  budget: z.number(),
   date: z.date().refine((date) => date >= new Date(), { message: "Invalid date" })
 });
 
@@ -49,9 +46,9 @@ export const SearchForm = (props: Props) => {
   const searchParams = useSearchParams();
   const { cities, vendorTypes } = useVendorContext();
   const [arr, setArr] = useState<Option[]>([]);
+  const { onFormSubmit, isPending } = useVendorSearch();
 
   const [selected, setSelected] = useState<Option[]>([]);
-  const [loading] = useState(false);
   const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
 
   const [vendorSubTypesLoading, setVendorSubTypesLoading] = useState(true);
@@ -60,31 +57,15 @@ export const SearchForm = (props: Props) => {
     const vendorType = vendorTypes.find((item) => item.id === props.vendorTypeId);
     setArr(
       () =>
-        //@ts-expect-error
-        vendorType?.vendorSubTypes.map((item) => ({ label: item.subType, value: item.id.toString() }) as Option) || []
+        vendorType?.vendorSubTypes.map((item) => ({ label: item.subType, value: item?.id?.toString() }) as Option) || []
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendorTypes]);
 
   useEffect(() => {
     if (arr.length === 0) return;
     setVendorSubTypesLoading(false);
   }, [arr]);
-  // const { mutate: mutateFn, isPending: subTypesPending, isError: subTypesError } = useGetVendorAllSubTypesMutation();
-
-  // useEffect(() => {
-  //   mutateFn(props.vendorTypeId, {
-  //     onSuccess: (data) => {
-  //       const temp = data.data as VendorSubType[];
-  //       setArr(() => temp.map((item) => ({ label: item.subType, value: item.vendorSubTypeId.toString() }) as Option));
-  //     },
-  //     onError: (error) => {
-  //       toast({
-  //         description: "Error fetching data",
-  //         variant: "destructive"
-  //       });
-  //     }
-  //   });
-  // }, [props.vendorTypeId]);
 
   useEffect(() => {
     if (!searchParams.get("city")) {
@@ -99,7 +80,7 @@ export const SearchForm = (props: Props) => {
   }, [cities]);
 
   const defaultValues: ProductFormValues = {
-    budget: "50,000",
+    budget: 50000,
     cityId: 1,
     date: new Date(),
     location: locationEnum.myvenue,
@@ -111,8 +92,22 @@ export const SearchForm = (props: Props) => {
     defaultValues
   });
 
-  const onSubmit = async (data: ProductFormValues) => {
-    console.log("data: ", data);
+  const onSubmit = async (data: ProductFormValues) => {};
+
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    form.setValue(
+      "services",
+      selected.map((item) => Number(item.value))
+    );
+    const formValues = form.getValues();
+    onFormSubmit({
+      cityId: formValues.cityId,
+      serviceIds: selected.map((item) => Number(item.value)),
+      priceRange: [0, formValues.budget],
+      date: formValues.date,
+      rating: 5
+    });
   };
 
   return (
@@ -184,7 +179,6 @@ export const SearchForm = (props: Props) => {
               ) : (
                 <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
               )}
-              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -197,7 +191,10 @@ export const SearchForm = (props: Props) => {
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Select defaultValue={defaultValues.budget} onValueChange={(value) => form.setValue("budget", value)}>
+                  <Select
+                    defaultValue={defaultValues.budget.toString()}
+                    onValueChange={(value) => form.setValue("budget", parseInt(value, 10))}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -214,6 +211,7 @@ export const SearchForm = (props: Props) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="date"
@@ -244,21 +242,9 @@ export const SearchForm = (props: Props) => {
             )}
           />
         </div>
+
         <div className="flex w-full items-center justify-end">
-          <Button
-            disabled={loading}
-            className="ml-auto px-10 font-semibold"
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              form.setValue(
-                "services",
-                selected.map((item) => Number(item.value))
-              );
-              console.log(form.getValues());
-              // toast({ description: JSON.stringify(form.getValues()), variant: "default" });
-            }}
-          >
+          <Button disabled={isPending} className="ml-auto px-10 font-semibold" type="submit" onClick={handleSubmit}>
             Submit
           </Button>
         </div>

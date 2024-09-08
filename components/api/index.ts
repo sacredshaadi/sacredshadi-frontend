@@ -47,6 +47,7 @@ export const QUERY_KEYS = {
   getAllVendorSubTypes: "getAllVendorSubTypes",
   loginAdmin: "loginAdmin",
   vendorUpdateSubType: "vendorUpdateSubType",
+  searchVendors: "searchVendors",
   ...feedbackKeys,
   ...offerKeys
 };
@@ -237,5 +238,12 @@ export const useRemoveOfferMutation = () => {
   return useMutation({
     mutationFn: OFFER_ENDPOINTS.removeOffer,
     mutationKey: [offerKeys.removeOffer]
+  });
+};
+
+export const useSearchVendorsMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.searchVendors],
+    mutationFn: VENDOR_ENDPOINTS.searchVendors
   });
 };

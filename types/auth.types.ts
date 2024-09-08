@@ -1,4 +1,4 @@
-import z, { number, string } from "zod";
+import z from "zod";
 
 export const loginUserSchema = z.object({
   phone: z.string(),
@@ -26,6 +26,7 @@ interface UserSub {
 export interface User extends UserSub {}
 
 export interface VendorSubType {
+  id?: string | number;
   subType: string;
   vendorSubTypeId: number;
   vendorTypeId: number;
