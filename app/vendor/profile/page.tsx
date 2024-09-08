@@ -7,13 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { CameraIcon } from "lucide-react";
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useUserStore } from "@/app/context/user-context";
 import VendorRouteWrapper from "../_components/vendor-route-wrapper";
 
 const Page = () => {
   const { vendor, setVendor } = useUserStore();
-  const loadingRef = React.useRef<boolean>(false);
+  const loadingRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (!vendor) loadingRef.current = true;
@@ -21,7 +21,7 @@ const Page = () => {
   }, [vendor]);
 
   return (
-    <VendorRouteWrapper title="Profile" currentStep={1} nextBtnLink="/vendor/service-type">
+    <VendorRouteWrapper title="Profile" currentStep={1}>
       <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
         <div className="relative">
           <Avatar className="h-24 w-24 sm:h-32 sm:w-32">

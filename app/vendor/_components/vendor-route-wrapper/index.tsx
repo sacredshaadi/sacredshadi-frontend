@@ -1,6 +1,8 @@
+"use client";
+
 import React from "react";
 import { VendorLayout } from "../vendor-layout";
-import Timeline from "../timeline/timeline";
+import Timeline, { stepRoutes } from "../timeline/timeline";
 import { Separator } from "@/components/ui/separator";
 
 interface VendorRouteWrapperProps {
@@ -11,12 +13,11 @@ interface VendorRouteWrapperProps {
   children?: React.ReactNode;
   headerNav?: React.ReactNode;
   hideNextBtn?: boolean;
-  nextBtnLink?: string;
 }
 
 const VendorRouteWrapper = (props: VendorRouteWrapperProps) => {
   return (
-    <VendorLayout title={props.title} hideNextBtn={props.hideNextBtn} nextBtnLink={props.nextBtnLink}>
+    <VendorLayout title={props.title} hideNextBtn={props.hideNextBtn} nextBtnLink={stepRoutes[props.currentStep]}>
       {props.headerNav}
       <Timeline currentStep={props.currentStep} />
 

@@ -5,12 +5,7 @@ import OffersCardWrapper from "./offers-card-wrapper";
 
 const ServicesOffered = () => {
   return (
-    <VendorRouteWrapper
-      title="Services Offered"
-      currentStep={3}
-      nextBtnLink="/vendor/portfolio-list"
-      headerNav={<AddServiceNav />}
-    >
+    <VendorRouteWrapper title="Services Offered" currentStep={3} headerNav={<AddServiceNav />}>
       <OffersCardWrapper />
     </VendorRouteWrapper>
   );

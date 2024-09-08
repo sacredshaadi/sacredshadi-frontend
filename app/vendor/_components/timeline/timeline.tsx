@@ -8,8 +8,13 @@ import { useRouter } from "next/navigation";
 
 const percentages = [0, 33, 67, 100];
 
-const steps = ["profile", "service-type", "service-package", "portfolio-list"];
-const stepRoutes = ["/vendor/profile", "/vendor/service-type", "/vendor/function-type", "/vendor/package"];
+export const steps = ["profile", "service-type", "services-offered", "portfolio-list"];
+export const stepRoutes = [
+  "/vendor/profile",
+  "/vendor/service-type",
+  "/vendor/services-offered",
+  "/vendor/portfolio-list"
+];
 
 const Timeline = (props: { currentStep: number }) => {
   const router = useRouter();
@@ -23,7 +28,7 @@ const Timeline = (props: { currentStep: number }) => {
             {({ accomplished, index }: any) => (
               <section className="relative ">
                 <div
-                  onClick={() => router.push(stepRoutes[index - 1])}
+                  onClick={() => router.push(stepRoutes[index])}
                   className={cn(
                     "text-white, flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs font-bold text-white",
                     accomplished ? "bg-rose-500" : "bg-gray-300"
