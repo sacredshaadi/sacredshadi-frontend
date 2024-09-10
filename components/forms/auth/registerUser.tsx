@@ -71,7 +71,7 @@ const RegisterUser = () => {
         </section>
       </div>
 
-      <Button className="ml-auto w-full" type="submit" disabled={registerPending}>
+      <Button className="ml-auto w-full font-semibold shadow-lg " type="submit" disabled={registerPending}>
         {registerPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Create Account
       </Button>

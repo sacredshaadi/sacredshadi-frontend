@@ -6,7 +6,7 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-const percentages = [0, 33, 67, 100];
+const percentages = [0, 34, 67, 100];
 
 export const steps = ["profile", "service-type", "services-offered", "portfolio-list"];
 export const stepRoutes = [

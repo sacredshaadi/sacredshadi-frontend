@@ -10,7 +10,11 @@ const VendorSettings = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button className="flex items-center justify-center rounded-full p-2" title="Settings" variant={"outline"}>
+        <Button
+          className="flex items-center justify-center rounded-full border-2 border-primary p-2 text-primary transition hover:bg-primary hover:text-white"
+          title="Settings"
+          variant={"outline"}
+        >
           <Settings className="h-4 w-4 cursor-pointer font-light" />
         </Button>
       </SheetTrigger>

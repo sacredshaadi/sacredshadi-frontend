@@ -62,7 +62,7 @@ export function AddServiceModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="ml-auto font-semibold">
+        <Button variant="default" className="ml-auto font-semibold shadow-lg">
           <span className="flex items-center justify-center gap-2">
             <Plus size={16} />
             Add service package

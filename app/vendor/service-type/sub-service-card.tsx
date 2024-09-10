@@ -8,8 +8,8 @@ interface SubServiceCardProps {
 
 const SubServiceCard = ({ vendorSubtype }: SubServiceCardProps) => {
   return (
-    <Card className="flex flex-col gap-4 ring-2 ring-rose-300">
-      <CardHeader title="Service Type" className="font-medium">
+    <Card className="flex flex-col gap-4 ring-2 ring-rose-300 transition hover:bg-primary-foreground">
+      <CardHeader title="Service Type" className="font-semibold">
         {vendorSubtype.subType}
       </CardHeader>
     </Card>

@@ -122,7 +122,13 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
               <FormControl>
                 <section className="flex items-center justify-between gap-2">
                   <Input type={showPassword ? "text" : "password"} {...field} />
-                  <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword((prev) => !prev)}>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="h-fit w-fit p-3 text-muted-foreground hover:bg-primary-foreground"
+                  >
                     {showPassword ? (
                       <EyeIcon className="h-4 w-4" aria-hidden="true" />
                     ) : (
@@ -136,7 +142,7 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
           )}
         />
 
-        <Button disabled={isPending} className="ml-auto w-full" type="submit">
+        <Button disabled={isPending} className="ml-auto w-full font-semibold shadow-lg" type="submit">
           {isPending && !isError && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           <span>{isPending ? "Logging in.." : "Login"}</span>
         </Button>

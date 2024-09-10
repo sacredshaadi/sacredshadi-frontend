@@ -100,7 +100,7 @@ export function AddDialog(props: AddDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="ml-auto font-semibold" disabled={isPending || submitPending}>
+        <Button variant="default" className="ml-auto font-semibold shadow-lg" disabled={isPending || submitPending}>
           <span className="flex items-center justify-center gap-2">
             {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus size={16} />}
             Update services
@@ -112,13 +112,13 @@ export function AddDialog(props: AddDialogProps) {
           <DialogTitle>Add new service type</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full items-end space-y-6">
             <FormField
               control={form.control}
               name="vendorSubTypeIds"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Service Type</FormLabel>
+                  <FormLabel className="font-semibold text-muted-foreground">Service Type</FormLabel>
                   <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
                   <FormDescription></FormDescription>
                   <FormMessage />
@@ -130,7 +130,7 @@ export function AddDialog(props: AddDialogProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel className="font-semibold text-muted-foreground">Description</FormLabel>
                   <Textarea
                     {...field}
                     className="input"
@@ -140,7 +140,7 @@ export function AddDialog(props: AddDialogProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={submitPending}>
+            <Button type="submit" disabled={submitPending} className="ml-auto font-semibold shadow-lg">
               {submitPending && !submitError && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit
             </Button>

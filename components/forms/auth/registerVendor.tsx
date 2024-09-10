@@ -152,7 +152,7 @@ const RegisterVendor = () => {
         </section>
       </div>
 
-      <Button disabled={isPending} className="ml-auto w-full" type="submit">
+      <Button disabled={isPending} className="ml-auto w-full font-semibold shadow-lg" type="submit">
         {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Register Vendor
       </Button>

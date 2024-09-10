@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { UserAuthType, userAuthTypes } from "@/types";
 import { useVendorProfileMutation } from "@/components/api";
 import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 export default function Profile(props: { type: UserAuthType }) {
   const router = useRouter();
@@ -78,13 +79,27 @@ export default function Profile(props: { type: UserAuthType }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="group border-2">
-          <PersonIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 group-hover:text-primary" />
+        <Button
+          variant="outline"
+          size="icon"
+          title="Profile"
+          className={cn(
+            "group border-2 border-primary",
+            props.type !== userAuthTypes.user && "transition hover:bg-primary"
+          )}
+        >
+          <PersonIcon
+            className={cn(
+              "h-[1.2rem] w-[1.2rem] rotate-0 scale-100 text-primary",
+              props.type === userAuthTypes.user ? "group-hover:text-primary" : "group-hover:text-white"
+            )}
+          />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="[&>*]:cursor-pointer">
+        <DropdownMenuItem onClick={() => router.push("/vendor/profile")}>View Profile</DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

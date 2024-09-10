@@ -24,12 +24,16 @@ const AuthParent = () => {
 
         <Tabs defaultValue={userAuthTypes.user}>
           <TabsList className="w-full">
-            <TabsTrigger value={userAuthTypes.user} className="w-1/2" onClick={() => setUserType(userAuthTypes.user)}>
+            <TabsTrigger
+              value={userAuthTypes.user}
+              className="w-1/2 font-semibold "
+              onClick={() => setUserType(userAuthTypes.user)}
+            >
               I&apos;m a User
             </TabsTrigger>
 
             <TabsTrigger
-              className="w-1/2"
+              className="w-1/2 font-semibold "
               value={userAuthTypes.vendor}
               onClick={() => setUserType(userAuthTypes.vendor)}
             >
@@ -51,7 +55,7 @@ const AuthParent = () => {
 
         <span className="flex justify-center gap-1 space-x-2 text-sm">
           {login ? `New ${userType}?` : "Already have an account?"}
-          <button onClick={handleChangeLoginType} className="text-primary underline">
+          <button onClick={handleChangeLoginType} className="font-semibold text-primary underline">
             {login ? "Create an account" : "Login"}
           </button>
         </span>

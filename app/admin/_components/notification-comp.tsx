@@ -13,7 +13,11 @@ const NotificationComp = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button className="flex items-center justify-center p-2" variant={"outline"} title="Notifications">
+        <Button
+          className="flex items-center justify-center border-2 border-primary p-2 text-primary transition hover:bg-primary hover:text-white"
+          variant={"outline"}
+          title="Notifications"
+        >
           <Bell className="h-4 w-4 cursor-pointer" />
         </Button>
       </DropdownMenuTrigger>

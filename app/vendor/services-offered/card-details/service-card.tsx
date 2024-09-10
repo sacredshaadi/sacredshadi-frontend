@@ -16,7 +16,7 @@ const ServiceCard = (props: ServiceCardProps) => {
   const [removeOpen, setRemoveOpen] = React.useState(false);
 
   return (
-    <Card className="relative">
+    <Card className="relative shadow-lg">
       <section className="absolute right-4 top-4 grid grid-cols-1 items-center gap-1 bg-transparent sm:grid-cols-2 sm:gap-2">
         <ServiceTypeUpdateModal id={props.offerObj.id} open={updateOpen} setOpen={setUpdateOpen} />
         <ServiceTypeRemoveModal id={props.offerObj.id} open={removeOpen} setOpen={setRemoveOpen} />

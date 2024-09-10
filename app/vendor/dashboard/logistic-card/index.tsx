@@ -8,7 +8,7 @@ interface LogisticCardProps {
 
 const LogisticCard = ({ logisticType }: LogisticCardProps) => {
   return (
-    <Card className="flex flex-col gap-2 p-4">
+    <Card className="flex flex-col gap-2 p-4 shadow-lg">
       <CardTitle>People ({logisticType})</CardTitle>
       <CardDescription>View and manage your orders</CardDescription>
       <CardContent className="flex flex-col items-center justify-center gap-2 p-4">
