@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiConfig/apiClient";
-import { offerEndpoints } from "@/lib/apiConfig/endpoints";
+import { offerEndpoints, searchEndpoints } from "@/lib/apiConfig/endpoints";
 
 type mutationReqType = { accessToken: string; data: any };
 
@@ -43,5 +43,14 @@ export const removeOffer = (payload: mutationReqType) => {
       Authorization: `Bearer ${payload.accessToken}`
     },
     body: JSON.stringify(payload.data)
+  });
+};
+
+export const getOfferById = (offerId: string) => {
+  return apiClient(`${searchEndpoints.search}/${offerId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
   });
 };

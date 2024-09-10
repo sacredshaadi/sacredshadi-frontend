@@ -77,4 +77,8 @@ export const offerEndpoints = {
   getAllOffers: "/api/v1/service-offer/all"
 } as const;
 
+export const searchEndpoints = {
+  search: "/api/v1/search/vendors"
+} as const;
+
 export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

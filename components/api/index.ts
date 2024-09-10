@@ -31,7 +31,8 @@ const offerKeys = {
   createOffer: "createOffer",
   updateOffer: "updateOffer",
   getAllOffers: "getAllOffers",
-  removeOffer: "removeOffer"
+  removeOffer: "removeOffer",
+  getOfferById: "getOfferById"
 };
 
 export const QUERY_KEYS = {
@@ -245,5 +246,12 @@ export const useSearchVendorsMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.searchVendors],
     mutationFn: VENDOR_ENDPOINTS.searchVendors
+  });
+};
+
+export const useSearchByIdMutation = () => {
+  return useMutation({
+    mutationKey: [offerKeys.getOfferById],
+    mutationFn: OFFER_ENDPOINTS.getOfferById
   });
 };

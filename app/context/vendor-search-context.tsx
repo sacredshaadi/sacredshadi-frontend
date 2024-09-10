@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Root = {
+export type Root = {
   id: number;
   serviceOfferedId: number;
   vendorId: number;

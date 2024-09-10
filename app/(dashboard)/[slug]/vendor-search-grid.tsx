@@ -18,7 +18,14 @@ export function VendorSearchGrid() {
       ) : (
         <div className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
           {data.map((item) => (
-            <PackageModal key={item.id} packageName={item.details} description={item.description} price={item.price} />
+            <PackageModal
+              key={item.id}
+              packageName={item.details}
+              description={item.description}
+              price={item.price}
+              vendorName={item.vendor.user.name || ""}
+              packageId={item.id}
+            />
           ))}
         </div>
       )}
