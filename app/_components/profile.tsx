@@ -84,14 +84,16 @@ export default function Profile(props: { type: UserAuthType }) {
           size="icon"
           title="Profile"
           className={cn(
-            "group border-2 border-primary",
-            props.type !== userAuthTypes.user && "transition hover:bg-primary"
+            "group border-2",
+            props.type !== userAuthTypes.user ? "border-primary transition hover:bg-primary" : "border-white"
           )}
         >
           <PersonIcon
             className={cn(
-              "h-[1.2rem] w-[1.2rem] rotate-0 scale-100 text-primary",
-              props.type === userAuthTypes.user ? "group-hover:text-primary" : "group-hover:text-white"
+              "h-[1.2rem] w-[1.2rem] rotate-0 scale-100",
+              props.type === userAuthTypes.user
+                ? "text-white group-hover:text-primary"
+                : "text-primary group-hover:text-white"
             )}
           />
           <span className="sr-only">Toggle theme</span>

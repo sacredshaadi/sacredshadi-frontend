@@ -12,6 +12,7 @@ export function useVendorSearch() {
     vendorSearchStore.setSearchParams(params);
     const res = await handleVendorSearch({ ...params, page: 1, pageSize: vendorSearchStore.pageSize });
     vendorSearchStore.setData(res.data.rows, res.data.count);
+    vendorSearchStore.setSearched(true);
   }
 
   async function nextPage() {
@@ -47,6 +48,8 @@ export function useVendorSearch() {
     data: vendorSearchStore.data,
     page: vendorSearchStore.page,
     pageSize: vendorSearchStore.pageSize,
-    total: vendorSearchStore.count
+    total: vendorSearchStore.count,
+    searched: vendorSearchStore.searched,
+    setSearched: vendorSearchStore.setSearched
   };
 }

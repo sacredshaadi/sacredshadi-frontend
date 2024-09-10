@@ -49,6 +49,7 @@ export type VendorSearchState = {
   page: number;
   pageSize: number;
   count: number;
+  searched: boolean;
 };
 
 export type Actions = {
@@ -58,6 +59,7 @@ export type Actions = {
   setPageSize: (pageSize: number) => void;
   setPageNumber: (page: number) => void;
   setSearchParams: (params: VendorSearchParams) => void;
+  setSearched: (searched: boolean) => void;
 };
 
 export const useVendorSearchStore = create<VendorSearchParams & VendorSearchState & Actions>((set) => ({
@@ -70,10 +72,12 @@ export const useVendorSearchStore = create<VendorSearchParams & VendorSearchStat
   priceRange: [0, 0],
   date: new Date(),
   rating: 5,
+  searched: false,
   setData: (data, count) => set({ data, count }),
   nextPage: () => set((state) => ({ page: state.page + 1 })),
   prevPage: () => set((state) => ({ page: state.page - 1 })),
   setPageSize: (pageSize) => set({ pageSize }),
   setPageNumber: (page) => set({ page }),
-  setSearchParams: (params) => set({ ...params })
+  setSearchParams: (params) => set({ ...params }),
+  setSearched: (searched) => set({ searched })
 }));

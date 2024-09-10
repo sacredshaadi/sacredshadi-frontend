@@ -4,7 +4,7 @@ import * as z from "zod";
 import { MouseEvent, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -26,9 +26,9 @@ export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
   location: z.string().min(3, { message: "Please select a venue from the dropdown" }),
   cityId: z.number().min(1, { message: "Please select a valid city from the dropdown" }),
-  services: z.array(z.number()).min(1, { message: "Please select atleast 1 service" }),
+  services: z.number().array().nonempty("Please select a service type"),
   budget: z.number(),
-  date: z.date().refine((date) => date >= new Date(), { message: "Invalid date" })
+  date: z.date().refine((date) => date >= new Date(), { message: "Date should not be before today." })
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -46,7 +46,7 @@ export const SearchForm = (props: Props) => {
   const searchParams = useSearchParams();
   const { cities, vendorTypes } = useVendorContext();
   const [arr, setArr] = useState<Option[]>([]);
-  const { onFormSubmit, isPending } = useVendorSearch();
+  const { onFormSubmit, isPending, setSearched } = useVendorSearch();
   const [selected, setSelected] = useState<Option[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
@@ -61,6 +61,10 @@ export const SearchForm = (props: Props) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendorTypes]);
+
+  useEffect(() => {
+    form.setValue("services", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
+  }, [selected]);
 
   useEffect(() => {
     if (arr.length === 0) return;
@@ -84,6 +88,7 @@ export const SearchForm = (props: Props) => {
     cityId: 1,
     date: new Date(),
     location: locationEnum.myvenue,
+    // @ts-ignore
     services: []
   };
 
@@ -92,14 +97,7 @@ export const SearchForm = (props: Props) => {
     defaultValues
   });
 
-  const onSubmit = async (data: ProductFormValues) => {};
-
-  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    form.setValue(
-      "services",
-      selected.map((item) => Number(item.value))
-    );
+  const onSubmit = async () => {
     const formValues = form.getValues();
     onFormSubmit({
       cityId: formValues.cityId,
@@ -244,7 +242,8 @@ export const SearchForm = (props: Props) => {
         </div>
 
         <div className="flex w-full items-center justify-end">
-          <Button disabled={isPending} className="ml-auto px-10 font-semibold" type="submit" onClick={handleSubmit}>
+          <Button disabled={isPending} className="ml-auto px-10 font-semibold shadow-lg" type="submit">
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Submit
           </Button>
         </div>

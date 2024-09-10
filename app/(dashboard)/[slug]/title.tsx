@@ -20,13 +20,13 @@ const Title = (props: TitleProps) => {
   }, [vendorTypes]);
 
   return (
-    <h1 className="lg:leading-tighter flex items-center gap-5 text-3xl font-bold tracking-tighter">
+    <header className="lg:leading-tighter flex items-center gap-5 text-3xl font-bold tracking-tighter">
       {vendorNameRef.current ? (
         <h2>Inquiry for {vendorNameRef.current}</h2>
       ) : (
         <Skeleton className="h-16 w-96 bg-gray-100" />
       )}
-    </h1>
+    </header>
   );
 };
 

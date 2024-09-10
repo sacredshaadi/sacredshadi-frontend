@@ -22,7 +22,7 @@ export default function Page(props: { params: { slug: string } }) {
           inset-0 m-auto !w-full object-fill"
         />
 
-        <section className="z-10 flex flex-col items-start justify-center gap-4 rounded-md bg-white p-4">
+        <section className="z-10 flex flex-col items-start justify-center gap-4 rounded-md bg-white p-4 shadow-2xl">
           <SearchForm vendorTypeId={Number(props.params.slug)} />
         </section>
       </section>
