@@ -62,7 +62,7 @@ export const VendorSelectWrapper = (props: { vendors: VendorType[]; cities: ICit
       />
 
       <Button
-        className="font-bold lg:absolute lg:right-[-10rem] lg:my-auto"
+        className="font-bold shadow-xl lg:absolute lg:right-[-10rem] lg:my-auto"
         size={"lg"}
         onClick={() => {
           if (!vendor || !city) {

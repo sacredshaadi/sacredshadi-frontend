@@ -10,7 +10,10 @@ const VendorWrapper = ({ vendorTypes }: VendorWrapperProps) => {
   return (
     <section className="flex flex-col items-center justify-center gap-12 p-4">
       <header className="flex w-full flex-col items-center justify-center gap-4 md:gap-8 lg:w-4/5 xl:w-3/5 xl:gap-12">
-        <h1 aria-label="Vendors" className="text-3xl font-semibold text-primary">
+        <h1
+          aria-label="Vendors"
+          className="text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl xl:text-5xl"
+        >
           Our Vendors
         </h1>
         <span className="text-center text-sm text-muted-foreground">

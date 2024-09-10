@@ -18,7 +18,7 @@ const Pinterest = () => {
       xmlSpace="preserve"
     >
       <path
-        className="h-5 w-5 !text-muted-foreground"
+        className="h-5 w-5 !text-primary"
         fill="text-muted-foreground"
         d="M405.017,52.467C369.774,18.634,321.001,0,267.684,0C186.24,0,136.148,33.385,108.468,61.39
 	c-34.114,34.513-53.675,80.34-53.675,125.732c0,56.993,23.839,100.737,63.76,117.011c2.68,1.098,5.377,1.651,8.021,1.651

@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Youtube } from "lucide-react";
+import { FaPinterestP } from "react-icons/fa";
 import Link from "next/link";
 import Pinterest from "./icons/pinterest";
 import { phoneArr } from "@/constants/data";
@@ -11,8 +12,8 @@ export default function Footer() {
       <div className="container mx-auto grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 md:grid-cols-4">
         <div className="space-y-4 sm:col-span-2">
           <Link href="https://sacredshaadi.com" target="_blank" className="flex items-center" prefetch={false}>
-            <HeartFilledIcon className="mr-2 h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">What&apos;s in store</span>
+            <HeartFilledIcon className="mr-2 h-8 w-8 text-primary" />
+            <span className="text-2xl font-bold">What&apos;s in store</span>
           </Link>
           <p className="text-sm">
             To solve all your wedding planning woes, Sacredshaadi provides a range of wedding services. So sit back,
@@ -21,12 +22,12 @@ export default function Footer() {
         </div>
 
         <div className="space-y-2">
-          <h4 className="text-sm font-semibold">Follow Us</h4>
+          <h4 className="text-lg font-semibold">Follow Us</h4>
           <div className="flex gap-2">
             <Link
               href="https://www.facebook.com/SacredShaadi/"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
+              className="flex items-center justify-center rounded-full border-2 border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
               <Facebook className="h-5 w-5" />
@@ -34,7 +35,7 @@ export default function Footer() {
             <Link
               href="https://www.instagram.com/sacredshaadi/"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
+              className="flex items-center justify-center rounded-full border-2 border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
               <Instagram className="h-5 w-5" />
@@ -42,15 +43,15 @@ export default function Footer() {
             <Link
               href="https://www.pinterest.com/sacredshaadi/"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
+              className="flex items-center justify-center rounded-full border-2 border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
-              <Pinterest />
+              <FaPinterestP className="h-5 w-5" />
             </Link>
             <Link
               href="https://www.youtube.com/c/SacredShaadi"
               target="_blank"
-              className="flex items-center justify-center rounded-full border border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
+              className="flex items-center justify-center rounded-full border-2 border-gray-300 p-2 text-muted-foreground transition hover:bg-gray-300 hover:text-primary"
               prefetch={false}
             >
               <Youtube className="h-5 w-5" />
@@ -58,8 +59,8 @@ export default function Footer() {
           </div>
         </div>
         <div className="space-y-2">
-          <h4 className="text-sm font-semibold">Contact Us</h4>
-          <nav className="flex items-center gap-1">
+          <h4 className="text-lg font-semibold">Contact Us</h4>
+          <nav className="flex items-center gap-1 font-semibold">
             <a href={`tel:${phoneArr[0]}`} className="text-sm text-muted-foreground hover:text-primary">
               {phoneArr[0]}
             </a>
@@ -85,7 +86,8 @@ export default function Footer() {
             />
           </Link>
           <p>
-            &copy; Copyright 2024. All rights reserved Sacred Shaadi. Design and developed by Nexus Solutions Pvt. Ltd..
+            &copy; Copyright 2024. All rights reserved Sacred Shaadi. Designed and developed by{" "}
+            <b>Nexus Solutions Pvt. Ltd.</b>.
           </p>
         </span>
         <section className="flex items-center justify-center gap-1">

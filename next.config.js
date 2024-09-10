@@ -17,6 +17,11 @@ const nextConfig = {
         source: "/vendor",
         destination: "/vendor/dashboard",
         permanent: true
+      },
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true
       }
     ];
   }
