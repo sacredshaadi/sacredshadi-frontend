@@ -1,10 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import BookingNodesComponent from "../(dashboard)/booking/booking-nodes-component";
 import { useUserStore } from "../context/user-context";
-import { useGetAllUserBookingsMutation } from "@/components/api";
-import { useEffect } from "react";
-import { toast } from "@/components/ui/use-toast";
 
 function NoUserState() {
   const router = useRouter();
@@ -21,37 +19,15 @@ function NoUserState() {
 
 export function ShowBookings() {
   const { user } = useUserStore();
-  const { mutate: getAllUserBookingsFn, isPending, isError } = useGetAllUserBookingsMutation();
-
-  useEffect(() => {
-    try {
-      if (!user) {
-        throw new Error("User not found");
-      }
-      getAllUserBookingsFn(user.tokens.accessToken, {
-        onSuccess: (data) => {
-          console.log(data);
-        },
-        onError: (error) => {
-          throw error;
-        }
-      });
-    } catch (err: any) {
-      toast({
-        title: "Error",
-        description: err.error || err.message || "Something went wrong",
-        variant: "destructive"
-      });
-    }
-  }, []);
 
   if (!user) return <NoUserState />;
 
   return (
-    <div className="my-56 flex flex-col items-center justify-center">
-      {/* TODO: handle this := get user bookings */}
-      <h1 className="text-2xl font-bold">No booking found</h1>
-      <p className="text-gray-500">You have not made any booking yet</p>
+    <div className="container mx-auto py-10">
+      <h1 className="mb-6 text-3xl font-bold">Your Bookings</h1>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <BookingNodesComponent />
+      </div>
     </div>
   );
 }
