@@ -2,6 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../context/user-context";
+import { useGetAllUserBookingsMutation } from "@/components/api";
+import { useEffect } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 function NoUserState() {
   const router = useRouter();
@@ -18,8 +21,32 @@ function NoUserState() {
 
 export function ShowBookings() {
   const { user } = useUserStore();
+  const { mutate: getAllUserBookingsFn, isPending, isError } = useGetAllUserBookingsMutation();
+
+  useEffect(() => {
+    try {
+      if (!user) {
+        throw new Error("User not found");
+      }
+      getAllUserBookingsFn(user.tokens.accessToken, {
+        onSuccess: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          throw error;
+        }
+      });
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.error || err.message || "Something went wrong",
+        variant: "destructive"
+      });
+    }
+  }, []);
 
   if (!user) return <NoUserState />;
+
   return (
     <div className="my-56 flex flex-col items-center justify-center">
       {/* TODO: handle this := get user bookings */}

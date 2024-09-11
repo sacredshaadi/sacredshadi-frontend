@@ -1,3 +1,7 @@
+"use client";
+
+import { useUserStore } from "@/app/context/user-context";
+import { useCreateBookingMutation } from "@/components/api";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,16 +14,60 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
+import { Loader2, Mail, Phone } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useCallback } from "react";
 
 interface BookModalProps {
   phoneNo: string;
   email: string;
+  vendorId: string;
+  packageId: string;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function BookModal(props: BookModalProps) {
+  const { user } = useUserStore();
+  const { mutate: bookFn, isPending, isError } = useCreateBookingMutation();
+  const router = useRouter();
+  const handleBooking = useCallback(() => {
+    try {
+      if (!user) {
+        throw new Error("User not found");
+      }
+      bookFn(
+        {
+          bookingDate: new Date().toISOString(),
+          vendorId: props.vendorId,
+          serviceOfferedId: props.packageId,
+          accessToken: user.tokens.accessToken
+        },
+        {
+          onSuccess: (data) => {
+            toast({
+              title: "Success",
+              description: "Booking successful"
+            });
+            router.push(`/booking`);
+          },
+          onError: (error) => {
+            throw error;
+          }
+        }
+      );
+    } catch (err: any) {
+      toast({
+        title: "Error booking package",
+        description: err.error || err.message || "Something went wrong",
+        variant: "destructive"
+      });
+    }
+  }, []);
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={props.setIsOpen} open={props.isOpen}>
       <DialogTrigger asChild>
         <Button className="h-fit text-lg font-semibold shadow-lg">Book Now</Button>
       </DialogTrigger>
@@ -36,10 +84,16 @@ export function BookModal(props: BookModalProps) {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" className="ml-auto mr-2 font-semibold shadow-lg ">
+          <Button
+            variant="outline"
+            className="ml-auto mr-2 font-semibold shadow-lg "
+            disabled={isPending}
+            onClick={() => props.setIsOpen(false)}
+          >
             Cancel
           </Button>
-          <Button type="submit" className="font-semibold shadow-lg">
+          <Button type="submit" className="font-semibold shadow-lg" onClick={handleBooking} disabled={isPending}>
+            {isPending && !isError && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Confirm Booking
           </Button>
         </DialogFooter>

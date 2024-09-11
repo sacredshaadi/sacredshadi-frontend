@@ -22,6 +22,11 @@ const nextConfig = {
         source: "/home",
         destination: "/",
         permanent: true
+      },
+      {
+        source: "/package-details",
+        destination: "/",
+        permanent: true
       }
     ];
   }

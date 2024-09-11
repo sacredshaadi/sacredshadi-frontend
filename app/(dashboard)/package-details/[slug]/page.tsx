@@ -12,11 +12,15 @@ import { toast } from "@/components/ui/use-toast";
 import { Root } from "@/app/context/vendor-search-context";
 import Image from "next/image";
 import { BookModal } from "./book-modal";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 const PackageDetails = (props: { params: { slug: string } }) => {
+  const router = useRouter();
   const [message, setMessage] = useState("");
   const { mutate: searchByIdFn, isPending, isError } = useSearchByIdMutation();
   const [packageDetails, setPackageDetails] = useState<any>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -37,26 +41,35 @@ const PackageDetails = (props: { params: { slug: string } }) => {
         description: "An error occurred while fetching data",
         variant: "destructive"
       });
+      router.push("/");
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Message submitted:", message);
-    setMessage("");
-  };
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="sticky top-0 mb-8 flex items-center justify-between">
         <section className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold drop-shadow-lg ">{packageDetails?.vendor?.vendorType?.type || ""}</h1>
-          <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
+          {isPending ? (
+            <Skeleton className="h-16 w-96 bg-gray-100" />
+          ) : (
+            <h1 className="text-3xl font-bold drop-shadow-lg ">{packageDetails?.vendor?.vendorType?.type || ""}</h1>
+          )}
+          {isPending ? (
+            <Skeleton className="h-14 w-80 bg-gray-100" />
+          ) : (
+            <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
+          )}
         </section>
-        <BookModal
-          phoneNo={packageDetails?.vendor?.user?.phone || ""}
-          email={packageDetails?.vendor?.user?.email || ""}
-        />
+        {!isPending && (
+          <BookModal
+            phoneNo={packageDetails?.vendor?.user?.phone || ""}
+            email={packageDetails?.vendor?.user?.email || ""}
+            vendorId={packageDetails?.vendor?.id || ""}
+            packageId={packageDetails?.id || ""}
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}
+          />
+        )}
       </section>
 
       {/* Package Details */}
@@ -82,7 +95,11 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <p className="text-2xl font-bold">₹{packageDetails?.price || ""}</p>
+          {isPending ? (
+            <Skeleton className="h-12 w-24 bg-gray-100"></Skeleton>
+          ) : (
+            <p className="text-2xl font-bold drop-shadow-lg">₹{packageDetails?.price || ""}</p>
+          )}
         </CardFooter>
       </Card>
 
@@ -111,38 +128,70 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex items-center">
-              <Mail className="mr-2" /> {packageDetails?.vendor?.user?.email || "No email found"}
+              <Mail className="mr-2" />{" "}
+              {isPending ? (
+                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100"></Skeleton>
+              ) : (
+                packageDetails?.vendor?.user?.email || "No email found"
+              )}
             </div>
             <div className="flex items-center">
-              <Phone className="mr-2" /> {packageDetails?.vendor?.user?.phone || "No phone number found"}
+              <Phone className="mr-2" />{" "}
+              {isPending ? (
+                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100"></Skeleton>
+              ) : (
+                packageDetails?.vendor?.user?.phone || "No phone number found"
+              )}
             </div>
             <div className="col-span-2 flex items-center">
               <MapPin className="mr-2" />{" "}
-              {packageDetails?.vendor?.user?.addresses?.[0]?.city?.name || "No address found"}
+              {isPending ? (
+                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100"></Skeleton>
+              ) : (
+                packageDetails?.vendor?.user?.addresses?.[0]?.city?.name || "No address found"
+              )}
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Vendor Album */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Vendor Album</CardTitle>
-          <CardDescription>Previous work by Dream Weddings Inc.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <img
-                key={i}
-                src={`/placeholder.svg?height=150&width=150&text=Wedding+${i}`}
-                alt={`Wedding ${i}`}
-                className="aspect-square h-auto w-full rounded-lg object-cover"
-              />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {isPending ? (
+        <Skeleton className="">
+          <Card className="mb-8 shadow-lg">
+            <CardHeader>
+              <CardTitle className="h-12 w-96 rounded-lg bg-gray-100"></CardTitle>
+              <CardDescription className="h-6 w-48 rounded-lg bg-gray-100"></CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <div key={i} className="h-48 w-48 rounded-lg bg-gray-100"></div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </Skeleton>
+      ) : (
+        <Card className="mb-8 shadow-lg">
+          <CardHeader>
+            <CardTitle>Vendor Album</CardTitle>
+            <CardDescription>Previous work by Dream Weddings Inc.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <img
+                  key={i}
+                  src={`/placeholder.svg?height=150&width=150&text=Wedding+${i}`}
+                  alt={`Wedding ${i}`}
+                  className="aspect-square h-auto w-full rounded-lg object-cover"
+                />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Contact Vendor */}
       {/* <Card>

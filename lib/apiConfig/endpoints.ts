@@ -81,4 +81,13 @@ export const searchEndpoints = {
   search: "/api/v1/search/vendors"
 } as const;
 
+export const bookingEndpoints = {
+  createBooking: "/api/v1/booking/create",
+  getAllBookingsForAdmin: "/api/v1/booking/all",
+  getAllUserBookings: "/api/v1/booking/user",
+  getAllVendorBookings: "/api/v1/booking/vendor",
+  getBookingById: "/api/v1/booking",
+  updateBooking: "/api/v1/booking/update"
+} as const;
+
 export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

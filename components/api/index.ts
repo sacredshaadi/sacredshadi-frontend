@@ -6,6 +6,7 @@ import * as ADMIN_ENDPOINTS from "./admin.endpoints";
 import * as FEEDBACK_ENDPOINTS from "./feedback.endpoints";
 import * as FUNCTION_ENDPOINTS from "./functions.endpoints";
 import * as OFFER_ENDPOINTS from "./services-offered.endpoints";
+import * as BOOKING_ENDPOINTS from "./booking.endpoints";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
@@ -35,6 +36,16 @@ const offerKeys = {
   getOfferById: "getOfferById"
 };
 
+const bookingKeys = {
+  createBooking: "createBooking",
+  updateBooking: "updateBooking",
+  getAllBookingsForAdmin: "getAllBookingsForAdmin",
+  getAllVendorBookings: "getAllVendorBookings",
+  getAllUserBookings: "getAllUserBookings",
+  getBookingById: "getBookingById",
+  updateBookingStatus: "updateBookingStatus"
+};
+
 export const QUERY_KEYS = {
   getCart: "getCart",
   registerUser: "registerUser",
@@ -50,7 +61,8 @@ export const QUERY_KEYS = {
   vendorUpdateSubType: "vendorUpdateSubType",
   searchVendors: "searchVendors",
   ...feedbackKeys,
-  ...offerKeys
+  ...offerKeys,
+  ...bookingKeys
 };
 
 export const useRegisterUserMutation = () => {
@@ -253,5 +265,47 @@ export const useSearchByIdMutation = () => {
   return useMutation({
     mutationKey: [offerKeys.getOfferById],
     mutationFn: OFFER_ENDPOINTS.getOfferById
+  });
+};
+
+export const useCreateBookingMutation = () => {
+  return useMutation({
+    mutationFn: BOOKING_ENDPOINTS.createBooking,
+    mutationKey: [bookingKeys.createBooking]
+  });
+};
+
+export const useGetAllBookingsForAdminMutation = () => {
+  return useMutation({
+    mutationFn: BOOKING_ENDPOINTS.getAllBookingsForAdmin,
+    mutationKey: [bookingKeys.getAllBookingsForAdmin]
+  });
+};
+
+export const useGetAllUserBookingsMutation = () => {
+  return useMutation({
+    mutationFn: BOOKING_ENDPOINTS.getAllUserBookings,
+    mutationKey: [bookingKeys.getAllUserBookings]
+  });
+};
+
+export const useGetAllVendorBookingsMutation = () => {
+  return useMutation({
+    mutationFn: BOOKING_ENDPOINTS.getAllVendorBookings,
+    mutationKey: [bookingKeys.getAllVendorBookings]
+  });
+};
+
+export const useGetBookingByIdMutation = () => {
+  return useMutation({
+    mutationFn: BOOKING_ENDPOINTS.getBookingById,
+    mutationKey: [bookingKeys.getBookingById]
+  });
+};
+
+export const useUpdateBookingStatusMutation = () => {
+  return useMutation({
+    mutationFn: BOOKING_ENDPOINTS.updateBookingStatus,
+    mutationKey: [bookingKeys.updateBookingStatus]
   });
 };

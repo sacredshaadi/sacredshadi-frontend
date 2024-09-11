@@ -70,7 +70,11 @@ export default function Profile(props: { type: UserAuthType }) {
 
   if (!users[props.type]) {
     return (
-      <Button variant="outline" onClick={() => router.push("/login")}>
+      <Button
+        variant="outline"
+        onClick={() => router.push("/login")}
+        className="border-2 font-semibold shadow-lg hover:text-primary"
+      >
         Login
       </Button>
     );
