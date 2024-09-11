@@ -23,7 +23,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
               key={sidebarRoute.label}
               href={sidebarRoute.route}
               className={twMerge(
-                "flex items-center gap-2 rounded-md p-1 transition hover:bg-gray-200",
+                "flex items-center gap-2 rounded-md p-2 transition hover:bg-primary-foreground",
                 props.collapsed ? "justify-center" : ""
               )}
             >
@@ -41,7 +41,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
             {props.collapsed ? (
               <Popover>
                 <PopoverTrigger
-                  className="flex cursor-pointer items-center justify-start gap-2 rounded-md p-1 transition hover:bg-gray-200 hover:no-underline"
+                  className="flex cursor-pointer items-center justify-start gap-2 rounded-md p-1 transition hover:bg-primary-foreground hover:no-underline"
                   asChild
                 >
                   <sidebarRoute.icon size={36} stroke="red" />
@@ -52,7 +52,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
                     <Link
                       key={subRoute.label}
                       href={subRoute.route!}
-                      className="flex items-center gap-3 rounded-md px-2 py-1 text-base hover:bg-gray-200"
+                      className="flex items-center gap-3 rounded-md px-2 py-1 text-base hover:bg-primary-foreground"
                     >
                       {subRoute.label}
                     </Link>
@@ -62,7 +62,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
             ) : (
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value={sidebarRoute.label} className="rounded-md border-none">
-                  <AccordionTrigger className="flex items-center justify-start gap-2 p-1 transition hover:bg-gray-200 hover:no-underline">
+                  <AccordionTrigger className="flex items-center justify-start gap-2 rounded-lg p-2 transition hover:bg-primary-foreground hover:no-underline">
                     <sidebarRoute.icon size={26} stroke="red" />
                     <div className="text-base font-semibold">{sidebarRoute.label}</div>
                   </AccordionTrigger>
@@ -71,7 +71,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
                       <Link
                         key={subRoute.label}
                         href={subRoute.route!}
-                        className="flex items-center gap-3 rounded-md px-2 py-1 text-base hover:bg-gray-200"
+                        className="flex items-center gap-3 rounded-md px-2 py-1 text-base hover:bg-primary-foreground"
                       >
                         {subRoute.label}
                       </Link>

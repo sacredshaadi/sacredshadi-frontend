@@ -7,9 +7,13 @@ import { useUserStore } from "@/app/context/user-context";
 import { toast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
+import { useVendorContext } from "@/app/context/vendor-context";
+import { Feedback } from "@/types/user-facing";
+import FeedbackNodes from "./feedback-nodes";
 
 const FeedbackComp = () => {
   const { vendor, setVendor } = useUserStore();
+  const { feedbacks, setFeedbacks } = useVendorContext();
   const { mutate: getFn, isPending, isError } = useGetAllVendorFeedbacksMutation();
   const router = useRouter();
 
@@ -21,7 +25,9 @@ const FeedbackComp = () => {
     }
     try {
       getFn(vendor.tokens.accessToken, {
-        onSuccess(data, variables, context) {},
+        onSuccess(data, variables, context) {
+          setFeedbacks(data.data as Feedback[]);
+        },
         onError(error) {
           throw error;
         }
@@ -53,9 +59,8 @@ const FeedbackComp = () => {
       )}
       {isError && <h1 className="text-3xl font-bold">Failed to fetch feedbacks</h1>}
       {!isPending && !isError && (
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-3xl font-bold">No Feedbacks Yet</h1>
-          <p className="text-gray-500">You have no feedbacks yet</p>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <FeedbackNodes />
         </div>
       )}
     </div>

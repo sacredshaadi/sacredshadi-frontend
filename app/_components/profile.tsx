@@ -73,7 +73,10 @@ export default function Profile(props: { type: UserAuthType }) {
       <Button
         variant="outline"
         onClick={() => router.push("/login")}
-        className="border-2 font-semibold shadow-lg hover:text-primary"
+        className={cn(
+          "border-2 font-semibold shadow-lg hover:text-primary",
+          props.type !== userAuthTypes.user && "border-primary text-primary"
+        )}
       >
         Login
       </Button>

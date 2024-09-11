@@ -33,7 +33,7 @@ export const getBookingById = (payload: { id: string; accessToken: string }) =>
     headers: { Authorization: `Bearer ${payload.accessToken}` }
   });
 
-export const updateBookingStatus = (payload: { id: string; status: string; accessToken: string }) =>
+export const updateBookingStatus = (payload: { id: number; status: string; accessToken: string }) =>
   apiClient(bookingEndpoints.updateBooking, {
     method: "PUT",
     body: JSON.stringify({ status: payload.status, id: payload.id }),

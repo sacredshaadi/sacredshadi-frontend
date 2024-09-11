@@ -44,7 +44,7 @@ const Page = () => {
           <h1 className="text-2xl font-bold">{vendor?.name}</h1>
         </div>
 
-        <Button variant="default" size="sm" className="ml-auto mt-auto p-4 text-base font-semibold lg:p-6">
+        <Button variant="default" size="sm" className="ml-auto mt-auto p-4 text-base font-semibold shadow-lg lg:p-6">
           Save Profile
         </Button>
       </div>
