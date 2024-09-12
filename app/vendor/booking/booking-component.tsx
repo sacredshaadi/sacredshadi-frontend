@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarIcon, Loader2, MessageSquare, Package } from "lucide-react";
+import { CalendarIcon, Loader2, MessageSquare } from "lucide-react";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
@@ -15,21 +15,10 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/context/user-context";
-import {
-  useCreateFeedbackMutation,
-  useGetAllUserBookingsMutation,
-  useGetAllVendorBookingsMutation,
-  useUpdateBookingStatusMutation
-} from "@/components/api";
+import { useGetAllVendorBookingsMutation, useUpdateBookingStatusMutation } from "@/components/api";
 import { useEffect } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { useCustomerStore } from "@/app/context/user-store";
 import { Booking, BookingStatus } from "@/types/user-facing";
 import React from "react";
 import { cn } from "@/lib/utils";
@@ -113,7 +102,8 @@ const BookingComponent = () => {
               <span>{booking.vendorName}</span>
               <span className="flex items-center text-sm font-normal text-muted-foreground">
                 <CalendarIcon className="mr-1 h-4 w-4" />
-                {booking.bookingDate}
+                {/* convert date from iso format to readable format */}
+                {format(new Date(booking.bookingDate), "dd/MM/yyyy")}
               </span>
             </CardTitle>
           </CardHeader>
@@ -150,39 +140,6 @@ const BookingComponent = () => {
                       Update the status of the booking for {selectedBooking.serviceOfferedDetails}
                     </DialogDescription>
                   </DialogHeader>
-                  {/* <form onSubmit={submitFeedback}>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="rating" className="text-right">
-                          Rating
-                        </Label>
-                        <div className="rating">
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={1} />
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={2} />
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={3} />
-                          <input
-                            type="radio"
-                            name="rating-2"
-                            className="mask mask-star-2 bg-orange-400"
-                            defaultChecked
-                            value={4}
-                          />
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={5} />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="comment" className="text-right">
-                          Comment
-                        </Label>
-                        <Textarea
-                          id="comment"
-                          className="col-span-3"
-                          required
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        />
-                      </div>
-                    </div> */}
                   <DialogFooter>
                     <Button type="submit" className="font-semibold shadow-lg" onClick={submitFeedback}>
                       {(isPending || bsPending) && !isError && !bsError && (

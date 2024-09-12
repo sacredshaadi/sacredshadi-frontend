@@ -41,7 +41,7 @@ export function VendorLayout(
           setCollapsed,
           extras: (
             <div className="flex items-center justify-between">
-              <h1 className="text-lg font-bold">{props.title}</h1>
+              <h1 className="text-xl font-bold drop-shadow-lg">{props.title}</h1>
               {props.extras}
             </div>
           )

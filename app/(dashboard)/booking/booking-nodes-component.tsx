@@ -73,7 +73,7 @@ const BookingNodesComponent = () => {
           data: {
             feedback: comment,
             rating,
-            vendorId: selectedBooking?.vendorId
+            bookingId: selectedBooking?.id
           }
         },
         {

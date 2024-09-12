@@ -5,9 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import React from "react";
 import RatingSubComp from "./rating-subcomp";
 import { useVendorContext } from "@/app/context/vendor-context";
+import { format } from "date-fns";
 
 const FeedbackNodes = () => {
   const { feedbacks } = useVendorContext();
+
+  if (feedbacks.length === 0) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold">No Feedbacks Yet</h1>
+        <p className="text-gray-500">You have no feedbacks yet</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -18,7 +28,7 @@ const FeedbackNodes = () => {
               <span>{feedback.user.name}</span>
               <span className="flex items-center text-sm font-normal text-muted-foreground">
                 <CalendarIcon className="mr-1 h-4 w-4" />
-                {feedback.createdAt}
+                {format(new Date(feedback.createdAt), "dd/MM/yyyy")}
               </span>
             </CardTitle>
           </CardHeader>
