@@ -2,7 +2,6 @@
 
 import { Loading } from "@/app/_components/loading";
 import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardFooter } from "@/components/ui/card";
 import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PackageModal from "./search-components/package-modal";
