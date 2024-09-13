@@ -1,7 +1,6 @@
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { FaPinterestP } from "react-icons/fa";
 import Link from "next/link";
-import Pinterest from "./icons/pinterest";
 import { phoneArr } from "@/constants/data";
 import Image from "next/image";
 import { HeartFilledIcon } from "@radix-ui/react-icons";

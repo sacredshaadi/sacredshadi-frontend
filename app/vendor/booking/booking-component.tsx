@@ -27,18 +27,17 @@ import { useVendorContext } from "@/app/context/vendor-context";
 const BookingComponent = () => {
   const { vendor } = useUserStore();
   const { bookings, setBookings } = useVendorContext();
-  const [rating, setRating] = useState(4);
+  // const [rating, setRating] = useState(4);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const { mutate: getAllVendorBookingsFn, isPending, isError } = useGetAllVendorBookingsMutation();
   const { mutate: updateBookingStatusFn, isPending: bsPending, isError: bsError } = useUpdateBookingStatusMutation();
-  const [comment, setComment] = useState("");
+  // const [comment, setComment] = useState("");
 
   useEffect(() => {
     try {
       if (!vendor) return;
       getAllVendorBookingsFn(vendor?.tokens.accessToken, {
         onSuccess: (data) => {
-          console.log(data);
           setBookings(data.data as Booking[]);
         },
         onError: (error) => {
@@ -52,6 +51,7 @@ const BookingComponent = () => {
         variant: "destructive"
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor]);
 
   const handleFeedback = (booking: any) => {
@@ -70,10 +70,7 @@ const BookingComponent = () => {
         },
         {
           onSuccess(data) {
-            toast({
-              title: "Success",
-              description: "Feedback submitted successfully"
-            });
+            toast({ title: "Success", description: "Feedback submitted successfully" });
           },
           onError(error) {
             throw error;
@@ -83,12 +80,12 @@ const BookingComponent = () => {
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.error || err.message || "Something went wrong",
-        variant: "destructive"
+        variant: "destructive",
+        description: err.error || err.message || "Something went wrong"
       });
     } finally {
-      setComment("");
-      setRating(4);
+      // setComment("");
+      // setRating(4);
       setSelectedBooking(null);
     }
   };

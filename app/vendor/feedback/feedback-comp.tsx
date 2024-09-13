@@ -13,7 +13,7 @@ import FeedbackNodes from "./feedback-nodes";
 
 const FeedbackComp = () => {
   const { vendor, setVendor } = useUserStore();
-  const { feedbacks, setFeedbacks } = useVendorContext();
+  const { setFeedbacks } = useVendorContext();
   const { mutate: getFn, isPending, isError } = useGetAllVendorFeedbacksMutation();
   const router = useRouter();
 

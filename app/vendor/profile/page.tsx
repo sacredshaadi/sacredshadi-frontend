@@ -2,10 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
 import { CameraIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useUserStore } from "@/app/context/user-context";
@@ -32,7 +29,7 @@ const formSchema = z.object({
 type ProfileFormValues = z.infer<typeof formSchema>;
 
 const Page = () => {
-  const { vendor, setVendor } = useUserStore();
+  const { vendor } = useUserStore();
   const loadingRef = useRef<boolean>(false);
 
   const defaultValues: ProfileFormValues = {
@@ -57,7 +54,7 @@ const Page = () => {
   }, [vendor]);
 
   const onSubmit = (data: ProfileFormValues) => {
-    console.log(data);
+    // console.log(data);
   };
 
   return (
