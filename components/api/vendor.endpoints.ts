@@ -99,3 +99,14 @@ export const searchVendors = (payload: any) => {
     body: JSON.stringify(payload)
   });
 };
+
+export const updateVendor = (payload: { data: any; accessToken: string }) => {
+  return apiClient(vendorEndpoints.updateVendor, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${payload.accessToken}`
+    },
+    body: JSON.stringify(payload.data)
+  });
+};

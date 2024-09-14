@@ -60,6 +60,7 @@ export const QUERY_KEYS = {
   loginAdmin: "loginAdmin",
   vendorUpdateSubType: "vendorUpdateSubType",
   searchVendors: "searchVendors",
+  updateVendor: "updateVendor",
   ...feedbackKeys,
   ...offerKeys,
   ...bookingKeys
@@ -258,6 +259,13 @@ export const useSearchVendorsMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.searchVendors],
     mutationFn: VENDOR_ENDPOINTS.searchVendors
+  });
+};
+
+export const useUpdateVendorMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.updateVendor],
+    mutationFn: VENDOR_ENDPOINTS.updateVendor
   });
 };
 
