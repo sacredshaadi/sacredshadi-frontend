@@ -2,8 +2,6 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { CameraIcon, Loader2 } from "lucide-react";
@@ -22,6 +20,7 @@ import { useUpdateVendorMutation } from "@/components/api";
 import { useRouter } from "next/navigation";
 import DndUploader from "@/app/_components/dnd-uploader";
 import { Vendor } from "@/types/auth.types";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   details: z.string().min(1, { message: "Please select a venue from the dropdown" }),

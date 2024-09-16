@@ -9,33 +9,38 @@ export const createBooking = (payload: any) => {
   });
 };
 
-export const getAllBookingsForAdmin = (accessToken: string) =>
-  apiClient(bookingEndpoints.getAllBookingsForAdmin, {
+export const getAllBookingsForAdmin = (accessToken: string) => {
+  return apiClient(bookingEndpoints.getAllBookingsForAdmin, {
     method: "GET",
     headers: { Authorization: `Bearer ${accessToken}` }
   });
+};
 
-export const getAllUserBookings = (accessToken: string) =>
-  apiClient(bookingEndpoints.getAllUserBookings, {
+export const getAllUserBookings = (accessToken: string) => {
+  return apiClient(bookingEndpoints.getAllUserBookings, {
     method: "GET",
     headers: { Authorization: `Bearer ${accessToken}` }
   });
+};
 
-export const getAllVendorBookings = (accessToken: string) =>
-  apiClient(bookingEndpoints.getAllVendorBookings, {
+export const getAllVendorBookings = (accessToken: string) => {
+  return apiClient(bookingEndpoints.getAllVendorBookings, {
     method: "GET",
     headers: { Authorization: `Bearer ${accessToken}` }
   });
+};
 
-export const getBookingById = (payload: { id: string; accessToken: string }) =>
-  apiClient(`${bookingEndpoints.getBookingById}/${payload.id}`, {
+export const getBookingById = (payload: { id: string; accessToken: string }) => {
+  return apiClient(`${bookingEndpoints.getBookingById}/${payload.id}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${payload.accessToken}` }
   });
+};
 
-export const updateBookingStatus = (payload: { id: number; status: string; accessToken: string }) =>
-  apiClient(bookingEndpoints.updateBooking, {
+export const updateBookingStatus = (payload: { id: number; status: string; accessToken: string }) => {
+  return apiClient(bookingEndpoints.updateBooking, {
     method: "PUT",
     body: JSON.stringify({ status: payload.status, id: payload.id }),
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${payload.accessToken}` }
   });
+};

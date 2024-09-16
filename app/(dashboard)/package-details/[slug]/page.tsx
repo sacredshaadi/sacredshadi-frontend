@@ -2,23 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { Star, Mail, Phone, MapPin, Camera, Video, Music, Utensils } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSearchByIdMutation } from "@/components/api";
 import { toast } from "@/components/ui/use-toast";
-import { Root } from "@/app/context/vendor-search-context";
-import Image from "next/image";
 import { BookModal } from "./book-modal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 
 const PackageDetails = (props: { params: { slug: string } }) => {
   const router = useRouter();
-  const [message, setMessage] = useState("");
-  const { mutate: searchByIdFn, isPending, isError } = useSearchByIdMutation();
+  const { mutate: searchByIdFn, isPending } = useSearchByIdMutation();
   const [packageDetails, setPackageDetails] = useState<any>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,16 +20,13 @@ const PackageDetails = (props: { params: { slug: string } }) => {
     try {
       searchByIdFn(props.params.slug || "", {
         onSuccess(data, variables, context) {
-          console.log("Data fetched successfully:", data);
           setPackageDetails(data.data);
         },
         onError(error, variables, context) {
-          console.log("Error fetching data:", error);
           throw error;
         }
       });
     } catch (error) {
-      console.log("Error fetching data:", error);
       toast({
         title: "Error fetching data",
         description: "An error occurred while fetching data",
@@ -43,6 +34,7 @@ const PackageDetails = (props: { params: { slug: string } }) => {
       });
       router.push("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -181,10 +173,11 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           <CardContent>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
               {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={i}
-                  src={`/placeholder.svg?height=150&width=150&text=Wedding+${i}`}
                   alt={`Wedding ${i}`}
+                  src={`/placeholder.svg?height=150&width=150&text=Wedding+${i}`}
                   className="aspect-square h-auto w-full rounded-lg object-cover"
                 />
               ))}

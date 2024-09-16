@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -46,7 +46,7 @@ export const SearchForm = (props: Props) => {
   const searchParams = useSearchParams();
   const { cities, vendorTypes } = useVendorContext();
   const [arr, setArr] = useState<Option[]>([]);
-  const { onFormSubmit, isPending, setSearched } = useVendorSearch();
+  const { onFormSubmit, isPending } = useVendorSearch();
   const [selected, setSelected] = useState<Option[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
@@ -64,6 +64,7 @@ export const SearchForm = (props: Props) => {
 
   useEffect(() => {
     form.setValue("services", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   useEffect(() => {

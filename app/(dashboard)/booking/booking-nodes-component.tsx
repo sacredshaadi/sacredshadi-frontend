@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarIcon, Loader2, MessageSquare, Package } from "lucide-react";
-import { format } from "date-fns";
+import { CalendarIcon, Loader2, MessageSquare } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -15,11 +14,9 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/context/user-context";
 import { useCreateFeedbackMutation, useGetAllUserBookingsMutation } from "@/components/api";
 import { useEffect } from "react";
@@ -43,7 +40,6 @@ const BookingNodesComponent = () => {
       if (!user) return;
       getAllUserBookingsFn(user.tokens.accessToken, {
         onSuccess: (data) => {
-          console.log(data);
           setBookings(data.data as Booking[]);
         },
         onError: (error) => {
@@ -57,6 +53,7 @@ const BookingNodesComponent = () => {
         variant: "destructive"
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleFeedback = (booking: any) => {
@@ -78,10 +75,7 @@ const BookingNodesComponent = () => {
         },
         {
           onSuccess(data) {
-            toast({
-              title: "Success",
-              description: "Feedback submitted successfully"
-            });
+            toast({ title: "Success", description: "Feedback submitted successfully" });
           },
           onError(error) {
             throw error;

@@ -12,8 +12,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2, Mail, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -64,6 +62,7 @@ export function BookModal(props: BookModalProps) {
         variant: "destructive"
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

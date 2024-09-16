@@ -17,14 +17,19 @@ export const updateFunction = (payload: any) => {
   });
 };
 
-export const removeFunction = (id: string) =>
-  apiClient(`${functionsEndpoints.removeFunction}/${id}`, {
+export const removeFunction = (id: string) => {
+  return apiClient(`${functionsEndpoints.removeFunction}/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
   });
+};
 
-export const getAllFunctions = (accessToken: string) =>
-  apiClient(functionsEndpoints.getAllFunctions, { method: "GET", headers: { Authorization: `Bearer ${accessToken}` } });
+export const getAllFunctions = (accessToken: string) => {
+  return apiClient(functionsEndpoints.getAllFunctions, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+};
 
 export const getAllVendorFunctions = (accessToken: string) => {
   return apiClient(functionsEndpoints.getAllVendorFunctions, {
