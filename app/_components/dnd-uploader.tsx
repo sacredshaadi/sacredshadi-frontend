@@ -38,8 +38,7 @@ export default function DndUploader() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "image/*": [],
-      "video/*": []
+      "image/*": []
     },
     multiple: true
   });
@@ -118,10 +117,10 @@ export default function DndUploader() {
   };
 
   return (
-    <div className="mx-auto p-4">
+    <div className="mx-auto py-4">
       <div
         {...getRootProps()}
-        className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center ${
+        className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center font-semibold text-muted-foreground ${
           isDragActive ? "border-primary bg-primary/10" : "border-gray-300"
         }`}
       >
