@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { CameraIcon, Loader2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useUserStore } from "@/app/context/user-context";
 import VendorRouteWrapper from "../_components/vendor-route-wrapper";
 import { z } from "zod";
@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import DndUploader from "@/app/_components/dnd-uploader";
 import { Vendor } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
+import UplodedImages from "./album-wrapper/uploaded-images";
 
 const formSchema = z.object({
   details: z.string().min(1, { message: "Please select a venue from the dropdown" }),
@@ -168,8 +169,9 @@ const Page = () => {
             <Introduction form={form} />
           </div>
           <Separator className="my-8" />
-          <h2 className="text-lg font-semibold">Media</h2>
-          <h3 className="text-md font-semibold">Uploaded</h3>
+          <h2 className="text-lg font-semibold">Images</h2>
+          <h3 className="text-md mb-2 font-semibold  ">Uploaded</h3>
+          <UplodedImages />
           <DndUploader />
         </form>
       </Form>

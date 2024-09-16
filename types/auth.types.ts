@@ -52,6 +52,13 @@ export interface ServiceOffered {
   serviceOfferedId: number;
 }
 
+export interface Media {
+  id: number;
+  url: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Vendor {
   vendorId: number;
   description?: string;

@@ -91,4 +91,10 @@ export const bookingEndpoints = {
   updateBooking: "/api/v1/booking/update"
 } as const;
 
+export const albumEndpoints = {
+  createAlbumInBulk: "/api/v1/album/create/bulk",
+  deleteMedia: "/api/v1/album/remove",
+  getAlbumByVendorId: "/api/v1/album"
+} as const;
+
 export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

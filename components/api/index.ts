@@ -7,6 +7,7 @@ import * as FEEDBACK_ENDPOINTS from "./feedback.endpoints";
 import * as FUNCTION_ENDPOINTS from "./functions.endpoints";
 import * as OFFER_ENDPOINTS from "./services-offered.endpoints";
 import * as BOOKING_ENDPOINTS from "./booking.endpoints";
+import * as ALBUM_ENDPOINTS from "./album.endpoints";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
@@ -275,5 +276,26 @@ export const useUpdateBookingStatusMutation = () => {
   return useMutation({
     mutationFn: BOOKING_ENDPOINTS.updateBookingStatus,
     mutationKey: [QUERY_KEYS.booking]
+  });
+};
+
+export const useCreateAlbumInBulkMutation = () => {
+  return useMutation({
+    mutationFn: ALBUM_ENDPOINTS.createAlbumInBulk,
+    mutationKey: [QUERY_KEYS.offer]
+  });
+};
+
+export const useDeleteMediaMutation = () => {
+  return useMutation({
+    mutationFn: ALBUM_ENDPOINTS.deleteMedia,
+    mutationKey: [QUERY_KEYS.offer]
+  });
+};
+
+export const useGetAlbumByVendorIdMutation = () => {
+  return useMutation({
+    mutationFn: ALBUM_ENDPOINTS.getAlbumByVendorId,
+    mutationKey: [QUERY_KEYS.offer]
   });
 };
