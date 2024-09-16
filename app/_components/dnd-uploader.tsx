@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { put } from "@vercel/blob";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
+import { IoClose } from "react-icons/io5";
+import { uploadImagesToCloudinary } from "../actions";
+import { Cross } from "lucide-react";
 
-type FileWithPreview = File & { preview: string };
+export type FileWithPreview = File & { preview: string };
 
 export default function DndUploader() {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
@@ -34,6 +37,10 @@ export default function DndUploader() {
     multiple: true
   });
 
+  useEffect(() => {
+    console.log("Files", files);
+  }, [files]);
+
   const uploadToCloudinary = async () => {
     try {
       setUploading(true);
@@ -45,21 +52,28 @@ export default function DndUploader() {
           `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
           { method: "POST", body: formData }
         );
+        if (!res.ok) {
+          throw new Error("Failed to upload file");
+        }
         const data = await res.json();
-        return data.secure_url;
+        return data.secure_url as string;
       });
       const remoteUrls = await Promise.all(promiseArr);
       console.log("Remote URLs", remoteUrls);
     } catch (err: any) {
       console.log(err);
-      toast({ title: "Error", description: "Failed to upload files", variant: "destructive" });
+      toast({
+        title: "Error",
+        description: err.error || err.message || "Failed to upload files",
+        variant: "destructive"
+      });
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-4">
+    <div className="mx-auto p-4">
       <div
         {...getRootProps()}
         className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center ${
@@ -81,7 +95,7 @@ export default function DndUploader() {
             {files.map((file) => (
               <div key={file.name} className="relative">
                 {file.type.startsWith("image/") ? (
-                  <img src={file.preview} alt={file.name} className="h-40 w-full rounded-lg object-cover" />
+                  <img src={file.preview} alt={file.name} className="h-44 w-full rounded-lg object-cover" />
                 ) : (
                   <video src={file.preview} className="h-40 w-full rounded-lg object-cover" />
                 )}
@@ -91,13 +105,23 @@ export default function DndUploader() {
                 )}
                 {uploadStatus[file.name] && (
                   <div
-                    className={`absolute right-2 top-2 rounded-full p-1 ${
+                    className={`absolute bottom-2 right-2 rounded-full p-1 ${
                       uploadStatus[file.name] === "success" ? "bg-green-500" : "bg-red-500"
                     }`}
                   >
                     {uploadStatus[file.name] === "success" ? "✓" : "✗"}
                   </div>
                 )}
+                <Button
+                  size="sm"
+                  className="absolute right-2 top-2 h-fit w-fit rounded-full p-2"
+                  type="button"
+                  onClick={() => {
+                    setFiles(files.filter((f) => f.name !== file.name));
+                  }}
+                >
+                  <IoClose className="h-4 w-4 font-semibold shadow-lg" />
+                </Button>
               </div>
             ))}
           </div>
@@ -105,7 +129,12 @@ export default function DndUploader() {
       )}
 
       {files.length > 0 && (
-        <Button onClick={uploadToCloudinary} disabled={uploading} className="mt-4" type="button">
+        <Button
+          onClick={uploadToCloudinary}
+          disabled={uploading}
+          className="mt-4 font-semibold shadow-lg "
+          type="button"
+        >
           {uploading ? "Uploading..." : "Upload Files"}
         </Button>
       )}

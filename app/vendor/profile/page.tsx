@@ -116,7 +116,7 @@ const Page = () => {
             <div className="relative">
               <Avatar className="h-24 w-24 sm:h-32 sm:w-32">
                 <AvatarImage src="/placeholder-user.jpg" />
-                <AvatarFallback className="text-2xl">
+                <AvatarFallback className="text-2xl ">
                   {// the initials of the name
                   vendor?.name
                     .split(" ")
@@ -131,7 +131,7 @@ const Page = () => {
             </div>
 
             <div className="grid gap-2 text-center sm:text-left">
-              <h1 className="text-2xl font-bold">{vendor?.name || ""}</h1>
+              <h1 className="text-2xl font-bold drop-shadow-lg">{vendor?.name || ""}</h1>
               <FormField
                 control={form.control}
                 name="description"
@@ -169,6 +169,7 @@ const Page = () => {
           </div>
           <Separator className="my-8" />
           <h2 className="text-lg font-semibold">Media</h2>
+          <h3 className="text-md font-semibold">Uploaded</h3>
           <DndUploader />
         </form>
       </Form>
