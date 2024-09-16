@@ -19,8 +19,8 @@ export default function CarouselComp(props: { sliderArr: ISlider[] }) {
               >
                 <Image
                   src={
-                    "https://sacredshaadi.com/assets/slider/30-04-2023_10-31-00am_116455551_1774586579382216_3764911622315615791_n.jpg" ||
-                    sliderNode.image
+                    sliderNode.image ||
+                    "https://sacredshaadi.com/assets/slider/30-04-2023_10-31-00am_116455551_1774586579382216_3764911622315615791_n.jpg"
                   }
                   width={400}
                   height={400}
