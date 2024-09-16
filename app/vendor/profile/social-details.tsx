@@ -2,11 +2,24 @@
 import { useUserStore } from "@/app/context/user-context";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import React from "react";
+import { UseFormReturn } from "react-hook-form";
 
 interface ContactDetailsProps {
-  form: any;
+  form: UseFormReturn<
+    {
+      details: string;
+      description: string;
+      facebookUrl: string;
+      instagramUrl: string;
+      twitterUrl: string;
+      youtubeUrl: string;
+      pinterestUrl: string;
+      brandImage?: string | undefined;
+    },
+    any,
+    undefined
+  >;
 }
 
 const SocialDetails = (props: ContactDetailsProps) => {
@@ -19,17 +32,12 @@ const SocialDetails = (props: ContactDetailsProps) => {
         <div className="grid gap-2">
           <FormField
             control={props.form.control}
-            name="location"
+            name="facebookUrl"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Facebook</FormLabel>
                 <FormControl>
-                  <Input
-                    type="url"
-                    value={vendor?.email}
-                    defaultValue="catherine@acme.com"
-                    onChange={(e) => vendor && setVendor({ ...vendor, email: e.target.value })}
-                  />
+                  <Input {...field} type="url" defaultValue="" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -38,8 +46,64 @@ const SocialDetails = (props: ContactDetailsProps) => {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="phone">Phone</Label>
-          <Input id="phone" type="tel" value={vendor?.phone} disabled />
+          <FormField
+            control={props.form.control}
+            name="instagramUrl"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel>Instagram</FormLabel>
+                <FormControl>
+                  <Input {...field} type="url" defaultValue="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="grid gap-2">
+          <FormField
+            control={props.form.control}
+            name="twitterUrl"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel>Twitter</FormLabel>
+                <FormControl>
+                  <Input {...field} type="url" defaultValue="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="grid gap-2">
+          <FormField
+            control={props.form.control}
+            name="pinterestUrl"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel>Pinterest</FormLabel>
+                <FormControl>
+                  <Input {...field} type="url" defaultValue="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="grid gap-2">
+          <FormField
+            control={props.form.control}
+            name="youtubeUrl"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel>Youtube</FormLabel>
+                <FormControl>
+                  <Input {...field} type="url" defaultValue="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
     </div>

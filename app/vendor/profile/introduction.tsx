@@ -4,9 +4,23 @@ import { useUserStore } from "@/app/context/user-context";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
+import { UseFormReturn } from "react-hook-form";
 
 interface IntroductionProps {
-  form: any;
+  form: UseFormReturn<
+    {
+      details: string;
+      description: string;
+      facebookUrl: string;
+      instagramUrl: string;
+      twitterUrl: string;
+      youtubeUrl: string;
+      pinterestUrl: string;
+      brandImage?: string | undefined;
+    },
+    any,
+    undefined
+  >;
 }
 
 const Introduction = (props: IntroductionProps) => {
@@ -15,15 +29,16 @@ const Introduction = (props: IntroductionProps) => {
     <div className="grid gap-2">
       <FormField
         control={props.form.control}
-        name="location"
+        name="details"
         render={({ field }) => (
           <FormItem className="">
-            <FormLabel>Introduction</FormLabel>
+            <FormLabel className="text-lg font-semibold">Introduction</FormLabel>
             <FormControl>
               <Textarea
+                {...field}
                 rows={2}
-                value={vendor?.description}
-                onChange={(e) => vendor && setVendor({ ...vendor, description: e.target.value })}
+                placeholder="Write a detailed introduction about yourself"
+                defaultValue=""
               />
             </FormControl>
             <FormMessage />

@@ -16,6 +16,7 @@ const QUERY_KEYS = {
   vendorTypes: "vendorTypes",
   searchVendors: "searchVendors",
   vendorSubType: "vendorSubType",
+  updateVendor: "updateVendor",
   profile: "profile",
   auth: "auth",
   cart: "cart",
@@ -218,6 +219,13 @@ export const useSearchVendorsMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.searchVendors],
     mutationFn: VENDOR_ENDPOINTS.searchVendors
+  });
+};
+
+export const useUpdateVendorMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.updateVendor],
+    mutationFn: VENDOR_ENDPOINTS.updateVendor
   });
 };
 

@@ -44,7 +44,8 @@ export const vendorEndpoints = {
   vendorProfile: "/api/v1/vendor/profile",
   removeVendor: "/api/v1/vendor/remove",
   vendorUpdateSubType: "/api/v1/vendor/update/sub-types",
-  searchVendors: "/api/v1/search/vendors"
+  searchVendors: "/api/v1/search/vendors",
+  updateVendor: "/api/v1/vendor/update/profile"
 } as const;
 
 export const adminEndpoints = {

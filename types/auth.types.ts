@@ -40,6 +40,7 @@ export interface VendorType {
   createdAt: string;
   updatedAt: string;
   image: string;
+  shortDescription: string;
   vendorSubTypes: VendorSubType[];
 }
 
@@ -61,6 +62,13 @@ export interface Vendor {
   email: string;
   phone?: string;
   vendorType: VendorType;
+  socialMedia: {
+    facebookUrl: string;
+    instagramUrl: string;
+    twitterUrl: string;
+    youtubeUrl: string;
+    pinterestUrl: string;
+  };
   SelectedVendorSubTypes: VendorSubType[];
   tokens: {
     accessToken: string;
