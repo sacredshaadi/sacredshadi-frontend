@@ -25,31 +25,43 @@ import { useCustomerStore } from "@/app/context/user-store";
 import { Booking, BookingStatus } from "@/types/user-facing";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { checkToken, checkValidToken } from "@/app/_components/functions";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 const BookingNodesComponent = () => {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const { bookings, setBookings } = useCustomerStore();
+  const router = useRouter();
   const [rating, setRating] = useState(4);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-  const { mutate: getAllUserBookingsFn, isPending, isError } = useGetAllUserBookingsMutation();
+  const { mutate: getAllUserBookingsFn, isPending, isError, isIdle } = useGetAllUserBookingsMutation();
   const { mutate: createFeedbackFn, isPending: fbPending, isError: fbError } = useCreateFeedbackMutation();
   const [comment, setComment] = useState("");
 
   useEffect(() => {
     try {
       if (!user) return;
+      checkToken(user, setUser, router);
       getAllUserBookingsFn(user.tokens.accessToken, {
         onSuccess: (data) => {
           setBookings(data.data as Booking[]);
         },
-        onError: (error) => {
-          throw error;
+        onError: (err: any) => {
+          console.log("in the error block");
+          toast({
+            title: "Error",
+            description: err.error || err.message || "Something went wrong",
+            variant: "destructive"
+          });
+          checkValidToken(err.error || err.message, setUser, router);
         }
       });
     } catch (err: any) {
+      const msg: string = err.error || err.message || "Something went wrong";
       toast({
         title: "Error",
-        description: err.error || err.message || "Something went wrong",
+        description: msg,
         variant: "destructive"
       });
     }
@@ -104,7 +116,7 @@ const BookingNodesComponent = () => {
               <span>{booking.vendorName}</span>
               <span className="flex items-center text-sm font-normal text-muted-foreground">
                 <CalendarIcon className="mr-1 h-4 w-4" />
-                {booking.bookingDate}
+                {format(new Date(booking.bookingDate), "dd/MM/yyyy")}
               </span>
             </CardTitle>
           </CardHeader>
@@ -149,17 +161,42 @@ const BookingNodesComponent = () => {
                           Rating
                         </Label>
                         <div className="rating">
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={1} />
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={2} />
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={3} />
+                          <input
+                            type="radio"
+                            name="rating-2"
+                            className="mask mask-star-2 bg-orange-400"
+                            value={1}
+                            onChange={(e) => setRating(parseInt(e.target.value))}
+                          />
+                          <input
+                            type="radio"
+                            name="rating-2"
+                            className="mask mask-star-2 bg-orange-400"
+                            value={2}
+                            onChange={(e) => setRating(parseInt(e.target.value))}
+                          />
+                          <input
+                            type="radio"
+                            name="rating-2"
+                            className="mask mask-star-2 bg-orange-400"
+                            value={3}
+                            onChange={(e) => setRating(parseInt(e.target.value))}
+                          />
                           <input
                             type="radio"
                             name="rating-2"
                             className="mask mask-star-2 bg-orange-400"
                             defaultChecked
                             value={4}
+                            onChange={(e) => setRating(parseInt(e.target.value))}
                           />
-                          <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" value={5} />
+                          <input
+                            type="radio"
+                            name="rating-2"
+                            className="mask mask-star-2 bg-orange-400"
+                            value={5}
+                            onChange={(e) => setRating(parseInt(e.target.value))}
+                          />
                         </div>
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">

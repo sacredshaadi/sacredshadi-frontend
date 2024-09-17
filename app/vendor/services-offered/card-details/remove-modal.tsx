@@ -65,7 +65,7 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
   return (
     <Dialog open={props.open} onOpenChange={props.setOpen}>
       <DialogTrigger
-        className="flex h-fit items-center justify-center rounded-full bg-primary p-2 text-white"
+        className="flex h-fit items-center justify-center rounded-full bg-primary p-2 text-white shadow-xl"
         title="Remove"
         onClick={() => props.setOpen(true)}
       >
@@ -78,15 +78,15 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
             This action cannot be undone. This will permanently delete this service package from your profile.
           </DialogDescription>
           <DialogFooter className="flex justify-end gap-4">
-            <Button variant="default" className="font-semibold" disabled={isPending} onClick={submit}>
-              {isPending && !isError && <Loader2 className="h-4 w-4 animate-spin" />}
-              <span>Yes, remove</span>
-            </Button>
             <DialogClose asChild>
-              <Button variant="secondary" className="font-semibold" disabled={isPending}>
+              <Button variant="secondary" className="font-semibold shadow-lg" disabled={isPending}>
                 No, keep
               </Button>
             </DialogClose>
+            <Button variant="default" className="font-semibold shadow-lg" disabled={isPending} onClick={submit}>
+              {isPending && !isError && <Loader2 className="h-4 w-4 animate-spin" />}
+              <span>Yes, remove</span>
+            </Button>
           </DialogFooter>
         </DialogHeader>
       </DialogContent>

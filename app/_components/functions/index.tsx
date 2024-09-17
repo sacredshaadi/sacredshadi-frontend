@@ -11,3 +11,15 @@ export const checkToken = (profileObj: any, setProfile: (val: any) => void, rout
     router.push("/login");
   }
 };
+
+export const checkValidToken = (msg: string, setProfile: (val: any) => void, router: any) => {
+  try {
+    if (msg.includes("token expired") || msg.includes("No access token found")) {
+      setProfile(null);
+      router.push("/login");
+    }
+  } catch (err: any) {
+    setProfile(null);
+    router.push("/login");
+  }
+};

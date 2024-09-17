@@ -84,7 +84,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
   return (
     <Dialog open={props.open} onOpenChange={props.setOpen}>
       <DialogTrigger
-        className="flex h-fit items-center justify-center rounded-full bg-primary p-2 text-white"
+        className="flex h-fit items-center justify-center rounded-full bg-primary p-2 text-white shadow-xl"
         title="Update"
         onClick={() => {
           props.setOpen(true);
@@ -103,7 +103,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel className="font-semibold text-muted-foreground">Price</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -124,7 +124,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
               name="details"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Details</FormLabel>
+                  <FormLabel className="font-semibold text-muted-foreground">Details</FormLabel>
                   <Textarea
                     {...field}
                     // className="input"
@@ -139,7 +139,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel className="font-semibold text-muted-foreground">Description</FormLabel>
                   <Textarea
                     {...field}
                     // className="input"
@@ -149,7 +149,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending} className="font-semibold shadow-lg">
               {isPending && !isError && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit
             </Button>

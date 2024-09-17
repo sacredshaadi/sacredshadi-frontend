@@ -18,13 +18,13 @@ const FeedbackComp = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!vendor?.tokens.accessToken) {
+    if (!vendor?.vendorId) {
       setVendor(null);
       router.push("/login");
       return;
     }
     try {
-      getFn(vendor.tokens.accessToken, {
+      getFn(vendor.vendorId, {
         onSuccess(data, variables, context) {
           setFeedbacks(data.data as Feedback[]);
         },

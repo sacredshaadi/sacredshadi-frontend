@@ -25,7 +25,7 @@ const FeedbackNodes = () => {
         <Card key={feedback.id} className="flex flex-col shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              <span>{feedback.user.name}</span>
+              {/* <span>{feedback.user.name}</span> */}
               <span className="flex items-center text-sm font-normal text-muted-foreground">
                 <CalendarIcon className="mr-1 h-4 w-4" />
                 {format(new Date(feedback.createdAt), "dd/MM/yyyy")}

@@ -13,12 +13,11 @@ export const getAllUserFeedbacks = (accessToken: string) => {
   });
 };
 
-export const getAllVendorFeedbacks = (accessToken: string) => {
-  return apiClient(feedbackEndpoints.getAllVendorFeedbacks, {
+export const getAllVendorFeedbacks = (vendorId: number) => {
+  return apiClient(`${feedbackEndpoints.getAllVendorFeedbacks}/${vendorId}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`
+      "Content-Type": "application/json"
     }
   });
 };

@@ -82,4 +82,8 @@ export interface Vendor {
     refreshToken: string;
   };
   offeredServices: ServiceOffered[];
+  totalBooking: number;
+  totalPeopleReached: number;
+  totalQuotation: number;
+  totalViews: number;
 }
