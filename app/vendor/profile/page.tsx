@@ -168,15 +168,6 @@ const Page = () => {
             <SocialDetails form={form} />
             <Introduction form={form} />
           </div>
-          <Separator className="my-8" />
-          <h2 className="text-lg font-semibold">Images</h2>
-          <h3 className="text-md mb-2 font-semibold  ">Uploaded</h3>
-          <section className="max-h-[50vh] overflow-auto">
-            <UplodedImages />
-          </section>
-          <section className="max-h-[50vh] overflow-auto">
-            <DndUploader />
-          </section>
         </form>
       </Form>
     </VendorRouteWrapper>

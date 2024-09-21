@@ -2,12 +2,11 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { put } from "@vercel/blob";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { IoClose } from "react-icons/io5";
-import { Cross, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useCreateAlbumInBulkMutation } from "@/components/api";
 import { useUserStore } from "../context/user-context";
 import { useVendorContext } from "../context/vendor-context";
