@@ -71,7 +71,7 @@ export default function ContactUs() {
           className="min-h-[450px] w-full"
         ></iframe>
       </section>
-      <section className="flex flex-col items-center justify-center gap-8 border-b p-6 md:flex-row md:items-start md:justify-between md:p-8 lg:p-12">
+      {/* <section className="flex flex-col items-center justify-center gap-8 border-b p-6 md:flex-row md:items-start md:justify-between md:p-8 lg:p-12">
         <h1 className="text-xl tracking-tighter md:text-3xl lg:text-4xl xl:text-6xl">
           Our Client&apos;s reviews
           <br /> for <span className="font-bold text-primary">Sacred Shaadi</span>
@@ -104,7 +104,7 @@ export default function ContactUs() {
             </form>
           </CardContent>
         </Card>
-      </section>
+      </section> */}
       <Team />
     </div>
   );

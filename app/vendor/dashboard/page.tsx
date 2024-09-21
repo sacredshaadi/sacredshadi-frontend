@@ -6,7 +6,7 @@ import { DashboardLogisticType } from "@/types";
 import { VendorLayout } from "../_components/vendor-layout";
 import { useUserStore } from "@/app/context/user-context";
 
-const page = () => {
+const Page = () => {
   const { vendor } = useUserStore();
 
   return (
@@ -21,4 +21,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
