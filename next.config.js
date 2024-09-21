@@ -4,12 +4,17 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "sacredshaadi.com",
-        port: "",
-        pathname: "/images/shadi_logo%20copy.png"
+        hostname: "sacredshaadi.com"
+      },
+      {
+        protocol: "https",
+        hostname: "utfs.io"
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com"
       }
-    ],
-    domains: ["utfs.io", "res.cloudinary.com", "sacredshaadi.com"]
+    ]
   },
   async redirects() {
     return [
