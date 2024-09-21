@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import apiClient from "@/lib/apiConfig/apiClient";
 import { adminEndpoints } from "@/lib/apiConfig/endpoints";
 import { useUserStore } from "@/app/context/user-context";
-import { Card, CardContent } from "@/components/ui/card";
 import { Loading } from "@/app/_components/loading";
+import LogisticCard from "@/app/vendor/dashboard/logistic-card";
 
 type DashboardData = {
   totalBookings: number;
@@ -27,31 +27,37 @@ const useAdminDashboardQuery = () => {
   });
 };
 
-const AdminDashboardSingleCard = (props: { label: string; value: number }) => {
-  return (
-    <Card className="min-w-56 flex-grow">
-      <CardContent className="flex items-center justify-between gap-6 p-6">
-        <div>
-          <h3 className="text-lg font-semibold">{props.label}</h3>
-          <p className="text-sm text-gray-500">Total</p>
-        </div>
-        <h3 className="text-3xl font-semibold">{props.value}</h3>
-      </CardContent>
-    </Card>
-  );
-};
-
 const AdminDashboardCards = () => {
   const { data: res, isLoading } = useAdminDashboardQuery();
 
   if (isLoading || !res) return <Loading className="h-96" />;
   return (
-    <div className="flex flex-col flex-wrap gap-4 md:flex-row">
-      <AdminDashboardSingleCard label="Total Bookings" value={res.data.totalBookings || 0} />
-      <AdminDashboardSingleCard label="Active Bookings" value={res.data.activeBookings || 0} />
-      <AdminDashboardSingleCard label="Registered Users" value={res.data.registeredUsers || 0} />
-      <AdminDashboardSingleCard label="Registered Vendors" value={res.data.registeredVendors || 0} />
-    </div>
+    <section className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
+      <LogisticCard
+        metricType="bookings"
+        metricLabel="Total Bookings"
+        metric={res.data.totalBookings || 0}
+        description="Total bookings on the platform"
+      />
+      <LogisticCard
+        metricType="viewed"
+        metricLabel="Active Bookings"
+        metric={res.data.activeBookings || 0}
+        description="Total active bookings on the platform"
+      />
+      <LogisticCard
+        metricType="users"
+        metricLabel="Registered Users"
+        metric={res.data.registeredUsers || 0}
+        description="Total registered users on the platform"
+      />
+      <LogisticCard
+        metricType="vendors"
+        metricLabel="Registered Vendors"
+        metric={res.data.registeredVendors || 0}
+        description="Total registered vendors on the platform"
+      />
+    </section>
   );
 };
 

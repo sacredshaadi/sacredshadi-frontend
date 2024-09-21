@@ -12,10 +12,30 @@ const Page = () => {
   return (
     <VendorLayout title="Dashboard" hideNextBtn>
       <section className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
-        <LogisticCard logisticType={DashboardLogisticType.viewed} metric={vendor?.totalViews || 0} />
-        <LogisticCard logisticType={DashboardLogisticType.quotation} metric={vendor?.totalQuotation || 0} />
-        <LogisticCard logisticType={DashboardLogisticType.contacted} metric={vendor?.totalPeopleReached || 0} />
-        <LogisticCard logisticType={DashboardLogisticType.booked} metric={vendor?.totalBooking || 0} />
+        <LogisticCard
+          metricLabel="Total Views"
+          metric={vendor?.totalViews || 0}
+          description="Total views of your services"
+          metricType={DashboardLogisticType.viewed}
+        />
+        <LogisticCard
+          metricLabel="Total Quotations"
+          metric={vendor?.totalQuotation || 0}
+          description="View quotations from customers"
+          metricType={DashboardLogisticType.quotation}
+        />
+        <LogisticCard
+          metricLabel="Total People Reached"
+          metric={vendor?.totalPeopleReached || 0}
+          description="Total people reached out to you"
+          metricType={DashboardLogisticType.contacted}
+        />
+        <LogisticCard
+          metricLabel="Total Bookings"
+          metric={vendor?.totalBooking || 0}
+          metricType={DashboardLogisticType.booked}
+          description="Total bookings made by customers"
+        />
       </section>
     </VendorLayout>
   );
