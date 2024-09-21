@@ -35,7 +35,7 @@ const BookingNodesComponent = () => {
   const router = useRouter();
   const [rating, setRating] = useState(4);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-  const { mutate: getAllUserBookingsFn, isPending, isError, isIdle } = useGetAllUserBookingsMutation();
+  const { mutate: getAllUserBookingsFn, isPending, isError } = useGetAllUserBookingsMutation();
   const { mutate: createFeedbackFn, isPending: fbPending, isError: fbError } = useCreateFeedbackMutation();
   const [comment, setComment] = useState("");
 
@@ -48,7 +48,6 @@ const BookingNodesComponent = () => {
           setBookings(data.data as Booking[]);
         },
         onError: (err: any) => {
-          console.log("in the error block");
           toast({
             title: "Error",
             description: err.error || err.message || "Something went wrong",

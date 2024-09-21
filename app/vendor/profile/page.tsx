@@ -3,25 +3,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
 import { CameraIcon, Loader2 } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useUserStore } from "@/app/context/user-context";
 import VendorRouteWrapper from "../_components/vendor-route-wrapper";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import ContactDetails from "./contact-details";
 import Introduction from "./introduction";
 import SocialDetails from "./social-details";
 import { toast } from "@/components/ui/use-toast";
 import { useUpdateVendorMutation } from "@/components/api";
 import { useRouter } from "next/navigation";
-import DndUploader from "@/app/_components/dnd-uploader";
 import { Vendor } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
-import UplodedImages from "./album-wrapper/uploaded-images";
 
 const formSchema = z.object({
   details: z.string().min(1, { message: "Please select a venue from the dropdown" }),
@@ -38,7 +35,7 @@ type ProfileFormValues = z.infer<typeof formSchema>;
 const Page = () => {
   const { vendor, setVendor } = useUserStore();
   const loadingRef = useRef<boolean>(false);
-  const { mutate: updateFn, isPending, isError } = useUpdateVendorMutation();
+  const { mutate: updateFn, isPending } = useUpdateVendorMutation();
   const router = useRouter();
 
   const defaultValues: ProfileFormValues = {
@@ -70,6 +67,7 @@ const Page = () => {
     form.setValue("twitterUrl", vendor.socialMedia?.twitterUrl || "");
     form.setValue("youtubeUrl", vendor.socialMedia?.youtubeUrl || "");
     form.setValue("pinterestUrl", vendor.socialMedia?.pinterestUrl || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor]);
 
   const onSubmit = (data: ProfileFormValues) => {
@@ -95,7 +93,6 @@ const Page = () => {
         }
       );
     } catch (err: any) {
-      console.error(err);
       const msg: string = err.message || err.error || "An error occurred";
       toast({ title: "Error", description: msg, variant: "destructive" });
       if (msg.includes("No access token found") || msg.includes("access token expired")) {
@@ -108,11 +105,7 @@ const Page = () => {
   return (
     <VendorRouteWrapper title="Profile" currentStep={1}>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit, (e: any) => {
-            console.log("error", e);
-          })}
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             <div className="relative">
               <Avatar className="h-24 w-24 sm:h-32 sm:w-32">

@@ -1,9 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { Menu, Settings } from "lucide-react";
+import { Menu } from "lucide-react";
 import Profile from "@/app/_components/profile";
-import NotificationComp from "./notification-comp";
-import { Button } from "@/components/ui/button";
-import MessagesComp from "./messages-comp";
 import { userAuthTypes } from "@/types";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/globals/logo";
@@ -28,12 +25,7 @@ function AdminHeader(props: {
       <div className="mx-2 flex flex-grow items-center justify-between sm:mx-4">
         {props.extras}
         <section className="flex items-center gap-2">
-          <MessagesComp />
-          <NotificationComp />
           <Profile type={userAuthTypes.super_admin} />
-          <Button className="flex items-center justify-center rounded-full p-2" title="Settings" variant="outline">
-            <Settings className="h-4 w-4 cursor-pointer" />
-          </Button>
         </section>
       </div>
     </div>

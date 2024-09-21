@@ -17,7 +17,6 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 
-import DeleteModal from "./delete-modal";
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -25,8 +24,8 @@ const UplodedImages = () => {
   const { vendor, setVendor } = useUserStore();
   const { album, setAlbum } = useVendorContext();
   const router = useRouter();
-  const { mutate: getFn, isPending, isError } = useGetAlbumByVendorIdMutation();
-  const { mutate: deleteFn, isPending: delPending, isError: delError } = useDeleteMediaMutation();
+  const { mutate: getFn, isPending } = useGetAlbumByVendorIdMutation();
+  const { mutate: deleteFn } = useDeleteMediaMutation();
   const [delModalOpen, setDelModalOpen] = React.useState(false);
 
   useEffect(() => {
@@ -41,9 +40,9 @@ const UplodedImages = () => {
         }
       });
     } catch (error) {
-      console.error(error);
       toast({ title: "Error", description: "Failed to get images", variant: "destructive" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor]);
 
   const deleteImg = useCallback(
@@ -67,10 +66,10 @@ const UplodedImages = () => {
           }
         );
       } catch (err) {
-        console.error(err);
         toast({ title: "Error", description: "Failed to delete image", variant: "destructive" });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [album]
   );
 
@@ -90,6 +89,7 @@ const UplodedImages = () => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {album.map((file) => (
             <div key={file.id} className="group relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={file.url} alt={`${file.id}`} className="h-44 w-full rounded-lg object-cover" />
               <Dialog open={delModalOpen} onOpenChange={setDelModalOpen}>
                 <DialogTrigger

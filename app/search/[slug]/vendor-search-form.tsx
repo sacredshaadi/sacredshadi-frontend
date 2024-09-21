@@ -9,7 +9,6 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { budgetArr } from "@/constants/data";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
@@ -20,6 +19,7 @@ import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-
 import { Option } from "@/components/ui/multiselect";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useVendorSearch } from "@/hooks/useVendorSearch";
+import { Input } from "@/components/ui/input";
 
 export const IMG_MAX_LIMIT = 3;
 
@@ -115,7 +115,7 @@ export const SearchForm = (props: Props) => {
         <FormField
           control={form.control}
           name="location"
-          render={({ field }) => (
+          render={() => (
             <FormItem className="w-full">
               <FormLabel>Location</FormLabel>
               <FormControl>
@@ -139,7 +139,7 @@ export const SearchForm = (props: Props) => {
         <FormField
           name="cityId"
           control={form.control}
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>City</FormLabel>
               <FormControl>
@@ -170,7 +170,7 @@ export const SearchForm = (props: Props) => {
         <FormField
           control={form.control}
           name="services"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Select services</FormLabel>
               {vendorSubTypesLoading ? (
@@ -186,25 +186,15 @@ export const SearchForm = (props: Props) => {
           <FormField
             control={form.control}
             name="budget"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Select
-                    defaultValue={defaultValues.budget.toString()}
-                    onValueChange={(value) => form.setValue("budget", parseInt(value, 10))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {budgetArr.map((budget) => (
-                        <SelectItem key={budget} value={budget}>
-                          {budget}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Input
+                    type="number"
+                    defaultValue={defaultValues.budget}
+                    onChange={(e) => form.setValue("budget", parseInt(e.target.value, 10))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

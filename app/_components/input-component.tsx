@@ -69,7 +69,7 @@ export const VendorSelectWrapper = (props: { vendors: VendorType[]; cities: ICit
             toast({ title: "Please select both vendor and city", description: "", variant: "destructive" });
             return;
           }
-          router.push(`/${vendor}?city=${city}`);
+          router.push(`/search/${vendor}?city=${city}`);
         }}
       >
         Get started

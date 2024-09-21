@@ -6,6 +6,7 @@ import UplodedImages from "../profile/album-wrapper/uploaded-images";
 
 export function PortfolioList() {
   const { vendor } = useUserStore();
+
   if (!vendor) {
     return (
       <div className="my-56 flex cursor-pointer flex-col items-center justify-center hover:text-rose-600">
@@ -18,7 +19,7 @@ export function PortfolioList() {
     <div className="w-full">
       <DndUploader />
 
-      <h3 className="text-md mb-2 font-semibold  ">Uploaded</h3>
+      <h3 className="text-md mb-2 font-semibold">Uploaded</h3>
       <section className="max-h-[50vh] overflow-auto">
         <UplodedImages />
       </section>

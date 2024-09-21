@@ -44,7 +44,9 @@ export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extra
       />
       <div className="flex h-[calc(100vh-68px)]">
         <SuperAdminSidebar {...{ collapsed }} />
-        <div className="m-2 mb-0 flex-grow overflow-y-auto rounded-sm sm:m-4 sm:mb-0">{props.children}</div>
+        <div className="m-2 mb-0 flex-grow overflow-y-auto rounded-sm sm:m-4 sm:mb-0">
+          <section className="w-full">{props.children}</section>
+        </div>
       </div>
     </div>
   );

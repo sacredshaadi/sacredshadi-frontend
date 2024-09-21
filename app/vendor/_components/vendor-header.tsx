@@ -1,10 +1,7 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Menu } from "lucide-react";
 import ProfileComponent from "@/app/_components/profile";
-import NotificationComp from "@/app/admin/_components/notification-comp";
-import MessagesComp from "@/app/admin/_components/messages-comp";
 import { userAuthTypes } from "@/types";
-import VendorSettings from "./vendor-settings-sheet";
 import { Logo } from "@/components/globals/logo";
 import { cn } from "@/lib/utils";
 
@@ -28,10 +25,7 @@ function VendorHeader(props: {
       <div className="mx-2 flex flex-grow items-center justify-between sm:mx-4">
         {props.extras}
         <section className="flex items-center gap-2">
-          <MessagesComp />
-          <NotificationComp />
           <ProfileComponent type={userAuthTypes.vendor} />
-          <VendorSettings />
         </section>
       </div>
     </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useUserStore } from "@/app/context/user-context";
+// import { useUserStore } from "@/app/context/user-context";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React from "react";
@@ -23,7 +23,7 @@ interface ContactDetailsProps {
 }
 
 const SocialDetails = (props: ContactDetailsProps) => {
-  const { vendor, setVendor } = useUserStore();
+  // const { vendor, setVendor } = useUserStore();
 
   return (
     <div className="grid gap-4">
