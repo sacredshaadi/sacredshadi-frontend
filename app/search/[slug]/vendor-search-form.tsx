@@ -28,7 +28,14 @@ const formSchema = z.object({
   cityId: z.number().min(1, { message: "Please select a valid city from the dropdown" }),
   services: z.number().array().nonempty("Please select a service type"),
   budget: z.number(),
-  date: z.date().refine((date) => date >= new Date(), { message: "Date should not be before today." })
+  date: z.date().refine(
+    (date) => {
+      const currDate = new Date();
+      currDate.setHours(0, 0, 0, 0);
+      return date >= currDate;
+    },
+    { message: "Date should not be before today" }
+  )
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;

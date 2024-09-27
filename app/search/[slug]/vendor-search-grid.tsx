@@ -5,10 +5,15 @@ import { Button } from "@/components/ui/button";
 import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PackageModal from "./search-components/package-modal";
+import { UseMutationResult } from "@tanstack/react-query";
 
-export function VendorSearchGrid() {
+interface Props {
+  mutation?: () => UseMutationResult<any, Error, any, unknown>;
+}
+
+export function VendorSearchGrid(props: Props) {
   const { data, isPending, total, nextPage, prevPage, isPrevPageAvailable, isNextPageAvailable, searched } =
-    useVendorSearch();
+    useVendorSearch(props.mutation);
 
   return (
     <section className="container w-full py-8">
@@ -22,7 +27,7 @@ export function VendorSearchGrid() {
               packageName={item.details}
               description={item.description}
               price={item.price}
-              vendorName={item.vendor.user.name || ""}
+              vendorName={item.vendor?.user?.name || ""}
               packageId={item.id}
             />
           ))}

@@ -35,6 +35,26 @@ export const getAllOffers = (accessToken: string) => {
   });
 };
 
+export const getAllOffersForVendor = (payload: {
+  accessToken: string;
+  page: number;
+  pageSize: number;
+  includeRemoved?: boolean;
+}) => {
+  return apiClient(
+    `${offerEndpoints.getAllOffersForVendor}?page=${payload.page}&pageSize=${payload.pageSize}&includeRemoved=${
+      payload.includeRemoved || false
+    }`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${payload.accessToken}`
+      }
+    }
+  );
+};
+
 export const removeOffer = (payload: mutationReqType) => {
   return apiClient(offerEndpoints.removeOffer, {
     method: "DELETE",

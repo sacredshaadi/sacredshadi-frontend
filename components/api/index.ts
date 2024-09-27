@@ -209,6 +209,13 @@ export const useGetAllOffersMutation = () => {
   });
 };
 
+export const useGetAllOffersForVendorMutation = () => {
+  return useMutation({
+    mutationFn: OFFER_ENDPOINTS.getAllOffersForVendor,
+    mutationKey: [QUERY_KEYS.offer]
+  });
+};
+
 export const useRemoveOfferMutation = () => {
   return useMutation({
     mutationFn: OFFER_ENDPOINTS.removeOffer,

@@ -75,7 +75,8 @@ export const offerEndpoints = {
   createOffer: "/api/v1/service-offer/create",
   updateOffer: "/api/v1/service-offer/update",
   removeOffer: "/api/v1/service-offer/remove",
-  getAllOffers: "/api/v1/service-offer/all"
+  getAllOffers: "/api/v1/service-offer/all",
+  getAllOffersForVendor: "/api/v1/service-offer/vendor-all"
 } as const;
 
 export const searchEndpoints = {
