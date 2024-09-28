@@ -12,7 +12,9 @@ export enum VendorEnum {
 
 export enum BookingStatus {
   pending = "pending",
-  completed = "completed"
+  completed = "completed",
+  cancelled = "cancelled",
+  confirmed = "confirmed"
 }
 
 export interface Booking {

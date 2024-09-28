@@ -20,6 +20,7 @@ export function useVendorSearch(useMutation?: () => UseMutationResult<any, Error
   }
 
   async function onFormSubmit(params: any) {
+    console.log("new search has been initiated, params: ", { params });
     vendorSearchStore.setSearchParams(params);
     const res = await handleVendorSearch({ ...params, page: 1, pageSize: vendorSearchStore.pageSize });
     await checkUnauthorized(res);

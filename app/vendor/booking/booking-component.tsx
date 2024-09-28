@@ -23,6 +23,21 @@ import { Booking, BookingStatus } from "@/types/user-facing";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useVendorContext } from "@/app/context/vendor-context";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+
+enum BookingStateEnum {
+  confirmed = "confirmed",
+  completed = "completed",
+  cancelled = "cancelled"
+}
 
 const BookingComponent = () => {
   const { vendor } = useUserStore();
@@ -31,6 +46,7 @@ const BookingComponent = () => {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const { mutate: getAllVendorBookingsFn, isPending, isError } = useGetAllVendorBookingsMutation();
   const { mutate: updateBookingStatusFn, isPending: bsPending, isError: bsError } = useUpdateBookingStatusMutation();
+  const [bookingState, setBookingState] = useState<BookingStateEnum>(BookingStateEnum.confirmed);
   // const [comment, setComment] = useState("");
 
   useEffect(() => {
@@ -65,11 +81,12 @@ const BookingComponent = () => {
       updateBookingStatusFn(
         {
           accessToken: vendor.tokens.accessToken,
-          status: BookingStatus.completed,
+          status: bookingState,
           id: selectedBooking?.id || -1
         },
         {
           onSuccess(data) {
+            console.log(data);
             toast({ title: "Success", description: "Feedback submitted successfully" });
           },
           onError(error) {
@@ -84,8 +101,6 @@ const BookingComponent = () => {
         description: err.error || err.message || "Something went wrong"
       });
     } finally {
-      // setComment("");
-      // setRating(4);
       setSelectedBooking(null);
     }
   };
@@ -99,7 +114,6 @@ const BookingComponent = () => {
               <span>{booking.vendorName}</span>
               <span className="flex items-center text-sm font-normal text-muted-foreground">
                 <CalendarIcon className="mr-1 h-4 w-4" />
-                {/* convert date from iso format to readable format */}
                 {format(new Date(booking.bookingDate), "dd/MM/yyyy")}
               </span>
             </CardTitle>
@@ -137,12 +151,30 @@ const BookingComponent = () => {
                       Update the status of the booking for {selectedBooking.serviceOfferedDetails}
                     </DialogDescription>
                   </DialogHeader>
+                  <Select
+                    value={bookingState}
+                    onValueChange={(value) => {
+                      setBookingState(value as BookingStateEnum);
+                    }}
+                    defaultValue={BookingStateEnum.confirmed}
+                  >
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value={BookingStateEnum.confirmed}>Confirm</SelectItem>
+                        <SelectItem value={BookingStateEnum.completed}>Complete</SelectItem>
+                        <SelectItem value={BookingStateEnum.cancelled}>Cancel</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <DialogFooter>
                     <Button type="submit" className="font-semibold shadow-lg" onClick={submitFeedback}>
                       {(isPending || bsPending) && !isError && !bsError && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       )}
-                      Service Completed
+                      Update Status
                     </Button>
                   </DialogFooter>
                   {/* </form> */}

@@ -14,7 +14,7 @@ import FeedbackNodes from "./feedback-nodes";
 const FeedbackComp = () => {
   const { vendor, setVendor } = useUserStore();
   const { setFeedbacks } = useVendorContext();
-  const { mutate: getFn, isPending, isError } = useGetAllVendorFeedbacksMutation();
+  const { mutate: getFn, isPending, isError, isIdle } = useGetAllVendorFeedbacksMutation();
   const router = useRouter();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const FeedbackComp = () => {
     }
     try {
       getFn(vendor.vendorId, {
-        onSuccess(data, variables, context) {
+        onSuccess(data) {
           setFeedbacks(data.data as Feedback[]);
         },
         onError(error) {
@@ -49,7 +49,7 @@ const FeedbackComp = () => {
 
   return (
     <div className="flex min-h-full flex-col items-center justify-center">
-      {isPending && (
+      {isIdle && isPending && (
         <Skeleton>
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-3xl font-bold"></h1>
@@ -58,8 +58,8 @@ const FeedbackComp = () => {
         </Skeleton>
       )}
       {isError && <h1 className="text-3xl font-bold">Failed to fetch feedbacks</h1>}
-      {!isPending && !isError && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {!isPending && !isError && !isIdle && (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <FeedbackNodes />
         </div>
       )}

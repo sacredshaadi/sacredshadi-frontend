@@ -22,7 +22,7 @@ const FeedbackNodes = () => {
   return (
     <>
       {feedbacks.map((feedback) => (
-        <Card key={feedback.id} className="flex flex-col shadow-lg">
+        <Card key={feedback.id} className="flex w-[400px] flex-col shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               {/* <span>{feedback.user.name}</span> */}
@@ -33,7 +33,7 @@ const FeedbackNodes = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="flex-grow">
-            <p className="text-sm text-muted-foreground">{feedback.feedback}</p>
+            <p className="text-sm font-semibold text-muted-foreground">{feedback.feedback}</p>
           </CardContent>
           <CardFooter>
             <RatingSubComp rating={parseInt(feedback.rating)} />

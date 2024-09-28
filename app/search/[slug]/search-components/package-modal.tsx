@@ -10,6 +10,7 @@ interface PackageModalProps {
   price: string;
   vendorName: string;
   packageId: number;
+  userFacing: boolean;
 }
 
 const PackageModal = (props: PackageModalProps) => {
@@ -20,12 +21,14 @@ const PackageModal = (props: PackageModalProps) => {
       </CardTitle>
 
       <CardHeader className="text-xl font-semibold">{props.packageName}</CardHeader>
-      <CardDescription>{props.description}</CardDescription>
-      <CardFooter>
-        <Button className="font-semibold shadow-lg" asChild>
-          <Link href={`/package-details/${props.packageId}`}>Book now</Link>
-        </Button>
-      </CardFooter>
+      <CardDescription className="mb-4">{props.description}</CardDescription>
+      {props.userFacing && (
+        <CardFooter>
+          <Button className="font-semibold shadow-lg" asChild>
+            <Link href={`/package-details/${props.packageId}`}>Book now</Link>
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 };

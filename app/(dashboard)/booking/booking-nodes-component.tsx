@@ -130,13 +130,18 @@ const BookingNodesComponent = () => {
                   variant="ghost"
                   className={cn(
                     "w-full border-2 border-primary bg-primary-foreground font-semibold text-primary shadow-md transition hover:bg-primary hover:text-white",
-                    booking.status === BookingStatus.pending && "border-transparent bg-orange-600 text-white"
+                    (booking.status === BookingStatus.pending || booking.status === BookingStatus.confirmed) &&
+                      "border-transparent bg-orange-600 text-white hover:bg-orange-700",
+                    booking.status === BookingStatus.completed &&
+                      "border-green-600 bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700",
+                    booking.status === BookingStatus.cancelled &&
+                      "border-transparent bg-red-600 text-white hover:bg-red-700 hover:text-white"
                   )}
                   onClick={() => handleFeedback(booking)}
                   disabled={booking.status === BookingStatus.pending}
                 >
-                  {booking.status === BookingStatus.pending ? (
-                    <>Not completed</>
+                  {booking.status !== BookingStatus.completed ? (
+                    booking.status
                   ) : (
                     <>
                       <MessageSquare className="mr-2 h-4 w-4" />

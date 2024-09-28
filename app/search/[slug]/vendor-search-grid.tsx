@@ -6,6 +6,7 @@ import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PackageModal from "./search-components/package-modal";
 import { UseMutationResult } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 interface Props {
   mutation?: () => UseMutationResult<any, Error, any, unknown>;
@@ -14,6 +15,10 @@ interface Props {
 export function VendorSearchGrid(props: Props) {
   const { data, isPending, total, nextPage, prevPage, isPrevPageAvailable, isNextPageAvailable, searched } =
     useVendorSearch(props.mutation);
+
+  useEffect(() => {
+    console.log("search data recieved: ", data);
+  }, [data]);
 
   return (
     <section className="container w-full py-8">
@@ -29,6 +34,7 @@ export function VendorSearchGrid(props: Props) {
               price={item.price}
               vendorName={item.vendor?.user?.name || ""}
               packageId={item.id}
+              userFacing={props.mutation === undefined}
             />
           ))}
         </div>
