@@ -62,7 +62,7 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
             ) : (
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value={sidebarRoute.label} className="rounded-md border-none">
-                  <AccordionTrigger className="flex items-center justify-start gap-2 rounded-lg p-2 transition hover:bg-primary-foreground hover:no-underline">
+                  <AccordionTrigger className="flex items-center justify-start gap-2 rounded-lg p-2 transition hover:bg-primary-foreground hover:no-underline [&[data-state=open]>svg]:rotate-0">
                     <sidebarRoute.icon size={26} stroke="red" />
                     <div className="text-base font-semibold">{sidebarRoute.label}</div>
                   </AccordionTrigger>

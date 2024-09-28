@@ -1,5 +1,6 @@
 "use client";
 
+import { uploadToCloudinaryUtil } from "@/app/_components/functions";
 import { Input, InputProps } from "./input";
 import { ChangeEvent, forwardRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -19,20 +20,8 @@ function ImageUploader(props: FormImageUploaderProps) {
     if (!file) return;
     try {
       setLoading(true);
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "");
-
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        { method: "POST", body: formData }
-      );
-      const data = await res.json();
-
-      setImageRemoteUrl(data.secure_url);
-      if (props.setFormValue) {
-        props.setFormValue(data.secure_url);
-      }
+      const remoteUrl = await uploadToCloudinaryUtil(file);
+      setImageRemoteUrl(() => remoteUrl);
     } catch (err: any) {
     } finally {
       setLoading(false);

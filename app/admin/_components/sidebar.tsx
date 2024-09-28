@@ -65,7 +65,7 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
             ) : (
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value={sidebarRoute.label} className="rounded-md border-none">
-                  <AccordionTrigger className="flex items-center justify-start gap-2 p-1 transition hover:bg-gray-200 hover:no-underline">
+                  <AccordionTrigger className="flex items-center justify-start gap-2 p-1 transition hover:bg-gray-200 hover:no-underline [&[data-state=open]>svg]:rotate-0">
                     <sidebarRoute.icon size={26} stroke="red" />
                     <div className="text-base font-semibold">{sidebarRoute.label}</div>
                   </AccordionTrigger>

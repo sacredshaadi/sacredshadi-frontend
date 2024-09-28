@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CameraIcon, Loader2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useUserStore } from "@/app/context/user-context";
 import VendorRouteWrapper from "../_components/vendor-route-wrapper";
 import { z } from "zod";
@@ -19,6 +19,10 @@ import { useUpdateVendorMutation } from "@/components/api";
 import { useRouter } from "next/navigation";
 import { Vendor } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
+import { FormImageUploader } from "@/components/ui/imageUploader";
+import { uploadToCloudinaryUtil } from "@/app/_components/functions";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   details: z.string().min(1, { message: "Please select a venue from the dropdown" }),
@@ -27,7 +31,8 @@ const formSchema = z.object({
   instagramUrl: z.string().url({ message: "Please enter a valid URL" }),
   twitterUrl: z.string().url({ message: "Please enter a valid URL" }),
   youtubeUrl: z.string().url({ message: "Please enter a valid URL" }),
-  pinterestUrl: z.string().url({ message: "Please enter a valid URL" })
+  pinterestUrl: z.string().url({ message: "Please enter a valid URL" }),
+  coverImage: z.string().url({ message: "Please enter a valid URL" })
 });
 
 type ProfileFormValues = z.infer<typeof formSchema>;
@@ -35,6 +40,7 @@ type ProfileFormValues = z.infer<typeof formSchema>;
 const Page = () => {
   const { vendor, setVendor } = useUserStore();
   const loadingRef = useRef<boolean>(false);
+  const [imgUploading, setImgUploading] = useState(false);
   const { mutate: updateFn, isPending } = useUpdateVendorMutation();
   const router = useRouter();
 
@@ -45,7 +51,8 @@ const Page = () => {
     instagramUrl: "",
     twitterUrl: "",
     youtubeUrl: "",
-    pinterestUrl: ""
+    pinterestUrl: "",
+    coverImage: ""
   };
 
   const form = useForm<ProfileFormValues>({
@@ -67,8 +74,24 @@ const Page = () => {
     form.setValue("twitterUrl", vendor.socialMedia?.twitterUrl || "");
     form.setValue("youtubeUrl", vendor.socialMedia?.youtubeUrl || "");
     form.setValue("pinterestUrl", vendor.socialMedia?.pinterestUrl || "");
+    form.setValue("coverImage", vendor?.media?.[0]?.url || "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor]);
+
+  const uploadToCloudinary = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setImgUploading(true);
+      const remoteUrl = await uploadToCloudinaryUtil(file);
+      form.setValue("coverImage", remoteUrl);
+    } catch (err: any) {
+      // console.log(err);
+    } finally {
+      setImgUploading(false);
+    }
+  };
 
   const onSubmit = (data: ProfileFormValues) => {
     try {
@@ -82,8 +105,9 @@ const Page = () => {
             setVendor({
               ...vendor,
               details: data.data.details || "",
+              socialMedia: data.data.socialMedia || {},
               description: data.data.description || "",
-              socialMedia: data.data.socialMedia || {}
+              media: [{ ...vendor.media[0], url: form.getValues().coverImage }, ...vendor.media.slice(1)]
             });
             // setVendor((prev) => ({ ...prev, ...data.data }));
           },
@@ -108,20 +132,48 @@ const Page = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             <div className="relative">
-              <Avatar className="h-24 w-24 sm:h-32 sm:w-32">
-                <AvatarImage src="/placeholder-user.jpg" />
-                <AvatarFallback className="text-2xl ">
-                  {// the initials of the name
-                  vendor?.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
-              <Button variant="secondary" size="sm" className="absolute bottom-0 right-0 rounded-full" type="button">
-                <CameraIcon className="h-4 w-4" />
-                <span className="sr-only">Upload profile image</span>
-              </Button>
+              {form.getValues().coverImage.length > 0 || (vendor?.media[0].url || "").length > 0 ? (
+                <Image
+                  src={form.getValues().coverImage || vendor?.media[0].url || ""}
+                  alt="Cover Image"
+                  width={100}
+                  height={100}
+                  layout="fixed"
+                  className={cn("h-24 w-24 rounded-full object-cover", imgUploading && "animate-pulse")}
+                />
+              ) : (
+                <>
+                  <Avatar className="h-24 w-24 sm:h-32 sm:w-32">
+                    <AvatarImage src="/placeholder-user.jpg" />
+                    <AvatarFallback className="text-2xl ">
+                      {// the initials of the name
+                      vendor?.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                </>
+              )}
+              <span
+                // variant="secondary"
+                // size="sm"
+                className="absolute bottom-0 right-0 h-fit w-fit p-0"
+                // type="button"
+              >
+                <div className="relative flex items-center justify-center overflow-hidden rounded-full bg-muted p-3">
+                  <Input
+                    type="file"
+                    className="absolute inset-0 opacity-0"
+                    // disabled={loading}
+                    onChange={uploadToCloudinary}
+                    // className={twMerge("flex-grow", props.className)}
+                  />
+                  <CameraIcon className="h-4 w-4" />
+
+                  <span className="sr-only">Upload profile image</span>
+                </div>
+              </span>
             </div>
 
             <div className="grid gap-2 text-center sm:text-left">
@@ -147,7 +199,7 @@ const Page = () => {
               className="ml-auto mt-auto p-4 text-base font-semibold shadow-lg lg:p-6"
               type="submit"
               // onClick={() => console.log("form details", form.getValues())}
-              disabled={isPending}
+              disabled={isPending || imgUploading}
             >
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save Profile

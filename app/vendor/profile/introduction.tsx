@@ -17,6 +17,7 @@ interface IntroductionProps {
       youtubeUrl: string;
       pinterestUrl: string;
       brandImage?: string | undefined;
+      coverImage: string;
     },
     any,
     undefined

@@ -17,6 +17,7 @@ interface ContactDetailsProps {
       youtubeUrl: string;
       pinterestUrl: string;
       brandImage?: string | undefined;
+      coverImage: string;
     },
     any,
     undefined

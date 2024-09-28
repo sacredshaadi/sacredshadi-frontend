@@ -87,4 +87,5 @@ export interface Vendor {
   totalPeopleReached: number;
   totalQuotation: number;
   totalViews: number;
+  media: { id: string; type: string; url: string }[];
 }
