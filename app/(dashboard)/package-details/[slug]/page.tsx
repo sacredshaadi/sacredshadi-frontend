@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Star, Mail, Phone, MapPin, Camera, Video, Music, Utensils } from "lucide-react";
+import { Star, Mail, Phone, MapPin, Camera, Video, Music, Utensils, Eye } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSearchByIdMutation } from "@/components/api";
@@ -9,6 +9,8 @@ import { toast } from "@/components/ui/use-toast";
 import { BookModal } from "./book-modal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
+import UplodedImages from "@/app/vendor/profile/album-wrapper/uploaded-images";
+import { FaHandPointRight } from "react-icons/fa6";
 
 const PackageDetails = (props: { params: { slug: string } }) => {
   const router = useRouter();
@@ -49,7 +51,13 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           {isPending ? (
             <Skeleton className="h-14 w-80 bg-gray-100" />
           ) : (
-            <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
+            <section className="flex items-end gap-2">
+              <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
+              <section className=" flex items-center gap-0 font-semibold text-muted-foreground" title="Total views">
+                <Eye className="mr-px" />
+                {packageDetails?.vendor?.totalViews || 0}
+              </section>
+            </section>
           )}
         </section>
         {!isPending && (
@@ -72,6 +80,7 @@ const PackageDetails = (props: { params: { slug: string } }) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {/* {packageDetails?.vendor?.} */}
             <div className="flex items-center">
               <Camera className="mr-2" /> Professional Photography
             </div>
@@ -165,25 +174,7 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           </Card>
         </Skeleton>
       ) : (
-        <Card className="mb-8 shadow-lg">
-          <CardHeader>
-            <CardTitle>Vendor Album</CardTitle>
-            <CardDescription>Previous work by Dream Weddings Inc.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={i}
-                  alt={`Wedding ${i}`}
-                  src={`/placeholder.svg?height=150&width=150&text=Wedding+${i}`}
-                  className="aspect-square h-auto w-full rounded-lg object-cover"
-                />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <UplodedImages userFacing vendorId={packageDetails?.vendor?.id} />
       )}
 
       {/* Contact Vendor */}

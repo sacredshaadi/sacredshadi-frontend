@@ -19,21 +19,32 @@ import {
 
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import useStateRef from "react-usestateref";
+import { Media } from "@/types/auth.types";
+import { cn } from "@/lib/utils";
 
-const UplodedImages = () => {
+interface UplodedImagesProps {
+  userFacing?: boolean;
+  vendorId?: number;
+}
+
+const UplodedImages = (props: UplodedImagesProps) => {
   const { vendor, setVendor } = useUserStore();
   const { album, setAlbum } = useVendorContext();
+  const [tempAlbum, setTempAlbum] = React.useState<Media[]>([]);
   const router = useRouter();
   const { mutate: getFn, isPending } = useGetAlbumByVendorIdMutation();
-  const { mutate: deleteFn } = useDeleteMediaMutation();
+  const { mutate: deleteFn, isError: delError } = useDeleteMediaMutation();
   const [delModalOpen, setDelModalOpen] = React.useState(false);
+  const [, , vendorIdRef] = useStateRef(props.userFacing ? props.vendorId : vendor?.vendorId);
 
   useEffect(() => {
     try {
-      if (!vendor?.vendorId) throw new Error("Vendor not found");
-      getFn(vendor?.vendorId, {
+      if (props.userFacing && !props.vendorId) return;
+      if (!vendorIdRef.current) throw new Error("Vendor not found");
+      getFn(vendorIdRef.current, {
         onSuccess: (data) => {
-          setAlbum(data.data);
+          props.userFacing ? setTempAlbum(data.data) : setAlbum(data.data);
         },
         onError: (error) => {
           throw error;
@@ -43,7 +54,7 @@ const UplodedImages = () => {
       toast({ title: "Error", description: "Failed to get images", variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vendor]);
+  }, [vendorIdRef.current]);
 
   const deleteImg = useCallback(
     (id: number) => {
@@ -85,16 +96,18 @@ const UplodedImages = () => {
 
   return (
     <div>
-      {album.length > 0 ? (
+      {(props.userFacing ? tempAlbum : album).length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
-          {album.map((file) => (
+          {(props.userFacing ? tempAlbum : album).map((file) => (
             <div key={file.id} className="group relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={file.url} alt={`${file.id}`} className="h-44 w-full rounded-lg object-cover" />
               <Dialog open={delModalOpen} onOpenChange={setDelModalOpen}>
                 <DialogTrigger
-                  className="absolute right-2 top-2 h-fit rounded-full bg-white p-3
-                  opacity-50 shadow-md transition group-hover:opacity-100"
+                  className={cn(
+                    "absolute right-2 top-2 h-fit rounded-full bg-white p-3 opacity-50 shadow-md transition group-hover:opacity-100",
+                    props.userFacing && "hidden"
+                  )}
                   type="button"
                 >
                   <Trash className="h-4 w-4" />
