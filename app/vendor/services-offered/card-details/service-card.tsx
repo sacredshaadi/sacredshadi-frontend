@@ -1,10 +1,13 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import { ServiceOffered } from "@/types/auth.types";
 import React from "react";
 import ServiceTypeUpdateModal from "./update-modal";
 import ServiceTypeRemoveModal from "./remove-modal";
+import Image from "next/image";
+import { ErrorBoundary } from "@/components/errorBoundary";
 
 interface ServiceCardProps {
   offerObj: ServiceOffered;
@@ -16,20 +19,47 @@ const ServiceCard = (props: ServiceCardProps) => {
   const [removeOpen, setRemoveOpen] = React.useState(false);
 
   return (
-    <Card className="relative shadow-lg">
-      <section className="absolute right-4 top-4 grid grid-cols-1 items-center gap-1 bg-transparent sm:grid-cols-2 sm:gap-2">
-        <ServiceTypeUpdateModal id={props.offerObj.id} open={updateOpen} setOpen={setUpdateOpen} />
-        <ServiceTypeRemoveModal id={props.offerObj.id} open={removeOpen} setOpen={setRemoveOpen} />
-      </section>
-      <CardHeader>
-        <CardTitle>{props.vendorSubType}</CardTitle>
-        <CardDescription>{props.offerObj.description}</CardDescription>
-      </CardHeader>
-      <CardContent>{props.offerObj.details}</CardContent>
-      <CardFooter>
-        <span className="text-sm font-bold">Price: {props.offerObj.price}</span>
-      </CardFooter>
-    </Card>
+    <motion.section
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      whileInView={{ opacity: 1, translateY: 0 }}
+      initial={{ opacity: 0, translateY: "5rem" }}
+    >
+      <Card className="relative flex flex-col items-center justify-center overflow-hidden ring-2 ring-primary-foreground ring-offset-4">
+        <section className="absolute right-4 top-4 z-50 grid grid-cols-1 items-center gap-1 bg-transparent sm:grid-cols-2 sm:gap-2">
+          <ServiceTypeUpdateModal
+            open={updateOpen}
+            id={props.offerObj.id}
+            setOpen={setUpdateOpen}
+            offerObj={props.offerObj}
+          />
+          <ServiceTypeRemoveModal id={props.offerObj.id} open={removeOpen} setOpen={setRemoveOpen} />
+        </section>
+
+        <CardTitle className="w-full overflow-hidden">
+          {props.offerObj.image ? (
+            <ErrorBoundary fallback={null}>
+              <Image
+                width={400}
+                height={256}
+                layout="responsive"
+                alt={props.offerObj.details}
+                className="max-h-64 object-cover"
+                src={props.offerObj.image || ""}
+              />
+            </ErrorBoundary>
+          ) : null}
+        </CardTitle>
+        <CardHeader>
+          <CardTitle>{props.vendorSubType}</CardTitle>
+          <CardDescription>{props.offerObj.description}</CardDescription>
+        </CardHeader>
+        <CardContent>{props.offerObj.details}</CardContent>
+        <CardFooter>
+          <span className="text-sm font-bold">Price: {props.offerObj.price}</span>
+        </CardFooter>
+      </Card>
+    </motion.section>
   );
 };
 

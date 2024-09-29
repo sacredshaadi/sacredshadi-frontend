@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useVendorContext } from "@/app/context/vendor-context";
 import useStateRef from "react-usestateref";
@@ -58,8 +58,6 @@ export const SearchForm = (props: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setCityId, cityIdRef] = useStateRef<number | null>(null);
 
-  const [vendorSubTypesLoading, setVendorSubTypesLoading] = useState(true);
-
   useEffect(() => {
     const vendorType = vendorTypes.find((item) => item.id === props.vendorTypeId);
     setArr(
@@ -73,11 +71,6 @@ export const SearchForm = (props: Props) => {
     form.setValue("services", selected.map((item) => parseInt(item.value)) as [number, ...number[]]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
-
-  useEffect(() => {
-    if (arr.length === 0) return;
-    setVendorSubTypesLoading(false);
-  }, [arr]);
 
   useEffect(() => {
     if (!searchParams.get("city")) {
@@ -94,7 +87,7 @@ export const SearchForm = (props: Props) => {
   const defaultValues: ProductFormValues = {
     budget: 50000,
     cityId: 1,
-    date: new Date(),
+    date: addDays(new Date(), 1),
     location: locationEnum.myvenue,
     // @ts-ignore
     services: []
@@ -119,7 +112,7 @@ export const SearchForm = (props: Props) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
-        <FormField
+        {/* <FormField
           control={form.control}
           name="location"
           render={() => (
@@ -142,7 +135,7 @@ export const SearchForm = (props: Props) => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           name="cityId"
           control={form.control}
@@ -180,11 +173,7 @@ export const SearchForm = (props: Props) => {
           render={() => (
             <FormItem>
               <FormLabel>Select services</FormLabel>
-              {vendorSubTypesLoading ? (
-                <Skeleton className="h-10 w-full bg-muted" />
-              ) : (
-                <MultipleSelectorComp arr={selected} setArr={setSelected} defaultOptions={arr} />
-              )}
+              <MultipleSelectorComp arr={selected || []} setArr={setSelected} defaultOptions={arr} />
               <FormMessage />
             </FormItem>
           )}

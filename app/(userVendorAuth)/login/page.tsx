@@ -1,5 +1,6 @@
 import { Heart } from "lucide-react";
 import AuthWraper from "./auth-parent";
+import { Metadata } from "next";
 
 export default function AuthenticationPage() {
   return (
@@ -15,3 +16,5 @@ export default function AuthenticationPage() {
     </div>
   );
 }
+
+export const metaData: Metadata = {};

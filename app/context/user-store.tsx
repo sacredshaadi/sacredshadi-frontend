@@ -14,10 +14,7 @@ export const useCustomerStore = create<State & Actions>()(
   persist(
     (set) => ({
       bookings: [],
-      setBookings: (bookings) =>
-        set({
-          bookings
-        })
+      setBookings: (bookings) => set({ bookings })
     }),
     { name: "customer-store", skipHydration: true }
   )

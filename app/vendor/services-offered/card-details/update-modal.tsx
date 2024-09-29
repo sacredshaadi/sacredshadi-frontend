@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Edit, Loader2 } from "lucide-react";
@@ -15,17 +15,21 @@ import { useUserStore } from "@/app/context/user-context";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useVendorContext } from "@/app/context/vendor-context";
+import { FormImageUploader } from "@/components/ui/imageUploader";
+import { ServiceOffered } from "@/types/auth.types";
 
 const formSchema = z.object({
   description: z.string().min(1, "Please enter a valid description"),
   details: z.string().min(1, "Please enter a valid description"),
-  price: z.number().positive("Please enter a valid price")
+  price: z.number().positive("Please enter a valid price"),
+  image: z.string().url().min(1, "Please upload an image")
 });
 
 interface ServiceTypeUpdateModalProps {
   id: number;
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  offerObj: ServiceOffered;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
@@ -36,9 +40,10 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      details: "",
-      description: "",
-      price: 0
+      price: props.offerObj.price,
+      image: props.offerObj.image,
+      details: props.offerObj.details,
+      description: props.offerObj.description
     }
   });
 
@@ -51,10 +56,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
       }
       try {
         updateFn(
-          {
-            accessToken: vendor.tokens.accessToken,
-            data: { id: props.id, ...formData }
-          },
+          { accessToken: vendor.tokens.accessToken, data: { id: props.id, ...formData } },
           {
             onSuccess(data) {
               setServicesOffered([...servicesOffered.filter((item) => item.id !== props.id), data.data[1][0]]);
@@ -84,11 +86,9 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
   return (
     <Dialog open={props.open} onOpenChange={props.setOpen}>
       <DialogTrigger
-        className="flex h-fit items-center justify-center rounded-full bg-primary p-2 text-white shadow-xl"
         title="Update"
-        onClick={() => {
-          props.setOpen(true);
-        }}
+        onClick={() => props.setOpen(true)}
+        className="flex h-fit items-center justify-center rounded-full bg-primary p-2 text-white shadow-xl"
       >
         <Edit className="h-4 w-4" />
       </DialogTrigger>
@@ -107,18 +107,32 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Enter the price of the service package"
                       disabled={isPending}
-                      onChange={(e) => {
-                        form.setValue("price", parseInt(e.target.value));
-                      }}
-                      // {...field}
+                      placeholder="Enter the price of the service package"
+                      onChange={(e) => form.setValue("price", parseInt(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Image</FormLabel>
+                  <FormControl>
+                    <FormImageUploader
+                      defaultValue={field.value}
+                      setFormValue={(value) => form.setValue("image", value)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="details"

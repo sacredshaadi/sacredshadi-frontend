@@ -1,15 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useUserStore } from "@/app/context/user-context";
-import { useVendorContext } from "@/app/context/vendor-context";
-import ServiceCard from "./card-details/service-card";
 import { useRouter } from "next/navigation";
 import { useGetAllOffersForVendorMutation } from "@/components/api";
-import { ServiceOffered } from "@/types/auth.types";
-import { toast } from "@/components/ui/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { VendorSearchGrid } from "@/app/search/[slug]/vendor-search-grid";
 
@@ -17,9 +11,6 @@ interface CardWrapperProps {}
 
 const OffersCardWrapper = (props: CardWrapperProps) => {
   const { vendor, setVendor } = useUserStore();
-  const { servicesOffered, setServicesOffered } = useVendorContext();
-  const pageRef = useRef(1);
-  const pageSizeRef = useRef(10);
   // const { mutate: mutateFn, isPending } = useGetAllOffersForVendorMutation();
   const { onFormSubmit } = useVendorSearch(useGetAllOffersForVendorMutation);
   const router = useRouter();

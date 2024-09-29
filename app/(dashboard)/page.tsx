@@ -5,6 +5,7 @@ import VendorWrapper from "@/app/_components/vendor-wrapper";
 import CarouselComp from "@/app/_components/dashboard/carousel";
 import { getAllVendorTypes, getAllCities } from "@/app/utils/functions";
 import { VendorSelectWrapper } from "@/app/_components/input-component";
+import { Metadata, ResolvingMetadata } from "next";
 
 async function getSliderNodes() {
   try {
@@ -30,4 +31,13 @@ export default async function page() {
       </div>
     </ScrollArea>
   );
+}
+
+export async function generateMetadata({}: any, parent: ResolvingMetadata): Promise<Metadata> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/seo/url?seoUrl=`, { method: "GET" });
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
 }

@@ -17,12 +17,14 @@ import { VendorSubType } from "@/types/auth.types";
 import { useCreateOfferMutation } from "@/components/api";
 import { Input } from "@/components/ui/input";
 import { useVendorContext } from "@/app/context/vendor-context";
+import { FormImageUploader } from "@/components/ui/imageUploader";
 
 const formSchema = z.object({
   serviceOfferedId: z.number().min(1, "Please select a service type"),
   price: z.number().min(1, "Please enter a valid price"),
   description: z.string().min(1, "Please enter a valid description"),
-  details: z.string().min(1, "Please enter a valid description")
+  details: z.string().min(1, "Please enter a valid description"),
+  image: z.string().url().min(1, "Please upload an image")
 });
 
 export function AddServiceModal() {
@@ -73,12 +75,13 @@ export function AddServiceModal() {
         <DialogHeader>
           <DialogTitle>Add new service package to be offered</DialogTitle>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
             <FormField
               control={form.control}
               name="serviceOfferedId"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Service Type</FormLabel>
                   <FormControl>
@@ -115,6 +118,21 @@ export function AddServiceModal() {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Image</FormLabel>
+                  <FormControl>
+                    <FormImageUploader setFormValue={(value) => form.setValue("image", value)} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="price"

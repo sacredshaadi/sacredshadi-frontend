@@ -13,16 +13,15 @@ export default function Page(props: { params: { slug: string } }) {
       <section className="relative grid h-fit w-full grid-cols-1 items-center justify-center gap-4 overflow-hidden p-4 lg:grid-cols-2 lg:p-6">
         <div className=" bg-primary-foreground" />
         <Image
-          src="https://sacredshaadi.com/assets/slider/30-04-2023_10-38-00am_316945245_6119453994740894_9106820734715075120_n.jpg"
-          alt="Hero Image"
           width={400}
           height={400}
+          alt="Hero Image"
+          className="absolute inset-0 m-auto !w-full object-fill"
           placeholder="data:image/base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-          className="absolute
-          inset-0 m-auto !w-full object-fill"
+          src="https://sacredshaadi.com/assets/slider/30-04-2023_10-38-00am_316945245_6119453994740894_9106820734715075120_n.jpg"
         />
 
-        <section className="z-10 flex flex-col items-start justify-center gap-4 rounded-md bg-white p-4 shadow-2xl">
+        <section className="z-10 my-8 flex flex-col items-start justify-center gap-4 rounded-md bg-white p-4 shadow-2xl sm:my-16">
           <SearchForm vendorTypeId={Number(props.params.slug)} />
         </section>
       </section>

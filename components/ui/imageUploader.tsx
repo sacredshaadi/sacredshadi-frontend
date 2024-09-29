@@ -3,9 +3,11 @@
 import { Input, InputProps } from "./input";
 import { ChangeEvent, forwardRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { ErrorBoundary } from "../errorBoundary";
 
 export type FormImageUploaderProps = InputProps & {
   value?: string;
+  setFormValue?: (value: string) => void;
 };
 
 function ImageUploader(props: FormImageUploaderProps) {
@@ -15,7 +17,6 @@ function ImageUploader(props: FormImageUploaderProps) {
   const uploadToCloudinary = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     try {
       setLoading(true);
       const formData = new FormData();
@@ -29,8 +30,10 @@ function ImageUploader(props: FormImageUploaderProps) {
       const data = await res.json();
 
       setImageRemoteUrl(data.secure_url);
+      if (props.setFormValue) {
+        props.setFormValue(data.secure_url);
+      }
     } catch (err: any) {
-      // console.log(err);
     } finally {
       setLoading(false);
     }
@@ -41,8 +44,10 @@ function ImageUploader(props: FormImageUploaderProps) {
       {loading ? (
         <div className="">Uploading . . .</div>
       ) : imageRemoteUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img className="max-h-44" src={imageRemoteUrl} alt="Input image" />
+        <ErrorBoundary fallback={null}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="max-h-44" src={imageRemoteUrl} alt="Input image" />
+        </ErrorBoundary>
       ) : null}
 
       <Input type="hidden" {...props} value={imageRemoteUrl} />

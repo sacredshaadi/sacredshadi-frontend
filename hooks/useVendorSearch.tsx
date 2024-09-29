@@ -1,12 +1,10 @@
-import { useUserStore } from "@/app/context/user-context";
-import { useVendorSearchStore, VendorSearchParams } from "@/app/context/vendor-search-context";
+import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 import { useSearchVendorsMutation } from "@/components/api";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 export function useVendorSearch(useMutation?: () => UseMutationResult<any, Error, any, unknown>, setProfile?: any) {
   const vendorSearchStore = useVendorSearchStore();
-  const { setVendor } = useUserStore();
   const router = useRouter();
   const func = useMutation || useSearchVendorsMutation;
   const { mutateAsync: handleVendorSearch, isPending } = func();

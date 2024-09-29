@@ -37,8 +37,8 @@ const VendorModal = ({ vendorType, description }: VendorProps) => {
         <CardDescription>WEDDING</CardDescription>
         <CardContent>{description}</CardContent>
         <CardFooter>
-          <Link href={`/${vendorType.id}`}>
-            <Button variant={"outline"}>View and Booking</Button>
+          <Link href={`/search/${vendorType.id}`}>
+            <Button variant="outline">View and Booking</Button>
           </Link>
         </CardFooter>
       </Card>

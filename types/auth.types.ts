@@ -49,6 +49,7 @@ export interface ServiceOffered {
   price: number;
   description: string;
   details: string;
+  image: string;
   serviceOfferedId: number;
 }
 

@@ -44,6 +44,6 @@ export const useVendorContext = create<State & Actions>()(
       setFeedbacks: (temp) => set((state) => ({ feedbacks: temp || [] })),
       setAlbum: (temp) => set((state) => ({ album: temp || [] }))
     }),
-    { name: "vendor-context", skipHydration: false }
+    { name: "vendor-context", skipHydration: true }
   )
 );
