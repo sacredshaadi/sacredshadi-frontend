@@ -2,9 +2,12 @@ import { useUserStore } from "@/app/context/user-context";
 import apiClient from "@/lib/apiConfig/apiClient";
 import { UserAuthType } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export type useTableHocQueryProps = {
   type: UserAuthType;
+  pageSize: number;
+  usePagination: boolean;
   addDataEndpoint: string;
   editDataEndpoint: string;
   deleteDataEndpoint: string;
@@ -12,6 +15,7 @@ export type useTableHocQueryProps = {
 };
 
 function useTableHocQuery<T>(props: useTableHocQueryProps) {
+  const [page, setPage] = useState(1);
   const userStore = useUserStore();
 
   const headers = {
@@ -24,8 +28,12 @@ function useTableHocQuery<T>(props: useTableHocQueryProps) {
     refetch: refetchData,
     isFetching: isFetchingData
   } = useQuery({
-    queryKey: [props.paginateDataEndpoint],
-    queryFn: () => apiClient(props.paginateDataEndpoint, { method: "GET", headers })
+    queryKey: [props.paginateDataEndpoint, ...(props.usePagination ? [page, props.pageSize] : [])],
+    queryFn: () =>
+      apiClient(props.paginateDataEndpoint + (props.usePagination ? `?page=${page}&pageSize=${props.pageSize}` : ""), {
+        method: "GET",
+        headers
+      })
   });
 
   const { mutate: handleEditData, isPending: isEditPending } = useMutation({
@@ -61,7 +69,11 @@ function useTableHocQuery<T>(props: useTableHocQueryProps) {
     handleDeleteData,
 
     handleAddData,
-    isAddDataPending
+    isAddDataPending,
+
+    currentPage: page,
+    nextPage: () => setPage((prev) => prev + 1),
+    previousPage: () => setPage((prev) => prev - 1)
   };
 }
 

@@ -8,13 +8,23 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table";
 import { Loading } from "@/app/_components/loading";
 
-interface DataTableProps<TData, TValue> {
+type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
   loading?: boolean;
   headingExtra?: ReactNode;
-}
+} & (
+  | {
+      usePagination: true;
+      dataCount: number;
+      currentPage: number;
+      pageSize: number;
+      nextPage: () => void;
+      previousPage: () => void;
+    }
+  | { usePagination: false }
+);
 
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const table = useReactTable({
@@ -23,9 +33,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel()
   });
-
-  /* this can be used to get the selectedrows
-  console.log("value", table.getFilteredSelectedRowModel()); */
 
   return (
     <div className="bg-background p-2 shadow-md sm:p-4">
@@ -84,12 +91,19 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={props.usePagination ? props.previousPage : table.previousPage}
+            disabled={props.usePagination ? props.currentPage <= 1 : !table.getCanPreviousPage()}
           >
             Previous
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={props.usePagination ? props.nextPage : table.nextPage}
+            disabled={
+              props.usePagination ? props.currentPage * props.pageSize >= props.dataCount : !table.getCanNextPage()
+            }
+          >
             Next
           </Button>
         </div>
