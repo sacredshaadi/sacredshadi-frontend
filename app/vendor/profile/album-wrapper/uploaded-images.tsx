@@ -34,7 +34,7 @@ const UplodedImages = (props: UplodedImagesProps) => {
   const [tempAlbum, setTempAlbum] = React.useState<Media[]>([]);
   const router = useRouter();
   const { mutate: getFn, isPending } = useGetAlbumByVendorIdMutation();
-  const { mutate: deleteFn, isError: delError } = useDeleteMediaMutation();
+  const { mutate: deleteFn } = useDeleteMediaMutation();
   const [delModalOpen, setDelModalOpen] = React.useState(false);
   const [, , vendorIdRef] = useStateRef(props.userFacing ? props.vendorId : vendor?.vendorId);
 

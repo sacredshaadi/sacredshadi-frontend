@@ -23,15 +23,7 @@ import { Booking, BookingStatus } from "@/types/user-facing";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useVendorContext } from "@/app/context/vendor-context";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 enum BookingStateEnum {
   confirmed = "confirmed",
@@ -42,12 +34,10 @@ enum BookingStateEnum {
 const BookingComponent = () => {
   const { vendor } = useUserStore();
   const { bookings, setBookings } = useVendorContext();
-  // const [rating, setRating] = useState(4);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const { mutate: getAllVendorBookingsFn, isPending, isError } = useGetAllVendorBookingsMutation();
   const { mutate: updateBookingStatusFn, isPending: bsPending, isError: bsError } = useUpdateBookingStatusMutation();
   const [bookingState, setBookingState] = useState<BookingStateEnum>(BookingStateEnum.confirmed);
-  // const [comment, setComment] = useState("");
 
   useEffect(() => {
     try {
@@ -86,7 +76,7 @@ const BookingComponent = () => {
         },
         {
           onSuccess(data) {
-            console.log(data);
+            // console.log(data);
             toast({ title: "Success", description: "Feedback submitted successfully" });
           },
           onError(error) {

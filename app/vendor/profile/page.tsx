@@ -19,7 +19,6 @@ import { useUpdateVendorMutation } from "@/components/api";
 import { useRouter } from "next/navigation";
 import { Vendor } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
-import { FormImageUploader } from "@/components/ui/imageUploader";
 import { uploadToCloudinaryUtil } from "@/app/_components/functions";
 import Image from "next/image";
 import { cn } from "@/lib/utils";

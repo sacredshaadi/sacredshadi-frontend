@@ -37,7 +37,7 @@ export const uploadToCloudinaryUtil = async (file: File) => {
     const data = await res.json();
     return data.secure_url as string;
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     throw err;
   }
 };
