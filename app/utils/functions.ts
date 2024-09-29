@@ -1,6 +1,7 @@
 import { VendorType } from "@/types/auth.types";
 import { vendorTypeEndpoints, citiesEndpoints } from "@/lib/apiConfig/endpoints";
 import { ICity } from "@/types";
+import { Metadata } from "next";
 
 export async function getAllVendorTypes(): Promise<VendorType[]> {
   try {
@@ -25,3 +26,54 @@ export async function getAllCities(): Promise<ICity[]> {
 export const getRouteFromTitle = (title: string) => {
   return title.toLowerCase().split(" ").join("-");
 };
+
+type SeoRes = {
+  id: number;
+  url: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+const defaultMetadata: Metadata = {
+  creator: "Sacred Shadi",
+  robots: "index, follow",
+  icons: { icon: "/favicon.ico", apple: "/favicon.ico" },
+  openGraph: { countryName: "India", images: ["/favicon.png"] }
+};
+
+export async function getUrlMetadataForSeo(props: {
+  routeUrl: string;
+  fallbackTitle: string;
+  fallbackDescription: string;
+}): Promise<Metadata> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/seo/url?seoUrl=${props.routeUrl}`);
+    if (!res) throw new Error("Not found");
+    const data: { status: number; data: SeoRes[]; message: string } = await res.json();
+    if (data.data.length === 0) throw new Error("No response");
+
+    const metadata: Metadata = {
+      ...defaultMetadata,
+      keywords: data.data.reduce<string[]>((acc, curr) => [...acc, curr.metaKeywords], []),
+      title: data.data[0].metaTitle,
+      description: data.data[0].metaDescription,
+      openGraph: {
+        ...defaultMetadata.openGraph,
+        title: data.data[0].metaTitle,
+        description: data.data[0].metaDescription
+      }
+    };
+    return metadata;
+  } catch (err: any) {
+    const metadata: Metadata = {
+      ...defaultMetadata,
+      title: props.fallbackTitle,
+      description: props.fallbackDescription,
+      openGraph: { ...defaultMetadata.openGraph, title: props.fallbackTitle, description: props.fallbackDescription }
+    };
+    return metadata;
+  }
+}

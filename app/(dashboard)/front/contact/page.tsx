@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { phoneArr, sacredShaadiAddress } from "@/constants/data";
 import Team from "./team";
+import { getUrlMetadataForSeo } from "@/app/utils/functions";
+import { Metadata } from "next";
 
 export default function ContactUs() {
   return (
@@ -106,4 +108,14 @@ export default function ContactUs() {
       <Team />
     </div>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getUrlMetadataForSeo({
+    routeUrl: "/front/contact",
+    fallbackTitle: "Contact | Sacred Shadi",
+    fallbackDescription:
+      "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"
+  });
+  return data;
 }

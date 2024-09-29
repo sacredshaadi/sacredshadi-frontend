@@ -1,3 +1,5 @@
+import { getUrlMetadataForSeo } from "@/app/utils/functions";
+import { Metadata } from "next";
 import Image from "next/image";
 
 export default function AboutUs() {
@@ -55,16 +57,26 @@ export default function AboutUs() {
             </div> */}
           </div>
           <Image
+            alt="Hero"
             width={550}
             height={550}
-            alt="Hero"
-            src="https://sacredshaadi.com/assets/slider/30-04-2023_10-38-00am_316945245_6119453994740894_9106820734715075120_n.jpg"
-            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:aspect-square"
             placeholder="blur"
+            src="/slider-hero.jpg"
+            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:aspect-square"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
         </div>
       </section>
     </div>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getUrlMetadataForSeo({
+    routeUrl: "/about",
+    fallbackTitle: "About | Sacred Shadi",
+    fallbackDescription:
+      "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"
+  });
+  return data;
 }

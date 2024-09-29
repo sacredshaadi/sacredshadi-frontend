@@ -34,7 +34,7 @@ function SeoSettings() {
             name: "label",
             props: { text: "URL", htmlFor: "seoUrlName", required: true }
           },
-          { id: "seoUrlName", name: "input", props: { name: "url", className: "mb-4", required: true } },
+          { id: "seoUrlName", name: "input", props: { name: "seoUrl", className: "mb-4", required: true } },
           {
             id: "seoMetaTitleLabel",
             name: "label",

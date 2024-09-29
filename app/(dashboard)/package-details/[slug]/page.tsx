@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Star, Mail, Phone, MapPin, Camera, Video, Music, Utensils, Eye } from "lucide-react";
+import { Mail, Phone, MapPin, Eye } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSearchByIdMutation } from "@/components/api";
 import { toast } from "@/components/ui/use-toast";
 import { BookModal } from "./book-modal";
@@ -12,8 +11,10 @@ import { useRouter } from "next/navigation";
 import UplodedImages from "@/app/vendor/profile/album-wrapper/uploaded-images";
 import { FaHandPointRight } from "react-icons/fa6";
 import Image from "next/image";
+import { Metadata } from "next";
+import { getUrlMetadataForSeo } from "@/app/utils/functions";
 
-const PackageDetails = (props: { params: { slug: string } }) => {
+export default function PackageDetails(props: { params: { slug: string } }) {
   const router = useRouter();
   const { mutate: searchByIdFn, isPending } = useSearchByIdMutation();
   const [packageDetails, setPackageDetails] = useState<any>({});
@@ -22,27 +23,21 @@ const PackageDetails = (props: { params: { slug: string } }) => {
   useEffect(() => {
     try {
       searchByIdFn(props.params.slug || "", {
-        onSuccess(data, variables, context) {
-          setPackageDetails(data.data);
-        },
-        onError(error, variables, context) {
+        onSuccess: (data) => setPackageDetails(data.data),
+        onError: (error) => {
           throw error;
         }
       });
     } catch (error) {
       toast({
+        variant: "destructive",
         title: "Error fetching data",
-        description: "An error occurred while fetching data",
-        variant: "destructive"
+        description: "An error occurred while fetching data"
       });
       router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    console.log("dksdlsk: ", packageDetails?.vendor?.user?.media);
-  }, [packageDetails]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -58,7 +53,6 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           ) : (
             <section className="flex items-center gap-2">
               {packageDetails?.vendor?.user?.media?.map((media: any) => {
-                console.log("media", { media });
                 if (media?.type !== "cover_image") return null;
                 else if (media?.type === "cover_image" && !media?.url) return null;
                 return (
@@ -102,28 +96,17 @@ const PackageDetails = (props: { params: { slug: string } }) => {
             <CardTitle className="text-xl tracking-tight drop-shadow-lg">Package Details</CardTitle>
             <CardDescription>Everything you need for your perfect day</CardDescription>
           </CardHeader>
+
           <CardContent>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {/* {packageDetails?.vendor?.} */}
               {(packageDetails?.vendor?.vendorType?.vendorSubTypes || []).map((subType: any) => (
                 <div key={subType.id} className="flex items-center">
                   <FaHandPointRight className="mr-2" /> {subType.subType}
                 </div>
               ))}
-              {/* <div className="flex items-center">
-              <Camera className="mr-2" /> Professional Photography
-            </div>
-            <div className="flex items-center">
-              <Video className="mr-2" /> Cinematic Videography
-            </div>
-            <div className="flex items-center">
-              <Music className="mr-2" /> DJ and Sound System
-            </div>
-            <div className="flex items-center">
-              <Utensils className="mr-2" /> Catering for 100 guests
-            </div> */}
             </div>
           </CardContent>
+
           <CardFooter>
             {isPending ? (
               <Skeleton className="h-12 w-24 bg-gray-100"></Skeleton>
@@ -141,29 +124,12 @@ const PackageDetails = (props: { params: { slug: string } }) => {
         />
       </Card>
 
-      {/* Vendor Details */}
       <Card className="mb-8 shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl tracking-tight drop-shadow-lg">Vendor Details</CardTitle>
         </CardHeader>
+
         <CardContent>
-          {/* <div className="mb-4 flex items-center">
-            <Avatar className="mr-4 h-16 w-16">
-              <AvatarImage src="/placeholder.svg?height=64&width=64" alt="Vendor" />
-              <AvatarFallback>VD</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-xl font-semibold">Dream Weddings Inc.</h3>
-              <div className="flex items-center">
-                <Star className="fill-current text-yellow-400" />
-                <Star className="fill-current text-yellow-400" />
-                <Star className="fill-current text-yellow-400" />
-                <Star className="fill-current text-yellow-400" />
-                <Star className="fill-current text-yellow-400" />
-                <span className="ml-2 text-sm text-gray-600">(52 reviews)</span>
-              </div>
-            </div>
-          </div> */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex items-center">
               <Mail className="mr-2" />{" "}
@@ -193,7 +159,6 @@ const PackageDetails = (props: { params: { slug: string } }) => {
         </CardContent>
       </Card>
 
-      {/* Vendor Album */}
       {isPending ? (
         <Skeleton className="">
           <Card className="mb-8 shadow-lg">
@@ -247,6 +212,15 @@ const PackageDetails = (props: { params: { slug: string } }) => {
       </Card> */}
     </div>
   );
-};
+}
 
-export default PackageDetails;
+export async function generateMetadata(...params: any): Promise<Metadata> {
+  console.log({ params });
+  const data = await getUrlMetadataForSeo({
+    routeUrl: "/",
+    fallbackTitle: "Sacred Shadi",
+    fallbackDescription:
+      "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"
+  });
+  return data;
+}

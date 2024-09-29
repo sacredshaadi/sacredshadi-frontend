@@ -1,5 +1,7 @@
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { faq } from '@/constants/faq';
+import { getUrlMetadataForSeo } from "@/app/utils/functions";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { faq } from "@/constants/faq";
+import { Metadata } from "next";
 
 interface FAQSectionProps {
   title: string;
@@ -43,4 +45,14 @@ export default function FAQComp() {
       />
     </div>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getUrlMetadataForSeo({
+    routeUrl: "/front/faq",
+    fallbackTitle: "FAQs | Sacred Shadi",
+    fallbackDescription:
+      "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"
+  });
+  return data;
 }

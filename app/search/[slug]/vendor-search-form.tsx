@@ -17,7 +17,6 @@ import { useVendorContext } from "@/app/context/vendor-context";
 import useStateRef from "react-usestateref";
 import MultipleSelectorComp from "@/app/_components/vendor-wrapper/multi-select-comp";
 import { Option } from "@/components/ui/multiselect";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { Input } from "@/components/ui/input";
 
@@ -93,10 +92,7 @@ export const SearchForm = (props: Props) => {
     services: []
   };
 
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues
-  });
+  const form = useForm<ProductFormValues>({ defaultValues, resolver: zodResolver(formSchema) });
 
   const onSubmit = async () => {
     const formValues = form.getValues();

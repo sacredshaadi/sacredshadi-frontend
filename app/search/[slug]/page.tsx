@@ -16,9 +16,9 @@ export default function Page(props: { params: { slug: string } }) {
           width={400}
           height={400}
           alt="Hero Image"
+          src="/slider-hero.jpg"
           className="absolute inset-0 m-auto !w-full object-fill"
           placeholder="data:image/base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-          src="https://sacredshaadi.com/assets/slider/30-04-2023_10-38-00am_316945245_6119453994740894_9106820734715075120_n.jpg"
         />
 
         <section className="z-10 my-8 flex flex-col items-start justify-center gap-4 rounded-md bg-white p-4 shadow-2xl sm:my-16">

@@ -3,9 +3,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { sliderEndpoints } from "@/lib/apiConfig/endpoints";
 import VendorWrapper from "@/app/_components/vendor-wrapper";
 import CarouselComp from "@/app/_components/dashboard/carousel";
-import { getAllVendorTypes, getAllCities } from "@/app/utils/functions";
+import { getAllVendorTypes, getAllCities, getUrlMetadataForSeo } from "@/app/utils/functions";
 import { VendorSelectWrapper } from "@/app/_components/input-component";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 async function getSliderNodes() {
   try {
@@ -33,12 +33,12 @@ export default async function page() {
   );
 }
 
-export async function generateMetadata({}: any, parent: ResolvingMetadata): Promise<Metadata> {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/seo/url?seoUrl=`, { method: "GET" });
-    return await res.json();
-  } catch (err) {
-    console.log(err);
-    return {};
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getUrlMetadataForSeo({
+    routeUrl: "/",
+    fallbackTitle: "Sacred Shadi",
+    fallbackDescription:
+      "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"
+  });
+  return data;
 }
