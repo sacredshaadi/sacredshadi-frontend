@@ -17,4 +17,4 @@ export default function AuthenticationPage() {
   );
 }
 
-export const metaData: Metadata = {};
+const metaData: Metadata = {};

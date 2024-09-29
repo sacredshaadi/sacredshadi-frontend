@@ -36,6 +36,7 @@ export default async function page() {
 export async function generateMetadata({}: any, parent: ResolvingMetadata): Promise<Metadata> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/seo/url?seoUrl=`, { method: "GET" });
+    return await res.json();
   } catch (err) {
     console.log(err);
     return {};
