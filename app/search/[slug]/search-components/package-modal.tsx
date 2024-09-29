@@ -11,13 +11,21 @@ interface PackageModalProps {
   vendorName: string;
   packageId: number;
   userFacing: boolean;
+  imageUrl: string;
 }
 
 const PackageModal = (props: PackageModalProps) => {
   return (
     <Card className="flex w-full flex-col items-center justify-center overflow-hidden">
       <CardTitle className=" w-full overflow-hidden">
-        <Image width={400} height={250} layout="responsive" alt={"package_img"} className="object-contain" src={""} />
+        <Image
+          width={400}
+          height={250}
+          layout="responsive"
+          alt={"package_img"}
+          className="object-contain"
+          src={props.imageUrl}
+        />
       </CardTitle>
 
       <CardHeader className="text-xl font-semibold">{props.packageName}</CardHeader>

@@ -10,6 +10,7 @@ export type Root = {
   createdAt: string;
   updatedAt: string;
   vendor: Vendor;
+  image: string;
 };
 
 type Vendor = {

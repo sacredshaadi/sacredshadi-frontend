@@ -132,9 +132,9 @@ const Page = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             <div className="relative">
-              {form.getValues().coverImage.length > 0 || (vendor?.media[0].url || "").length > 0 ? (
+              {form.getValues().coverImage.length > 0 || (vendor?.media?.[0]?.url || "").length > 0 ? (
                 <Image
-                  src={form.getValues().coverImage || vendor?.media[0].url || ""}
+                  src={form.getValues().coverImage || vendor?.media?.[0]?.url || ""}
                   alt="Cover Image"
                   width={100}
                   height={100}

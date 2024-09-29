@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import UplodedImages from "@/app/vendor/profile/album-wrapper/uploaded-images";
 import { FaHandPointRight } from "react-icons/fa6";
+import Image from "next/image";
 
 const PackageDetails = (props: { params: { slug: string } }) => {
   const router = useRouter();
@@ -39,10 +40,14 @@ const PackageDetails = (props: { params: { slug: string } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    console.log("dksdlsk: ", packageDetails?.vendor?.user?.media);
+  }, [packageDetails]);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="sticky top-0 mb-8 flex items-center justify-between">
-        <section className="flex flex-col gap-2">
+        <section className="flex flex-col gap-6">
           {isPending ? (
             <Skeleton className="h-16 w-96 bg-gray-100" />
           ) : (
@@ -51,11 +56,29 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           {isPending ? (
             <Skeleton className="h-14 w-80 bg-gray-100" />
           ) : (
-            <section className="flex items-end gap-2">
-              <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
-              <section className=" flex items-center gap-0 font-semibold text-muted-foreground" title="Total views">
-                <Eye className="mr-px" />
-                {packageDetails?.vendor?.totalViews || 0}
+            <section className="flex items-center gap-2">
+              {packageDetails?.vendor?.user?.media?.map((media: any) => {
+                console.log("media", { media });
+                if (media?.type !== "cover_image") return null;
+                else if (media?.type === "cover_image" && !media?.url) return null;
+                return (
+                  <Image
+                    key={media.id}
+                    src={media.url}
+                    alt="Vendor Image"
+                    layout="fixed"
+                    width={100}
+                    height={100}
+                    className="h-24 w-24 rounded-full object-cover"
+                  />
+                );
+              })}
+              <section className="flex flex-col items-start gap-2">
+                <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
+                <section className=" flex items-center gap-0 font-semibold text-muted-foreground" title="Total views">
+                  <Eye className="mr-px" />
+                  {packageDetails?.vendor?.totalViews || 0}
+                </section>
               </section>
             </section>
           )}
@@ -73,15 +96,21 @@ const PackageDetails = (props: { params: { slug: string } }) => {
       </section>
 
       {/* Package Details */}
-      <Card className="mb-8 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl tracking-tight drop-shadow-lg">Package Details</CardTitle>
-          <CardDescription>Everything you need for your perfect day</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {/* {packageDetails?.vendor?.} */}
-            <div className="flex items-center">
+      <Card className="mb-8 grid grid-cols-1 overflow-hidden shadow-lg md:grid-cols-2">
+        <section className="">
+          <CardHeader>
+            <CardTitle className="text-xl tracking-tight drop-shadow-lg">Package Details</CardTitle>
+            <CardDescription>Everything you need for your perfect day</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {/* {packageDetails?.vendor?.} */}
+              {(packageDetails?.vendor?.vendorType?.vendorSubTypes || []).map((subType: any) => (
+                <div key={subType.id} className="flex items-center">
+                  <FaHandPointRight className="mr-2" /> {subType.subType}
+                </div>
+              ))}
+              {/* <div className="flex items-center">
               <Camera className="mr-2" /> Professional Photography
             </div>
             <div className="flex items-center">
@@ -92,16 +121,24 @@ const PackageDetails = (props: { params: { slug: string } }) => {
             </div>
             <div className="flex items-center">
               <Utensils className="mr-2" /> Catering for 100 guests
+            </div> */}
             </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          {isPending ? (
-            <Skeleton className="h-12 w-24 bg-gray-100"></Skeleton>
-          ) : (
-            <p className="text-2xl font-bold drop-shadow-lg">₹{packageDetails?.price || ""}</p>
-          )}
-        </CardFooter>
+          </CardContent>
+          <CardFooter>
+            {isPending ? (
+              <Skeleton className="h-12 w-24 bg-gray-100"></Skeleton>
+            ) : (
+              <p className="text-2xl font-bold drop-shadow-lg">₹{packageDetails?.price || ""}</p>
+            )}
+          </CardFooter>
+        </section>
+        <Image
+          src={packageDetails?.image || ""}
+          alt="Package Image"
+          width={400}
+          height={150}
+          className="w-full object-cover"
+        />
       </Card>
 
       {/* Vendor Details */}
@@ -110,7 +147,7 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           <CardTitle className="text-xl tracking-tight drop-shadow-lg">Vendor Details</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="mb-4 flex items-center">
+          {/* <div className="mb-4 flex items-center">
             <Avatar className="mr-4 h-16 w-16">
               <AvatarImage src="/placeholder.svg?height=64&width=64" alt="Vendor" />
               <AvatarFallback>VD</AvatarFallback>
@@ -126,7 +163,7 @@ const PackageDetails = (props: { params: { slug: string } }) => {
                 <span className="ml-2 text-sm text-gray-600">(52 reviews)</span>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex items-center">
               <Mail className="mr-2" />{" "}
@@ -174,7 +211,12 @@ const PackageDetails = (props: { params: { slug: string } }) => {
           </Card>
         </Skeleton>
       ) : (
-        <UplodedImages userFacing vendorId={packageDetails?.vendor?.id} />
+        <Card className="flex flex-col gap-4 p-4">
+          <CardTitle className="text-xl tracking-tight drop-shadow-lg">Sample Photos</CardTitle>
+          <CardContent className="p-0">
+            <UplodedImages userFacing vendorId={packageDetails?.vendor?.id} />
+          </CardContent>
+        </Card>
       )}
 
       {/* Contact Vendor */}

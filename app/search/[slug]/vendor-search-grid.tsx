@@ -17,7 +17,7 @@ export function VendorSearchGrid(props: Props) {
     useVendorSearch(props.mutation);
 
   useEffect(() => {
-    console.log("search data recieved: ", data);
+    console.log(data);
   }, [data]);
 
   return (
@@ -35,6 +35,7 @@ export function VendorSearchGrid(props: Props) {
               vendorName={item.vendor?.user?.name || ""}
               packageId={item.id}
               userFacing={props.mutation === undefined}
+              imageUrl={item?.image || ""}
             />
           ))}
         </div>
