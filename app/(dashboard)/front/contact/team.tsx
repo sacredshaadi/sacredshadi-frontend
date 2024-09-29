@@ -29,12 +29,7 @@ const Team = () => {
     <section className="flex w-full flex-col items-center gap-4 p-4 lg:gap-8 lg:py-8 xl:gap-12 xl:py-12">
       <h1 className="-mb-4 mt-2 text-center text-3xl font-bold lg:text-4xl xl:text-5xl">Our Team</h1>
 
-      <Carousel
-        opts={{
-          align: "start"
-        }}
-        className="mx-auto w-full max-w-[80%] md:max-w-[90%]"
-      >
+      <Carousel opts={{ align: "start" }} className="mx-auto w-full max-w-[80%] md:max-w-[90%]">
         <CarouselContent className="py-2">
           {res?.data.map((itr, index) => (
             <CarouselItem key={itr.id} className="basis-10/12 md:basis-1/2 lg:basis-1/4 ">

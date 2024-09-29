@@ -6,8 +6,8 @@ import { ServiceOffered } from "@/types/auth.types";
 import React from "react";
 import ServiceTypeUpdateModal from "./update-modal";
 import ServiceTypeRemoveModal from "./remove-modal";
-import Image from "next/image";
 import { ErrorBoundary } from "@/components/errorBoundary";
+import { CustomImage } from "@/app/utils/image";
 
 interface ServiceCardProps {
   offerObj: ServiceOffered;
@@ -39,7 +39,7 @@ const ServiceCard = (props: ServiceCardProps) => {
         <CardTitle className="w-full overflow-hidden">
           {props.offerObj.image ? (
             <ErrorBoundary fallback={null}>
-              <Image
+              <CustomImage
                 width={400}
                 height={256}
                 layout="responsive"

@@ -11,6 +11,7 @@ function SpecificServiceDetails() {
   return (
     <SuperAdminLayout title="Service Details">
       <TableHOC
+        usePagination
         searchKey="title"
         addable
         editable
@@ -18,13 +19,13 @@ function SpecificServiceDetails() {
         columns={[
           { accessorKey: "subType", header: "Sub Type" },
           {
-            accessorKey: "createdAt",
             header: "Created At",
+            accessorKey: "createdAt",
             accessorFn: (data) => dayjs(data.createdAt).format("DD-MM-YYYY HH:mm A")
           },
           {
-            accessorKey: "updatedAt",
             header: "Updated At",
+            accessorKey: "updatedAt",
             accessorFn: (data) => dayjs(data.updatedAt).format("DD-MM-YYYY HH:mm A")
           }
         ]}
@@ -32,10 +33,10 @@ function SpecificServiceDetails() {
           { id: "subTypeLabel", name: "label", props: { text: "Sub Type", htmlFor: "subTypeTitle", required: true } },
           { id: "subTypeTitle", name: "input", props: { name: "subType", className: "mb-4", required: true } }
         ]}
-        addDataEndpoint={`/api/v1/vendor-sub-type/${params.serviceId}/create`}
         editDataEndpoint="/api/v1/vendor-sub-type/update"
-        paginateDataEndpoint={`/api/v1/vendor-sub-type/${params.serviceId}/all`}
         deleteDataEndpoint="/api/v1/vendor-sub-type/remove"
+        addDataEndpoint={`/api/v1/vendor-sub-type/${params.serviceId}/create`}
+        paginateDataEndpoint={`/api/v1/vendor-sub-type/${params.serviceId}/all`}
       />
     </SuperAdminLayout>
   );

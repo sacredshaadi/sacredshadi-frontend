@@ -30,10 +30,16 @@ function useTableHocQuery<T>(props: useTableHocQueryProps) {
   } = useQuery({
     queryKey: [props.paginateDataEndpoint, ...(props.usePagination ? [page, props.pageSize] : [])],
     queryFn: () =>
-      apiClient(props.paginateDataEndpoint + (props.usePagination ? `?page=${page}&pageSize=${props.pageSize}` : ""), {
-        method: "GET",
-        headers
-      })
+      apiClient(
+        props.paginateDataEndpoint +
+          (props.usePagination
+            ? (props.paginateDataEndpoint.includes("?") ? "&" : "?") + `page=${page}&pageSize=${props.pageSize}`
+            : ""),
+        {
+          method: "GET",
+          headers
+        }
+      )
   });
 
   const { mutate: handleEditData, isPending: isEditPending } = useMutation({

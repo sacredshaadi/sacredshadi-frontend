@@ -9,6 +9,7 @@ function SeoSettings() {
     <SuperAdminLayout title="SEO Settings">
       <TableHOC
         searchKey="metaTitle"
+        usePagination
         addable
         editable
         deleteable

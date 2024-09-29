@@ -24,7 +24,7 @@ export default function ContactUs() {
             </div>
             <Card className="grid grid-cols-2 items-center justify-center gap-2 shadow-lg">
               <Image
-                src="https://sacredshaadi.com/images/contact.gif"
+                src="/contact.gif"
                 alt="phone"
                 width={20}
                 height={20}

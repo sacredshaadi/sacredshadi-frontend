@@ -1,6 +1,6 @@
+import { CustomImage } from "@/app/utils/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -18,7 +18,7 @@ const PackageModal = (props: PackageModalProps) => {
   return (
     <Card className="flex w-full flex-col items-center justify-center overflow-hidden">
       <CardTitle className=" w-full overflow-hidden">
-        <Image
+        <CustomImage
           width={400}
           height={250}
           layout="responsive"

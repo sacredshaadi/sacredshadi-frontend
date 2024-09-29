@@ -9,6 +9,7 @@ function AdminVendors() {
     <SuperAdminLayout title="Vendors">
       <TableHOC
         searchKey="name"
+        usePagination
         columns={[
           { accessorKey: "name", header: "Name" },
           { accessorKey: "email", header: "Email" },

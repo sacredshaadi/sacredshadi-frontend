@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import UplodedImages from "@/app/vendor/profile/album-wrapper/uploaded-images";
 import { FaHandPointRight } from "react-icons/fa6";
-import Image from "next/image";
+import { CustomImage } from "@/app/utils/image";
 
 export default function PackageDetails(props: { params: { slug: string } }) {
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function PackageDetails(props: { params: { slug: string } }) {
                 if (media?.type !== "cover_image") return null;
                 else if (media?.type === "cover_image" && !media?.url) return null;
                 return (
-                  <Image
+                  <CustomImage
                     key={media.id}
                     src={media.url}
                     alt="Vendor Image"
@@ -113,7 +113,8 @@ export default function PackageDetails(props: { params: { slug: string } }) {
             )}
           </CardFooter>
         </section>
-        <Image
+
+        <CustomImage
           src={packageDetails?.image || ""}
           alt="Package Image"
           width={400}

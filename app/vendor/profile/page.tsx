@@ -20,8 +20,8 @@ import { useRouter } from "next/navigation";
 import { Vendor } from "@/types/auth.types";
 import { Input } from "@/components/ui/input";
 import { uploadToCloudinaryUtil } from "@/app/_components/functions";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { CustomImage } from "@/app/utils/image";
 
 const formSchema = z.object({
   details: z.string().min(1, { message: "Please select a venue from the dropdown" }),
@@ -132,7 +132,7 @@ const Page = () => {
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             <div className="relative">
               {form.getValues().coverImage.length > 0 || (vendor?.media?.[0]?.url || "").length > 0 ? (
-                <Image
+                <CustomImage
                   src={form.getValues().coverImage || vendor?.media?.[0]?.url || ""}
                   alt="Cover Image"
                   width={100}

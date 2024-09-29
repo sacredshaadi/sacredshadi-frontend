@@ -37,12 +37,26 @@ type SeoRes = {
   updatedAt: string;
 };
 
-const defaultMetadata: Metadata = {
+export const defaultMetadata: Metadata = {
   creator: "Sacred Shadi",
   robots: "index, follow",
   icons: { icon: "/favicon.ico", apple: "/favicon.ico" },
   openGraph: { countryName: "India", images: ["/favicon.png"] }
 };
+export const fallbackDescription =
+  "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button";
+export function fallbackDefaultMetadata(fallbackTitle: string, fallbackDescription: string): Metadata {
+  return {
+    ...defaultMetadata,
+    title: fallbackTitle,
+    description: fallbackDescription,
+    openGraph: {
+      ...defaultMetadata.openGraph,
+      title: fallbackTitle,
+      description: fallbackDescription
+    }
+  };
+}
 
 export async function getUrlMetadataForSeo(props: {
   routeUrl: string;
@@ -57,9 +71,9 @@ export async function getUrlMetadataForSeo(props: {
 
     const metadata: Metadata = {
       ...defaultMetadata,
-      keywords: data.data.reduce<string[]>((acc, curr) => [...acc, curr.metaKeywords], []),
       title: data.data[0].metaTitle,
       description: data.data[0].metaDescription,
+      keywords: data.data.reduce<string[]>((acc, curr) => [...acc, curr.metaKeywords], []),
       openGraph: {
         ...defaultMetadata.openGraph,
         title: data.data[0].metaTitle,
@@ -68,12 +82,6 @@ export async function getUrlMetadataForSeo(props: {
     };
     return metadata;
   } catch (err: any) {
-    const metadata: Metadata = {
-      ...defaultMetadata,
-      title: props.fallbackTitle,
-      description: props.fallbackDescription,
-      openGraph: { ...defaultMetadata.openGraph, title: props.fallbackTitle, description: props.fallbackDescription }
-    };
-    return metadata;
+    return fallbackDefaultMetadata(props.fallbackTitle, props.fallbackDescription);
   }
 }

@@ -3,7 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { sliderEndpoints } from "@/lib/apiConfig/endpoints";
 import VendorWrapper from "@/app/_components/vendor-wrapper";
 import CarouselComp from "@/app/_components/dashboard/carousel";
-import { getAllVendorTypes, getAllCities, getUrlMetadataForSeo } from "@/app/utils/functions";
+import { getAllVendorTypes, getAllCities, getUrlMetadataForSeo, fallbackDescription } from "@/app/utils/functions";
 import { VendorSelectWrapper } from "@/app/_components/input-component";
 import { Metadata } from "next";
 
@@ -37,8 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await getUrlMetadataForSeo({
     routeUrl: "/",
     fallbackTitle: "Sacred Shadi",
-    fallbackDescription:
-      "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"
+    fallbackDescription: fallbackDescription
   });
   return data;
 }

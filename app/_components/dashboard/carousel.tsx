@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { ISlider } from "@/types";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { CustomImage } from "@/app/utils/image";
 
 export default function CarouselComp(props: { sliderArr: ISlider[] }) {
   return (
@@ -17,11 +17,10 @@ export default function CarouselComp(props: { sliderArr: ISlider[] }) {
               <section
                 className={cn("relative flex h-[400px] w-full items-center justify-center bg-primary-foreground")}
               >
-                <Image
-                  src={
-                    sliderNode.image ||
-                    "https://sacredshaadi.com/assets/slider/30-04-2023_10-31-00am_116455551_1774586579382216_3764911622315615791_n.jpg"
-                  }
+                <CustomImage
+                  fallbackImage="/slider-hero-2.jpg"
+                  src={sliderNode.image || ""}
+                  fallbackStyle="height: 400px; width: 400px; margin: 20px auto 0px auto;"
                   width={400}
                   height={400}
                   alt={sliderNode.title}

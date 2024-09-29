@@ -9,6 +9,7 @@ function Categories() {
     <SuperAdminLayout title="Categories">
       <TableHOC
         searchKey="name"
+        usePagination
         addable
         editable
         deleteable

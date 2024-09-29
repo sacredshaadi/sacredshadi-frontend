@@ -8,6 +8,7 @@ function Reviews() {
     <SuperAdminLayout title="Reviews">
       <TableHOC
         searchKey="title"
+        usePagination
         addable={false}
         editable={false}
         deleteable={false}

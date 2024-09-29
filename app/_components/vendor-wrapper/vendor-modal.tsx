@@ -6,7 +6,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { VendorType } from "@/types/auth.types";
-import Image from "next/image";
+import { CustomImage } from "@/app/utils/image";
 
 type VendorProps = {
   vendorType: VendorType;
@@ -24,7 +24,7 @@ const VendorModal = ({ vendorType, description }: VendorProps) => {
     >
       <Card className="flex w-[400px] flex-col items-center justify-center overflow-hidden ring-2 ring-primary-foreground ring-offset-4">
         <CardTitle className=" w-full overflow-hidden">
-          <Image
+          <CustomImage
             width={400}
             height={250}
             layout="responsive"

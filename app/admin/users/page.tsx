@@ -8,6 +8,7 @@ function UsersList() {
   return (
     <SuperAdminLayout title="Users">
       <TableHOC
+        usePagination
         searchKey="name"
         columns={[
           { accessorKey: "name", header: "Name" },
