@@ -76,13 +76,8 @@ export default function Footer() {
       "
       >
         <span className="flex items-center justify-center gap-2">
-          <Link href={"https://sacredshaadi.com"} target="_blank">
-            <Image
-              src={"https://sacredshaadi.com/images/shadi_logo%20copy.png"}
-              alt="Sacred Shaadi"
-              width={100}
-              height={50}
-            />
+          <Link href="https://sacredshaadi.com" target="_blank">
+            <Image src="/favicon.png" alt="Sacred Shaadi" width={100} height={50} />
           </Link>
           <p>
             &copy; Copyright 2024. All rights reserved Sacred Shaadi. Designed and developed by{" "}

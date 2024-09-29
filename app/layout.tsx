@@ -10,7 +10,8 @@ const font = Inter({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Sacred Shaadi",
-  description: "One stop solution for all your wedding needs"
+  description: "One stop solution for all your wedding needs",
+  icons: "/favicon.png"
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

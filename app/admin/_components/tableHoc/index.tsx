@@ -18,9 +18,11 @@ import { FormElementInstance, FormRenderer } from "../forms";
 import { WithLoading } from "@/app/_components/loading";
 
 export type TableHocProps<T> = {
+  pageSize?: number;
   authType?: UserAuthType;
   columns: ColumnDef<T>[];
   searchKey: string;
+  usePagination?: boolean;
   paginateDataEndpoint: string;
 } & (
   | {
@@ -58,11 +60,16 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
     handleDeleteData,
     isEditPending,
     isDeletePending,
-    isAddDataPending
+    isAddDataPending,
+    currentPage,
+    nextPage,
+    previousPage
   } = useTableHocQuery({
+    pageSize: props.pageSize || 15,
+    usePagination: !!props.usePagination,
+    paginateDataEndpoint: props.paginateDataEndpoint,
     type: props.authType || userAuthTypes.super_admin,
     addDataEndpoint: props.addable ? props.addDataEndpoint : "",
-    paginateDataEndpoint: props.paginateDataEndpoint,
     deleteDataEndpoint: props.deleteable ? props.deleteDataEndpoint : "",
     editDataEndpoint: props.editable ? props.editDataEndpoint : ""
   });
@@ -217,7 +224,17 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
         columns={columns}
         loading={isFetchingData}
         searchKey={props.searchKey}
-        data={data ? data.data : []}
+        {...(props.usePagination
+          ? {
+              nextPage,
+              currentPage,
+              previousPage,
+              usePagination: true,
+              pageSize: props.pageSize || 15,
+              dataCount: data ? data.data.count : 0
+            }
+          : { usePagination: false })}
+        data={data ? (props.usePagination ? data.data.rows : data.data) : []}
         headingExtra={
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => refetchData()} disabled={isFetchingData}>
