@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Eye } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSearchByIdMutation } from "@/components/api";
-import { toast } from "@/components/ui/use-toast";
 import { BookModal } from "./book-modal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";

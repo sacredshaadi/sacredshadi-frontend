@@ -61,7 +61,8 @@ export const SearchForm = (props: Props) => {
     const vendorType = vendorTypes.find((item) => item.id === props.vendorTypeId);
     setArr(
       () =>
-        vendorType?.vendorSubTypes.map((item) => ({ label: item.subType, value: item?.id?.toString() }) as Option) || []
+        vendorType?.vendorSubTypes?.map((item) => ({ label: item.subType, value: item?.id?.toString() }) as Option) ||
+        []
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendorTypes]);
@@ -72,12 +73,13 @@ export const SearchForm = (props: Props) => {
   }, [selected]);
 
   useEffect(() => {
-    if (!searchParams.get("city")) {
+    const city = searchParams.get("city");
+    if (!city) {
       setCityId(1);
       form.setValue("cityId", 1);
       return;
     }
-    const id = Number(searchParams.get("city"));
+    const id = Number(city);
     setCityId(id);
     form.setValue("cityId", id);
     // eslint-disable-next-line react-hooks/exhaustive-deps

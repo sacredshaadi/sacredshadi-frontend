@@ -24,9 +24,10 @@ function Slider() {
               <CustomImage
                 height={80}
                 width={100}
-                src={data.getValue() as string}
                 alt="slider"
+                src={data.getValue() as string}
                 fallbackStyle="height:80px;width:100px;"
+                fallbackStyleObject={{ height: 80, opacity: 0.5 }}
               />
             )
           },

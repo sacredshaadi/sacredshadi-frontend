@@ -3,8 +3,7 @@
 import dayjs from "dayjs";
 import { SuperAdminLayout } from "../../_components/adminLayout";
 import TableHOC from "../../_components/tableHoc";
-import { ErrorBoundary } from "@/components/errorBoundary";
-import Image from "next/image";
+import { CustomImage } from "@/app/utils/image";
 
 function OurTeamSettings() {
   return (
@@ -22,9 +21,14 @@ function OurTeamSettings() {
             header: "Image",
             accessorKey: "image",
             cell: (data) => (
-              <ErrorBoundary fallback={<p className="text-sm font-semibold text-red-500">Image render error</p>}>
-                <Image height={80} width={100} src={data.getValue() as string} alt="slider" />
-              </ErrorBoundary>
+              <CustomImage
+                height={80}
+                width={100}
+                alt="slider"
+                src={data.getValue() as string}
+                fallbackStyle="height:20px; width:20px;"
+                fallbackStyleObject={{ height: 80, opacity: 0.5 }}
+              />
             )
           },
           {

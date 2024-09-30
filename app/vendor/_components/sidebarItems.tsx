@@ -19,7 +19,7 @@ export type SidebarItem = {
 export function getVendorSidebarRoutes(): Array<SidebarItem> {
   const vendorRoutes = [
     { icon: LayoutDashboardIcon, label: "Dashboard", route: "/vendor/dashboard" },
-    { icon: PersonStandingIcon, label: "Profile", subRoutes: [{ label: "Edit Profile", route: "/vendor/profile" }] },
+    { icon: PersonStandingIcon, label: "Profile", route: "/vendor/profile" },
     { icon: Bookmark, label: "Service Type", route: "/vendor/service-type" },
     { icon: Box, label: "Services Offered", route: "/vendor/services-offered" },
     { icon: ListChecks, label: "Portfolio List", route: "/vendor/portfolio-list" },

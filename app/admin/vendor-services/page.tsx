@@ -3,8 +3,7 @@
 import dayjs from "dayjs";
 import TableHOC from "../_components/tableHoc";
 import { SuperAdminLayout } from "../_components/adminLayout";
-import Image from "next/image";
-import { ErrorBoundary } from "@/components/errorBoundary";
+import { CustomImage } from "@/app/utils/image";
 
 function Slider() {
   return (
@@ -12,20 +11,26 @@ function Slider() {
       <TableHOC
         searchKey="description"
         usePagination
+        pageSize={10}
         addable={false}
         editable={false}
         deleteable={false}
         columns={[
-          { accessorKey: "price", header: "Price" },
+          { accessorKey: "price", header: "Price", cell: (data) => `₹ ${data.getValue()}` },
           { accessorKey: "description", header: "Description" },
           { accessorKey: "details", header: "Details" },
           {
             header: "Image",
             accessorKey: "image",
             cell: (data) => (
-              <ErrorBoundary fallback={<p className="text-sm font-semibold text-red-500">Image render error</p>}>
-                <Image height={80} width={100} src={data.getValue() as string} alt="slider" />
-              </ErrorBoundary>
+              <CustomImage
+                height={80}
+                width={100}
+                alt="slider"
+                src={data.getValue() as string}
+                fallbackStyle="height:20px; width:20px;"
+                fallbackStyleObject={{ height: 80, opacity: 0.5 }}
+              />
             )
           },
           {
