@@ -27,11 +27,6 @@ export default function PackageDetails(props: { params: { slug: string } }) {
         }
       });
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error fetching data",
-        description: "An error occurred while fetching data"
-      });
       router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

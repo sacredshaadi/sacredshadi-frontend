@@ -23,11 +23,9 @@ export const deleteMedia = (payload: { accessToken: string; data: any }) => {
   });
 };
 
-export const getAlbumByVendorId = (vendorId: number) => {
-  return apiClient(`${albumEndpoints.getAlbumByVendorId}/${vendorId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
+export const getAlbumByVendorId = (props: { vendorId: number; page: number; pageSize: number }) => {
+  return apiClient(
+    `${albumEndpoints.getAlbumByVendorId}/${props.vendorId}?page=${props.page}&pageSize=${props.pageSize}`,
+    { method: "GET", headers: { "Content-Type": "application/json" } }
+  );
 };

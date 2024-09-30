@@ -23,10 +23,10 @@ export const getAllUserBookings = (accessToken: string) => {
   });
 };
 
-export const getAllVendorBookings = (accessToken: string) => {
-  return apiClient(bookingEndpoints.getAllVendorBookings, {
+export const getAllVendorBookings = (props: { accessToken: string; page: number; pageSize: number }) => {
+  return apiClient(bookingEndpoints.getAllVendorBookings + `?page=${props.page}&pageSize=${props.pageSize}`, {
     method: "GET",
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${props.accessToken}` }
   });
 };
 

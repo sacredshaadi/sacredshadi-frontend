@@ -57,12 +57,6 @@ export function AddDialog(props: AddDialogProps) {
       onSuccess: (data) => {
         const temp = data.data;
         setArr(() => temp.map((item: any) => ({ label: item.subType, value: item.id.toString() })));
-      },
-      onError: (err) => {
-        toast({
-          variant: "destructive",
-          description: "Error fetching data"
-        });
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,12 +65,7 @@ export function AddDialog(props: AddDialogProps) {
   function onSubmit(formData: formType) {
     try {
       submitFn(
-        {
-          accessToken: vendor?.tokens?.accessToken || "",
-          data: {
-            ids: formData.vendorSubTypeIds
-          }
-        },
+        { accessToken: vendor?.tokens?.accessToken || "", data: { ids: formData.vendorSubTypeIds } },
         {
           onSuccess: (data) => {
             setVendor({ ...vendor, SelectedVendorSubTypes: data.data as VendorSubType[] } as Vendor);

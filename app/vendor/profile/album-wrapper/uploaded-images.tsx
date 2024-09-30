@@ -6,7 +6,7 @@ import { useDeleteMediaMutation, useGetAlbumByVendorIdMutation } from "@/compone
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -31,30 +31,37 @@ interface UplodedImagesProps {
 const UplodedImages = (props: UplodedImagesProps) => {
   const { vendor, setVendor } = useUserStore();
   const { album, setAlbum } = useVendorContext();
-  const [tempAlbum, setTempAlbum] = React.useState<Media[]>([]);
+  const [tempAlbum, setTempAlbum] = useState<Media[]>([]);
   const router = useRouter();
   const { mutate: getFn, isPending } = useGetAlbumByVendorIdMutation();
   const { mutate: deleteFn } = useDeleteMediaMutation();
-  const [delModalOpen, setDelModalOpen] = React.useState(false);
+  const [delModalOpen, setDelModalOpen] = useState(false);
   const [, , vendorIdRef] = useStateRef(props.userFacing ? props.vendorId : vendor?.vendorId);
+  const [totalImages, setTotalImages] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     try {
       if (props.userFacing && !props.vendorId) return;
       if (!vendorIdRef.current) throw new Error("Vendor not found");
-      getFn(vendorIdRef.current, {
-        onSuccess: (data) => {
-          props.userFacing ? setTempAlbum(data.data) : setAlbum(data.data);
-        },
-        onError: (error) => {
-          throw error;
+      getFn(
+        // TODO: make this function paginated
+        { vendorId: vendorIdRef.current, page, pageSize: 18 },
+        {
+          onSuccess: (data) => {
+            setTotalImages(data.data.count);
+            props.userFacing ? setTempAlbum(data.data.rows) : setAlbum(data.data.rows);
+          },
+          onError: (error) => {
+            throw error;
+          }
         }
-      });
+      );
     } catch (error) {
       toast({ title: "Error", description: "Failed to get images", variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vendorIdRef.current]);
+  }, [vendorIdRef.current, page]);
 
   const deleteImg = useCallback(
     (id: number) => {
@@ -101,7 +108,15 @@ const UplodedImages = (props: UplodedImagesProps) => {
           {(props.userFacing ? tempAlbum : album).map((file) => (
             <div key={file.id} className="group relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={file.url} alt={`${file.id}`} className="h-44 w-full rounded-lg object-cover" />
+              <img
+                src={file.url}
+                alt={`${file.id}`}
+                className="h-44 w-full rounded-lg object-cover"
+                onError={(e: any) => {
+                  e.target.src = "/favicon.png";
+                  e.target.style = "height: 176px; width: 200px; margin: 20px auto 0px auto;";
+                }}
+              />
               <Dialog open={delModalOpen} onOpenChange={setDelModalOpen}>
                 <DialogTrigger
                   className={cn(
@@ -112,6 +127,7 @@ const UplodedImages = (props: UplodedImagesProps) => {
                 >
                   <Trash className="h-4 w-4" />
                 </DialogTrigger>
+
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -119,6 +135,7 @@ const UplodedImages = (props: UplodedImagesProps) => {
                       This action cannot be undone. This will permanently delete this image from your profile.
                     </DialogDescription>
                   </DialogHeader>
+
                   <DialogFooter>
                     <Button
                       variant="secondary"

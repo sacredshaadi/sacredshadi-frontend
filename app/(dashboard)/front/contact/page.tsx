@@ -26,6 +26,7 @@ export default function ContactUs() {
               <Image
                 src="/contact.gif"
                 alt="phone"
+                unoptimized
                 width={20}
                 height={20}
                 className="center-fixed col-span-1 h-full w-full"
@@ -64,7 +65,6 @@ export default function ContactUs() {
       <section className="max-h-2/5 min-h-[250px] w-full">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3683.686112839623!2d88.4288974754405!3d22.5908401794787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02759831abf981%3A0xa5891178491a472c!2sSalt%20Lake%20-%20Kestopur%20Brg%2C%20SA%20Block%2C%20Sector%20II%2C%20Bidhannagar%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1725954652768!5m2!1sen!2sin"
-          // width="600"
           height="600"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

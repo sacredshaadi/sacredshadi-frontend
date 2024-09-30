@@ -96,6 +96,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
           >
             Previous
           </Button>
+
           <Button
             variant="outline"
             size="sm"

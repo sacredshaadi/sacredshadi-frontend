@@ -16,17 +16,14 @@ const FunctionsComp = () => {
     if (!vendor?.tokens.accessToken) return;
     try {
       mutate(vendor.tokens.accessToken, {
-        // onSuccess: (data) => console.log(data),
         onError: (error) => {
           throw error;
         }
       });
     } catch (err: any) {
-      const desc: string = err.message || err.error || "Error fetching data";
-      toast({
-        variant: "destructive",
-        description: desc
-      });
+      const desc: string = err.message || err.error;
+      if (!desc) return;
+      toast({ variant: "destructive", description: desc });
       if (desc.includes("token expired")) {
         setVendor(null);
         router.push("/login");

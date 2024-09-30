@@ -154,21 +154,10 @@ const Page = () => {
                   </Avatar>
                 </>
               )}
-              <span
-                // variant="secondary"
-                // size="sm"
-                className="absolute bottom-0 right-0 h-fit w-fit p-0"
-                // type="button"
-              >
+              <span className="absolute bottom-0 right-0 h-fit w-fit p-0">
                 <div className="relative flex items-center justify-center overflow-hidden rounded-full bg-muted p-3">
-                  <Input
-                    type="file"
-                    className="absolute inset-0 opacity-0"
-                    // disabled={loading}
-                    onChange={uploadToCloudinary}
-                    // className={twMerge("flex-grow", props.className)}
-                  />
-                  <CameraIcon className="h-4 w-4" />
+                  <Input type="file" className="absolute inset-0 opacity-0" onChange={uploadToCloudinary} />
+                  <CameraIcon className="h-4 w-4 cursor-pointer" />
 
                   <span className="sr-only">Upload profile image</span>
                 </div>
@@ -182,7 +171,6 @@ const Page = () => {
                 name="description"
                 render={({ field }) => (
                   <FormItem className="">
-                    {/* <FormLabel>Introduction</FormLabel> */}
                     <FormControl>
                       <Input {...field} placeholder="Give a short description" defaultValue={vendor?.description} />
                     </FormControl>
@@ -193,12 +181,11 @@ const Page = () => {
             </div>
 
             <Button
-              variant="default"
               size="sm"
-              className="ml-auto mt-auto p-4 text-base font-semibold shadow-lg lg:p-6"
               type="submit"
-              // onClick={() => console.log("form details", form.getValues())}
+              variant="default"
               disabled={isPending || imgUploading}
+              className="ml-auto mt-auto p-4 text-base font-semibold shadow-lg lg:p-6"
             >
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save Profile
