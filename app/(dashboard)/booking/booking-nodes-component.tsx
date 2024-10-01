@@ -133,7 +133,7 @@ const BookingNodesComponent = () => {
                       "border-transparent bg-red-600 text-white hover:bg-red-700 hover:text-white"
                   )}
                   onClick={() => handleFeedback(booking)}
-                  disabled={booking.status === BookingStatus.pending}
+                  disabled={isPending || booking?.status === BookingStatus.completed}
                 >
                   {booking.status !== BookingStatus.completed ? (
                     booking.status

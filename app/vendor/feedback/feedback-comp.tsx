@@ -10,6 +10,7 @@ import { useVendorContext } from "@/app/context/vendor-context";
 import { Feedback } from "@/types/user-facing";
 import FeedbackNodes from "./feedback-nodes";
 import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const pageSize = 12;
 const FeedbackComp = () => {
@@ -74,8 +75,8 @@ const FeedbackComp = () => {
       )}
 
       <div className="mt-4 flex items-center justify-center gap-8">
-        <Button disabled={page === 1} onClick={() => setPage((prev) => Math.max(prev - 1, 1))}>
-          Previous
+        <Button disabled={page === 1} onClick={() => setPage((prev) => Math.max(prev - 1, 1))} className="flex-center">
+          <ArrowLeft className="h-6 w-6 text-white" />
         </Button>
 
         <div>
@@ -89,8 +90,9 @@ const FeedbackComp = () => {
         <Button
           disabled={page === Math.ceil(totalRows / pageSize)}
           onClick={() => setPage((prev) => Math.min(prev + 1, Math.ceil(totalRows / pageSize)))}
+          className="flex-center"
         >
-          Next
+          <ArrowRight className="h-6 w-6 text-white" />
         </Button>
       </div>
     </>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarIcon, Loader2, MessageSquare } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarIcon, Loader2, MessageSquare } from "lucide-react";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
@@ -24,21 +24,19 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { useVendorContext } from "@/app/context/vendor-context";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-enum BookingStateEnum {
-  confirmed = "confirmed",
-  completed = "completed",
-  cancelled = "cancelled"
-}
+import { formatString } from "@/app/utils/functions";
+import { checkToken, checkValidToken } from "@/app/_components/functions";
+import { useRouter } from "next/navigation";
 
 const pageSize = 9;
 const BookingComponent = () => {
-  const { vendor } = useUserStore();
+  const router = useRouter();
+  const { vendor, setVendor } = useUserStore();
   const { bookings, setBookings } = useVendorContext();
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const { mutate: getAllVendorBookingsFn, isPending, isError } = useGetAllVendorBookingsMutation();
   const { mutate: updateBookingStatusFn, isPending: bsPending, isError: bsError } = useUpdateBookingStatusMutation();
-  const [bookingState, setBookingState] = useState<BookingStateEnum>(BookingStateEnum.confirmed);
+  const [bookingState, setBookingState] = useState<BookingStatus>(BookingStatus.confirmed);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -73,11 +71,21 @@ const BookingComponent = () => {
   const submitFeedback = (e: any) => {
     e.preventDefault();
     try {
-      if (!vendor?.tokens.accessToken) throw new Error("User not logged in");
+      checkToken(vendor, setVendor, router);
+      console.log("data submitted: ", {
+        accessToken: vendor?.tokens.accessToken,
+        status: bookingState,
+        id: selectedBooking?.id || -1
+      });
       updateBookingStatusFn(
-        { accessToken: vendor.tokens.accessToken, status: bookingState, id: selectedBooking?.id || -1 },
+        { accessToken: vendor?.tokens.accessToken || "", status: bookingState, id: selectedBooking?.id || -1 },
         {
-          onSuccess: (data) => toast({ title: "Success", description: "Feedback submitted successfully" }),
+          onSuccess: (data) => {
+            toast({ title: "Success", description: "Feedback submitted successfully" });
+            setBookings(
+              bookings.map((b) => (b.id === selectedBooking?.id ? { ...b, status: bookingState as BookingStatus } : b))
+            );
+          },
           onError(error) {
             throw error;
           }
@@ -87,6 +95,7 @@ const BookingComponent = () => {
       const desc = err.error || err.message;
       if (!desc) return;
       toast({ title: "Error", variant: "destructive", description: desc });
+      checkValidToken(desc, setVendor, router);
     } finally {
       setSelectedBooking(null);
     }
@@ -116,19 +125,23 @@ const BookingComponent = () => {
                   <Button
                     variant="ghost"
                     className={cn(
-                      "w-full border-2 border-primary bg-primary-foreground font-semibold text-primary shadow-md transition hover:bg-primary hover:text-white"
+                      "w-full border-2 border-primary bg-primary-foreground font-semibold text-primary shadow-md transition hover:bg-primary hover:text-white",
+                      (booking.status === BookingStatus.pending || booking.status === BookingStatus.confirmed) &&
+                        "border-transparent bg-orange-600 text-white hover:bg-orange-700",
+                      booking.status === BookingStatus.completed &&
+                        "border-green-600 bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700",
+                      booking.status === BookingStatus.cancelled &&
+                        "border-transparent bg-red-600 text-white hover:bg-red-700 hover:text-white"
                     )}
                     onClick={() => handleFeedback(booking)}
-                    disabled={bsPending || booking?.status === BookingStatus.completed}
+                    disabled={
+                      bsPending ||
+                      booking?.status === BookingStatus.completed ||
+                      booking?.status === BookingStatus.cancelled
+                    }
                   >
-                    {booking?.status === BookingStatus.completed ? (
-                      <>Status Updated</>
-                    ) : (
-                      <>
-                        <MessageSquare className="mr-2 h-4 w-4" />
-                        Update Status
-                      </>
-                    )}
+                    <MessageSquare className="mr-2 h-4 w-4" />
+                    <>{formatString(booking?.status)}</>
                   </Button>
                 </DialogTrigger>
                 {selectedBooking && (
@@ -142,23 +155,23 @@ const BookingComponent = () => {
                     <Select
                       value={bookingState}
                       onValueChange={(value) => {
-                        setBookingState(value as BookingStateEnum);
+                        setBookingState(value as BookingStatus);
                       }}
-                      defaultValue={BookingStateEnum.confirmed}
+                      defaultValue={BookingStatus.confirmed}
                     >
                       <SelectTrigger className="">
                         <SelectValue placeholder="" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value={BookingStateEnum.confirmed}>Confirm</SelectItem>
-                          <SelectItem value={BookingStateEnum.completed}>Complete</SelectItem>
-                          <SelectItem value={BookingStateEnum.cancelled}>Cancel</SelectItem>
+                          <SelectItem value={BookingStatus.confirmed}>Confirm</SelectItem>
+                          <SelectItem value={BookingStatus.completed}>Complete</SelectItem>
+                          <SelectItem value={BookingStatus.cancelled}>Cancel</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
                     <DialogFooter>
-                      <Button type="submit" className="font-semibold shadow-lg" onClick={submitFeedback}>
+                      <Button type="submit" className={cn("font-semibold shadow-lg")} onClick={submitFeedback}>
                         {(isPending || bsPending) && !isError && !bsError && (
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         )}
@@ -174,8 +187,8 @@ const BookingComponent = () => {
       </div>
 
       <div className="mt-4 flex items-center justify-end gap-4">
-        <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1}>
-          Previous
+        <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
+          <ArrowLeft className="h-6 w-6 text-white" />
         </Button>
 
         <div>
@@ -186,8 +199,12 @@ const BookingComponent = () => {
           &nbsp;bookings
         </div>
 
-        <Button onClick={() => setPage((prev) => prev + 1)} disabled={page * pageSize >= totalCount}>
-          Next
+        <Button
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page * pageSize >= totalCount}
+          className="flex-center"
+        >
+          <ArrowRight className="h-6 w-6 text-white" />
         </Button>
       </div>
     </>

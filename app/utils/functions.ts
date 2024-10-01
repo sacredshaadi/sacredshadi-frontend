@@ -85,3 +85,14 @@ export async function getUrlMetadataForSeo(props: {
     return fallbackDefaultMetadata(props.fallbackTitle, props.fallbackDescription);
   }
 }
+
+export const formatString = (str: string | undefined): string => {
+  try {
+    return (str || "")
+      .split(" ")
+      .map((word) => word[0].toUpperCase() + word.slice(1))
+      .join(" ");
+  } catch (err: any) {
+    return "";
+  }
+};
