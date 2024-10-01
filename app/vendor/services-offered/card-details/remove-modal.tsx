@@ -17,6 +17,7 @@ import { useRemoveOfferMutation } from "@/components/api";
 import { useUserStore } from "@/app/context/user-context";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 
 interface ServiceTypeRemoveModalProps {
   id: number;
@@ -26,6 +27,7 @@ interface ServiceTypeRemoveModalProps {
 
 const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
   const { mutate: removeFn, isPending, isError } = useRemoveOfferMutation();
+  const { data: searchData, setData, count } = useVendorSearchStore();
   const { vendor, setVendor } = useUserStore();
   const router = useRouter();
   const submit = useCallback(() => {
@@ -40,6 +42,10 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
         },
         {
           onSuccess(data) {
+            setData(
+              searchData.filter((item: any) => item.id !== props.id),
+              searchData.length - 1
+            );
             toast({ variant: "default", description: "Service package removed successfully" });
           },
           onError(error: any) {

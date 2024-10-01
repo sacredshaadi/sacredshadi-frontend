@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Edit, Loader2 } from "lucide-react";
@@ -17,23 +17,27 @@ import { useRouter } from "next/navigation";
 import { useVendorContext } from "@/app/context/vendor-context";
 import { FormImageUploader } from "@/components/ui/imageUploader";
 import { ServiceOffered } from "@/types/auth.types";
+import { useVendorSearch } from "@/hooks/useVendorSearch";
+import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 
 const formSchema = z.object({
   description: z.string().min(1, "Please enter a valid description"),
   details: z.string().min(1, "Please enter a valid description"),
-  price: z.number().positive("Please enter a valid price"),
+  // take string input and invalidate if its number format is less than 1
+  price: z.string().refine((val) => parseInt(val) > 0, { message: "Please enter a valid price" }),
   image: z.string().url().min(1, "Please upload an image")
 });
 
 interface ServiceTypeUpdateModalProps {
   id: number;
   open: boolean;
-  offerObj: ServiceOffered;
+  offerObj: any;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
   const { vendor, setVendor } = useUserStore();
+  const { data: searchData, setData, count } = useVendorSearchStore();
   const { servicesOffered, setServicesOffered } = useVendorContext();
   const router = useRouter();
 
@@ -56,10 +60,27 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
       }
       try {
         updateFn(
-          { accessToken: vendor.tokens.accessToken, data: { id: props.id, ...formData } },
+          {
+            accessToken: vendor.tokens.accessToken,
+            data: {
+              id: props.id,
+              ...formData
+
+              // , image: "demo_image"
+            }
+          },
           {
             onSuccess(data) {
-              setServicesOffered([...servicesOffered.filter((item) => item.id !== props.id), data.data[1][0]]);
+              // setData([...searchData.filter((item) => item.id !== props.id), data.data[1][0]], count);
+              setData(
+                searchData.map((item) => {
+                  if (item.id === props.id) {
+                    return data.data[1][0];
+                  }
+                  return item;
+                }),
+                count
+              );
             },
             onError(error: any) {
               toast({
@@ -108,8 +129,9 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
                     <Input
                       type="number"
                       disabled={isPending}
+                      value={field.value}
                       placeholder="Enter the price of the service package"
-                      onChange={(e) => form.setValue("price", parseInt(e.target.value))}
+                      onChange={(e) => form.setValue("price", e.target.value)}
                     />
                   </FormControl>
                   <FormMessage />
@@ -141,6 +163,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
                   <FormLabel className="font-semibold text-muted-foreground">Details</FormLabel>
                   <Textarea
                     {...field}
+                    value={field.value}
                     // className="input"
                     placeholder="Enter details about the service package offered"
                   />
@@ -156,6 +179,7 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
                   <FormLabel className="font-semibold text-muted-foreground">Description</FormLabel>
                   <Textarea
                     {...field}
+                    value={field.value}
                     // className="input"
                     placeholder="Give description of the service package offered"
                   />

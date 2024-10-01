@@ -18,6 +18,7 @@ import { useCreateOfferMutation } from "@/components/api";
 import { Input } from "@/components/ui/input";
 import { useVendorContext } from "@/app/context/vendor-context";
 import { FormImageUploader } from "@/components/ui/imageUploader";
+import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 
 const formSchema = z.object({
   serviceOfferedId: z.number().min(1, "Please select a service type"),
@@ -30,6 +31,7 @@ const formSchema = z.object({
 export function AddServiceModal() {
   const { vendor } = useUserStore();
   const { servicesOffered, setServicesOffered } = useVendorContext();
+  const { setData, data: searchData } = useVendorSearchStore();
 
   const [open, setOpen] = useState(false);
 
@@ -47,8 +49,11 @@ export function AddServiceModal() {
         { accessToken: vendor?.tokens?.accessToken || "", data: formData },
         {
           onSuccess: (data) => {
-            setServicesOffered([...servicesOffered, data.data]);
+            // setServicesOffered([...servicesOffered, data.data]);
+            setData([...searchData, data.data], data.length + 1);
+            console.log("coming here to set data");
             toast({ variant: "default", description: "Data submitted successfully" });
+            console.log("coming here to set open as false");
             setOpen(false);
           },
           onError: (err) => {

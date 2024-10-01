@@ -74,7 +74,7 @@ const FeedbackComp = () => {
         </div>
       )}
 
-      <div className="mt-4 flex items-center justify-center gap-8">
+      <div className="mt-4 flex items-center justify-end gap-8">
         <Button disabled={page === 1} onClick={() => setPage((prev) => Math.max(prev - 1, 1))} className="flex-center">
           <ArrowLeft className="h-6 w-6 text-white" />
         </Button>
