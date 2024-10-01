@@ -13,6 +13,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 import { Loader2, Mail, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
@@ -32,23 +33,18 @@ export function BookModal(props: BookModalProps) {
   const router = useRouter();
   const handleBooking = useCallback(() => {
     try {
-      if (!user) {
-        throw new Error("User not found");
-      }
+      if (!user) throw new Error("You have to login first to book a package");
       bookFn(
         {
-          bookingDate: new Date().toISOString(),
           vendorId: props.vendorId,
           serviceOfferedId: props.packageId,
-          accessToken: user.tokens.accessToken
+          accessToken: user.tokens.accessToken,
+          bookingDate: new Date().toISOString()
         },
         {
-          onSuccess: (data) => {
-            toast({
-              title: "Success",
-              description: "Booking successful"
-            });
-            router.push(`/booking`);
+          onSuccess: () => {
+            toast({ title: "Success", description: "Booking successful" });
+            router.push("/booking");
           },
           onError: (error) => {
             throw error;
@@ -56,11 +52,9 @@ export function BookModal(props: BookModalProps) {
         }
       );
     } catch (err: any) {
-      toast({
-        title: "Error booking package",
-        description: err.error || err.message || "Something went wrong",
-        variant: "destructive"
-      });
+      const desc = err.error || err.message;
+      if (!desc) return;
+      toast({ title: "Error booking package", description: desc, variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -91,9 +85,14 @@ export function BookModal(props: BookModalProps) {
           >
             Cancel
           </Button>
-          <Button type="submit" className="font-semibold shadow-lg" onClick={handleBooking} disabled={isPending}>
+          <Button
+            type="submit"
+            onClick={handleBooking}
+            disabled={!user || isPending}
+            className={cn("font-semibold shadow-lg", !user ? "pointer-events-none cursor-not-allowed" : "")}
+          >
             {isPending && !isError && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Confirm Booking
+            {!user ? "Please login first" : "Confirm Booking"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -38,31 +38,32 @@ const BookingNodesComponent = () => {
   const { mutate: getAllUserBookingsFn, isPending, isError } = useGetAllUserBookingsMutation();
   const { mutate: createFeedbackFn, isPending: fbPending, isError: fbError } = useCreateFeedbackMutation();
   const [comment, setComment] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalBookingsCount, setTotalBookingsCount] = useState(0);
 
   useEffect(() => {
     try {
       if (!user) return;
       checkToken(user, setUser, router);
-      getAllUserBookingsFn(user.tokens.accessToken, {
-        onSuccess: (data) => {
-          setBookings(data.data as Booking[]);
-        },
-        onError: (err: any) => {
-          toast({
-            title: "Error",
-            description: err.error || err.message || "Something went wrong",
-            variant: "destructive"
-          });
-          checkValidToken(err.error || err.message, setUser, router);
+      getAllUserBookingsFn(
+        { accessToken: user.tokens.accessToken, page, pageSize: 15 },
+        {
+          onSuccess: (data) => {
+            setTotalBookingsCount(data.data.count);
+            setBookings(data.data.rows as Booking[]);
+          },
+          onError: (err: any) => {
+            const desc = err.error || err.message;
+            if (!desc) return;
+            toast({ title: "Error", description: desc, variant: "destructive" });
+            checkValidToken(err.error || err.message, setUser, router);
+          }
         }
-      });
+      );
     } catch (err: any) {
-      const msg: string = err.error || err.message || "Something went wrong";
-      toast({
-        title: "Error",
-        description: msg,
-        variant: "destructive"
-      });
+      const desc: string = err.error || err.message;
+      if (!desc) return;
+      toast({ title: "Error", description: desc, variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -78,27 +79,19 @@ const BookingNodesComponent = () => {
       createFeedbackFn(
         {
           accessToken: user.tokens.accessToken,
-          data: {
-            feedback: comment,
-            rating,
-            bookingId: selectedBooking?.id
-          }
+          data: { rating, feedback: comment, bookingId: selectedBooking?.id }
         },
         {
-          onSuccess(data) {
-            toast({ title: "Success", description: "Feedback submitted successfully" });
-          },
+          onSuccess: (data) => toast({ title: "Success", description: "Feedback submitted successfully" }),
           onError(error) {
             throw error;
           }
         }
       );
     } catch (err: any) {
-      toast({
-        title: "Error",
-        description: err.error || err.message || "Something went wrong",
-        variant: "destructive"
-      });
+      const desc = err.error || err.message;
+      if (!desc) return;
+      toast({ title: "Error", description: err.error || err.message, variant: "destructive" });
     } finally {
       setComment("");
       setRating(4);
@@ -115,14 +108,16 @@ const BookingNodesComponent = () => {
               <span>{booking.vendorName}</span>
               <span className="flex items-center text-sm font-normal text-muted-foreground">
                 <CalendarIcon className="mr-1 h-4 w-4" />
-                {format(new Date(booking.bookingDate), "dd/MM/yyyy")}
+                {format(new Date(booking.bookingDate), "dd MMM yyyy")}
               </span>
             </CardTitle>
           </CardHeader>
+
           <CardContent className="flex-grow">
             <h3 className="mb-2 font-semibold">{booking.serviceOfferedDetails}</h3>
             <p className="text-sm text-muted-foreground">{booking.serviceOfferedDetails}</p>
           </CardContent>
+
           <CardFooter>
             <Dialog>
               <DialogTrigger asChild>
@@ -158,6 +153,7 @@ const BookingNodesComponent = () => {
                       Please rate your experience and provide any comments. Your ratings are viewed by the vendors.
                     </DialogDescription>
                   </DialogHeader>
+
                   <form onSubmit={submitFeedback}>
                     <div className="grid gap-4 py-4">
                       <div className="grid grid-cols-4 items-center gap-4">
@@ -203,6 +199,7 @@ const BookingNodesComponent = () => {
                           />
                         </div>
                       </div>
+
                       <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="comment" className="text-right">
                           Comment
@@ -216,6 +213,7 @@ const BookingNodesComponent = () => {
                         />
                       </div>
                     </div>
+
                     <DialogFooter>
                       <Button type="submit" className="font-semibold shadow-lg">
                         {(isPending || fbPending) && !isError && !fbError && (

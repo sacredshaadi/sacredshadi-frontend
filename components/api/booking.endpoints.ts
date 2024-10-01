@@ -16,10 +16,10 @@ export const getAllBookingsForAdmin = (accessToken: string) => {
   });
 };
 
-export const getAllUserBookings = (accessToken: string) => {
-  return apiClient(bookingEndpoints.getAllUserBookings, {
+export const getAllUserBookings = (props: { accessToken: string; page: number; pageSize: number }) => {
+  return apiClient(bookingEndpoints.getAllUserBookings + `?page=${props.page}&pageSize=${props.pageSize}`, {
     method: "GET",
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${props.accessToken}` }
   });
 };
 
