@@ -173,7 +173,7 @@ export function AddServiceModal() {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={submitPending}>
+            <Button type="submit" disabled={submitPending} className="font-semibold shadow-lg">
               {submitPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit
             </Button>
