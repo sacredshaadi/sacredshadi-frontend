@@ -7,7 +7,6 @@ import {
   Building,
   AlignLeft,
   ImagePlus,
-  BoxSelect,
   Clipboard,
   LucideIcon,
   DatabaseZap,
@@ -39,7 +38,6 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
     { icon: Clipboard, label: "Bookings", route: "/admin/bookings" },
     { icon: Building, label: "City", route: "/admin/cities" },
     { icon: ImagePlus, label: "Slider", route: "/admin/slider" },
-    { icon: BoxSelect, label: "Categories", route: "/admin/categories" },
     {
       icon: DatabaseZap,
       label: "Services",

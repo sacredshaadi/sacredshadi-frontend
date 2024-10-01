@@ -100,9 +100,9 @@ export const SearchForm = (props: { vendorTypeId: number }) => {
   };
 
   return (
-    <WithLoading loading={arr.length === 0}>
+    <WithLoading loading={arr.length === 0} className="w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             name="cityId"
             control={form.control}

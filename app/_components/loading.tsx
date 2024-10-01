@@ -30,9 +30,11 @@ export function Loading(props: LoadingProps) {
   );
 }
 
-export function WithLoading(props: PropsWithChildren<{ loading: boolean; spinnerClassName?: string }>) {
+export function WithLoading(
+  props: PropsWithChildren<{ className?: string; loading: boolean; spinnerClassName?: string }>
+) {
   return (
-    <div className="relative">
+    <div className={cn("relative", props.className)}>
       {props.loading ? <Loading className="absolute h-full w-full" spinnerClassName={props.spinnerClassName} /> : null}
       <div className={props.loading ? "bg-opacity-60" : ""}>{props.children}</div>
     </div>

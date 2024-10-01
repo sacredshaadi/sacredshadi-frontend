@@ -15,3 +15,5 @@ export async function generateMetadata(props: { params: { slug: string }; search
   });
   return data;
 }
+
+export const revalidate = 60;

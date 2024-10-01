@@ -4,15 +4,23 @@ import { useParams } from "next/navigation";
 import { SuperAdminLayout } from "../../_components/adminLayout";
 import TableHOC from "../../_components/tableHoc";
 import dayjs from "dayjs";
+import { useGetVendorTypesQuery } from "../../_components/apis";
 
 function SpecificServiceDetails() {
   const params = useParams();
+  const { data, isLoading } = useGetVendorTypesQuery();
 
+  if (isLoading) return <SuperAdminLayout title="Service Details" />;
   return (
-    <SuperAdminLayout title="Service Details">
+    <SuperAdminLayout
+      title={
+        "Service Details" +
+        ` (${data?.data.filter((vendorType) => vendorType.id === Number(params.serviceId))[0].type})`
+      }
+    >
       <TableHOC
         usePagination
-        searchKey="title"
+        searchKey="subType"
         addable
         editable
         deleteable

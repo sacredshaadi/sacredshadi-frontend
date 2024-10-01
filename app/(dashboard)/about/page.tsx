@@ -80,3 +80,5 @@ export async function generateMetadata(): Promise<Metadata> {
   });
   return data;
 }
+
+export const revalidate = 60;
