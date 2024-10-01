@@ -23,12 +23,7 @@ import useStateRef from "react-usestateref";
 import { Media } from "@/types/auth.types";
 import { cn } from "@/lib/utils";
 
-interface UplodedImagesProps {
-  userFacing?: boolean;
-  vendorId?: number;
-}
-
-const UplodedImages = (props: UplodedImagesProps) => {
+const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
   const { vendor, setVendor } = useUserStore();
   const { album, setAlbum } = useVendorContext();
   const [tempAlbum, setTempAlbum] = useState<Media[]>([]);
@@ -37,8 +32,6 @@ const UplodedImages = (props: UplodedImagesProps) => {
   const { mutate: deleteFn } = useDeleteMediaMutation();
   const [delModalOpen, setDelModalOpen] = useState(false);
   const [, , vendorIdRef] = useStateRef(props.userFacing ? props.vendorId : vendor?.vendorId);
-  const [totalImages, setTotalImages] = useState(0);
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     try {
@@ -46,12 +39,9 @@ const UplodedImages = (props: UplodedImagesProps) => {
       if (!vendorIdRef.current) throw new Error("Vendor not found");
       getFn(
         // TODO: make this function paginated
-        { vendorId: vendorIdRef.current, page, pageSize: 18 },
+        { vendorId: vendorIdRef.current, page: 1, pageSize: 20 },
         {
-          onSuccess: (data) => {
-            setTotalImages(data.data.count);
-            props.userFacing ? setTempAlbum(data.data.rows) : setAlbum(data.data.rows);
-          },
+          onSuccess: (data) => (props.userFacing ? setTempAlbum(data.data.rows) : setAlbum(data.data.rows)),
           onError: (error) => {
             throw error;
           }
@@ -61,7 +51,7 @@ const UplodedImages = (props: UplodedImagesProps) => {
       toast({ title: "Error", description: "Failed to get images", variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vendorIdRef.current, page]);
+  }, [vendorIdRef.current]);
 
   const deleteImg = useCallback(
     (id: number) => {
@@ -111,12 +101,13 @@ const UplodedImages = (props: UplodedImagesProps) => {
               <img
                 src={file.url}
                 alt={`${file.id}`}
-                className="h-44 w-full rounded-lg object-cover"
+                className="h-56 w-full rounded-sm object-cover"
                 onError={(e: any) => {
                   e.target.src = "/favicon.png";
                   e.target.style = "height: 176px; width: 200px; margin: 20px auto 0px auto;";
                 }}
               />
+
               <Dialog open={delModalOpen} onOpenChange={setDelModalOpen}>
                 <DialogTrigger
                   className={cn(

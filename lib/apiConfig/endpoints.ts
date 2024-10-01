@@ -35,7 +35,8 @@ export const vendorTypeEndpoints = {
 
 export const vendorSubTypeEndpoints = {
   // createVendorSubType: (vendorTypeId: number | string) => `/api/v1/vendor-sub-type/${vendorTypeId}/add`,
-  getAllVendorSubTypes: (vendorTypeId: number | string) => `/api/v1/vendor-sub-type/${vendorTypeId}/all`,
+  getAllVendorSubTypes: (vendorTypeId: number | string) =>
+    `/api/v1/vendor-sub-type/${vendorTypeId}/all?page=1&pageSize=10`,
   updateVendorSubType: "/api/v1/vendor-sub-type/update",
   removeVendorSubType: "/api/v1/vendor-sub-type/remove"
 } as const;

@@ -62,7 +62,7 @@ export default function PackageDetails(props: { params: { slug: string } }) {
               <section className="flex flex-col items-start gap-2">
                 <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
                 <section className=" flex items-center gap-0 font-semibold text-muted-foreground" title="Total views">
-                  <Eye className="mr-px" />
+                  <Eye className="mr-1" />
                   {packageDetails?.vendor?.totalViews || 0}
                 </section>
               </section>
@@ -125,25 +125,25 @@ export default function PackageDetails(props: { params: { slug: string } }) {
         <CardContent>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex items-center">
-              <Mail className="mr-2" />{" "}
+              <Mail className="mr-2" />
               {isPending ? (
-                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100"></Skeleton>
+                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100" />
               ) : (
                 packageDetails?.vendor?.user?.email || "No email found"
               )}
             </div>
             <div className="flex items-center">
-              <Phone className="mr-2" />{" "}
+              <Phone className="mr-2" />
               {isPending ? (
-                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100"></Skeleton>
+                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100" />
               ) : (
                 packageDetails?.vendor?.user?.phone || "No phone number found"
               )}
             </div>
             <div className="col-span-2 flex items-center">
-              <MapPin className="mr-2" />{" "}
+              <MapPin className="mr-2" />
               {isPending ? (
-                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100"></Skeleton>
+                <Skeleton className="h-6 w-48 rounded-lg bg-gray-100" />
               ) : (
                 packageDetails?.vendor?.user?.addresses?.[0]?.city?.name || "No address found"
               )}
@@ -170,7 +170,7 @@ export default function PackageDetails(props: { params: { slug: string } }) {
         </Skeleton>
       ) : (
         <Card className="flex flex-col gap-4 p-4">
-          <CardTitle className="text-xl tracking-tight drop-shadow-lg">Sample Photos</CardTitle>
+          <CardTitle className="mb-2 text-xl tracking-tight drop-shadow-lg">Sample Photos</CardTitle>
           <CardContent className="p-0">
             <UplodedImages userFacing vendorId={packageDetails?.vendor?.id} />
           </CardContent>
