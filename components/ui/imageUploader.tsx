@@ -2,7 +2,7 @@
 
 import { uploadToCloudinaryUtil } from "@/app/_components/functions";
 import { Input, InputProps } from "./input";
-import { ChangeEvent, forwardRef, useEffect, useState } from "react";
+import { ChangeEvent, forwardRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { ErrorBoundary } from "../errorBoundary";
 
@@ -30,9 +30,9 @@ function ImageUploader(props: FormImageUploaderProps) {
     }
   };
 
-  useEffect(() => {
-    console.log("imageRemoteUrl", imageRemoteUrl, imageRemoteUrl.length);
-  }, [imageRemoteUrl]);
+  // useEffect(() => {
+  //   console.log("imageRemoteUrl", imageRemoteUrl, imageRemoteUrl.length);
+  // }, [imageRemoteUrl]);
 
   return (
     <div className="flex flex-col items-center gap-4">

@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Edit, Loader2 } from "lucide-react";
@@ -14,10 +14,7 @@ import { useUpdateOfferMutation } from "@/components/api";
 import { useUserStore } from "@/app/context/user-context";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { useVendorContext } from "@/app/context/vendor-context";
 import { FormImageUploader } from "@/components/ui/imageUploader";
-import { ServiceOffered } from "@/types/auth.types";
-import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 
 const formSchema = z.object({
@@ -38,7 +35,6 @@ interface ServiceTypeUpdateModalProps {
 const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
   const { vendor, setVendor } = useUserStore();
   const { data: searchData, setData, count } = useVendorSearchStore();
-  const { servicesOffered, setServicesOffered } = useVendorContext();
   const router = useRouter();
 
   const form = useForm({
@@ -62,23 +58,12 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
         updateFn(
           {
             accessToken: vendor.tokens.accessToken,
-            data: {
-              id: props.id,
-              ...formData
-
-              // , image: "demo_image"
-            }
+            data: { id: props.id, ...formData }
           },
           {
             onSuccess(data) {
-              // setData([...searchData.filter((item) => item.id !== props.id), data.data[1][0]], count);
               setData(
-                searchData.map((item) => {
-                  if (item.id === props.id) {
-                    return data.data[1][0];
-                  }
-                  return item;
-                }),
+                searchData.map((item) => (item.id === props.id ? data.data[1][0] : item)),
                 count
               );
             },

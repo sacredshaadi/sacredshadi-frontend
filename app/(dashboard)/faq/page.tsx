@@ -49,7 +49,7 @@ export default function FAQComp() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getUrlMetadataForSeo({
-    routeUrl: "/front/faq",
+    routeUrl: "/faq",
     fallbackTitle: "FAQs | Sacred Shadi",
     fallbackDescription:
       "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"

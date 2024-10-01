@@ -7,7 +7,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import PackageModal from "./search-components/package-modal";
 import { UseMutationResult } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { hi } from "date-fns/locale";
 
 interface Props {
   mutation?: () => UseMutationResult<any, Error, any, unknown>;

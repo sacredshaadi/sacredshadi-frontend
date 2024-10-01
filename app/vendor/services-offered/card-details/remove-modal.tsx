@@ -27,7 +27,7 @@ interface ServiceTypeRemoveModalProps {
 
 const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
   const { mutate: removeFn, isPending, isError } = useRemoveOfferMutation();
-  const { data: searchData, setData, count } = useVendorSearchStore();
+  const { data: searchData, setData } = useVendorSearchStore();
   const { vendor, setVendor } = useUserStore();
   const router = useRouter();
   const submit = useCallback(() => {
@@ -36,10 +36,7 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
     }
     try {
       removeFn(
-        {
-          accessToken: vendor.tokens.accessToken,
-          data: { id: props.id }
-        },
+        { accessToken: vendor.tokens.accessToken, data: { id: props.id } },
         {
           onSuccess(data) {
             setData(

@@ -85,10 +85,10 @@ export default function Footer() {
           </p>
         </span>
         <section className="flex items-center justify-center gap-1">
-          <Link href={"/front/faq"} className="underline hover:text-primary">
+          <Link href="/faq" className="underline hover:text-primary">
             FAQs
           </Link>
-          <Link href={"/front/contact"} className="underline hover:text-primary">
+          <Link href="/contact" className="underline hover:text-primary">
             Contact Us
           </Link>
         </section>

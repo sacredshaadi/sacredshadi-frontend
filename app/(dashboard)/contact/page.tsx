@@ -112,7 +112,7 @@ export default function ContactUs() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getUrlMetadataForSeo({
-    routeUrl: "/front/contact",
+    routeUrl: "/contact",
     fallbackTitle: "Contact | Sacred Shadi",
     fallbackDescription:
       "Sacredshaadi provides a range of wedding services to solve all your wedding planning woes. So sit back, relax and plan your wedding with us with the click of a button"

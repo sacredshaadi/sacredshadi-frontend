@@ -42,7 +42,7 @@ export const routeMapper: { [key: string]: string } = {
   Vendors: "/vendors",
   Booking: "/booking",
   "About Us": "/about",
-  "Contact Us": "/front/contact"
+  "Contact Us": "/contact"
 };
 
 export const userAuthTypes = { user: "user", vendor: "vendor", super_admin: "super_admin" } as const;

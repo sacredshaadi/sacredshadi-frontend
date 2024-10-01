@@ -65,7 +65,7 @@ export const SearchForm = (props: { vendorTypeId: number }) => {
 
   useEffect(() => {
     getVendorSubTypes(props.vendorTypeId).then((data) => {
-      setArr(data.data.rows.map((item: VendorSubType) => ({ label: item.subType, value: item.id?.toString() })) || []);
+      setArr(data.data.map((item: VendorSubType) => ({ label: item.subType, value: item.id?.toString() })) || []);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.vendorTypeId]);

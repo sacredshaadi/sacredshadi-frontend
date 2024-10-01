@@ -1,9 +1,9 @@
-import { Metadata } from 'next';
-import { PropsWithChildren } from 'react';
+import { Metadata } from "next";
+import { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
-  title: 'Sacred Shaadi FAQ Section',
-  description: 'Find answers to all your questions about Sacred Shaadi'
+  title: "Sacred Shaadi FAQ Section",
+  description: "Find answers to all your questions about Sacred Shaadi"
 };
 
 function DashboardLayout({ children }: PropsWithChildren) {

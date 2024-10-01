@@ -27,6 +27,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { formatString } from "@/app/utils/functions";
 import { checkToken, checkValidToken } from "@/app/_components/functions";
 import { useRouter } from "next/navigation";
+import { bookingStatus, bookingStatusOptions } from "@/constants/data";
 
 const pageSize = 9;
 const BookingComponent = () => {
@@ -39,15 +40,15 @@ const BookingComponent = () => {
   const [bookingState, setBookingState] = useState<BookingStatus>(BookingStatus.confirmed);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [status, setStatus] = useState<bookingStatus | "">("");
 
   useEffect(() => {
     try {
       if (!vendor) return;
       getAllVendorBookingsFn(
-        { accessToken: vendor?.tokens.accessToken, page, pageSize },
+        { accessToken: vendor?.tokens.accessToken, page, pageSize, status },
         {
           onSuccess: (data) => {
-            console.log("data vendor bookings", data);
             setTotalCount(data.data.count);
             setBookings(data.data.rows as Booking[]);
           },
@@ -62,7 +63,7 @@ const BookingComponent = () => {
       toast({ title: "Error", description: desc, variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vendor, page]);
+  }, [vendor, page, status]);
 
   const handleFeedback = (booking: any) => {
     setSelectedBooking(booking);
@@ -72,15 +73,10 @@ const BookingComponent = () => {
     e.preventDefault();
     try {
       checkToken(vendor, setVendor, router);
-      console.log("data submitted: ", {
-        accessToken: vendor?.tokens.accessToken,
-        status: bookingState,
-        id: selectedBooking?.id || -1
-      });
       updateBookingStatusFn(
         { accessToken: vendor?.tokens.accessToken || "", status: bookingState, id: selectedBooking?.id || -1 },
         {
-          onSuccess: (data) => {
+          onSuccess() {
             toast({ title: "Success", description: "Feedback submitted successfully" });
             setBookings(
               bookings.map((b) => (b.id === selectedBooking?.id ? { ...b, status: bookingState as BookingStatus } : b))
@@ -186,7 +182,22 @@ const BookingComponent = () => {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center justify-end gap-4">
+      <div className="mt-4 flex flex-wrap items-center justify-end gap-4">
+        <div className="w-48">
+          <Select onValueChange={(value) => setStatus(value as bookingStatus)}>
+            <SelectTrigger>
+              <SelectValue>{status || "Select Status"}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {bookingStatusOptions.map((bookingStatus) => (
+                <SelectItem value={bookingStatus} key={bookingStatus}>
+                  {bookingStatus}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
           <ArrowLeft className="h-6 w-6 text-white" />
         </Button>

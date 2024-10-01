@@ -1,3 +1,4 @@
+import { bookingStatus } from "@/constants/data";
 import apiClient from "@/lib/apiConfig/apiClient";
 import { bookingEndpoints } from "@/lib/apiConfig/endpoints";
 
@@ -16,18 +17,38 @@ export const getAllBookingsForAdmin = (accessToken: string) => {
   });
 };
 
-export const getAllUserBookings = (props: { accessToken: string; page: number; pageSize: number }) => {
-  return apiClient(bookingEndpoints.getAllUserBookings + `?page=${props.page}&pageSize=${props.pageSize}`, {
-    method: "GET",
-    headers: { Authorization: `Bearer ${props.accessToken}` }
-  });
+export const getAllUserBookings = (props: {
+  accessToken: string;
+  page: number;
+  pageSize: number;
+  status: bookingStatus | "";
+}) => {
+  return apiClient(
+    bookingEndpoints.getAllUserBookings +
+      `?page=${props.page}&pageSize=${props.pageSize}` +
+      (props.status && props.status !== bookingStatus.NONE ? `&status=${props.status}` : ""),
+    {
+      method: "GET",
+      headers: { Authorization: `Bearer ${props.accessToken}` }
+    }
+  );
 };
 
-export const getAllVendorBookings = (props: { accessToken: string; page: number; pageSize: number }) => {
-  return apiClient(bookingEndpoints.getAllVendorBookings + `?page=${props.page}&pageSize=${props.pageSize}`, {
-    method: "GET",
-    headers: { Authorization: `Bearer ${props.accessToken}` }
-  });
+export const getAllVendorBookings = (props: {
+  accessToken: string;
+  page: number;
+  pageSize: number;
+  status: bookingStatus | "";
+}) => {
+  return apiClient(
+    bookingEndpoints.getAllVendorBookings +
+      `?page=${props.page}&pageSize=${props.pageSize}` +
+      (props.status && props.status !== bookingStatus.NONE ? `&status=${props.status}` : ""),
+    {
+      method: "GET",
+      headers: { Authorization: `Bearer ${props.accessToken}` }
+    }
+  );
 };
 
 export const getBookingById = (payload: { id: string; accessToken: string }) => {

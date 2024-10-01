@@ -1,8 +1,17 @@
 import { ShowBookings } from "@/app/_components/bookings";
+import { fallbackDescription, getUrlMetadataForSeo } from "@/app/utils/functions";
+import { Metadata } from "next";
 import React from "react";
 
-const Booking = () => {
+export default function Page() {
   return <ShowBookings />;
-};
+}
 
-export default Booking;
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getUrlMetadataForSeo({
+    routeUrl: "/booking",
+    fallbackTitle: "Sacred Shadi",
+    fallbackDescription: fallbackDescription
+  });
+  return data;
+}

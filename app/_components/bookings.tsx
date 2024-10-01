@@ -24,9 +24,8 @@ export function ShowBookings() {
   return (
     <div className="container mx-auto py-10">
       <h1 className="mb-6 text-3xl font-bold">Your Bookings</h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <BookingNodesComponent />
-      </div>
+
+      <BookingNodesComponent />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarIcon, Loader2, MessageSquare } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarIcon, Loader2, MessageSquare } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -28,7 +28,10 @@ import { cn } from "@/lib/utils";
 import { checkToken, checkValidToken } from "@/app/_components/functions";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import { bookingStatus, bookingStatusOptions } from "@/constants/data";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+const pageSize = 15;
 const BookingNodesComponent = () => {
   const { user, setUser } = useUserStore();
   const { bookings, setBookings } = useCustomerStore();
@@ -40,33 +43,30 @@ const BookingNodesComponent = () => {
   const [comment, setComment] = useState("");
   const [page, setPage] = useState(1);
   const [totalBookingsCount, setTotalBookingsCount] = useState(0);
+  const [status, setStatus] = useState<bookingStatus | "">("");
 
   useEffect(() => {
     try {
       if (!user) return;
       checkToken(user, setUser, router);
       getAllUserBookingsFn(
-        { accessToken: user.tokens.accessToken, page, pageSize: 15 },
+        { accessToken: user.tokens.accessToken, page, pageSize, status },
         {
           onSuccess: (data) => {
             setTotalBookingsCount(data.data.count);
             setBookings(data.data.rows as Booking[]);
           },
           onError: (err: any) => {
-            const desc = err.error || err.message;
-            if (!desc) return;
-            toast({ title: "Error", description: desc, variant: "destructive" });
+            setBookings([]);
             checkValidToken(err.error || err.message, setUser, router);
           }
         }
       );
     } catch (err: any) {
-      const desc: string = err.error || err.message;
-      if (!desc) return;
-      toast({ title: "Error", description: desc, variant: "destructive" });
+      setBookings([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, page, status]);
 
   const handleFeedback = (booking: any) => {
     setSelectedBooking(booking);
@@ -101,134 +101,173 @@ const BookingNodesComponent = () => {
 
   return (
     <>
-      {bookings.map((booking) => (
-        <Card key={booking.id} className="flex flex-col shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span>{booking.vendorName}</span>
-              <span className="flex items-center text-sm font-normal text-muted-foreground">
-                <CalendarIcon className="mr-1 h-4 w-4" />
-                {format(new Date(booking.bookingDate), "dd MMM yyyy")}
-              </span>
-            </CardTitle>
-          </CardHeader>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {bookings.map((booking) => (
+          <Card key={booking.id} className="flex flex-col shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <span>{booking.vendorName}</span>
+                <span className="flex items-center text-sm font-normal text-muted-foreground">
+                  <CalendarIcon className="mr-1 h-4 w-4" />
+                  {format(new Date(booking.bookingDate), "dd MMM yyyy")}
+                </span>
+              </CardTitle>
+            </CardHeader>
 
-          <CardContent className="flex-grow">
-            <h3 className="mb-2 font-semibold">{booking.serviceOfferedDetails}</h3>
-            <p className="text-sm text-muted-foreground">{booking.serviceOfferedDetails}</p>
-          </CardContent>
+            <CardContent className="flex-grow">
+              <h3 className="mb-2 font-semibold">{booking.serviceOfferedDetails}</h3>
+              <p className="text-sm text-muted-foreground">{booking.serviceOfferedDetails}</p>
+            </CardContent>
 
-          <CardFooter>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className={cn(
-                    "w-full border-2 border-primary bg-primary-foreground font-semibold text-primary shadow-md transition hover:bg-primary hover:text-white",
-                    (booking.status === BookingStatus.pending || booking.status === BookingStatus.confirmed) &&
-                      "border-transparent bg-orange-600 text-white hover:bg-orange-700",
-                    booking.status === BookingStatus.completed &&
-                      "border-green-600 bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700",
-                    booking.status === BookingStatus.cancelled &&
-                      "border-transparent bg-red-600 text-white hover:bg-red-700 hover:text-white"
-                  )}
-                  onClick={() => handleFeedback(booking)}
-                  disabled={isPending || booking?.status === BookingStatus.completed}
-                >
-                  {booking.status !== BookingStatus.completed ? (
-                    booking.status
-                  ) : (
-                    <>
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      Give Feedback
-                    </>
-                  )}
-                </Button>
-              </DialogTrigger>
-              {selectedBooking && (
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Feedback for {selectedBooking.vendorName}</DialogTitle>
-                    <DialogDescription>
-                      Please rate your experience and provide any comments. Your ratings are viewed by the vendors.
-                    </DialogDescription>
-                  </DialogHeader>
+            <CardFooter>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className={cn(
+                      "w-full border-2 border-primary bg-primary-foreground font-semibold text-primary shadow-md transition hover:bg-primary hover:text-white",
+                      (booking.status === BookingStatus.pending || booking.status === BookingStatus.confirmed) &&
+                        "border-transparent bg-orange-600 text-white hover:bg-orange-700",
+                      booking.status === BookingStatus.completed &&
+                        "border-green-600 bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700",
+                      booking.status === BookingStatus.cancelled &&
+                        "border-transparent bg-red-600 text-white hover:bg-red-700 hover:text-white"
+                    )}
+                    onClick={() => handleFeedback(booking)}
+                    disabled={isPending || booking?.status === BookingStatus.completed}
+                  >
+                    {booking.status !== BookingStatus.completed ? (
+                      booking.status
+                    ) : (
+                      <>
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        Give Feedback
+                      </>
+                    )}
+                  </Button>
+                </DialogTrigger>
+                {selectedBooking && (
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Feedback for {selectedBooking.vendorName}</DialogTitle>
+                      <DialogDescription>
+                        Please rate your experience and provide any comments. Your ratings are viewed by the vendors.
+                      </DialogDescription>
+                    </DialogHeader>
 
-                  <form onSubmit={submitFeedback}>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="rating" className="text-right">
-                          Rating
-                        </Label>
-                        <div className="rating">
-                          <input
-                            type="radio"
-                            name="rating-2"
-                            className="mask mask-star-2 bg-orange-400"
-                            value={1}
-                            onChange={(e) => setRating(parseInt(e.target.value))}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-2"
-                            className="mask mask-star-2 bg-orange-400"
-                            value={2}
-                            onChange={(e) => setRating(parseInt(e.target.value))}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-2"
-                            className="mask mask-star-2 bg-orange-400"
-                            value={3}
-                            onChange={(e) => setRating(parseInt(e.target.value))}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-2"
-                            className="mask mask-star-2 bg-orange-400"
-                            defaultChecked
-                            value={4}
-                            onChange={(e) => setRating(parseInt(e.target.value))}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-2"
-                            className="mask mask-star-2 bg-orange-400"
-                            value={5}
-                            onChange={(e) => setRating(parseInt(e.target.value))}
+                    <form onSubmit={submitFeedback}>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="rating" className="text-right">
+                            Rating
+                          </Label>
+                          <div className="rating">
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              value={1}
+                              onChange={(e) => setRating(parseInt(e.target.value))}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              value={2}
+                              onChange={(e) => setRating(parseInt(e.target.value))}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              value={3}
+                              onChange={(e) => setRating(parseInt(e.target.value))}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              defaultChecked
+                              value={4}
+                              onChange={(e) => setRating(parseInt(e.target.value))}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              value={5}
+                              onChange={(e) => setRating(parseInt(e.target.value))}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="comment" className="text-right">
+                            Comment
+                          </Label>
+                          <Textarea
+                            id="comment"
+                            className="col-span-3"
+                            required
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
                           />
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="comment" className="text-right">
-                          Comment
-                        </Label>
-                        <Textarea
-                          id="comment"
-                          className="col-span-3"
-                          required
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        />
-                      </div>
-                    </div>
+                      <DialogFooter>
+                        <Button type="submit" className="font-semibold shadow-lg">
+                          {(isPending || fbPending) && !isError && !fbError && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          )}
+                          Submit Feedback
+                        </Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                )}
+              </Dialog>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
 
-                    <DialogFooter>
-                      <Button type="submit" className="font-semibold shadow-lg">
-                        {(isPending || fbPending) && !isError && !fbError && (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        )}
-                        Submit Feedback
-                      </Button>
-                    </DialogFooter>
-                  </form>
-                </DialogContent>
-              )}
-            </Dialog>
-          </CardFooter>
-        </Card>
-      ))}
+      <div className="mt-4 flex flex-wrap items-center justify-end gap-4">
+        <div className="w-48">
+          <Select onValueChange={(value) => setStatus(value as bookingStatus)}>
+            <SelectTrigger>
+              <SelectValue>{status || "Select Status"}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {bookingStatusOptions.map((bookingStatus) => (
+                <SelectItem value={bookingStatus} key={bookingStatus}>
+                  {bookingStatus}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
+          <ArrowLeft className="h-6 w-6 text-white" />
+        </Button>
+
+        <div>
+          Showing&nbsp;
+          <span className="font-semibold">{bookings.length}</span>
+          &nbsp;of&nbsp;
+          <span className="font-semibold">{totalBookingsCount}</span>
+          &nbsp;bookings
+        </div>
+
+        <Button
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page * pageSize >= totalBookingsCount}
+          className="flex-center"
+        >
+          <ArrowRight className="h-6 w-6 text-white" />
+        </Button>
+      </div>
     </>
   );
 };

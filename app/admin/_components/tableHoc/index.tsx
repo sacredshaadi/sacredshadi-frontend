@@ -2,7 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, ReactNode, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import CellAction from "./actions";
@@ -24,6 +24,7 @@ export type TableHocProps<T> = {
   searchKey: string;
   usePagination?: boolean;
   paginateDataEndpoint: string;
+  headingExtra?: ReactNode;
 } & (
   | {
       editable: true;
@@ -237,6 +238,8 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
         data={data ? (props.usePagination ? data.data.rows : data.data) : []}
         headingExtra={
           <div className="flex items-center gap-2">
+            {props.headingExtra}
+
             <Button variant="outline" onClick={() => refetchData()} disabled={isFetchingData}>
               <ReloadIcon className={cn(isFetchingData ? "animate-spin" : "")} />
             </Button>
