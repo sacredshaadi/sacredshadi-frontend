@@ -6,6 +6,8 @@ import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PackageModal from "./search-components/package-modal";
 import { UseMutationResult } from "@tanstack/react-query";
+import { motion } from "framer-motion";
+import { hi } from "date-fns/locale";
 
 interface Props {
   mutation?: () => UseMutationResult<any, Error, any, unknown>;
@@ -15,25 +17,47 @@ export function VendorSearchGrid(props: Props) {
   const { data, isPending, total, nextPage, prevPage, isPrevPageAvailable, isNextPageAvailable, searched } =
     useVendorSearch(props.mutation);
 
+  const container = {
+    hidden: {},
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVar = {
+    hidden: { opacity: 0, translateY: "2rem" },
+    show: { opacity: 1, translateY: 0 }
+  };
+
   return (
     <section className="container w-full py-8">
       {isPending ? (
         <Loading className="h-80 w-full" />
       ) : (
-        <div className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
-          {data.map((item) => (
-            <PackageModal
-              key={item.id}
-              packageName={item.details}
-              description={item.description}
-              price={item.price}
-              vendorName={item.vendor?.user?.name || ""}
-              packageId={item.id}
-              userFacing={props.mutation === undefined}
-              imageUrl={item?.image || ""}
-            />
+        <motion.section
+          className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-4"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {data.map((item, idx) => (
+            <motion.div variants={itemVar} key={idx} transition={{ duration: 0.2 }}>
+              <PackageModal
+                key={item.id}
+                packageName={item.details}
+                description={item.description}
+                price={item.price}
+                vendorName={item.vendor?.user?.name || ""}
+                packageId={item.id}
+                userFacing={props.mutation === undefined}
+                imageUrl={item?.image || ""}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.section>
       )}
 
       {searched && (

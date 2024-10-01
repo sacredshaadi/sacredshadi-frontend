@@ -123,6 +123,9 @@
   body {
     @apply box-border bg-background text-foreground;
   }
+  button {
+    @apply !font-semibold !shadow-lg;
+  }
 }
 
 @layer utilities {

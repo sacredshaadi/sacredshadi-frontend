@@ -21,9 +21,8 @@ const PackageModal = (props: PackageModalProps) => {
         <CustomImage
           width={400}
           height={250}
-          layout="responsive"
           alt={"package_img"}
-          className="object-contain"
+          className="h-[250px] object-cover"
           src={props.imageUrl}
         />
       </CardTitle>

@@ -49,6 +49,7 @@ const BookingComponent = () => {
         { accessToken: vendor?.tokens.accessToken, page, pageSize },
         {
           onSuccess: (data) => {
+            console.log("data vendor bookings", data);
             setTotalCount(data.data.count);
             setBookings(data.data.rows as Booking[]);
           },
