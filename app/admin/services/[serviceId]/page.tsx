@@ -19,7 +19,6 @@ function SpecificServiceDetails() {
       }
     >
       <TableHOC
-        usePagination
         searchKey="subType"
         addable
         editable
