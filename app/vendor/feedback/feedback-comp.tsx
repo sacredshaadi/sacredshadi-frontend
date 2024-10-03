@@ -74,27 +74,33 @@ const FeedbackComp = () => {
         </div>
       )}
 
-      <div className="mt-4 flex items-center justify-end gap-8">
-        <Button disabled={page === 1} onClick={() => setPage((prev) => Math.max(prev - 1, 1))} className="flex-center">
-          <ArrowLeft className="h-6 w-6 text-white" />
-        </Button>
+      {totalRows !== 0 ? (
+        <div className="mt-4 flex items-center justify-end gap-8">
+          <Button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            className="flex-center"
+          >
+            <ArrowLeft className="h-6 w-6 text-white" />
+          </Button>
 
-        <div>
-          Showing&nbsp;
-          <span className="font-semibold">{feedbacks.length}</span>
-          &nbsp;of&nbsp;
-          <span className="font-semibold">{totalRows}</span>
-          &nbsp;feedbacks
+          <div>
+            Showing&nbsp;
+            <span className="font-semibold">{feedbacks.length}</span>
+            &nbsp;of&nbsp;
+            <span className="font-semibold">{totalRows}</span>
+            &nbsp;feedbacks
+          </div>
+
+          <Button
+            disabled={page === Math.ceil(totalRows / pageSize)}
+            onClick={() => setPage((prev) => Math.min(prev + 1, Math.ceil(totalRows / pageSize)))}
+            className="flex-center"
+          >
+            <ArrowRight className="h-6 w-6 text-white" />
+          </Button>
         </div>
-
-        <Button
-          disabled={page === Math.ceil(totalRows / pageSize)}
-          onClick={() => setPage((prev) => Math.min(prev + 1, Math.ceil(totalRows / pageSize)))}
-          className="flex-center"
-        >
-          <ArrowRight className="h-6 w-6 text-white" />
-        </Button>
-      </div>
+      ) : null}
     </>
   );
 };

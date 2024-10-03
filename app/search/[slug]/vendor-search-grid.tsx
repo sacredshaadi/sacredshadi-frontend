@@ -32,7 +32,7 @@ export function VendorSearchGrid(props: Props) {
   };
 
   return (
-    <section className="container w-full py-8">
+    <section className="w-full py-8">
       {isPending ? (
         <Loading className="h-80 w-full" />
       ) : (
@@ -68,7 +68,9 @@ export function VendorSearchGrid(props: Props) {
           {data.length === 0 ? (
             <div className="font-semibold text-muted-foreground ">Nothing matched with your search query</div>
           ) : (
-            <div className="font-semibold text-muted-foreground drop-shadow-md ">{`${total} results found`}</div>
+            <div className="font-semibold text-muted-foreground drop-shadow-md ">{`${
+              total && !isNaN(total) ? total : data.length
+            } results found`}</div>
           )}
 
           <Button onClick={nextPage} disabled={!isNextPageAvailable} className="flex-center shadow-lg">

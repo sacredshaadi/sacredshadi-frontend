@@ -51,10 +51,9 @@ export default function Profile(props: { type: UserAuthType }) {
         setVendor({ ...data.data, tokens } as Vendor);
       },
       onError: (error: any) => {
-        toast({
-          variant: "destructive",
-          description: (error as any).error || error.message || "Error fetching vendor profile"
-        });
+        const desc = (error as any).error || error.message;
+        if (!desc) return;
+        toast({ variant: "destructive", description: (error as any).error || error.message });
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

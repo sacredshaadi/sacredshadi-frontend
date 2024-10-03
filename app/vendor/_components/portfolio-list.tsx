@@ -20,7 +20,7 @@ export function PortfolioList() {
       <DndUploader />
 
       <h3 className="text-md mb-2 font-semibold">Uploaded</h3>
-      <section className="max-h-[50vh] overflow-auto">
+      <section className="max-h-[50vh]">
         <UplodedImages />
       </section>
     </div>

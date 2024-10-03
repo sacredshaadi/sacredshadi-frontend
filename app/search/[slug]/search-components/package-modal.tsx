@@ -21,6 +21,7 @@ interface PackageModalProps {
 const PackageModal = (props: PackageModalProps) => {
   const [updateOpen, setUpdateOpen] = React.useState(false);
   const [removeOpen, setRemoveOpen] = React.useState(false);
+
   return (
     <Card className="relative flex w-full flex-col items-center justify-center overflow-hidden">
       {!props.userFacing && (
@@ -39,19 +40,20 @@ const PackageModal = (props: PackageModalProps) => {
           <ServiceTypeRemoveModal id={props.packageId} open={removeOpen} setOpen={setRemoveOpen} />
         </section>
       )}
+
       <CardTitle className=" w-full overflow-hidden">
         <CustomImage
           width={400}
           height={250}
-          alt={"package_img"}
-          className="h-[250px] object-cover"
+          alt="package_img"
           src={props.imageUrl}
+          className="h-[250px] object-cover"
           fallbackStyleObject={{ height: "250px", width: "400px" }}
         />
       </CardTitle>
 
       <CardHeader className="text-xl font-semibold">{props.packageName}</CardHeader>
-      <CardDescription className="mb-4">{props.description}</CardDescription>
+      <CardDescription className="mb-4 p-2 sm:p-3">{props.description}</CardDescription>
       {props.userFacing && (
         <CardFooter>
           <Button className="font-semibold shadow-lg" asChild>

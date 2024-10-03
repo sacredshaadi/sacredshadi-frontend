@@ -45,7 +45,7 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
         ? data?.map((vendorType) => ({ label: vendorType.type, route: `/admin/services/${vendorType.id}` }))
         : []
     },
-    { icon: DatabaseZap, label: "Vendor services", route: "/admin/vendor-services" },
+    { icon: DatabaseZap, label: "Services Offered", route: "/admin/services-offered" },
     { icon: Star, label: "User Reviews", route: "/admin/reviews" }
   ];
 

@@ -30,10 +30,12 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
   const { data: searchData, setData } = useVendorSearchStore();
   const { vendor, setVendor } = useUserStore();
   const router = useRouter();
+
   const submit = useCallback(() => {
     if (!vendor?.tokens.accessToken) {
       throw new Error("No access token found");
     }
+    const dataLength = searchData.length - 1;
     try {
       removeFn(
         { accessToken: vendor.tokens.accessToken, data: { id: props.id } },
@@ -41,7 +43,7 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
           onSuccess(data) {
             setData(
               searchData.filter((item: any) => item.id !== props.id),
-              searchData.length - 1
+              dataLength - 1
             );
             toast({ variant: "default", description: "Service package removed successfully" });
           },

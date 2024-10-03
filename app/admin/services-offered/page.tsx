@@ -7,7 +7,7 @@ import { CustomImage } from "@/app/utils/image";
 
 function Slider() {
   return (
-    <SuperAdminLayout title="Service Offers">
+    <SuperAdminLayout title="Service Offered">
       <TableHOC
         searchKey="description"
         usePagination

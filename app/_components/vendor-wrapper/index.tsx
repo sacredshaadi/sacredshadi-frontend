@@ -14,7 +14,7 @@ const VendorWrapper = ({ vendorTypes }: VendorWrapperProps) => {
           aria-label="Vendors"
           className="text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl xl:text-5xl"
         >
-          Our Vendors
+          Services Available
         </h1>
         <span className="text-center text-sm text-muted-foreground">
           From the most skillful Makeup Artists to the mighty impressive Candid Photographers, we cover the wedding

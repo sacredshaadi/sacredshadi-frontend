@@ -30,7 +30,8 @@ const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
   const router = useRouter();
   const { mutate: getFn, isPending } = useGetAlbumByVendorIdMutation();
   const { mutate: deleteFn } = useDeleteMediaMutation();
-  const [delModalOpen, setDelModalOpen] = useState(false);
+  // const [delModalOpen, setDelModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
   const [, , vendorIdRef] = useStateRef(props.userFacing ? props.vendorId : vendor?.vendorId);
 
   useEffect(() => {
@@ -54,7 +55,8 @@ const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
   }, [vendorIdRef.current]);
 
   const deleteImg = useCallback(
-    (id: number) => {
+    (id: number | null) => {
+      if (!id) return;
       try {
         checkToken(vendor, setVendor, router);
         deleteFn(
@@ -66,7 +68,7 @@ const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
             onSuccess: (data) => {
               setAlbum(album.filter((item) => item.id !== id));
               toast({ title: "Success", description: data.message, variant: "default" });
-              setDelModalOpen(false);
+              setDeleteId(null);
             },
             onError: (error) => {
               throw error;
@@ -93,6 +95,26 @@ const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
 
   return (
     <div>
+      <Dialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will permanently delete this image from your profile.
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setDeleteId(null)} className="font-semibold shadow-lg">
+              No, keep it
+            </Button>
+            <Button onClick={() => deleteImg(deleteId!)} type="submit" className="font-semibold shadow-lg">
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {(props.userFacing ? tempAlbum : album).length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {(props.userFacing ? tempAlbum : album).map((file) => (
@@ -108,39 +130,16 @@ const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
                 }}
               />
 
-              <Dialog open={delModalOpen} onOpenChange={setDelModalOpen}>
-                <DialogTrigger
-                  className={cn(
-                    "absolute right-2 top-2 h-fit rounded-full bg-white p-3 opacity-50 shadow-md transition group-hover:opacity-100",
-                    props.userFacing && "hidden"
-                  )}
-                  type="button"
-                >
-                  <Trash className="h-4 w-4" />
-                </DialogTrigger>
-
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete this image from your profile.
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <DialogFooter>
-                    <Button
-                      variant="secondary"
-                      onClick={() => setDelModalOpen(false)}
-                      className="font-semibold shadow-lg"
-                    >
-                      No, keep it
-                    </Button>
-                    <Button onClick={() => deleteImg(file.id)} type="submit" className="font-semibold shadow-lg">
-                      Delete
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              <button
+                type="button"
+                onClick={() => setDeleteId(file.id)}
+                className={cn(
+                  "absolute right-2 top-2 h-fit rounded-full bg-white p-3 opacity-50 shadow-md transition group-hover:opacity-100",
+                  props.userFacing && "hidden"
+                )}
+              >
+                <Trash className="h-4 w-4" />
+              </button>
             </div>
           ))}
         </div>

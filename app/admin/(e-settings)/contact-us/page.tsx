@@ -36,89 +36,89 @@ function ContactSettings() {
           {
             id: "contactAddressLabel",
             name: "label",
-            props: { text: "Contact Address", htmlFor: "contactAddressName", required: true }
+            props: { text: "Contact Address", htmlFor: "contactAddressName" }
           },
           {
             id: "contactAddressName",
             name: "input",
-            props: { name: "contactAddress", className: "mb-4", required: true }
+            props: { name: "contactAddress", className: "mb-4" }
           },
 
           {
             id: "contactPhoneLabel",
             name: "label",
-            props: { text: "Contact Phone", htmlFor: "contactPhoneName", required: true }
+            props: { text: "Contact Phone", htmlFor: "contactPhoneName" }
           },
           {
             id: "contactPhoneName",
             name: "input",
-            props: { name: "contactPhone", className: "mb-4", required: true }
+            props: { name: "contactPhone", className: "mb-4" }
           },
 
           {
             id: "contactFooterTextLabel",
             name: "label",
-            props: { text: "Contact Footer Text", htmlFor: "contactFooterTextName", required: true }
+            props: { text: "Contact Footer Text", htmlFor: "contactFooterTextName" }
           },
           {
             id: "contactFooterTextName",
             name: "input",
-            props: { name: "footerText", className: "mb-4", required: true }
+            props: { name: "footerText", className: "mb-4" }
           },
 
           {
             id: "contactFacebookUrlLabel",
             name: "label",
-            props: { text: "Contact Facebook Url", htmlFor: "contactFacebookUrlName", required: true }
+            props: { text: "Contact Facebook Url", htmlFor: "contactFacebookUrlName" }
           },
           {
             id: "contactFacebookUrlName",
             name: "input",
-            props: { name: "facebookUrl", className: "mb-4", required: true }
+            props: { name: "facebookUrl", className: "mb-4" }
           },
 
           {
             id: "contactInstagramUrlLabel",
             name: "label",
-            props: { text: "Contact Instagram Url", htmlFor: "contactInstagramUrlName", required: true }
+            props: { text: "Contact Instagram Url", htmlFor: "contactInstagramUrlName" }
           },
           {
             id: "contactInstagramUrlName",
             name: "input",
-            props: { name: "instagramUrl", className: "mb-4", required: true }
+            props: { name: "instagramUrl", className: "mb-4" }
           },
 
           {
             id: "contactTwitterUrlLabel",
             name: "label",
-            props: { text: "Contact Twitter Url", htmlFor: "contactTwitterUrlName", required: true }
+            props: { text: "Contact Twitter Url", htmlFor: "contactTwitterUrlName" }
           },
           {
             id: "contactTwitterUrlName",
             name: "input",
-            props: { name: "twitterUrl", className: "mb-4", required: true }
+            props: { name: "twitterUrl", className: "mb-4" }
           },
 
           {
             id: "contactYoutubeUrlLabel",
             name: "label",
-            props: { text: "Contact Youtube Url", htmlFor: "contactYoutubeUrlName", required: true }
+            props: { text: "Contact Youtube Url", htmlFor: "contactYoutubeUrlName" }
           },
           {
             id: "contactYoutubeUrlName",
             name: "input",
-            props: { name: "youtubeUrl", className: "mb-4", required: true }
+            props: { name: "youtubeUrl", className: "mb-4" }
           },
 
           {
             id: "contactPinterestUrlLabel",
             name: "label",
-            props: { text: "Contact Pinterest Url", htmlFor: "contactPinterestUrlName", required: true }
+            props: { text: "Contact Pinterest Url", htmlFor: "contactPinterestUrlName" }
           },
           {
             id: "contactPinterestUrlName",
             name: "input",
-            props: { name: "pinterestUrl", className: "mb-4", required: true }
+            props: { name: "pinterestUrl", className: "mb-4" }
           }
         ]}
         addDataEndpoint="/api/v1/contact/create"

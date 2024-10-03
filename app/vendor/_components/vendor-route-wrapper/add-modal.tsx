@@ -55,7 +55,7 @@ export function AddDialog(props: AddDialogProps) {
   useEffect(() => {
     mutateFn(vendor?.vendorType?.id, {
       onSuccess: (data) => {
-        const temp = data.data?.rows || [];
+        const temp = data.data || [];
         setArr(() => temp.map((item: any) => ({ label: item.subType, value: item.id.toString() })));
       }
     });

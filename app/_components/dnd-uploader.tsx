@@ -71,17 +71,11 @@ export default function DndUploader() {
       createFn(
         {
           accessToken: vendor.tokens.accessToken,
-          data: {
-            urls
-          }
+          data: { urls }
         },
         {
           onSuccess: (data) => {
-            toast({
-              title: "Success",
-              description: data.message,
-              variant: "default"
-            });
+            toast({ title: "Success", description: data.message, variant: "default" });
             setFiles([]);
             setAlbum([...album, ...data.data]);
           },
@@ -126,12 +120,12 @@ export default function DndUploader() {
       {files.length > 0 && (
         <div className="mt-8">
           <h2 className="mb-4 text-lg font-semibold">Selected Files:</h2>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 2xl:grid-cols-6">
             {files.map((file) => (
               <div key={file.name} className="relative">
                 {file.type.startsWith("image/") ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={file.preview} alt={file.name} className="h-44 w-full rounded-lg object-cover" />
+                  <img src={file.preview} alt={file.name} className="h-28 w-full rounded-lg object-cover" />
                 ) : (
                   <video src={file.preview} className="h-40 w-full rounded-lg object-cover" />
                 )}

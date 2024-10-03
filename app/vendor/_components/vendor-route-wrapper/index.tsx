@@ -21,7 +21,7 @@ const VendorRouteWrapper = (props: VendorRouteWrapperProps) => {
       {props.headerNav}
       <Timeline currentStep={props.currentStep} />
 
-      <section className="flex flex-col gap-4">
+      <section className="container flex flex-col gap-4">
         {props.serviceType && (
           <section className="flex flex-col gap-4">
             <h1 className="mb-2 mt-8 text-lg font-bold sm:text-xl lg:text-3xl">Guidelines for {props.serviceType}</h1>
