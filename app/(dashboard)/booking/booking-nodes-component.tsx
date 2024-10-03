@@ -103,7 +103,12 @@ const BookingNodesComponent = () => {
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {bookings.map((booking) => (
-          <Card key={booking.id} className="flex flex-col shadow-lg">
+          <Card
+            key={booking.id}
+            // @ts-ignore
+            onClick={() => router.push(`/package-details/${booking.serviceOfferedId}`)}
+            className="flex cursor-pointer flex-col shadow-lg"
+          >
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>{booking.vendorName}</span>
@@ -231,6 +236,13 @@ const BookingNodesComponent = () => {
           </Card>
         ))}
       </div>
+
+      {totalBookingsCount === 0 ? (
+        <div className="my-8 flex h-full w-full flex-col items-center justify-center">
+          <h1 className="text-2xl font-bold text-gray-500">No Bookings yet</h1>
+          <p className="text-gray-400">You have not placed any bookings</p>
+        </div>
+      ) : null}
 
       <div className="mt-4 flex flex-wrap items-center justify-end gap-4">
         <div className="w-48">

@@ -182,49 +182,49 @@ const BookingComponent = () => {
         ))}
       </div>
 
-      {totalCount > 0 ? (
-        <div className="mt-4 flex flex-wrap items-center justify-end gap-4">
-          <div className="w-48">
-            <Select onValueChange={(value) => setStatus(value as bookingStatus)}>
-              <SelectTrigger>
-                <SelectValue>{status || "Select Status"}</SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                {bookingStatusOptions.map((bookingStatus) => (
-                  <SelectItem value={bookingStatus} key={bookingStatus}>
-                    {bookingStatus}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
-            <ArrowLeft className="h-6 w-6 text-white" />
-          </Button>
-
-          <div>
-            Showing&nbsp;
-            <span className="font-semibold">{bookings.length}</span>
-            &nbsp;of&nbsp;
-            <span className="font-semibold">{totalCount}</span>
-            &nbsp;bookings
-          </div>
-
-          <Button
-            onClick={() => setPage((prev) => prev + 1)}
-            disabled={page * pageSize >= totalCount}
-            className="flex-center"
-          >
-            <ArrowRight className="h-6 w-6 text-white" />
-          </Button>
-        </div>
-      ) : (
+      {totalCount === 0 ? (
         <div className="my-8 flex h-full w-full flex-col items-center justify-center">
           <h1 className="text-3xl font-bold">No Bookings Yet</h1>
           <p className="text-gray-500">You have no bookings yet</p>
         </div>
-      )}
+      ) : null}
+
+      <div className="mt-4 flex flex-wrap items-center justify-end gap-4">
+        <div className="w-48">
+          <Select onValueChange={(value) => setStatus(value as bookingStatus)}>
+            <SelectTrigger>
+              <SelectValue>{status || "Select Status"}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {bookingStatusOptions.map((bookingStatus) => (
+                <SelectItem value={bookingStatus} key={bookingStatus}>
+                  {bookingStatus}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
+          <ArrowLeft className="h-6 w-6 text-white" />
+        </Button>
+
+        <div>
+          Showing&nbsp;
+          <span className="font-semibold">{bookings.length}</span>
+          &nbsp;of&nbsp;
+          <span className="font-semibold">{totalCount}</span>
+          &nbsp;bookings
+        </div>
+
+        <Button
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page * pageSize >= totalCount}
+          className="flex-center"
+        >
+          <ArrowRight className="h-6 w-6 text-white" />
+        </Button>
+      </div>
     </>
   );
 };

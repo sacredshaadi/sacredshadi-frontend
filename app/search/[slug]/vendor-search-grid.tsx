@@ -32,7 +32,7 @@ export function VendorSearchGrid(props: Props) {
   };
 
   return (
-    <section className="w-full py-8">
+    <section className="container w-full py-8">
       {isPending ? (
         <Loading className="h-80 w-full" />
       ) : (

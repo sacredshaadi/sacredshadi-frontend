@@ -21,7 +21,7 @@ const Timeline = (props: { currentStep: number }) => {
   const stepPercentage = percentages[props.currentStep - 1];
 
   return (
-    <section className="mx-auto w-4/5 pb-20">
+    <section className="mx-auto mt-10 w-4/5 pb-20">
       <ProgressBar percent={stepPercentage} filledBackground="rgb(244, 63, 94)">
         {steps.map((step, index) => (
           <Step key={index}>

@@ -19,6 +19,7 @@ const VendorRouteWrapper = (props: VendorRouteWrapperProps) => {
   return (
     <VendorLayout title={props.title} hideNextBtn={props.hideNextBtn} nextBtnLink={stepRoutes[props.currentStep]}>
       {props.headerNav}
+
       <Timeline currentStep={props.currentStep} />
 
       <section className="container flex flex-col gap-4">

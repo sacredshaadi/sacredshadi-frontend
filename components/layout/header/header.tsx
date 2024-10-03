@@ -12,7 +12,7 @@ export default function Header() {
           <span className="text-sm">India&apos;s Favourite Wedding Planning Platform</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className=" flex items-center gap-2">
           <Profile type="user" />
         </div>
       </section>
