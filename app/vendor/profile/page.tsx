@@ -24,14 +24,44 @@ import { cn } from "@/lib/utils";
 import { CustomImage } from "@/app/utils/image";
 
 const formSchema = z.object({
-  details: z.string().min(1, { message: "Please select a venue from the dropdown" }),
-  description: z.string().min(3, { message: "Please write a detailed introduction" }),
-  facebookUrl: z.string().url({ message: "Please enter a valid URL" }),
-  instagramUrl: z.string().url({ message: "Please enter a valid URL" }),
-  twitterUrl: z.string().url({ message: "Please enter a valid URL" }),
-  youtubeUrl: z.string().url({ message: "Please enter a valid URL" }),
-  pinterestUrl: z.string().url({ message: "Please enter a valid URL" }),
-  coverImage: z.string().url({ message: "Please enter a valid URL" })
+  details: z.string().min(0, { message: "Please select a venue from the dropdown" }),
+  description: z.string().min(0, { message: "Please write a detailed introduction" }),
+  facebookUrl: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Please enter a valid URL"
+    }),
+  instagramUrl: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Please enter a valid URL"
+    }),
+  twitterUrl: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Please enter a valid URL"
+    }),
+  youtubeUrl: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Please enter a valid URL"
+    }),
+  pinterestUrl: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Please enter a valid URL"
+    }),
+  coverImage: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Please enter a valid URL"
+    })
 });
 
 type ProfileFormValues = z.infer<typeof formSchema>;
@@ -106,7 +136,7 @@ const Page = () => {
               details: data.data.details || "",
               socialMedia: data.data.socialMedia || {},
               description: data.data.description || "",
-              media: [{ ...vendor.media[0], url: form.getValues().coverImage }, ...vendor.media.slice(1)]
+              media: [{ ...vendor.media[0], url: form.getValues().coverImage || "" }, ...vendor.media.slice(1)]
             });
             // setVendor((prev) => ({ ...prev, ...data.data }));
           },
@@ -129,16 +159,15 @@ const Page = () => {
     <VendorRouteWrapper title="Profile" currentStep={1}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+          <div className="flex flex-col items-center gap-6 sm:flex-row">
             <div className="relative">
-              {form.getValues().coverImage.length > 0 || (vendor?.media?.[0]?.url || "").length > 0 ? (
+              {(form.getValues().coverImage || "").length > 0 || (vendor?.media?.[0]?.url || "").length > 0 ? (
                 <CustomImage
                   src={form.getValues().coverImage || vendor?.media?.[0]?.url || ""}
                   alt="Cover Image"
-                  width={100}
-                  height={100}
-                  layout="fixed"
-                  className={cn("h-24 w-24 rounded-full object-cover", imgUploading && "animate-pulse")}
+                  width={130}
+                  height={130}
+                  className={cn("h-32 w-32 rounded-full object-cover", imgUploading && "animate-pulse")}
                 />
               ) : (
                 <>
@@ -166,6 +195,10 @@ const Page = () => {
 
             <div className="grid gap-2 text-center sm:text-left">
               <h1 className="text-2xl font-bold drop-shadow-lg">{vendor?.name || ""}</h1>
+              <section className="flex items-center">
+                <h2 className="font-semibold text-muted-foreground">{vendor?.vendorType?.type || ""}</h2>
+                <h2 className="ml-2 font-semibold text-muted-foreground">({vendor?.city || ""})</h2>
+              </section>
               <FormField
                 control={form.control}
                 name="description"
@@ -196,8 +229,8 @@ const Page = () => {
 
           <div className="grid gap-8">
             <ContactDetails form={form} />
-            <SocialDetails form={form} />
             <Introduction form={form} />
+            <SocialDetails form={form} />
           </div>
           {/* <Separator className="my-8" />
           <h2 className="text-lg font-semibold">Images</h2>

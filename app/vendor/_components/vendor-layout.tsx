@@ -53,7 +53,10 @@ export function VendorLayout(
           <section className="w-full  px-2 py-4 sm:px-4 sm:py-8">{props.children}</section>
 
           {!props.hideNextBtn && (
-            <section className="absolute bottom-4 right-4 flex w-full flex-row-reverse px-4 py-4">
+            <section
+              className="absolute bottom-2 right-2 flex flex-row-reverse sm:bottom-4 sm:right-4 md:bottom-6 md:right-6
+              3xl:bottom-8 3xl:right-8"
+            >
               <Button
                 variant="default"
                 size="sm"

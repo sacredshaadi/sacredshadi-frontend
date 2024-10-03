@@ -11,13 +11,12 @@ interface ContactDetailsProps {
     {
       details: string;
       description: string;
-      facebookUrl: string;
-      instagramUrl: string;
-      twitterUrl: string;
-      youtubeUrl: string;
-      pinterestUrl: string;
-      brandImage?: string | undefined;
-      coverImage: string;
+      facebookUrl?: string | undefined;
+      instagramUrl?: string | undefined;
+      twitterUrl?: string | undefined;
+      youtubeUrl?: string | undefined;
+      pinterestUrl?: string | undefined;
+      coverImage?: string | undefined;
     },
     any,
     undefined

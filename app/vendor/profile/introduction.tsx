@@ -3,21 +3,20 @@
 // import { useUserStore } from "@/app/context/user-context";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import React from "react";
-import { UseFormReturn } from "react-hook-form";
+import React, { useEffect } from "react";
+import { Form, UseFormReturn } from "react-hook-form";
 
 interface IntroductionProps {
   form: UseFormReturn<
     {
       details: string;
       description: string;
-      facebookUrl: string;
-      instagramUrl: string;
-      twitterUrl: string;
-      youtubeUrl: string;
-      pinterestUrl: string;
-      brandImage?: string | undefined;
-      coverImage: string;
+      facebookUrl?: string | undefined;
+      instagramUrl?: string | undefined;
+      twitterUrl?: string | undefined;
+      youtubeUrl?: string | undefined;
+      pinterestUrl?: string | undefined;
+      coverImage?: string | undefined;
     },
     any,
     undefined
@@ -33,14 +32,9 @@ const Introduction = (props: IntroductionProps) => {
         name="details"
         render={({ field }) => (
           <FormItem className="">
-            <FormLabel className="text-lg font-semibold">Introduction</FormLabel>
+            <FormLabel className="text-lg font-semibold !text-black">Introduction</FormLabel>
             <FormControl>
-              <Textarea
-                {...field}
-                rows={2}
-                placeholder="Write a detailed introduction about yourself"
-                defaultValue=""
-              />
+              <Textarea {...field} rows={2} placeholder="Write a detailed introduction about yourself" />
             </FormControl>
             <FormMessage />
           </FormItem>

@@ -64,6 +64,7 @@ export interface Vendor {
   vendorId: number;
   description?: string;
   details?: string;
+  city: string;
   createdAt?: string;
   updatedAt?: string;
   name: string;

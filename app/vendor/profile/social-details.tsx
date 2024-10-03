@@ -10,13 +10,12 @@ interface ContactDetailsProps {
     {
       details: string;
       description: string;
-      facebookUrl: string;
-      instagramUrl: string;
-      twitterUrl: string;
-      youtubeUrl: string;
-      pinterestUrl: string;
-      brandImage?: string | undefined;
-      coverImage: string;
+      facebookUrl?: string | undefined;
+      instagramUrl?: string | undefined;
+      twitterUrl?: string | undefined;
+      youtubeUrl?: string | undefined;
+      pinterestUrl?: string | undefined;
+      coverImage?: string | undefined;
     },
     any,
     undefined
@@ -28,7 +27,9 @@ const SocialDetails = (props: ContactDetailsProps) => {
 
   return (
     <div className="grid gap-4">
-      <h2 className="text-lg font-semibold">Social Profiles</h2>
+      <h2 className="text-lg font-semibold">
+        Social Profiles <span className="text-muted-foreground">(optional)</span>
+      </h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="grid gap-2">
           <FormField
