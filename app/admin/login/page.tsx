@@ -1,4 +1,5 @@
 "use client";
+
 import { userAuthTypes } from "@/types";
 import LoginForm from "@/components/forms/auth/login";
 import { useAdminLoginMutation } from "@/components/api";

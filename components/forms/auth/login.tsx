@@ -20,39 +20,18 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
   const router = useRouter();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const { mutate: loginFn, isPending, isError } = props.useMutation();
   const { setUser, setVendor, setSuperAdmin, ...users } = useUserStore();
-  const defaults = {
-    schema: loginFormSchema,
-    defaultValues: loginFormDefaultValues
-  };
+  const defaults = { schema: loginFormSchema, defaultValues: loginFormDefaultValues };
 
   const form = useForm<z.infer<typeof defaults.schema>>({
     resolver: zodResolver(defaults.schema),
     defaultValues: defaults.defaultValues
   });
 
-  const { mutate: loginFn, isPending, isError } = props.useMutation();
-
   useEffect(() => {
     if (!useUserStore.persist.hasHydrated()) useUserStore.persist.rehydrate();
   }, []);
-
-  // const setUserStoreFn: Record<UserAuthType, (u: User | null) => void> = useMemo(
-  //   () => ({ user: setUser, vendor: setVendor, super_admin: setSuperAdmin }),
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   []
-  // );
-
-  // const { mutate: loginFn, isPending } = useMutation({
-  //   mutationKey: [props.type],
-  //   mutationFn: (payload: LoginFormDataType) => {
-  //     return apiClient(loginConfig[props.type].endpoint, {
-  //       method: "POST",
-  //       body: JSON.stringify(payload),
-  //       headers: { "Content-Type": "application/json" }
-  //     });
-  //   }
-  // });
 
   const cleanUp = useCallback(
     (data: any) => {
@@ -78,15 +57,13 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
           toast({ title: "Success", description: "Logged in successfully", variant: "default" });
           cleanUp(data.data);
         },
-        onError: (err: any) => {
-          toast({ title: "Could not log in", description: err.error, variant: "destructive" });
-        }
+        onError: (err: any) => toast({ title: "Could not log in", description: err.error, variant: "destructive" })
       });
     } catch (err: any) {
       toast({
+        variant: "destructive",
         title: "Could not log in",
-        description: err.error || err.msg || "An error occurred while logging in, please try again later",
-        variant: "destructive"
+        description: err.error || err.msg || "An error occurred while logging in, please try again later"
       });
     }
   };
@@ -104,7 +81,9 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone No</FormLabel>
+              <FormLabel>
+                Phone No <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input type="number" min={0} placeholder="Enter your phone No..." {...field} />
               </FormControl>
@@ -118,7 +97,9 @@ const LoginForm = (props: { type: UserAuthType; useMutation: () => UseMutationRe
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>
+                Password <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <section className="flex items-center justify-between gap-2">
                   <Input type={showPassword ? "text" : "password"} {...field} />

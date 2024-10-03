@@ -47,7 +47,9 @@ const RegisterUser = () => {
   return (
     <form onSubmit={onSubmit} className="w-full space-y-4">
       <div className="space-y-2">
-        <label>Name</label>
+        <label>
+          Name <span className="text-red-500">*</span>
+        </label>
         <Input required name="name" type="text" placeholder="Enter your name..." />
       </div>
 
@@ -57,12 +59,16 @@ const RegisterUser = () => {
       </div> */}
 
       <div className="space-y-2">
-        <label>Phone No.</label>
+        <label>
+          Phone No. <span className="text-red-500">*</span>
+        </label>
         <Input required name="phone" type="number" placeholder="Enter your phone no..." />
       </div>
 
       <div className="space-y-2">
-        <label>Password</label>
+        <label>
+          Password <span className="text-red-500">*</span>
+        </label>
         <section className="flex items-center justify-between gap-2">
           <Input required name="password" type={showPassword ? "text" : "password"} />
           <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword((prev) => !prev)}>

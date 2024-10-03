@@ -64,12 +64,16 @@ const RegisterVendor = () => {
   return (
     <form onSubmit={onSubmit} className="w-full space-y-4">
       <div className="space-y-2">
-        <label>Name</label>
+        <label>
+          Name <span className="text-red-500">*</span>
+        </label>
         <Input name="name" type="text" placeholder="Enter your name..." required />
       </div>
 
       <div className="space-y-2">
-        <label>City</label>
+        <label>
+          City <span className="text-red-500">*</span>
+        </label>
         <Select
           name="cityId"
           required
@@ -100,7 +104,9 @@ const RegisterVendor = () => {
       </div>
 
       <div className="space-y-2">
-        <label>Service</label>
+        <label>
+          Service <span className="text-red-500">*</span>
+        </label>
         <Select
           name="vendorTypeId"
           required
@@ -133,17 +139,23 @@ const RegisterVendor = () => {
       </div>
 
       <div className="space-y-2">
-        <label>Email</label>
+        <label>
+          Email <span className="text-red-500">*</span>
+        </label>
         <Input name="email" type="email" placeholder="Enter your email..." required />
       </div>
 
       <div className="space-y-2">
-        <label>Phone No.</label>
+        <label>
+          Phone No. <span className="text-red-500">*</span>
+        </label>
         <Input name="phone" type="number" placeholder="Enter your phone no..." required />
       </div>
 
       <div className="space-y-2">
-        <label>Password</label>
+        <label>
+          Password <span className="text-red-500">*</span>
+        </label>
         <section className="flex items-center justify-between gap-2">
           <Input name="password" type={showPassword ? "text" : "password"} required />
           <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword((prev) => !prev)}>
