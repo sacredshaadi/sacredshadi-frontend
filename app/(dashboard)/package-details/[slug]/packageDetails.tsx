@@ -63,7 +63,7 @@ export default function PackageDetails(props: { params: { slug: string } }) {
                 <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
                 <section className=" flex items-center gap-0 font-semibold text-muted-foreground" title="Total views">
                   <Eye className="mr-1" />
-                  {packageDetails?.vendor?.totalViews || 0}
+                  {packageDetails?.vendor?.totalViews || 0} views
                 </section>
               </section>
             </section>
