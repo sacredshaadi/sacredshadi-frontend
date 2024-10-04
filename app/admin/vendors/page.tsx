@@ -9,29 +9,20 @@ import apiClient from "@/lib/apiConfig/apiClient";
 import { useUserStore } from "@/app/context/user-context";
 import { CellContext } from "@tanstack/react-table";
 
-function UpdateButton(props: { vendorId: number; isActive: boolean }) {
+function AdminVendors() {
   const { super_admin } = useUserStore();
 
   const { mutate } = useMutation({
     mutationKey: ["/api/v1/admin/get-all-users?userType=vendor"],
-    mutationFn: () => {
+    mutationFn: (props: { vendorId: number; status: "active" | "inactive" }) => {
       return apiClient("/api/v1/admin/verify-vendor", {
         method: "POST",
-        body: JSON.stringify({ vendorUserId: props.vendorId, status: "active" }),
+        body: JSON.stringify({ vendorUserId: props.vendorId, status: props.status }),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${super_admin?.tokens.accessToken}` }
       });
     }
   });
 
-  if (props.isActive) return "Active";
-  return (
-    <Button size="sm" className="font-semibold" onClick={() => mutate()}>
-      Activate
-    </Button>
-  );
-}
-
-function AdminVendors() {
   return (
     <SuperAdminLayout title="Vendors">
       <TableHOC
@@ -44,7 +35,15 @@ function AdminVendors() {
             header: "Active",
             accessorKey: "isActive",
             cell: ({ row }: CellContext<any, unknown>) => (
-              <UpdateButton vendorId={row.original.id} isActive={row.original.isActive} />
+              <Button
+                size="sm"
+                className="font-semibold"
+                onClick={() =>
+                  mutate({ vendorId: row.original.id, status: row.original.isActive ? "inactive" : "active" })
+                }
+              >
+                {row.original.isActive ? "Deactivate" : "Activate"}
+              </Button>
             )
           },
           { accessorKey: "phone", header: "Phone", accessorFn: (data) => data.phone || "" },
