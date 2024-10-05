@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { SuperAdminLayout } from "../_components/adminLayout";
 import TableHOC from "../_components/tableHoc";
 import dayjs from "dayjs";
+import { CellContext } from "@tanstack/react-table";
 
 function VendorTypes() {
   return (
@@ -13,17 +15,25 @@ function VendorTypes() {
         editable
         deleteable
         columns={[
-          { accessorKey: "type", header: "Type" },
+          {
+            header: "Type",
+            accessorKey: "type",
+            cell: ({ row }: CellContext<any, unknown>) => (
+              <Link className="hover:text-primary" href={`/admin/services/${row.original.id}`}>
+                {row.original.type}
+              </Link>
+            )
+          },
           { accessorKey: "description", header: "Description" },
           { accessorKey: "shortDescription", header: "Short Description" },
           {
-            accessorKey: "createdAt",
             header: "Created At",
+            accessorKey: "createdAt",
             accessorFn: (data) => dayjs(data.createdAt).format("DD-MM-YYYY HH:mm A")
           },
           {
-            accessorKey: "updatedAt",
             header: "Updated At",
+            accessorKey: "updatedAt",
             accessorFn: (data) => dayjs(data.updatedAt).format("DD-MM-YYYY HH:mm A")
           }
         ]}

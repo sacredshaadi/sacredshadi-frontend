@@ -8,17 +8,26 @@ import { useMutation } from "@tanstack/react-query";
 import apiClient from "@/lib/apiConfig/apiClient";
 import { useUserStore } from "@/app/context/user-context";
 import { CellContext } from "@tanstack/react-table";
+import { getQueryClient } from "@/lib/apiConfig/apiProvider";
+import { cn } from "@/lib/utils";
+import { Loading } from "@/app/_components/loading";
 
 function AdminVendors() {
   const { super_admin } = useUserStore();
+  const queryClient = getQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ["/api/v1/admin/get-all-users?userType=vendor"],
     mutationFn: (props: { vendorId: number; status: "active" | "inactive" }) => {
       return apiClient("/api/v1/admin/verify-vendor", {
         method: "POST",
         body: JSON.stringify({ vendorUserId: props.vendorId, status: props.status }),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${super_admin?.tokens.accessToken}` }
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === "/api/v1/admin/get-all-users?userType=vendor"
       });
     }
   });
@@ -37,12 +46,22 @@ function AdminVendors() {
             cell: ({ row }: CellContext<any, unknown>) => (
               <Button
                 size="sm"
-                className="font-semibold"
+                disabled={isPending}
+                className={cn(
+                  "font-semibold",
+                  row.original.isActive ? "bg-red-500 hover:bg-red-400" : "bg-green-500 hover:bg-green-400"
+                )}
                 onClick={() =>
-                  mutate({ vendorId: row.original.id, status: row.original.isActive ? "inactive" : "active" })
+                  mutateAsync({ vendorId: row.original.id, status: row.original.isActive ? "inactive" : "active" })
                 }
               >
-                {row.original.isActive ? "Deactivate" : "Activate"}
+                {isPending ? (
+                  <Loading className="absolute h-full w-full" spinnerClassName="h-4 w-4" />
+                ) : row.original.isActive ? (
+                  "Deactivate"
+                ) : (
+                  "Activate"
+                )}
               </Button>
             )
           },
