@@ -47,7 +47,7 @@ const PackageModal = (props: PackageModalProps) => {
           height={250}
           alt="package_img"
           src={props.imageUrl}
-          className="h-[250px] object-cover"
+          className="h-[250px] w-full object-cover"
           fallbackStyleObject={{ height: "250px", width: "400px" }}
         />
       </CardTitle>

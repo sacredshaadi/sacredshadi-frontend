@@ -18,9 +18,8 @@ export function PortfolioList() {
   return (
     <div className="w-full">
       <DndUploader />
-
       <h3 className="mb-2 mt-4 text-lg font-semibold">Uploaded</h3>
-      <section className="max-h-[50vh]">
+      <section className="">
         <UplodedImages />
       </section>
     </div>

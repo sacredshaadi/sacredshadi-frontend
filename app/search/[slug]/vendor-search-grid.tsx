@@ -32,12 +32,12 @@ export function VendorSearchGrid(props: Props) {
   };
 
   return (
-    <section className="container w-full py-8">
+    <section className="container w-full p-0">
       {isPending ? (
         <Loading className="h-80 w-full" />
       ) : (
         <motion.section
-          className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-4"
+          className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3 3xl:grid-cols-4"
           variants={container}
           initial="hidden"
           animate="show"

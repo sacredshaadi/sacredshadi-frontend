@@ -204,7 +204,7 @@ const BookingComponent = () => {
             </SelectContent>
           </Select>
         </div>
-        <section>
+        <section className="flex items-center justify-between gap-4">
           <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
             <ArrowLeft className="h-6 w-6 text-white" />
           </Button>
