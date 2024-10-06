@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(font.className, "overflow-auto")}>
+      <body className={cn(font.className, "min-h-screen overflow-auto")}>
         <NextTopLoader showSpinner={false} color="#E11D48" />
         <Providers>
           <Toaster />

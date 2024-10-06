@@ -7,7 +7,11 @@ import { HeartFilledIcon } from "@radix-ui/react-icons";
 
 export default function Footer() {
   return (
-    <footer className="bg-muted py-10 ">
+    <footer
+      className="bg-muted py-10 
+      
+    "
+    >
       <div className="container mx-auto grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 md:grid-cols-4">
         <div className="space-y-4 sm:col-span-2">
           <Link href="https://sacredshaadi.com" target="_blank" className="flex items-center" prefetch={false}>

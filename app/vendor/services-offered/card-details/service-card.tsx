@@ -42,7 +42,6 @@ const ServiceCard = (props: ServiceCardProps) => {
               <CustomImage
                 width={400}
                 height={256}
-                layout="responsive"
                 alt={props.offerObj.details}
                 className="max-h-64 object-cover"
                 src={props.offerObj.image || ""}

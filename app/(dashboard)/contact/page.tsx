@@ -22,7 +22,7 @@ export default function ContactUs() {
                 possible.
               </p>
             </div>
-            <Card className="grid grid-cols-2 items-center justify-center gap-2 shadow-lg">
+            <Card className="grid grid-cols-1 items-center justify-center gap-2 shadow-lg md:grid-cols-2">
               <Image
                 src="/contact.gif"
                 alt="phone"

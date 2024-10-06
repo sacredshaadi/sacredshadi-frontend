@@ -189,41 +189,42 @@ const BookingComponent = () => {
         </div>
       ) : null}
 
-      <div className="mt-4 flex flex-wrap items-center justify-end gap-4">
+      <div className="mt-4 flex flex-col flex-wrap items-center justify-end gap-4 md:flex-row">
         <div className="w-48">
           <Select onValueChange={(value) => setStatus(value as bookingStatus)}>
             <SelectTrigger>
-              <SelectValue>{status || "Select Status"}</SelectValue>
+              <SelectValue>{formatString(status) || "Select Status"}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               {bookingStatusOptions.map((bookingStatus) => (
                 <SelectItem value={bookingStatus} key={bookingStatus}>
-                  {bookingStatus}
+                  {formatString(bookingStatus)}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
+        <section>
+          <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
+            <ArrowLeft className="h-6 w-6 text-white" />
+          </Button>
 
-        <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
-          <ArrowLeft className="h-6 w-6 text-white" />
-        </Button>
+          <div>
+            Showing&nbsp;
+            <span className="font-semibold">{bookings.length}</span>
+            &nbsp;of&nbsp;
+            <span className="font-semibold">{totalCount}</span>
+            &nbsp;bookings
+          </div>
 
-        <div>
-          Showing&nbsp;
-          <span className="font-semibold">{bookings.length}</span>
-          &nbsp;of&nbsp;
-          <span className="font-semibold">{totalCount}</span>
-          &nbsp;bookings
-        </div>
-
-        <Button
-          onClick={() => setPage((prev) => prev + 1)}
-          disabled={page * pageSize >= totalCount}
-          className="flex-center"
-        >
-          <ArrowRight className="h-6 w-6 text-white" />
-        </Button>
+          <Button
+            onClick={() => setPage((prev) => prev + 1)}
+            disabled={page * pageSize >= totalCount}
+            className="flex-center"
+          >
+            <ArrowRight className="h-6 w-6 text-white" />
+          </Button>
+        </section>
       </div>
     </>
   );

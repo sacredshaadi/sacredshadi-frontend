@@ -52,7 +52,6 @@ export default function PackageDetails(props: { params: { slug: string } }) {
                     key={media.id}
                     src={media.url}
                     alt="Vendor Image"
-                    layout="fixed"
                     width={100}
                     height={100}
                     className="h-24 w-24 rounded-full object-cover"

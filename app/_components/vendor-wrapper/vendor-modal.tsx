@@ -22,12 +22,11 @@ const VendorModal = ({ vendorType, description }: VendorProps) => {
       whileInView={{ opacity: 1, translateY: 0 }}
       initial={{ opacity: 0, translateY: "5rem" }}
     >
-      <Card className="flex w-[400px] flex-col items-center justify-center overflow-hidden ring-2 ring-primary-foreground ring-offset-4">
-        <CardTitle className=" w-full overflow-hidden">
+      <Card className="flex w-[85vw] flex-col items-center justify-center overflow-hidden ring-2 ring-primary-foreground ring-offset-4 sm:w-[400px]">
+        <CardTitle className="w-full overflow-y-hidden">
           <CustomImage
             width={400}
             height={250}
-            layout="responsive"
             alt={vendorType.type}
             className="object-contain"
             src={vendorType.image || ""}
