@@ -12,7 +12,11 @@ import {
 import { Menu } from "lucide-react";
 import { VendorSidebar } from "./vendor-sidebar";
 
-export default function VendorRouteDrawer() {
+interface RouteDrawerProps {
+  children: React.ReactNode;
+}
+
+export default function RouteDrawer(props: RouteDrawerProps) {
   return (
     <Drawer direction="left">
       <DrawerTrigger asChild className="ml-4 text-primary">
@@ -23,7 +27,7 @@ export default function VendorRouteDrawer() {
         </Button> */}
       </DrawerTrigger>
       <DrawerContent className="h-screen w-fit gap-0 overflow-hidden rounded-none rounded-r-md">
-        <VendorSidebar collapsed={false} />
+        {props.children}
         {/* <DrawerHeader>
           <DrawerTitle>Menu</DrawerTitle>
           <DrawerDescription>Navigate through our app</DrawerDescription>

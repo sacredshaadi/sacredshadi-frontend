@@ -4,7 +4,8 @@ import ProfileComponent from "@/app/_components/profile";
 import { userAuthTypes } from "@/types";
 import { Logo } from "@/components/globals/logo";
 import { cn } from "@/lib/utils";
-import VendorRouteDrawer from "./vendor-route-drawer";
+import RouteDrawer from "./route-drawer";
+import { VendorSidebar } from "./vendor-sidebar";
 
 function VendorHeader(props: {
   collapsed: boolean;
@@ -23,7 +24,9 @@ function VendorHeader(props: {
         <Menu className="h-8 w-8 cursor-pointer" onClick={() => props.setCollapsed((prev) => !prev)} />
       </div>
       <div className="flex items-center justify-center sm:hidden">
-        <VendorRouteDrawer />
+        <RouteDrawer>
+          <VendorSidebar collapsed={false} />
+        </RouteDrawer>
       </div>
 
       <div className="mx-2 flex flex-grow items-center justify-between sm:mx-4">

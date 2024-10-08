@@ -4,6 +4,8 @@ import Profile from "@/app/_components/profile";
 import { userAuthTypes } from "@/types";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/globals/logo";
+import RouteDrawer from "@/app/vendor/_components/route-drawer";
+import { SuperAdminSidebar } from "./sidebar";
 
 function AdminHeader(props: {
   collapsed: boolean;
@@ -14,12 +16,19 @@ function AdminHeader(props: {
     <div className="flex items-center justify-between bg-primary-foreground py-4">
       <div
         className={cn(
-          "flex items-center justify-between font-semibold text-primary",
-          props.collapsed ? "w-16 justify-center" : "w-56 pl-4"
+          "items-center justify-between font-semibold text-primary",
+          props.collapsed ? "w-16 justify-center" : "w-56 pl-4",
+          "hidden sm:flex"
         )}
       >
         {!props.collapsed ? <Logo /> : null}
         <Menu className="h-8 w-8 cursor-pointer" onClick={() => props.setCollapsed((prev) => !prev)} />
+      </div>
+
+      <div className="flex items-center justify-center sm:hidden">
+        <RouteDrawer>
+          <SuperAdminSidebar collapsed={false} />
+        </RouteDrawer>
       </div>
 
       <div className="mx-2 flex flex-grow items-center justify-between sm:mx-4">
