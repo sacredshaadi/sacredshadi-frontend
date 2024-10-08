@@ -48,7 +48,9 @@ export function VendorLayout(
         }}
       />
       <div className="flex h-[calc(100vh-68px)] w-full justify-between">
-        <VendorSidebar {...{ collapsed }} />
+        <section className="hidden sm:flex">
+          <VendorSidebar {...{ collapsed }} />
+        </section>
         <div className="mb-0 flex flex-1 flex-col items-center justify-between gap-4 overflow-y-auto sm:mb-0">
           <section className="w-full  px-2 py-4 sm:px-4 sm:py-8">{props.children}</section>
 

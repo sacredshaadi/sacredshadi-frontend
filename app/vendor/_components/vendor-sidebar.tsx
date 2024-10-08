@@ -12,9 +12,8 @@ export function VendorSidebar(props: { collapsed: boolean; vendorSide?: boolean 
   return (
     <div
       className={twMerge(
-        "h-full flex-col gap-4 overflow-auto overflow-x-hidden bg-background p-2 shadow-lg",
-        props.collapsed ? "w-16" : "w-56",
-        "hidden sm:flex"
+        "flex h-full flex-col gap-4 overflow-auto overflow-x-hidden bg-background p-2 shadow-lg",
+        props.collapsed ? "w-16" : "w-56"
       )}
     >
       {sidebarItems.map((sidebarRoute) => {
