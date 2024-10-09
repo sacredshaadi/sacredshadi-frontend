@@ -11,6 +11,8 @@ import { CellContext } from "@tanstack/react-table";
 import { getQueryClient } from "@/lib/apiConfig/apiProvider";
 import { cn } from "@/lib/utils";
 import { Loading } from "@/app/_components/loading";
+import { ErrorBoundary } from "@/components/errorBoundary";
+import { AdminErrorPage } from "../_components/adminArrorPage";
 
 function AdminVendors() {
   const { super_admin } = useUserStore();
@@ -33,56 +35,58 @@ function AdminVendors() {
   });
 
   return (
-    <SuperAdminLayout title="Vendors">
-      <TableHOC
-        searchKey="name"
-        usePagination
-        columns={[
-          { accessorKey: "name", header: "Name" },
-          { accessorKey: "email", header: "Email" },
-          {
-            header: "Active",
-            accessorKey: "isActive",
-            cell: ({ row }: CellContext<any, unknown>) => (
-              <Button
-                size="sm"
-                disabled={isPending}
-                className={cn(
-                  "font-semibold",
-                  row.original.isActive ? "bg-red-500 hover:bg-red-400" : "bg-green-500 hover:bg-green-400"
-                )}
-                onClick={() =>
-                  mutateAsync({ vendorId: row.original.id, status: row.original.isActive ? "inactive" : "active" })
-                }
-              >
-                {isPending ? (
-                  <Loading className="absolute h-full w-full" spinnerClassName="h-4 w-4" />
-                ) : row.original.isActive ? (
-                  "Deactivate"
-                ) : (
-                  "Activate"
-                )}
-              </Button>
-            )
-          },
-          { accessorKey: "phone", header: "Phone", accessorFn: (data) => data.phone || "" },
-          {
-            accessorKey: "createdAt",
-            header: "Created At",
-            accessorFn: (data) => dayjs(data.createdAt).format("DD-MM-YYYY HH:mm A")
-          },
-          {
-            accessorKey: "updatedAt",
-            header: "Updated At",
-            accessorFn: (data) => dayjs(data.updatedAt).format("DD-MM-YYYY HH:mm A")
-          }
-        ]}
-        addable={false}
-        editable={false}
-        deleteable={false}
-        paginateDataEndpoint="/api/v1/admin/get-all-users?userType=vendor"
-      />
-    </SuperAdminLayout>
+    <ErrorBoundary fallback={<AdminErrorPage title="Vendors" />}>
+      <SuperAdminLayout title="Vendors">
+        <TableHOC
+          searchKey="name"
+          usePagination
+          columns={[
+            { accessorKey: "name", header: "Name" },
+            { accessorKey: "email", header: "Email" },
+            {
+              header: "Active",
+              accessorKey: "isActive",
+              cell: ({ row }: CellContext<any, unknown>) => (
+                <Button
+                  size="sm"
+                  disabled={isPending}
+                  className={cn(
+                    "font-semibold",
+                    row.original.isActive ? "bg-red-500 hover:bg-red-400" : "bg-green-500 hover:bg-green-400"
+                  )}
+                  onClick={() =>
+                    mutateAsync({ vendorId: row.original.id, status: row.original.isActive ? "inactive" : "active" })
+                  }
+                >
+                  {isPending ? (
+                    <Loading className="absolute h-full w-full" spinnerClassName="h-4 w-4" />
+                  ) : row.original.isActive ? (
+                    "Deactivate"
+                  ) : (
+                    "Activate"
+                  )}
+                </Button>
+              )
+            },
+            { accessorKey: "phone", header: "Phone", accessorFn: (data) => data.phone || "" },
+            {
+              header: "Created At",
+              accessorKey: "createdAt",
+              accessorFn: (data) => dayjs(data.createdAt).format("DD-MM-YYYY HH:mm A")
+            },
+            {
+              header: "Updated At",
+              accessorKey: "updatedAt",
+              accessorFn: (data) => dayjs(data.updatedAt).format("DD-MM-YYYY HH:mm A")
+            }
+          ]}
+          addable={false}
+          editable={false}
+          deleteable={false}
+          paginateDataEndpoint="/api/v1/admin/get-all-users?userType=vendor"
+        />
+      </SuperAdminLayout>
+    </ErrorBoundary>
   );
 }
 

@@ -11,8 +11,8 @@ import { UserAuthType, userAuthTypes } from "@/types";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table";
 import { FormElementInstance, FormRenderer } from "../forms";
 import { WithLoading } from "@/app/_components/loading";
@@ -77,25 +77,25 @@ function TableHOC<T = Record<string, any> & { id: number }>(props: TableHocProps
 
   const columns: ColumnDef<T>[] = useMemo(
     () => [
-      {
-        id: "select",
-        header: ({ table }) => (
-          <Checkbox
-            checked={table.getIsAllPageRowsSelected()}
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label="Select all"
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        ),
-        enableSorting: false,
-        enableHiding: false
-      },
+      // {
+      //   id: "select",
+      //   header: ({ table }) => (
+      //     <Checkbox
+      //       checked={table.getIsAllPageRowsSelected()}
+      //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      //       aria-label="Select all"
+      //     />
+      //   ),
+      //   cell: ({ row }) => (
+      //     <Checkbox
+      //       checked={row.getIsSelected()}
+      //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+      //       aria-label="Select row"
+      //     />
+      //   ),
+      //   enableSorting: false,
+      //   enableHiding: false
+      // },
       ...props.columns,
       ...(props.editable || props.deleteable
         ? [
