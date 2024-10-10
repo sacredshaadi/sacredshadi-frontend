@@ -75,3 +75,17 @@ export enum DashboardLogisticType {
   booked = "Booked",
   quotation = "Quotation"
 }
+
+export interface Blog {
+  id: number;
+  title: string;
+  media: {
+    id: number;
+    mediaUrl: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}

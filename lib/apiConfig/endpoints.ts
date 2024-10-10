@@ -98,4 +98,12 @@ export const albumEndpoints = {
   getAlbumByVendorId: "/api/v1/album"
 } as const;
 
+export const blogsEndpoints = {
+  createBlog: "/api/v1/blog/create",
+  updateBlog: "/api/v1/blog/update",
+  removeBlog: "/api/v1/blog/remove",
+  getAllBlogs: "/api/v1/blog/all",
+  getBlogById: "/api/v1/blog"
+};
+
 export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

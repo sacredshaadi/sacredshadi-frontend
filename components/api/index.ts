@@ -8,6 +8,7 @@ import * as FUNCTION_ENDPOINTS from "./functions.endpoints";
 import * as OFFER_ENDPOINTS from "./services-offered.endpoints";
 import * as BOOKING_ENDPOINTS from "./booking.endpoints";
 import * as ALBUM_ENDPOINTS from "./album.endpoints";
+import * as BLOG_ENDPOINTS from "./blogs.endpoints";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
@@ -24,7 +25,8 @@ const QUERY_KEYS = {
   feedback: "feedback",
   offer: "offer",
   booking: "booking",
-  function: "function"
+  function: "function",
+  blogs: "blogs"
 };
 
 export const useRegisterUserMutation = () => {
@@ -306,3 +308,28 @@ export const useGetAlbumByVendorIdMutation = () => {
     mutationKey: [QUERY_KEYS.offer]
   });
 };
+
+export const useCreateBlogMutation = () => {
+  return useMutation({
+    mutationFn: BLOG_ENDPOINTS.createBlog,
+    mutationKey: [QUERY_KEYS.blogs]
+  });
+};
+
+export const useGetAllBlogsMutation = () =>
+  useMutation({
+    mutationFn: BLOG_ENDPOINTS.getAllBlogs,
+    mutationKey: [QUERY_KEYS.blogs]
+  });
+
+export const useRemoveBlogMutation = () =>
+  useMutation({
+    mutationFn: BLOG_ENDPOINTS.removeBlog,
+    mutationKey: [QUERY_KEYS.blogs]
+  });
+
+export const useGetBlogByIdMutation = () =>
+  useMutation({
+    mutationFn: BLOG_ENDPOINTS.getBlogById,
+    mutationKey: [QUERY_KEYS.blogs]
+  });
