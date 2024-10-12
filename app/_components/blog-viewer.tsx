@@ -8,10 +8,14 @@ import { useGetBlogByIdMutation } from "@/components/api";
 import { Blog } from "@/types";
 import { CustomImage } from "@/app/utils/image";
 import { toast } from "@/components/ui/use-toast";
+import { ShowRichText } from "@/app/_components/rich-text-viewer";
+import { RichTextInput } from "./rich-text-input";
 
-export default function BlogViewer({ blogId }: { blogId: number }) {
+export default function BlogViewer({ blogId, userFacing }: { blogId: number; userFacing?: boolean }) {
+  useEffect(() => {
+    console.log("blogId:", blogId);
+  }, [blogId]);
   const [post, setPost] = useState<Blog | null>(null);
-  const [mdxSource, setMdxSource] = useState<any>(null);
   const { mutate: getFn, isIdle, isPending, isError } = useGetBlogByIdMutation();
 
   useEffect(() => {
@@ -21,9 +25,8 @@ export default function BlogViewer({ blogId }: { blogId: number }) {
           blogId
         },
         {
-          onSuccess: (data) => {
-            setPost(data);
-            setMdxSource(serialize(data.content));
+          onSuccess: async (data) => {
+            setPost(data.data);
           },
           onError: (error) => {
             console.error(error);
@@ -41,6 +44,10 @@ export default function BlogViewer({ blogId }: { blogId: number }) {
       });
     }
   }, [blogId]);
+
+  useEffect(() => {
+    console.log("post content:", post?.content);
+  }, [post?.content]);
 
   if (isError) {
     return (
@@ -74,25 +81,12 @@ export default function BlogViewer({ blogId }: { blogId: number }) {
   }
 
   return (
-    <article className="mx-auto max-w-3xl p-4">
-      <h1 className="mb-6 text-3xl font-bold">{post.title}</h1>
-      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-        {post.media.map((mediaNode, index) => (
-          <div key={index} className="relative h-48">
-            <CustomImage
-              src={mediaNode.mediaUrl || ""}
-              fallbackStyle="height: 400px; width: 400px; margin: 20px auto 0px auto;"
-              width={400}
-              height={400}
-              alt={mediaNode.createdAt}
-              className="absolute inset-auto w-full object-cover"
-              placeholder="data:image/base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-            />
-          </div>
-        ))}
-      </div>
-      <div className="prose-lg prose max-w-none">
-        <MDXRemote {...mdxSource} />
+    <article className="mx-auto p-4">
+      <div className="w-full">
+        <h1 className="text-xl font-semibold text-muted-foreground shadow-none outline-0 placeholder:text-gray-400 placeholder:drop-shadow-sm sm:text-2xl lg:text-3xl 2xl:text-4xl">
+          {post.title}
+        </h1>
+        <ShowRichText data={post.content} />
       </div>
     </article>
   );

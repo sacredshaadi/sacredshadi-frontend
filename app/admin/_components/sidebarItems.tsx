@@ -10,11 +10,15 @@ import {
   Clipboard,
   LucideIcon,
   DatabaseZap,
-  CircleDotDashed
+  CircleDotDashed,
+  HelpingHand
 } from "lucide-react";
+import { IconType } from "react-icons";
+
+import { FaBlog } from "react-icons/fa6";
 
 export type AdminSidebarItem = {
-  icon: LucideIcon;
+  icon: LucideIcon | IconType;
   label: string;
   route?: string;
   subRoutes?: Array<Omit<AdminSidebarItem, "icon">>;
@@ -38,6 +42,7 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
     { icon: Clipboard, label: "Bookings", route: "/admin/bookings" },
     { icon: Building, label: "City", route: "/admin/cities" },
     { icon: ImagePlus, label: "Slider", route: "/admin/slider" },
+    { icon: HelpingHand, label: "Blogs", route: "/admin/blogs" },
     {
       icon: DatabaseZap,
       label: "Services",

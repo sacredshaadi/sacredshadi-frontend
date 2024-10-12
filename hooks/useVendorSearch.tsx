@@ -7,7 +7,7 @@ export function useVendorSearch(useMutation?: () => UseMutationResult<any, Error
   const vendorSearchStore = useVendorSearchStore();
   const router = useRouter();
   const func = useMutation || useSearchVendorsMutation;
-  const { mutateAsync: handleVendorSearch, isPending } = func();
+  const { mutateAsync: handleVendorSearch, isPending, isIdle, isError } = func();
 
   const isNextPageAvailable = vendorSearchStore.page < Math.ceil(vendorSearchStore.count / vendorSearchStore.pageSize);
   const isPrevPageAvailable = vendorSearchStore.page > 1;
@@ -20,6 +20,7 @@ export function useVendorSearch(useMutation?: () => UseMutationResult<any, Error
   }
 
   async function onFormSubmit(params: any) {
+    // console.log("form submitted: ", params);
     vendorSearchStore.setSearchParams(params);
     const res = await handleVendorSearch({ ...params, page: 1, pageSize: vendorSearchStore.pageSize });
     await checkUnauthorized(res);
@@ -54,6 +55,8 @@ export function useVendorSearch(useMutation?: () => UseMutationResult<any, Error
 
   return {
     isPending,
+    isIdle,
+    isError,
     onFormSubmit,
     nextPage,
     prevPage,

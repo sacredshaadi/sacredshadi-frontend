@@ -41,6 +41,7 @@ export const routeMapper: { [key: string]: string } = {
   Home: "/",
   Vendors: "/vendors",
   Booking: "/booking",
+  Blogs: "/blogs",
   "About Us": "/about",
   "Contact Us": "/contact"
 };
@@ -79,13 +80,7 @@ export enum DashboardLogisticType {
 export interface Blog {
   id: number;
   title: string;
-  media: {
-    id: number;
-    mediaUrl: string;
-    createdAt: string;
-    updatedAt: string;
-  }[];
-  content: string;
+  content: any[];
   createdAt: string;
   updatedAt: string;
 }

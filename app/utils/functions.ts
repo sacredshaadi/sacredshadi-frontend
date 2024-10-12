@@ -96,3 +96,15 @@ export const formatString = (str: string | undefined): string => {
     return "";
   }
 };
+
+export function safeJsonParse(content: string, defaultReturn: any, validations?: (res: any) => boolean) {
+  try {
+    // console.log("content being parsed: ", content);
+    const res = JSON.parse(content);
+    if (validations && !validations(res)) throw new Error("Validations failed");
+    console.log("json being returned: ", res);
+    return res;
+  } catch (err: any) {
+    return defaultReturn;
+  }
+}
