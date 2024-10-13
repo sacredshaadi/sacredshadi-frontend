@@ -64,12 +64,12 @@ const RemoveModal = ({
       );
     } catch (err: any) {
       const msg: string = err.error || err.message || "An error occurred";
-      console.error(err);
       toast({ title: "Error", description: err.message, variant: "destructive" });
       if (msg.includes("No access token found") || msg.includes("token expired")) {
         router.push("/admin/login");
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
@@ -117,7 +117,6 @@ const RemoveModal = ({
 };
 
 const BlogNode = ({ post, userSide, setReloadKey }: BlogNodeProps) => {
-  const router = useRouter();
   const [removeOpen, setRemoveOpen] = React.useState(false);
 
   return (

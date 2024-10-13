@@ -2,11 +2,10 @@
 
 import { cn } from "@/lib/utils";
 
-import { safeJsonParse } from "../utils/functions";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { useCreateBlockNote } from "@blocknote/react";
-import { ChangeEvent, FC, TextareaHTMLAttributes, useEffect, useState } from "react";
+import { ChangeEvent, FC, TextareaHTMLAttributes, useState } from "react";
 import { uploadToCloudinaryUtil } from "./functions";
 import { toast } from "@/components/ui/use-toast";
 
@@ -34,18 +33,14 @@ export function RichTextInput({
 
   const editor = useCreateBlockNote({
     ...(!!loadedContent && loadedContent.length > 0
-      ? {
-          //       // initialContent: safeJsonParse(props.defaultValue as string, undefined, (res) => res.length > 0)
-
-          initialContent: loadedContent
-        }
+      ? // initialContent: safeJsonParse(props.defaultValue as string, undefined, (res) => res.length > 0)
+        { initialContent: loadedContent }
       : {}),
     uploadFile: async (file) => {
       try {
         const remoteUrl = await uploadToCloudinaryUtil(file);
         return remoteUrl;
       } catch (err: any) {
-        console.error(err);
         toast({
           title: "Error uploading image",
           description: err.error || err.message || "Something went wrong",

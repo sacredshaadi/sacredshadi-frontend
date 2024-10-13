@@ -39,7 +39,6 @@ const UpdateBlog = (props: UpdateBlogProps) => {
         }
       );
     } catch (err: any) {
-      console.error(err);
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }
   };

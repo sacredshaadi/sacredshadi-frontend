@@ -22,16 +22,16 @@ const SaveBlog = (props: SaveBlogProps) => {
       if (props.heading === "") err.push("Heading cannot be empty");
       if (!props.content) err.push("Content cannot be empty");
       if (err.length > 0) throw new Error(err.join("\n"));
-      if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0)
+      if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0) {
         throw new Error("Please login as admin");
+      }
+
       saveFn(
         { accessToken: super_admin.tokens.accessToken, data: { title: props.heading, content: props.content } },
         {
           onSuccess: (data) => {
             const id = data.data.id || -1;
             toast({ title: "Success", description: "Blog saved successfully" });
-            // setHeading("");
-            // setContent(null);
             router.push(`/admin/blogs/${id}`);
           },
           onError: (err) => {
@@ -40,9 +40,9 @@ const SaveBlog = (props: SaveBlogProps) => {
         }
       );
     } catch (err: any) {
-      console.error(err);
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

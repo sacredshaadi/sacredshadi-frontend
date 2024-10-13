@@ -15,8 +15,6 @@ import {
 } from "lucide-react";
 import { IconType } from "react-icons";
 
-import { FaBlog } from "react-icons/fa6";
-
 export type AdminSidebarItem = {
   icon: LucideIcon | IconType;
   label: string;

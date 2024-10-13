@@ -12,10 +12,10 @@ export default function BlogGrid(props: Props) {
 
   return (
     <GenericGridNodesTemplates
-      mutation={useGetAllBlogsMutation}
-      userSide={props.userSide}
       key={reloadKey}
+      userSide={props.userSide}
       setReloadKey={setReloadKey}
+      mutation={useGetAllBlogsMutation}
     />
   );
 }

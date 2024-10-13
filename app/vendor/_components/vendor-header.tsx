@@ -16,14 +16,14 @@ function VendorHeader(props: {
     <div className="flex items-center justify-between bg-primary-foreground py-4">
       <div
         className={cn(
-          "hidden w-16 items-center justify-between font-semibold text-primary sm:flex",
+          "hidden w-16 items-center justify-between font-semibold text-primary lg:flex",
           props.collapsed ? "justify-center" : "pl-4 sm:w-56"
         )}
       >
         {!props.collapsed ? <Logo /> : null}
         <Menu className="h-8 w-8 cursor-pointer" onClick={() => props.setCollapsed((prev) => !prev)} />
       </div>
-      <div className="flex items-center justify-center sm:hidden">
+      <div className="flex items-center justify-center lg:hidden">
         <RouteDrawer>
           <VendorSidebar collapsed={false} />
         </RouteDrawer>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import React, { useEffect } from "react";
+import React from "react";
 import { RichTextInput } from "./rich-text-input";
 import { cn } from "@/lib/utils";
 import SaveBlog from "../admin/blogs/components/save-blog";
@@ -23,10 +23,6 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
   const [heading, setHeading] = React.useState<string>(blog?.title || "");
   const [content, setContent] = React.useState<any>(blog?.content || []);
 
-  useEffect(() => {
-    console.log("userfacin  g:", userFacing);
-  }, [userFacing]);
-
   return (
     <section className="grid h-full grid-cols-1 gap-4 px-2 py-4 sm:px-4 lg:gap-8 lg:py-8 2xl:gap-12 2xl:py-12">
       {!userFacing &&
@@ -35,6 +31,7 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
         ) : (
           <SaveBlog heading={heading} content={content} />
         ))}
+
       {userFacing ? (
         <span className={headingClasses}>{heading}</span>
       ) : (

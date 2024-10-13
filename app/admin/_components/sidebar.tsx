@@ -19,24 +19,20 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
         props.collapsed ? "w-16" : "w-56"
       )}
     >
-      {sidebarItems.map((sidebarRoute) => {
-        if (sidebarRoute.route) {
-          return (
-            <Link
-              key={sidebarRoute.label}
-              href={sidebarRoute.route}
-              className={twMerge(
-                "flex items-center gap-2 rounded-md p-1 transition hover:bg-gray-200",
-                props.collapsed ? "justify-center" : ""
-              )}
-            >
-              <sidebarRoute.icon size={26} stroke="red" />
-              {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
-            </Link>
-          );
-        }
-
-        return (
+      {sidebarItems.map((sidebarRoute) =>
+        sidebarRoute.route ? (
+          <Link
+            key={sidebarRoute.label}
+            href={sidebarRoute.route}
+            className={twMerge(
+              "flex items-center gap-2 rounded-md p-1 transition hover:bg-gray-200",
+              props.collapsed ? "justify-center" : ""
+            )}
+          >
+            <sidebarRoute.icon size={26} stroke="red" />
+            {!props.collapsed ? <div className="text-base font-semibold">{sidebarRoute.label}</div> : null}
+          </Link>
+        ) : (
           <div
             key={sidebarRoute.label}
             className={twMerge("flex items-center gap-2", props.collapsed ? "justify-center" : "")}
@@ -84,8 +80,8 @@ export function SuperAdminSidebar(props: { collapsed: boolean; vendorSide?: bool
               </Accordion>
             )}
           </div>
-        );
-      })}
+        )
+      )}
     </div>
   );
 }
