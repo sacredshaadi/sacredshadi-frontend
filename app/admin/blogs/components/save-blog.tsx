@@ -12,8 +12,8 @@ interface SaveBlogProps {
 }
 
 const SaveBlog = (props: SaveBlogProps) => {
-  const { super_admin } = useUserStore();
   const router = useRouter();
+  const { super_admin } = useUserStore();
   const { mutate: saveFn, isPending, isError } = useCreateBlogMutation();
 
   const saveBlog = useCallback((data: any) => {
