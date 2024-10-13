@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useCallback } from "react";
+import React from "react";
 
 interface SaveBlogProps {
   heading: string;
@@ -16,7 +16,7 @@ const SaveBlog = (props: SaveBlogProps) => {
   const { super_admin } = useUserStore();
   const { mutate: saveFn, isPending, isError } = useCreateBlogMutation();
 
-  const saveBlog = useCallback((data: any) => {
+  const saveBlog = () => {
     try {
       const err = [];
       if (props.heading === "") err.push("Heading cannot be empty");
@@ -30,7 +30,7 @@ const SaveBlog = (props: SaveBlogProps) => {
         { accessToken: super_admin.tokens.accessToken, data: { title: props.heading, content: props.content } },
         {
           onSuccess: (data) => {
-            const id = data.data.id || -1;
+            const id = data.data.blogId;
             toast({ title: "Success", description: "Blog saved successfully" });
             router.push(`/admin/blogs/${id}`);
           },
@@ -43,7 +43,7 @@ const SaveBlog = (props: SaveBlogProps) => {
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   return (
     <Button
