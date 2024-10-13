@@ -43,7 +43,6 @@ export default function Profile(props: { type: UserAuthType }) {
 
   useEffect(() => {
     if (props.type !== userAuthTypes.vendor || !users.vendor) return;
-    // if (!users.vendor) handleLogout();
     else if (users?.vendor?.vendorType) return;
     getVendorProfileFn(users.vendor?.tokens?.accessToken || "", {
       onSuccess: (data: any) => {
@@ -61,7 +60,7 @@ export default function Profile(props: { type: UserAuthType }) {
 
   if (!useUserStore.persist?.hasHydrated()) {
     return (
-      <Button variant={"outline"} size={"icon"}>
+      <Button variant="outline" size="icon">
         <Loader2 className="h-4 animate-spin" />
       </Button>
     );

@@ -98,7 +98,7 @@ const BookingComponent = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {bookings.map((booking) => (
           <Card key={booking.id} className="flex flex-col shadow-lg">
@@ -204,6 +204,7 @@ const BookingComponent = () => {
             </SelectContent>
           </Select>
         </div>
+
         <section className="flex items-center justify-between gap-4">
           <Button onClick={() => setPage((prev) => prev - 1)} disabled={page === 1} className="flex-center">
             <ArrowLeft className="h-6 w-6 text-white" />
@@ -226,7 +227,7 @@ const BookingComponent = () => {
           </Button>
         </section>
       </div>
-    </>
+    </div>
   );
 };
 

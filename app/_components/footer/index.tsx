@@ -7,11 +7,7 @@ import { HeartFilledIcon } from "@radix-ui/react-icons";
 
 export default function Footer() {
   return (
-    <footer
-      className="bg-muted py-10 
-      
-    "
-    >
+    <footer className="bg-muted py-10">
       <div className="container mx-auto grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 md:grid-cols-4">
         <div className="space-y-4 sm:col-span-2">
           <Link href="https://sacredshaadi.com" target="_blank" className="flex items-center" prefetch={false}>
@@ -74,28 +70,23 @@ export default function Footer() {
           </nav>
         </div>
       </div>
-      <div
-        className="mt-8 flex items-center justify-center gap-2 border-t border-muted/50
-        px-4 pt-4 text-center text-xs text-muted-foreground
-      "
-      >
-        <span className="flex items-center justify-center gap-2">
-          <Link href="https://sacredshaadi.com" target="_blank">
-            <Image src="/favicon.png" alt="Sacred Shaadi" width={100} height={50} />
-          </Link>
-          <p>
-            &copy; Copyright 2024. All rights reserved Sacred Shaadi. Designed and developed by{" "}
-            <b>Nexus Solutions Pvt. Ltd.</b>.
-          </p>
-        </span>
-        <section className="flex items-center justify-center gap-1">
-          <Link href="/faq" className="underline hover:text-primary">
-            FAQs
-          </Link>
-          <Link href="/contact" className="underline hover:text-primary">
-            Contact Us
-          </Link>
-        </section>
+
+      <div className="mt-8 flex items-center justify-center gap-2 border-t border-muted/50 px-4 pt-4 text-center text-xs text-muted-foreground">
+        <Link href="https://sacredshaadi.com" target="_blank">
+          <Image src="/favicon.png" alt="Sacred Shaadi" width={50} height={50} />
+        </Link>
+
+        <Link href="/faq" className="underline hover:text-primary">
+          FAQs
+        </Link>
+        <Link href="/contact" className="underline hover:text-primary">
+          Contact Us
+        </Link>
+      </div>
+
+      <div className="m-4 text-center text-xs text-muted-foreground">
+        &copy; Copyright 2024. All rights reserved Sacred Shaadi. Designed and developed by
+        <b> Nexus Solutions Pvt. Ltd.</b>.
       </div>
     </footer>
   );

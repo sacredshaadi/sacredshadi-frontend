@@ -1,15 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MDXRemote } from "next-mdx-remote";
-import { serialize } from "next-mdx-remote/serialize";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetBlogByIdMutation } from "@/components/api";
 import { Blog } from "@/types";
-import { CustomImage } from "@/app/utils/image";
 import { toast } from "@/components/ui/use-toast";
-import { ShowRichText } from "@/app/_components/rich-text-viewer";
-import { RichTextInput } from "./rich-text-input";
 import BlogWrapper from "./blog-wrapper";
 
 export default function BlogViewer({ blogId, userFacing }: { blogId: number; userFacing?: boolean }) {
@@ -19,34 +14,20 @@ export default function BlogViewer({ blogId, userFacing }: { blogId: number; use
   useEffect(() => {
     try {
       getFn(
+        { blogId },
         {
-          blogId
-        },
-        {
-          onSuccess: async (data) => {
-            setPost(data.data);
-          },
+          onSuccess: async (data) => setPost(data.data),
           onError: (error) => {
-            console.error(error);
             throw error;
           }
         }
       );
     } catch (err: any) {
       const msg = err.error || err.message || "An error occurred";
-      console.error(err);
-
-      toast({
-        title: "Error fetching blog",
-        variant: "destructive",
-        description: msg
-      });
+      toast({ title: "Error fetching blog", variant: "destructive", description: msg });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blogId]);
-
-  useEffect(() => {
-    console.log("post content:", post?.content);
-  }, [post?.content]);
 
   if (isError) {
     return (
@@ -75,21 +56,7 @@ export default function BlogViewer({ blogId, userFacing }: { blogId: number; use
     );
   }
 
-  if (!post) {
-    return null;
-  }
+  if (!post) return null;
 
   return <BlogWrapper blog={post} userFacing={userFacing} />;
-
-  // return (
-  //   <article className="mx-auto p-4">
-  //     <div className="w-full">
-  //       <h1 className="text-xl font-semibold text-muted-foreground shadow-none outline-0 placeholder:text-gray-400 placeholder:drop-shadow-sm sm:text-2xl lg:text-3xl 2xl:text-4xl">
-  //         {post.title}
-  //       </h1>
-  //       <RichTextInput loadedContent={post.content} />
-  //       {/* <ShowRichText data={post.content} /> */}
-  //     </div>
-  //   </article>
-  // );
 }

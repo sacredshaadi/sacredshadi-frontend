@@ -18,14 +18,14 @@ function AdminHeader(props: {
         className={cn(
           "items-center justify-between font-semibold text-primary",
           props.collapsed ? "w-16 justify-center" : "w-56 pl-4",
-          "hidden sm:flex"
+          "hidden lg:flex"
         )}
       >
         {!props.collapsed ? <Logo /> : null}
         <Menu className="h-8 w-8 cursor-pointer" onClick={() => props.setCollapsed((prev) => !prev)} />
       </div>
 
-      <div className="flex items-center justify-center sm:hidden">
+      <div className="flex items-center justify-center lg:hidden">
         <RouteDrawer>
           <SuperAdminSidebar collapsed={false} />
         </RouteDrawer>

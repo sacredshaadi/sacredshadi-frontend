@@ -6,6 +6,8 @@ import { adminEndpoints } from "@/lib/apiConfig/endpoints";
 import { useUserStore } from "@/app/context/user-context";
 import { Loading } from "@/app/_components/loading";
 import LogisticCard from "@/app/vendor/dashboard/logistic-card";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 type DashboardData = {
   totalBookings: number;
@@ -14,21 +16,34 @@ type DashboardData = {
   registeredVendors: number;
 };
 
-const useAdminDashboardQuery = () => {
-  const { super_admin } = useUserStore();
-  return useQuery<{ data: DashboardData }>({
+const AdminDashboardCards = () => {
+  const router = useRouter();
+  const userStore = useUserStore();
+
+  const logoutIfUnauthorized = useCallback((error: { message: string }) => {
+    const msg = error.message;
+    if (msg.includes("token expired") || msg.includes("No access token found")) {
+      userStore.setSuperAdmin(null);
+      router.replace("/admin/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { data: res, isLoading } = useQuery<{ data: DashboardData }>({
     queryKey: ["admin-dashboard"],
-    queryFn: () => {
-      return apiClient(adminEndpoints.getDashboardData, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${super_admin?.tokens.accessToken}` }
-      });
+    queryFn: async () => {
+      try {
+        const res = await apiClient(adminEndpoints.getDashboardData, {
+          method: "GET",
+          headers: { Authorization: `Bearer ${userStore.super_admin?.tokens.accessToken}` }
+        });
+        return res;
+      } catch (err: any) {
+        logoutIfUnauthorized(err);
+        throw err;
+      }
     }
   });
-};
-
-const AdminDashboardCards = () => {
-  const { data: res, isLoading } = useAdminDashboardQuery();
 
   if (isLoading || !res) return <Loading className="h-96" />;
   return (

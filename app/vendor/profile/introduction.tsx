@@ -1,12 +1,11 @@
 "use client";
 
-// import { useUserStore } from "@/app/context/user-context";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import React, { useEffect } from "react";
-import { Form, UseFormReturn } from "react-hook-form";
+import React from "react";
+import { UseFormReturn } from "react-hook-form";
 
-interface IntroductionProps {
+type IntroductionProps = {
   form: UseFormReturn<
     {
       details: string;
@@ -21,10 +20,9 @@ interface IntroductionProps {
     any,
     undefined
   >;
-}
+};
 
 const Introduction = (props: IntroductionProps) => {
-  // const { vendor, setVendor } = useUserStore();
   return (
     <div className="grid gap-2">
       <FormField

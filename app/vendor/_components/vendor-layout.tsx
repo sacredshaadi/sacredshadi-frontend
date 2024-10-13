@@ -48,7 +48,7 @@ export function VendorLayout(
         }}
       />
       <div className="flex h-[calc(100vh-68px)] w-full justify-between">
-        <section className="hidden sm:flex">
+        <section className="hidden lg:flex">
           <VendorSidebar {...{ collapsed }} />
         </section>
         <div className="mb-0 flex flex-1 flex-col items-center justify-between gap-4 overflow-y-auto sm:mb-0">

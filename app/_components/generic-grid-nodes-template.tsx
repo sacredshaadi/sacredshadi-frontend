@@ -1,6 +1,5 @@
 "use client";
 
-import { Loading } from "@/app/_components/loading";
 import { Button } from "@/components/ui/button";
 import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -10,7 +9,6 @@ import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import BlogNode from "../(dashboard)/blogs/components/blog-node";
-import { ShowRichText } from "./rich-text-viewer";
 
 interface Props {
   mutation: () => UseMutationResult<any, Error, any, unknown>;
@@ -24,7 +22,6 @@ export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, us
     data,
     isPending,
     isIdle,
-    isError,
     total,
     nextPage,
     prevPage,
@@ -57,12 +54,12 @@ export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, us
   }, []);
 
   return (
-    <section className="container w-full p-0">
+    <section className="container w-full px-4">
       <motion.section
-        className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3 3xl:grid-cols-4"
-        variants={container}
-        initial="hidden"
         animate="show"
+        initial="hidden"
+        variants={container}
+        className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3 3xl:grid-cols-4"
       >
         {isIdle || isPending
           ? Array(6)

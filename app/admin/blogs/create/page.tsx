@@ -1,13 +1,9 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React from "react";
 import { AdminErrorPage } from "../../_components/adminArrorPage";
 import { ErrorBoundary } from "@/components/errorBoundary";
 import { SuperAdminLayout } from "../../_components/adminLayout";
-import { toast } from "@/components/ui/use-toast";
-import { useCreateBlogMutation } from "@/components/api";
-import { useUserStore } from "@/app/context/user-context";
-import { useRouter } from "next/navigation";
 import BlogWrapper from "@/app/_components/blog-wrapper";
 
 const page = () => {
