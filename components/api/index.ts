@@ -322,6 +322,12 @@ export const useGetAllBlogsMutation = () =>
     mutationKey: [QUERY_KEYS.blogs]
   });
 
+export const useUpdateBlogsMutation = () =>
+  useMutation({
+    mutationFn: BLOG_ENDPOINTS.updateBlog,
+    mutationKey: [QUERY_KEYS.blogs]
+  });
+
 export const useRemoveBlogMutation = () =>
   useMutation({
     mutationFn: BLOG_ENDPOINTS.removeBlog,

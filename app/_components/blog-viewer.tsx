@@ -10,11 +10,9 @@ import { CustomImage } from "@/app/utils/image";
 import { toast } from "@/components/ui/use-toast";
 import { ShowRichText } from "@/app/_components/rich-text-viewer";
 import { RichTextInput } from "./rich-text-input";
+import BlogWrapper from "./blog-wrapper";
 
 export default function BlogViewer({ blogId, userFacing }: { blogId: number; userFacing?: boolean }) {
-  useEffect(() => {
-    console.log("blogId:", blogId);
-  }, [blogId]);
   const [post, setPost] = useState<Blog | null>(null);
   const { mutate: getFn, isIdle, isPending, isError } = useGetBlogByIdMutation();
 
@@ -39,6 +37,7 @@ export default function BlogViewer({ blogId, userFacing }: { blogId: number; use
       console.error(err);
 
       toast({
+        title: "Error fetching blog",
         variant: "destructive",
         description: msg
       });
@@ -80,14 +79,17 @@ export default function BlogViewer({ blogId, userFacing }: { blogId: number; use
     return null;
   }
 
-  return (
-    <article className="mx-auto p-4">
-      <div className="w-full">
-        <h1 className="text-xl font-semibold text-muted-foreground shadow-none outline-0 placeholder:text-gray-400 placeholder:drop-shadow-sm sm:text-2xl lg:text-3xl 2xl:text-4xl">
-          {post.title}
-        </h1>
-        <ShowRichText data={post.content} />
-      </div>
-    </article>
-  );
+  return <BlogWrapper blog={post} userFacing={userFacing} />;
+
+  // return (
+  //   <article className="mx-auto p-4">
+  //     <div className="w-full">
+  //       <h1 className="text-xl font-semibold text-muted-foreground shadow-none outline-0 placeholder:text-gray-400 placeholder:drop-shadow-sm sm:text-2xl lg:text-3xl 2xl:text-4xl">
+  //         {post.title}
+  //       </h1>
+  //       <RichTextInput loadedContent={post.content} />
+  //       {/* <ShowRichText data={post.content} /> */}
+  //     </div>
+  //   </article>
+  // );
 }

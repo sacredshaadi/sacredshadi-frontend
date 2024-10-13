@@ -25,18 +25,19 @@ export function RichTextInput({
   errorText,
   labelClassName,
   descriptionText,
-  loadContent,
+  loadedContent,
   setContent,
+  userFacing,
   ...props
-}: RichTextInputProps & { loadContent: any; setContent?: React.Dispatch<any> }) {
+}: RichTextInputProps & { loadedContent?: any[]; setContent?: React.Dispatch<any>; userFacing?: boolean }) {
   const [editorContent, setEditorContent] = useState<any>();
 
   const editor = useCreateBlockNote({
-    ...(!!props.defaultValue
+    ...(!!loadedContent && loadedContent.length > 0
       ? {
           //       // initialContent: safeJsonParse(props.defaultValue as string, undefined, (res) => res.length > 0)
 
-          initialContent: loadContent
+          initialContent: loadedContent
         }
       : {}),
     uploadFile: async (file) => {
@@ -82,9 +83,10 @@ export function RichTextInput({
           {...(props as any)}
           theme="light"
           editor={editor}
+          editable={!userFacing}
           itemType="input"
           onChange={() => {
-            // setContent(editor.document);
+            setContent && setContent(editor.document);
           }}
           id={props.name}
           className={cn(

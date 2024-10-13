@@ -13,7 +13,7 @@ const page = () => {
         <section className="grid h-full w-full grid-cols-1 gap-4 p-0">
           <nav className="flex items-center justify-between">
             <Button className="ml-auto bg-primary font-semibold text-white shadow-lg" asChild>
-              <Link href="/admin/blogs/create">Create Blog</Link>
+              <Link href="/admin/blogs/create">Create a blog</Link>
             </Button>
           </nav>
           <BlogGrid userSide={false} />

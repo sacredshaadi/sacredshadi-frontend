@@ -14,11 +14,12 @@ import { ShowRichText } from "./rich-text-viewer";
 
 interface Props {
   mutation: () => UseMutationResult<any, Error, any, unknown>;
+  setReloadKey: React.Dispatch<React.SetStateAction<number>>;
   userSide?: boolean;
   [key: string]: any;
 }
 
-export function GenericGridNodesTemplates({ mutation, nodeComp, userSide, ...nodeProps }: Props) {
+export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, userSide, ...nodeProps }: Props) {
   const {
     data,
     isPending,
@@ -80,7 +81,7 @@ export function GenericGridNodesTemplates({ mutation, nodeComp, userSide, ...nod
               ))
           : data.map((item, idx) => (
               <motion.div variants={itemVar} key={idx} transition={{ duration: 0.2 }}>
-                <BlogNode post={item as any} userSide={userSide} />
+                <BlogNode post={item as any} userSide={userSide} setReloadKey={setReloadKey} />
               </motion.div>
             ))}
       </motion.section>
