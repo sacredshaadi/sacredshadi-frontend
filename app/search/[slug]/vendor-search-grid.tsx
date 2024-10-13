@@ -60,7 +60,7 @@ export function VendorSearchGrid(props: Props) {
       )}
 
       {searched && (
-        <div className="flex w-full items-center justify-between sm:justify-around">
+        <div className="my-4 flex w-full items-center justify-between sm:justify-around">
           <Button onClick={prevPage} disabled={!isPrevPageAvailable} className="flex-center shadow-lg">
             <ArrowLeft className="h-6 w-6 text-white" />
           </Button>

@@ -28,7 +28,7 @@ export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
   location: z.string().min(3, { message: "Please select a venue from the dropdown" }),
   cityId: z.number().min(1, { message: "Please select a valid city from the dropdown" }),
-  services: z.number().array().nonempty("Please select a service type"),
+  services: z.number().array(),
   budget: z.number(),
   date: z.date().refine(
     (date) => {
@@ -95,6 +95,7 @@ export const SearchForm = (props: { vendorTypeId: number }) => {
       date: formValues.date,
       cityId: formValues.cityId,
       priceRange: [0, formValues.budget],
+      vendorTypeId: props.vendorTypeId,
       serviceIds: selected.map((item) => Number(item.value))
     });
   };
