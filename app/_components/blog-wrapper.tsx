@@ -20,7 +20,7 @@ const headingClasses = cn(
 );
 
 const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
-  const [heading, setHeading] = React.useState<string>(blog?.title || "");
+  const [heading, setHeading] = React.useState(blog?.title || "");
   const [content, setContent] = React.useState<any>(blog?.content || []);
 
   return (
@@ -37,7 +37,7 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
       ) : (
         <Input
           className={headingClasses}
-          placeholder="Enter title here.."
+          placeholder="Enter title here ..."
           value={heading}
           onChange={(e) => setHeading(e.target.value)}
           contentEditable={!userFacing}

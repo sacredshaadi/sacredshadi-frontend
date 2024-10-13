@@ -17,6 +17,25 @@ interface Props {
   [key: string]: any;
 }
 
+const EmptyState = () => (
+  <>
+    {Array(6)
+      .fill(0)
+      .map((_, index) => (
+        <Card key={index} className="overflow-hidden">
+          <Skeleton className="h-48 w-full" />
+          <CardHeader>
+            <Skeleton className="h-6 w-3/4" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="mb-2 h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+          </CardContent>
+        </Card>
+      ))}
+  </>
+);
+
 export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, userSide, ...nodeProps }: Props) {
   const {
     data,
@@ -61,26 +80,15 @@ export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, us
         variants={container}
         className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3 3xl:grid-cols-4"
       >
-        {isIdle || isPending
-          ? Array(6)
-              .fill(0)
-              .map((_, index) => (
-                <Card key={index} className="overflow-hidden">
-                  <Skeleton className="h-48 w-full" />
-                  <CardHeader>
-                    <Skeleton className="h-6 w-3/4" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="mb-2 h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
-                  </CardContent>
-                </Card>
-              ))
-          : data.map((item, idx) => (
-              <motion.div variants={itemVar} key={idx} transition={{ duration: 0.2 }}>
-                <BlogNode post={item as any} userSide={userSide} setReloadKey={setReloadKey} />
-              </motion.div>
-            ))}
+        {isIdle || isPending ? (
+          <EmptyState />
+        ) : (
+          data.map((item, idx) => (
+            <motion.div variants={itemVar} key={idx} transition={{ duration: 0.2 }}>
+              <BlogNode post={item as any} userSide={userSide} setReloadKey={setReloadKey} />
+            </motion.div>
+          ))
+        )}
       </motion.section>
 
       {searched && (
