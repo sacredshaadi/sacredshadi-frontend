@@ -1,8 +1,8 @@
 import BlogGrid from "@/app/(dashboard)/blogs/components/blog-grid";
 import React from "react";
-import { AdminErrorPage } from "../_components/adminArrorPage";
+import { AdminErrorPage } from "../../_components/adminArrorPage";
 import { ErrorBoundary } from "@/components/errorBoundary";
-import { SuperAdminLayout } from "../_components/adminLayout";
+import { SuperAdminLayout } from "../../_components/adminLayout";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

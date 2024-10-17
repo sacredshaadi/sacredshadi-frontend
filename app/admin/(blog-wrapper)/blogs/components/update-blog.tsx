@@ -9,6 +9,7 @@ interface UpdateBlogProps {
   heading: string;
   content: any;
   id: number;
+  maxHeadingLength: React.MutableRefObject<number>;
 }
 
 const UpdateBlog = (props: UpdateBlogProps) => {
@@ -20,6 +21,8 @@ const UpdateBlog = (props: UpdateBlogProps) => {
       const err = [];
       if (props.heading === "") err.push("Heading cannot be empty");
       if (!props.content) err.push("Content cannot be empty");
+      if (props.heading.length > props.maxHeadingLength.current)
+        err.push(`Heading cannot be more than ${props.maxHeadingLength.current} characters`);
       if (err.length > 0) throw new Error(err.join("\n"));
       if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0)
         throw new Error("Please login as admin");
@@ -39,6 +42,7 @@ const UpdateBlog = (props: UpdateBlogProps) => {
         }
       );
     } catch (err: any) {
+      console.error("error updating blog, ", err);
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }
   };

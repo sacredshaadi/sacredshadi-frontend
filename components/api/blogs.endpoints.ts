@@ -23,8 +23,8 @@ export const removeBlog = (payload: { accessToken: string; data: any }) => {
   });
 };
 
-export const getBlogById = (props: { blogId: number }) => {
-  return apiClient(`${blogsEndpoints.getBlogById}/${props.blogId}`, {
+export const getBlogById = (props: { slug: string }) => {
+  return apiClient(`${blogsEndpoints.getBlogById}?slug=${props.slug}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   });

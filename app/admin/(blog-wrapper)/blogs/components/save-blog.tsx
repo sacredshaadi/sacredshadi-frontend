@@ -9,6 +9,7 @@ import React from "react";
 interface SaveBlogProps {
   heading: string;
   content: any;
+  maxHeadingLength: React.MutableRefObject<number>;
 }
 
 const SaveBlog = (props: SaveBlogProps) => {
@@ -21,6 +22,8 @@ const SaveBlog = (props: SaveBlogProps) => {
       const err = [];
       if (props.heading === "") err.push("Heading cannot be empty");
       if (!props.content) err.push("Content cannot be empty");
+      if (props.heading.length > props.maxHeadingLength.current)
+        err.push(`Heading cannot be more than ${props.maxHeadingLength.current} characters`);
       if (err.length > 0) throw new Error(err.join("\n"));
       if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0) {
         throw new Error("Please login as admin");
@@ -35,11 +38,13 @@ const SaveBlog = (props: SaveBlogProps) => {
             router.push(`/admin/blogs/${id}`);
           },
           onError: (err) => {
+            console.error("error recieved at listener --> ", err);
             throw err;
           }
         }
       );
     } catch (err: any) {
+      console.error("error saving blog, ", err);
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

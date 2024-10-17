@@ -6,15 +6,22 @@ import { useGetBlogByIdMutation } from "@/components/api";
 import { Blog } from "@/types";
 import { toast } from "@/components/ui/use-toast";
 import BlogWrapper from "./blog-wrapper";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
-export default function BlogViewer({ blogId, userFacing }: { blogId: number; userFacing?: boolean }) {
+export default function BlogViewer({ slug, userFacing }: { slug: string; userFacing?: boolean }) {
+  const router = useRouter();
   const [post, setPost] = useState<Blog | null>(null);
   const { mutate: getFn, isIdle, isPending, isError } = useGetBlogByIdMutation();
 
   useEffect(() => {
     try {
+      if (!slug) {
+        toast({ title: "Error", variant: "destructive", description: "No blog slug found" });
+        throw new Error("No blog slug found");
+        // router.back();
+      }
       getFn(
-        { blogId },
+        { slug },
         {
           onSuccess: async (data) => setPost(data.data),
           onError: (error) => {
@@ -24,10 +31,11 @@ export default function BlogViewer({ blogId, userFacing }: { blogId: number; use
       );
     } catch (err: any) {
       const msg = err.error || err.message || "An error occurred";
+      console.log("error message --> ", msg);
       toast({ title: "Error fetching blog", variant: "destructive", description: msg });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blogId]);
+  }, [slug]);
 
   if (isError) {
     return (
@@ -56,7 +64,7 @@ export default function BlogViewer({ blogId, userFacing }: { blogId: number; use
     );
   }
 
-  if (!post) return null;
+  if (!post) return <></>;
 
   return <BlogWrapper blog={post} userFacing={userFacing} />;
 }

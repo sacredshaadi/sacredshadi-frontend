@@ -72,7 +72,12 @@ export function BookModal(props: BookModalProps) {
               <Mail className="mr-2" /> {props.email || "No email found"}
             </section>
             <section className="flex items-center gap-2">
-              <Phone className="mr-2" /> {props.phoneNo || "No phone number found"}
+              <Phone className="mr-2" />{" "}
+              {props.phoneNo
+                ? user
+                  ? props.phoneNo
+                  : `${Array(8).map(() => "*")}${(props.phoneNo as string).substring(8, 10)}`
+                : "No phone number found"}
             </section>
           </DialogDescription>
         </DialogHeader>

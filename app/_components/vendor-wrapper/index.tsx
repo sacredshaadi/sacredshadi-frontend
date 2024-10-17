@@ -22,7 +22,7 @@ const VendorWrapper = ({ vendorTypes }: VendorWrapperProps) => {
           photos of their work and first hand reviews of all of the wedding service providers!
         </span>
       </header>
-      <section className="grid grid-cols-1 gap-6 overflow-hidden p-2 lg:grid-cols-2 3xl:grid-cols-3">
+      <section className="grid grid-cols-1 gap-6 overflow-hidden p-2 lg:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4">
         {(vendorTypes || []).map((vendorType) => (
           <VendorModal key={vendorType.id} description="" route="" vendorType={vendorType} />
         ))}

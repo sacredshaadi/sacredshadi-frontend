@@ -10,9 +10,11 @@ import { useRouter } from "next/navigation";
 import UplodedImages from "@/app/vendor/profile/album-wrapper/uploaded-images";
 import { FaHandPointRight } from "react-icons/fa6";
 import { CustomImage } from "@/app/utils/image";
+import { useUserStore } from "@/app/context/user-context";
 
 export default function PackageDetails(props: { params: { slug: string } }) {
   const router = useRouter();
+  const { user } = useUserStore();
   const { mutate: searchByIdFn, isPending } = useSearchByIdMutation();
   const [packageDetails, setPackageDetails] = useState<any>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -135,8 +137,14 @@ export default function PackageDetails(props: { params: { slug: string } }) {
               <Phone className="mr-2" />
               {isPending ? (
                 <Skeleton className="h-6 w-48 rounded-lg bg-gray-100" />
+              ) : packageDetails?.vendor?.user?.phone ? (
+                user ? (
+                  packageDetails?.vendor?.user?.phone
+                ) : (
+                  `${Array(8).map(() => "*")}${(packageDetails?.vendor?.user?.phone as string).substring(8, 10)}`
+                )
               ) : (
-                packageDetails?.vendor?.user?.phone || "No phone number found"
+                "No phone number found"
               )}
             </div>
             <div className="col-span-2 flex items-center">

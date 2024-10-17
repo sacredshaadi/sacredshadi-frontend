@@ -79,6 +79,7 @@ export enum DashboardLogisticType {
 
 export interface Blog {
   id: number;
+  slug: string;
   title: string;
   content: any[];
   createdAt: string;

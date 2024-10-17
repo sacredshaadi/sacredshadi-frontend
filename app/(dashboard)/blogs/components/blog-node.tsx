@@ -122,9 +122,12 @@ const BlogNode = ({ post, userSide, setReloadKey }: BlogNodeProps) => {
   return (
     <div className="relative">
       <Card className="overflow-hidden pb-0 pt-2 transition-shadow duration-300 hover:shadow-lg">
-        <Link href={`${!userSide ? "/admin" : ""}/blogs/${post.id}`}>
+        <Link href={`${!userSide ? "/admin" : ""}/blog/${post.slug}`}>
           <CardHeader>
-            <CardTitle className="leading-5">{post.title}</CardTitle>
+            <CardTitle className="leading-5">
+              {post.title.substring(0, Math.min(post.title.length, 35))}
+              {post.title.length > 35 ? "..." : ""}
+            </CardTitle>
           </CardHeader>
         </Link>
 
