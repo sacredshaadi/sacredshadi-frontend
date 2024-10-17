@@ -2,7 +2,7 @@
 
 import { useState, useRef, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { Camera, X } from "lucide-react";
+import { Camera, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uploadToCloudinaryUtil } from "./functions";
 import { toast } from "@/components/ui/use-toast";
@@ -62,11 +62,14 @@ export default function ImageUploader2(props: ImageUploaderProps) {
           <Button
             variant="destructive"
             size="icon"
-            className="absolute right-2 top-2 shadow-lg"
+            className={cn(
+              "absolute right-2 top-2 shadow-lg",
+              "flex h-fit w-fit items-center justify-center rounded-full bg-primary p-2 text-white shadow-xl"
+            )}
             onClick={handleRemoveImage}
             aria-label="Remove image"
           >
-            <X className="h-4 w-4" />
+            <XIcon className="h-4 w-4" />
           </Button>
         </div>
       ) : (

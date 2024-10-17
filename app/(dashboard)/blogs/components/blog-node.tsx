@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserStore } from "@/app/context/user-context";
+import { CustomImage } from "@/app/utils/image";
 import { useRemoveBlogMutation } from "@/components/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -129,6 +130,16 @@ const BlogNode = ({ post, userSide, setReloadKey }: BlogNodeProps) => {
               {post.title.length > 35 ? "..." : ""}
             </CardTitle>
           </CardHeader>
+          <CardTitle>
+            <CustomImage
+              width={400}
+              height={250}
+              alt="package_img"
+              src={post.thumbnail || ""}
+              className="h-[250px] w-full object-cover"
+              fallbackStyleObject={{ height: "250px", width: "400px" }}
+            />
+          </CardTitle>
         </Link>
 
         {!userSide && (
