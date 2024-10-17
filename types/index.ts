@@ -82,6 +82,8 @@ export interface Blog {
   slug: string;
   title: string;
   content: any[];
+  bgImage: string;
+  thumbnail: string;
   createdAt: string;
   updatedAt: string;
 }

@@ -10,6 +10,7 @@ import { Blog } from "@/types";
 import { FormImageUploader } from "@/components/ui/imageUploader";
 import { uploadToCloudinaryUtil } from "./functions";
 import ImageUploader2 from "./image-uploader-2";
+import { toast } from "@/components/ui/use-toast";
 
 interface BlogWrapperProps {
   blog?: Blog;
@@ -25,41 +26,35 @@ const headingClasses = cn(
 const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
   const [heading, setHeading] = React.useState(blog?.title || "");
   const [content, setContent] = React.useState<any>(blog?.content || []);
-  const [imgUploading, setImgUploading] = React.useState(false);
+  const [thumbnail, setThumbnail] = React.useState<string | null>(blog?.thumbnail || null);
+  const [bgImage, setBgImage] = React.useState<string | null>(blog?.bgImage || null);
+  const [assetUpload, setAssetUpload] = React.useState(false);
   const maxHeadingLength = useRef(35);
 
-  const uploadToCloudinary = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setImgUploading(true);
-      const remoteUrl = await uploadToCloudinaryUtil(file);
-      // form.setValue("coverImage", remoteUrl);
-    } catch (err: any) {
-      // console.log(err);
-    } finally {
-      setImgUploading(false);
-    }
-  };
-
   return (
-    <section
-      className={cn(
-        "grid h-full grid-cols-1 gap-1 lg:gap-8 2xl:gap-12  "
-
-        // "px-2 py-4 sm:px-4 lg:py-8 2xl:py-12"
-      )}
-    >
+    <section className={cn("grid h-full grid-cols-1 gap-1 lg:gap-8 2xl:gap-12")}>
       {!userFacing &&
         (blog ? (
-          <UpdateBlog content={content} id={blog.id} heading={heading} maxHeadingLength={maxHeadingLength} />
+          <UpdateBlog
+            maxHeadingLength={maxHeadingLength}
+            data={{ title: heading, content, id: blog.id, thumbnail, bgImage }}
+            disabled={assetUpload}
+          />
         ) : (
-          <SaveBlog heading={heading} content={content} maxHeadingLength={maxHeadingLength} />
+          <SaveBlog
+            maxHeadingLength={maxHeadingLength}
+            data={{ title: heading, content, thumbnail, bgImage }}
+            disabled={assetUpload}
+          />
         ))}
       <section className="space-y-2">
         <section className="lg:h-30 h-20 sm:h-24 xl:h-40 2xl:h-48">
-          <ImageUploader2 />
+          <ImageUploader2
+            classes={["lg:h-30 h-20 sm:h-24 xl:h-40 2xl:h-48 w-full"]}
+            onImageUpload={(url) => setBgImage(url)}
+            updateParentState={(val) => setAssetUpload(val)}
+            defaultValue={bgImage || ""}
+          />
         </section>
 
         {userFacing ? (
@@ -68,7 +63,12 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
           // <section clssName="grid grid-cols-1 items-start gap-1">
           <section className="flex items-center gap-2">
             <section className="h-36 w-48">
-              <ImageUploader2 />
+              <ImageUploader2
+                classes={["h-36 w-48"]}
+                onImageUpload={(url) => setThumbnail(url)}
+                updateParentState={(val) => setAssetUpload(val)}
+                defaultValue={thumbnail || ""}
+              />
             </section>
 
             <section className="flex-1">

@@ -1,29 +1,49 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { uploadToCloudinaryUtil } from "./functions";
+import { toast } from "@/components/ui/use-toast";
 
-export default function ImageUploader2() {
+interface ImageUploaderProps {
+  classes?: string[];
+  onImageUpload?: (url: string) => void;
+  updateParentState?: (val: boolean) => void;
+  defaultValue?: string;
+}
+
+export default function ImageUploader2(props: ImageUploaderProps) {
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  const uploadToCloudinary = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      props.updateParentState?.(true);
+      const remoteUrl = await uploadToCloudinaryUtil(file);
+      setImage(() => remoteUrl);
+      props.onImageUpload?.(remoteUrl);
+    } catch (err: any) {
+      console.error("Error uploading image", err);
+      toast({
+        title: "Error",
+        description: err.error || err.message || "Error uploading image",
+        variant: "destructive"
+      });
+    } finally {
+      props.updateParentState?.(false);
     }
   };
 
   const handleRemoveImage = () => {
     setImage(null);
-    if (fileInputRef.current) {
+    if (fileInputRef?.current) {
       fileInputRef.current.value = "";
     }
+    props.onImageUpload?.("");
   };
 
   const handleAreaClick = () => {
@@ -32,13 +52,17 @@ export default function ImageUploader2() {
 
   return (
     <div className="mx-auto h-full w-full">
-      {image ? (
-        <div className="relative h-full ">
-          <img src={image} alt="Uploaded image" className="rounded-lg object-cover shadow-md" />
+      {(image || "").length > 0 || (props.defaultValue || "").length > 0 ? (
+        <div className={cn("relative h-full")}>
+          <img
+            src={image || props.defaultValue}
+            alt="Uploaded image"
+            className={cn("rounded-lg object-cover shadow-md", props.classes)}
+          />
           <Button
             variant="destructive"
             size="icon"
-            className="absolute right-2 top-2"
+            className="absolute right-2 top-2 shadow-lg"
             onClick={handleRemoveImage}
             aria-label="Remove image"
           >
@@ -54,7 +78,7 @@ export default function ImageUploader2() {
           <input
             type="file"
             accept="image/*"
-            onChange={handleImageUpload}
+            onChange={uploadToCloudinary}
             className="hidden"
             ref={fileInputRef}
             aria-label="Upload image"

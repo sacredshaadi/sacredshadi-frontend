@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 interface SaveBlogProps {
-  heading: string;
-  content: any;
+  data: any;
   maxHeadingLength: React.MutableRefObject<number>;
+  disabled?: boolean;
 }
 
 const SaveBlog = (props: SaveBlogProps) => {
@@ -20,9 +20,9 @@ const SaveBlog = (props: SaveBlogProps) => {
   const saveBlog = () => {
     try {
       const err = [];
-      if (props.heading === "") err.push("Heading cannot be empty");
-      if (!props.content) err.push("Content cannot be empty");
-      if (props.heading.length > props.maxHeadingLength.current)
+      if (props.data.title === "") err.push("Heading cannot be empty");
+      if (!props.data.content) err.push("Content cannot be empty");
+      if (props.data.title.length > props.maxHeadingLength.current)
         err.push(`Heading cannot be more than ${props.maxHeadingLength.current} characters`);
       if (err.length > 0) throw new Error(err.join("\n"));
       if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0) {
@@ -30,7 +30,7 @@ const SaveBlog = (props: SaveBlogProps) => {
       }
 
       saveFn(
-        { accessToken: super_admin.tokens.accessToken, data: { title: props.heading, content: props.content } },
+        { accessToken: super_admin.tokens.accessToken, data: props.data },
         {
           onSuccess: (data) => {
             const id = data.data.blogId;
@@ -44,8 +44,11 @@ const SaveBlog = (props: SaveBlogProps) => {
         }
       );
     } catch (err: any) {
-      console.error("error saving blog, ", err);
+      const msg: string = err.error || err.message || "An error occurred";
       toast({ title: "Error", description: err.message, variant: "destructive" });
+      if (msg.includes("No access token found") || msg.includes("token expired")) {
+        router.push("/admin/login");
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   };
@@ -54,7 +57,7 @@ const SaveBlog = (props: SaveBlogProps) => {
     <Button
       className="absolute bottom-2 right-2 z-50 flex h-fit w-fit items-center justify-center gap-2 px-4 py-3 text-lg font-semibold text-white shadow-lg sm:bottom-4 sm:right-4 sm:text-xl xl:bottom-8 xl:right-8"
       onClick={saveBlog}
-      disabled={isPending}
+      disabled={isPending || props.disabled}
     >
       {isPending && !isError ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save size={24} />}
       <span>{isPending ? "Saving" : "Save"}</span>
