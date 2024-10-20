@@ -52,8 +52,13 @@ const PackageModal = (props: PackageModalProps) => {
         />
       </CardTitle>
 
-      <CardHeader className="text-xl font-semibold">{props.packageName}</CardHeader>
-      <CardDescription className="mb-4 p-2 sm:p-3">{props.description}</CardDescription>
+      <CardHeader className="flex flex-col items-center text-center font-semibold">
+        <span className="text-xl">{props.packageName}</span>
+        <section className="text-muted-foreground">{props.description}</section>
+      </CardHeader>
+      <CardDescription className="mb-4 p-2 sm:p-3">
+        {props.userFacing && <section className="text-xl font-semibold drop-shadow-md">{props.vendorName}</section>}
+      </CardDescription>
       {props.userFacing && (
         <CardFooter>
           <Button className="font-semibold shadow-lg" asChild>
