@@ -26,36 +26,23 @@ interface ServiceTypeRemoveModalProps {
 }
 
 const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
-  const { mutate: removeFn, isPending, isError } = useRemoveOfferMutation();
+  const { mutateAsync: removeAsync, isPending, isError } = useRemoveOfferMutation();
   const { data: searchData, setData } = useVendorSearchStore();
   const { vendor, setVendor } = useUserStore();
   const router = useRouter();
 
-  const submit = useCallback(() => {
+  const submit = useCallback(async () => {
     if (!vendor?.tokens.accessToken) {
       throw new Error("No access token found");
     }
     const dataLength = searchData.length - 1;
     try {
-      removeFn(
-        { accessToken: vendor.tokens.accessToken, data: { id: props.id } },
-        {
-          onSuccess(data) {
-            setData(
-              searchData.filter((item: any) => item.id !== props.id),
-              dataLength - 1
-            );
-            toast({ variant: "default", description: "Service package removed successfully" });
-          },
-          onError(error: any) {
-            toast({
-              variant: "destructive",
-              description: error.message || error.error || "Error removing service package"
-            });
-            throw error;
-          }
-        }
+      await removeAsync({ accessToken: vendor.tokens.accessToken, data: { id: props.id } });
+      setData(
+        searchData.filter((item: any) => item.id !== props.id),
+        dataLength - 1
       );
+      toast({ variant: "default", description: "Service package removed successfully" });
       props.setOpen(false);
     } catch (err: any) {
       const desc: string = err.message || err.error || "Error removing service package";

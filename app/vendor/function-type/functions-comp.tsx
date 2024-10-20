@@ -8,18 +8,14 @@ import SubServiceCard from "../service-type/sub-service-card";
 import { useRouter } from "next/navigation";
 
 const FunctionsComp = () => {
-  const { mutate } = useGetAllVendorFunctionsMutation();
+  const { mutateAsync: getAsync } = useGetAllVendorFunctionsMutation();
   const { vendor, setVendor } = useUserStore();
   const router = useRouter();
 
-  useEffect(() => {
+  const getAllVendorFunctionsFn = async () => {
     if (!vendor?.tokens.accessToken) return;
     try {
-      mutate(vendor.tokens.accessToken, {
-        onError: (error) => {
-          throw error;
-        }
-      });
+      await getAsync(vendor.tokens.accessToken);
     } catch (err: any) {
       const desc: string = err.message || err.error;
       if (!desc) return;
@@ -30,6 +26,10 @@ const FunctionsComp = () => {
       }
       throw err;
     }
+  };
+
+  useEffect(() => {
+    getAllVendorFunctionsFn();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor?.tokens.accessToken]);
 

@@ -53,6 +53,8 @@ export default function Profile(props: { type: UserAuthType }) {
         const desc = (error as any).error || error.message;
         if (!desc) return;
         toast({ variant: "destructive", description: (error as any).error || error.message });
+        setVendor(null);
+        router.replace("/login");
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

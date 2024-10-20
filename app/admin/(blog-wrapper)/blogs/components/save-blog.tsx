@@ -15,9 +15,9 @@ interface SaveBlogProps {
 const SaveBlog = (props: SaveBlogProps) => {
   const router = useRouter();
   const { super_admin } = useUserStore();
-  const { mutate: saveFn, isPending, isError } = useCreateBlogMutation();
+  const { mutateAsync: saveBlogAsync, isPending, isError } = useCreateBlogMutation();
 
-  const saveBlog = () => {
+  const saveBlog = async () => {
     try {
       const err = [];
       if (props.data.title === "") err.push("Heading cannot be empty");
@@ -28,21 +28,10 @@ const SaveBlog = (props: SaveBlogProps) => {
       if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0) {
         throw new Error("Please login as admin");
       }
-
-      saveFn(
-        { accessToken: super_admin.tokens.accessToken, data: props.data },
-        {
-          onSuccess: (data) => {
-            const slug = data.data.slug;
-            toast({ title: "Success", description: "Blog saved successfully" });
-            router.push(`/admin/blog/${slug}`);
-          },
-          onError: (err) => {
-            console.error("error recieved at listener --> ", err);
-            throw err;
-          }
-        }
-      );
+      const data = await saveBlogAsync({ accessToken: super_admin.tokens.accessToken, data: props.data });
+      const slug = data.data.slug;
+      toast({ title: "Success", description: "Blog saved successfully" });
+      router.push(`/admin/blog/${slug}`);
     } catch (err: any) {
       const msg: string = err.error || err.message || "An error occurred";
       toast({ title: "Error", description: err.message, variant: "destructive" });

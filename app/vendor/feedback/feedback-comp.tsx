@@ -16,30 +16,21 @@ const pageSize = 12;
 const FeedbackComp = () => {
   const { vendor, setVendor } = useUserStore();
   const { setFeedbacks, feedbacks } = useVendorContext();
-  const { mutate: getFn, isPending, isError, isIdle } = useGetAllVendorFeedbacksMutation();
+  const { mutateAsync: getAsync, isPending, isError, isIdle } = useGetAllVendorFeedbacksMutation();
   const [totalRows, setTotalRows] = useState(0);
   const [page, setPage] = useState(1);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!vendor?.vendorId) {
-      setVendor(null);
-      router.push("/login");
-      return;
-    }
+  const getAllVendorFeedbackFn = async () => {
     try {
-      getFn(
-        { vendorId: vendor.vendorId, page, pageSize },
-        {
-          onSuccess(data) {
-            setTotalRows(data.data.count);
-            setFeedbacks(data.data.rows as Feedback[]);
-          },
-          onError(error) {
-            throw error;
-          }
-        }
-      );
+      if (!vendor?.vendorId) {
+        setVendor(null);
+        router.push("/login");
+        return;
+      }
+      const data = await getAsync({ vendorId: vendor.vendorId, page, pageSize });
+      setTotalRows(data.data.count);
+      setFeedbacks(data.data.rows as Feedback[]);
     } catch (err: any) {
       const desc: string = err.message || err.error;
       if (!desc) return;
@@ -50,6 +41,11 @@ const FeedbackComp = () => {
       }
       throw err;
     }
+  };
+
+  useEffect(() => {
+    getAllVendorFeedbackFn();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendor?.vendorId, page]);
 

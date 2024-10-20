@@ -47,35 +47,24 @@ const ServiceTypeUpdateModal = (props: ServiceTypeUpdateModalProps) => {
     }
   });
 
-  const { mutate: updateFn, isPending, isError } = useUpdateOfferMutation();
+  const { mutateAsync: updateAsync, isPending, isError } = useUpdateOfferMutation();
 
   const onSubmit = useCallback(
-    (formData: z.infer<typeof formSchema>) => {
+    async (formData: z.infer<typeof formSchema>) => {
       if (!vendor?.tokens.accessToken) {
         throw new Error("No access token found");
       }
       try {
-        updateFn(
-          {
-            accessToken: vendor.tokens.accessToken,
-            data: { id: props.id, ...formData }
-          },
-          {
-            onSuccess(data) {
-              setData(
-                searchData.map((item) => (item.id === props.id ? data.data[1][0] : item)),
-                count
-              );
-            },
-            onError(error: any) {
-              toast({
-                variant: "destructive",
-                description: error.message || error.error || "Error updating service package"
-              });
-              throw error;
-            }
-          }
+        const data = await updateAsync({
+          accessToken: vendor.tokens.accessToken,
+          data: { id: props.id, ...formData }
+        });
+
+        setData(
+          searchData.map((item) => (item.id === props.id ? data.data[1][0] : item)),
+          count
         );
+
         props.setOpen(false);
       } catch (err: any) {
         const desc: string = err.message || err.error || "Error updating service package";

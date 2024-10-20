@@ -14,10 +14,10 @@ interface UpdateBlogProps {
 
 const UpdateBlog = (props: UpdateBlogProps) => {
   const { super_admin } = useUserStore();
-  const { mutate: updateFn, isPending, isError } = useUpdateBlogsMutation();
+  const { mutateAsync: updateBlogAsync, isPending, isError } = useUpdateBlogsMutation();
   const router = useRouter();
 
-  const updateBlog = () => {
+  const updateBlog = async () => {
     try {
       const err = [];
       if (props.data.title === "") err.push("Heading cannot be empty");
@@ -27,21 +27,12 @@ const UpdateBlog = (props: UpdateBlogProps) => {
       if (err.length > 0) throw new Error(err.join("\n"));
       if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0)
         throw new Error("Please login as admin");
-      updateFn(
-        {
-          accessToken: super_admin.tokens.accessToken,
-          data: props.data
-        },
-        {
-          onSuccess: (data) => {
-            // const id = data.data.id || -1;
-            toast({ title: "Success", description: "Blog saved successfully" });
-          },
-          onError: (err) => {
-            throw err;
-          }
-        }
-      );
+
+      await updateBlogAsync({
+        accessToken: super_admin.tokens.accessToken,
+        data: props.data
+      });
+      toast({ title: "Success", description: "Blog saved successfully" });
     } catch (err: any) {
       const msg: string = err.error || err.message || "An error occurred";
       toast({ title: "Error", description: err.message, variant: "destructive" });
