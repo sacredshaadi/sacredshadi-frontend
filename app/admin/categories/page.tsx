@@ -15,7 +15,7 @@ function Categories() {
           addable
           editable
           deleteable
-          usePagination
+          // usePagination
           columns={[
             { accessorKey: "name", header: "Name" },
             {

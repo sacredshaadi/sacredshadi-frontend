@@ -1,4 +1,4 @@
-import BlogViewer from "@/app/_components/blog-viewer";
+import BlogViewer from "@/app/_components/blog-components/blog-viewer";
 import { ErrorBoundary } from "@/components/errorBoundary";
 import { AdminErrorPage } from "@/app/admin/_components/adminArrorPage";
 import { SuperAdminLayout } from "@/app/admin/_components/adminLayout";

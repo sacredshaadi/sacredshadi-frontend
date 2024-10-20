@@ -37,12 +37,12 @@ export interface VendorSubType {
 export interface VendorType {
   id: number;
   type: string;
-  slug: string;
   createdAt: string;
   updatedAt: string;
   image: string;
   shortDescription: string;
   vendorSubTypes: VendorSubType[];
+  slug: string;
 }
 
 export interface ServiceOffered {

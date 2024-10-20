@@ -1,4 +1,4 @@
-import BlogGrid from "@/app/(dashboard)/blogs/components/blog-grid";
+import BlogGrid from "@/app/(dashboard)/(blog-wrapper)/blogs/components/blog-grid";
 import React from "react";
 import { AdminErrorPage } from "../../_components/adminArrorPage";
 import { ErrorBoundary } from "@/components/errorBoundary";
@@ -16,7 +16,6 @@ const page = () => {
               <Link href="/admin/blogs/create">Write a new blog</Link>
             </Button>
           </nav>
-
           <BlogGrid userSide={false} />
         </section>
       </SuperAdminLayout>

@@ -8,7 +8,10 @@ import { motion } from "framer-motion";
 import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import BlogNode from "../(dashboard)/blogs/components/blog-node";
+import BlogNode from "../(dashboard)/(blog-wrapper)/blogs/components/blog-node";
+import { useGetAllCategoriesMutation } from "@/components/api";
+import { useUserStore } from "../context/user-context";
+import { toast } from "@/components/ui/use-toast";
 
 interface Props {
   mutation: () => UseMutationResult<any, Error, any, unknown>;
