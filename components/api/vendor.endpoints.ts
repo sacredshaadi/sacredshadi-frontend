@@ -59,8 +59,8 @@ export const vendorProfile = (accessToken: string) => {
   });
 };
 
-export const getAllVendorSubTypes = (vendorTypeId: number) => {
-  return apiClient(vendorSubTypeEndpoints.getAllVendorSubTypes(vendorTypeId), {
+export const getAllVendorSubTypes = (vendorTypeSlug: string) => {
+  return apiClient(vendorSubTypeEndpoints.getAllVendorSubTypes(vendorTypeSlug), {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   });

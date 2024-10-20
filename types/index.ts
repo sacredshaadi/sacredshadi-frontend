@@ -68,6 +68,7 @@ export interface ISlider {
 export interface ICity {
   id: number;
   name: string;
+  slug: string;
 }
 
 export enum DashboardLogisticType {

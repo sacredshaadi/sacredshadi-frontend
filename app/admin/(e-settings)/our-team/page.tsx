@@ -27,10 +27,11 @@ function OurTeamSettings() {
                 <CustomImage
                   height={80}
                   width={100}
+                  enlargeImage
                   alt="slider"
                   src={data.getValue() as string}
                   fallbackStyle="height:20px; width:20px;"
-                  fallbackStyleObject={{ height: 80, opacity: 0.5 }}
+                  fallbackClassName="h-[80px] opacity-50"
                 />
               )
             },

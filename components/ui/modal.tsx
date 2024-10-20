@@ -2,7 +2,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface ModalProps {
-  title: string;
+  title?: string;
   description?: string;
   isOpen: boolean;
   onClose: () => void;
@@ -20,10 +20,12 @@ export const Modal: React.FC<ModalProps> = ({ title, description, isOpen, onClos
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent className={className}>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          {description ? <DialogDescription>{description}</DialogDescription> : null}
-        </DialogHeader>
+        {title ? (
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            {description ? <DialogDescription>{description}</DialogDescription> : null}
+          </DialogHeader>
+        ) : null}
         <div>{children}</div>
       </DialogContent>
     </Dialog>

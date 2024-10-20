@@ -122,24 +122,22 @@ const BlogNode = ({ post, userSide, setReloadKey }: BlogNodeProps) => {
 
   return (
     <div className="relative">
-      <Card className="overflow-hidden pb-0 pt-2 transition-shadow duration-300 hover:shadow-lg">
+      <Card className="cursor-default overflow-hidden pb-0 pt-2 transition-shadow duration-300">
         <Link href={`${!userSide ? "/admin" : ""}/blog/${post.slug}`}>
           <CardHeader>
             <CardTitle className="leading-5">
-              {post.title.substring(0, Math.min(post.title.length, 35))}
-              {post.title.length > 35 ? "..." : ""}
+              {`${post.title.substring(0, Math.min(post.title.length, 35))} ${post.title.length > 35 ? "..." : ""}`}
             </CardTitle>
           </CardHeader>
-          <CardTitle>
-            <CustomImage
-              width={400}
-              height={250}
-              alt="package_img"
-              src={post.thumbnail || ""}
-              className="h-[250px] w-full object-cover"
-              fallbackStyleObject={{ height: "250px", width: "400px" }}
-            />
-          </CardTitle>
+
+          <CustomImage
+            width={400}
+            height={250}
+            alt="package_img"
+            src={post.thumbnail || ""}
+            fallbackClassName="h-[250px] w-[400px]"
+            className="h-[250px] w-full object-cover"
+          />
         </Link>
 
         {!userSide && (
