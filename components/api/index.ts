@@ -9,6 +9,7 @@ import * as OFFER_ENDPOINTS from "./services-offered.endpoints";
 import * as BOOKING_ENDPOINTS from "./booking.endpoints";
 import * as ALBUM_ENDPOINTS from "./album.endpoints";
 import * as BLOG_ENDPOINTS from "./blogs.endpoints";
+import * as CATEGORY_ENDPOINTS from "./category.endpoints";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { ICity } from "@/types";
 
@@ -339,3 +340,31 @@ export const useGetBlogByIdMutation = () =>
     mutationFn: BLOG_ENDPOINTS.getBlogById,
     mutationKey: [QUERY_KEYS.blogs]
   });
+
+export const useCreateCategoryMutation = () => {
+  return useMutation({
+    mutationFn: CATEGORY_ENDPOINTS.createCategory,
+    mutationKey: [QUERY_KEYS.offer]
+  });
+};
+
+export const useUpdateCategoryMutation = () => {
+  return useMutation({
+    mutationFn: CATEGORY_ENDPOINTS.updateCategory,
+    mutationKey: [QUERY_KEYS.offer]
+  });
+};
+
+export const useRemoveCategoryMutation = () => {
+  return useMutation({
+    mutationFn: CATEGORY_ENDPOINTS.removeCategory,
+    mutationKey: [QUERY_KEYS.offer]
+  });
+};
+
+export const useGetAllCategoriesMutation = () => {
+  return useMutation({
+    mutationFn: CATEGORY_ENDPOINTS.getAllCategories,
+    mutationKey: [QUERY_KEYS.offer]
+  });
+};

@@ -33,9 +33,9 @@ const SaveBlog = (props: SaveBlogProps) => {
         { accessToken: super_admin.tokens.accessToken, data: props.data },
         {
           onSuccess: (data) => {
-            const id = data.data.blogId;
+            const slug = data.data.slug;
             toast({ title: "Success", description: "Blog saved successfully" });
-            router.push(`/admin/blogs/${id}`);
+            router.push(`/admin/blog/${slug}`);
           },
           onError: (err) => {
             console.error("error recieved at listener --> ", err);

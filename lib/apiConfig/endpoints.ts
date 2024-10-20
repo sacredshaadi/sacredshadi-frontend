@@ -106,4 +106,11 @@ export const blogsEndpoints = {
   getBlogById: "/api/v1/blog"
 };
 
+export const categoryEndpoints = {
+  createCategory: "/api/v1/category/create",
+  updateCategory: "/api/v1/category/update",
+  removeCategory: "/api/v1/category/remove",
+  getAllCategories: "/api/v1/category/all"
+} as const;
+
 export const cloudinaryUrl = `cloudinary://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`;

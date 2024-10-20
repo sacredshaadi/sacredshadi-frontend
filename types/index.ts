@@ -78,12 +78,20 @@ export enum DashboardLogisticType {
   quotation = "Quotation"
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Blog {
   id: number;
   slug: string;
   title: string;
   content: any[];
   bgImage: string;
+  categories: Category[];
   thumbnail: string;
   createdAt: string;
   updatedAt: string;

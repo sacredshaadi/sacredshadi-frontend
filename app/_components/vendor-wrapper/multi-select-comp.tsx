@@ -7,9 +7,10 @@ interface MultipleSelectorCompProps {
   arr: Option[];
   setArr: Dispatch<SetStateAction<Option[]>>;
   defaultOptions: Option[];
+  userFacing?: boolean;
 }
 
-const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorCompProps) => {
+const MultipleSelectorComp = ({ arr, setArr, defaultOptions, ...props }: MultipleSelectorCompProps) => {
   return (
     <div className="flex w-full flex-col gap-5">
       <MultipleSelector
@@ -19,6 +20,7 @@ const MultipleSelectorComp = ({ arr, setArr, defaultOptions }: MultipleSelectorC
         hidePlaceholderWhenSelected
         defaultOptions={defaultOptions}
         emptyIndicator={<p className="text-center text-lg leading-10 text-gray-600">No results found.</p>}
+        hideClearAllButton={props.userFacing}
       />
     </div>
   );

@@ -12,6 +12,7 @@ interface ImageUploaderProps {
   onImageUpload?: (url: string) => void;
   updateParentState?: (val: boolean) => void;
   defaultValue?: string;
+  readonly?: boolean;
 }
 
 export default function ImageUploader2(props: ImageUploaderProps) {
@@ -47,6 +48,7 @@ export default function ImageUploader2(props: ImageUploaderProps) {
   };
 
   const handleAreaClick = () => {
+    if (props.readonly) return;
     fileInputRef.current?.click();
   };
 
@@ -59,18 +61,20 @@ export default function ImageUploader2(props: ImageUploaderProps) {
             alt="Uploaded image"
             className={cn("rounded-lg object-cover shadow-md", props.classes)}
           />
-          <Button
-            variant="destructive"
-            size="icon"
-            className={cn(
-              "absolute right-2 top-2 shadow-lg",
-              "flex h-fit w-fit items-center justify-center rounded-full bg-primary p-2 text-white shadow-xl"
-            )}
-            onClick={handleRemoveImage}
-            aria-label="Remove image"
-          >
-            <XIcon className="h-4 w-4" />
-          </Button>
+          {!props.readonly && (
+            <Button
+              variant="destructive"
+              size="icon"
+              className={cn(
+                "absolute right-2 top-2 shadow-lg",
+                "flex h-fit w-fit items-center justify-center rounded-full bg-primary p-2 text-white shadow-xl"
+              )}
+              onClick={handleRemoveImage}
+              aria-label="Remove image"
+            >
+              <XIcon className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       ) : (
         <div
