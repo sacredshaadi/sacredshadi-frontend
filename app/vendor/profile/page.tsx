@@ -72,7 +72,7 @@ const Page = () => {
   const { vendor, setVendor } = useUserStore();
   const loadingRef = useRef<boolean>(false);
   const [imgUploading, setImgUploading] = useState(false);
-  const { mutate: updateFn, isPending } = useUpdateVendorMutation();
+  const { mutateAsync: updateAsync, isPending } = useUpdateVendorMutation();
   const router = useRouter();
 
   const defaultValues: ProfileFormValues = {
@@ -124,33 +124,26 @@ const Page = () => {
     }
   };
 
-  const onSubmit = (data: ProfileFormValues) => {
+  const onSubmit = async (data: ProfileFormValues) => {
     try {
       if (!vendor?.tokens.accessToken) throw new Error("No access token found");
-      updateFn(
-        { data, accessToken: vendor.tokens.accessToken },
-        {
-          onSuccess: (data: { data: Vendor; message: String }) => {
-            toast({ title: "Success", description: data.message, variant: "default" });
 
-            setVendor({
-              ...vendor,
-              details: data.data.details || "",
-              socialMedia: data.data.socialMedia || {},
-              description: data.data.description || "",
-              media: [{ ...vendor.media[0], url: form.getValues().coverImage || "" }, ...vendor.media.slice(1)]
-            });
-            // setVendor((prev) => ({ ...prev, ...data.data }));
-          },
-          onError: (error) => {
-            throw error;
-          }
-        }
-      );
+      const resData = await updateAsync({ data, accessToken: vendor.tokens.accessToken });
+      toast({ title: "Success", description: resData.message, variant: "default" });
+      const mediaSlot = (vendor.media || []).find((m) => m.type === "cover_image");
+      if (!mediaSlot) throw new Error("No cover image found field");
+      mediaSlot.url = form.getValues().coverImage || "";
+      setVendor({
+        ...vendor,
+        details: resData.data.details || "",
+        socialMedia: resData.data.socialMedia || {},
+        description: resData.data.description || "",
+        media: [mediaSlot, ...vendor.media.filter((m) => m.type !== "cover_image")]
+      });
     } catch (err: any) {
       const msg: string = err.message || err.error || "An error occurred";
       toast({ title: "Error", description: msg, variant: "destructive" });
-      if (msg.includes("No access token found") || msg.includes("access token expired")) {
+      if (msg.includes("No access token found") || msg.includes("token expired")) {
         setVendor(null);
         router.push("/login");
       }

@@ -22,9 +22,7 @@ export default function DndUploader() {
   const router = useRouter();
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [uploading, setUploading] = useState(false);
-  // const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
-  // const [uploadStatus, setUploadStatus] = useState<{ [key: string]: "success" | "error" | null }>({});
-  const { mutate: createFn } = useCreateAlbumInBulkMutation();
+  const { mutateAsync: createAlbumAsync } = useCreateAlbumInBulkMutation();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) })));
@@ -68,22 +66,14 @@ export default function DndUploader() {
       if (!vendor?.tokens.accessToken) throw new Error("No access token found");
       setUploading(true);
       const urls = await uploadToCloudinary();
-      createFn(
-        {
-          accessToken: vendor.tokens.accessToken,
-          data: { urls }
-        },
-        {
-          onSuccess: (data) => {
-            toast({ title: "Success", description: data.message, variant: "default" });
-            setFiles([]);
-            setAlbum([...album, ...data.data]);
-          },
-          onError: (error) => {
-            throw error;
-          }
-        }
-      );
+      const data = await createAlbumAsync({
+        accessToken: vendor.tokens.accessToken,
+        data: { urls }
+      });
+
+      toast({ title: "Success", description: data.message, variant: "default" });
+      setFiles([]);
+      setAlbum([...album, ...data.data]);
     } catch (err: any) {
       const msg = err.error || err.message || "Failed to upload files";
       toast({

@@ -42,27 +42,17 @@ const RemoveModal = ({
 }) => {
   const router = useRouter();
   const { super_admin } = useUserStore();
-  const { mutate: removeFn, isPending, isError } = useRemoveBlogMutation();
+  const { mutateAsync: removeAsync, isPending, isError } = useRemoveBlogMutation();
 
-  const submit = useCallback(() => {
+  const submit = useCallback(async () => {
     try {
       if (!super_admin || (super_admin?.tokens?.accessToken || "").length === 0) {
         throw new Error("No access token found");
       }
-
-      removeFn(
-        { accessToken: super_admin.tokens.accessToken, data: { id } },
-        {
-          onSuccess: () => {
-            setOpen(false);
-            toast({ title: "Success", description: "Blog removed successfully" });
-            setReloadKey((prev) => -prev);
-          },
-          onError: (err) => {
-            throw err;
-          }
-        }
-      );
+      await removeAsync({ accessToken: super_admin.tokens.accessToken, data: { id } });
+      setOpen(false);
+      toast({ title: "Success", description: "Blog removed successfully" });
+      setReloadKey((prev) => -prev);
     } catch (err: any) {
       const msg: string = err.error || err.message || "An error occurred";
       toast({ title: "Error", description: err.message, variant: "destructive" });
