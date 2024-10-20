@@ -6,7 +6,7 @@ import { VendorSearchGrid } from "./vendor-search-grid";
 export default function Page(props: { params: { slug: string }; searchParams: { city?: string } }) {
   return (
     <section className="flex flex-col items-start justify-center gap-4">
-      <div className="container space-y-10 p-4 md:p-6 xl:space-y-20">
+      <div className="ml-2 space-y-10 p-4 md:p-6 xl:space-y-20 ">
         <Title vendorSlug={props.params.slug} />
       </div>
 
