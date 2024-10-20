@@ -41,6 +41,7 @@ export function getAdminSidebarRoutes(isLoading: boolean, data?: Array<VendorTyp
     { icon: Building, label: "City", route: "/admin/cities" },
     { icon: ImagePlus, label: "Slider", route: "/admin/slider" },
     { icon: HelpingHand, label: "Blogs", route: "/admin/blogs" },
+    { icon: HelpingHand, label: "Categories", route: "/admin/categories" },
     {
       icon: DatabaseZap,
       label: "Services",

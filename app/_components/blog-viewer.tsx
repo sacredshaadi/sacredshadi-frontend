@@ -31,7 +31,7 @@ export default function BlogViewer({ slug, userFacing }: { slug: string; userFac
       );
     } catch (err: any) {
       const msg = err.error || err.message || "An error occurred";
-      console.log("error message --> ", msg);
+      // console.log("error message --> ", msg);
       toast({ title: "Error fetching blog", variant: "destructive", description: msg });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

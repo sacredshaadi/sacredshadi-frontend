@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useStateRef from "react-usestateref";
 
 interface TitleProps {
-  id: number;
+  vendorSlug: string;
 }
 
 const Title = (props: TitleProps) => {
@@ -15,7 +15,7 @@ const Title = (props: TitleProps) => {
   const [_, setVendorName, vendorNameRef] = useStateRef<string | null>(null);
 
   useEffect(() => {
-    setVendorName(() => vendorTypes.filter((vendor) => vendor.id === props.id)[0]?.type ?? null);
+    setVendorName(() => vendorTypes.filter((vendor) => vendor.slug === props.vendorSlug)[0]?.type ?? null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendorTypes]);
 

@@ -52,13 +52,13 @@ export const VendorSelectWrapper = (props: { vendors: VendorType[]; cities: ICit
       <DropDownInput
         setState={setVendor}
         placeholder="Select Vendor Types"
-        list={(props.vendors || []).map((vendor) => ({ value: vendor.id as any, label: vendor.type }))}
+        list={(props.vendors || []).map((vendor) => ({ value: vendor.slug, label: vendor.type }))}
       />
 
       <DropDownInput
         setState={setCity}
         placeholder="Select Cities"
-        list={(props.cities || []).map((city) => ({ value: city.id as any, label: city.name }))}
+        list={(props.cities || []).map((city) => ({ value: city.slug, label: city.name }))}
       />
 
       <Button

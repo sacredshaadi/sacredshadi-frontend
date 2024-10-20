@@ -7,7 +7,7 @@ import { useUserStore } from "@/app/context/user-context";
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import { Loading } from "@/app/_components/loading";
 
-export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extras?: ReactNode }>) {
+export function SuperAdminLayout(props: PropsWithChildren<{ title: string; className?: string; extras?: ReactNode }>) {
   const router = useRouter();
   const { super_admin } = useUserStore();
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ export function SuperAdminLayout(props: PropsWithChildren<{ title: string; extra
           <SuperAdminSidebar {...{ collapsed }} />
         </section>
 
-        <div className="m-2 mb-0 flex-grow overflow-y-auto rounded-sm sm:m-4 sm:mb-0">
+        <div className="flex-grow overflow-y-auto p-2 sm:p-4 sm:pb-0 ">
           <section className="w-full">{props.children}</section>
         </div>
       </div>
