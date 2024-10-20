@@ -8,9 +8,12 @@ import { BookModal } from "./book-modal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import UplodedImages from "@/app/vendor/profile/album-wrapper/uploaded-images";
-import { FaHandPointRight } from "react-icons/fa6";
 import { CustomImage } from "@/app/utils/image";
 import { useUserStore } from "@/app/context/user-context";
+
+const idFromSlug = (slug: string) => {
+  return slug.split("-").pop();
+};
 
 export default function PackageDetails(props: { params: { slug: string } }) {
   const router = useRouter();
@@ -21,12 +24,13 @@ export default function PackageDetails(props: { params: { slug: string } }) {
 
   useEffect(() => {
     try {
-      searchByIdFn(props.params.slug || "", {
-        onSuccess: (data) => setPackageDetails(data.data),
-        onError: (error) => {
-          throw error;
+      searchByIdFn(
+        { slug: idFromSlug(props.params.slug) || "", token: user?.tokens.accessToken || "" },
+        {
+          onSuccess: (data) => setPackageDetails(data.data),
+          onError: () => router.push("/")
         }
-      });
+      );
     } catch (error) {
       router.push("/");
     }
@@ -42,6 +46,7 @@ export default function PackageDetails(props: { params: { slug: string } }) {
           ) : (
             <h1 className="text-3xl font-bold drop-shadow-lg ">{packageDetails?.vendor?.vendorType?.type || ""}</h1>
           )}
+
           {isPending ? (
             <Skeleton className="h-14 w-80 bg-gray-100" />
           ) : (
@@ -51,15 +56,16 @@ export default function PackageDetails(props: { params: { slug: string } }) {
                 else if (media?.type === "cover_image" && !media?.url) return null;
                 return (
                   <CustomImage
+                    width={100}
+                    height={100}
                     key={media.id}
                     src={media.url}
                     alt="Vendor Image"
-                    width={100}
-                    height={100}
                     className="h-24 w-24 rounded-full object-cover"
                   />
                 );
               })}
+
               <section className="flex flex-col items-start gap-2">
                 <h2 className="text-3xl font-bold text-muted-foreground">{packageDetails?.vendor?.user?.name || ""}</h2>
                 <section className=" flex items-center gap-0 font-semibold text-muted-foreground" title="Total views">
@@ -70,6 +76,7 @@ export default function PackageDetails(props: { params: { slug: string } }) {
             </section>
           )}
         </section>
+
         {!isPending && (
           <BookModal
             phoneNo={packageDetails?.vendor?.user?.phone || ""}
@@ -90,16 +97,6 @@ export default function PackageDetails(props: { params: { slug: string } }) {
             <CardDescription>Everything you need for your perfect day</CardDescription>
           </CardHeader>
 
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {(packageDetails?.vendor?.vendorType?.vendorSubTypes || []).map((subType: any) => (
-                <div key={subType.id} className="flex items-center">
-                  <FaHandPointRight className="mr-2" /> {subType.subType}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-
           <CardFooter>
             {isPending ? (
               <Skeleton className="h-12 w-24 bg-gray-100"></Skeleton>
@@ -110,11 +107,11 @@ export default function PackageDetails(props: { params: { slug: string } }) {
         </section>
 
         <CustomImage
-          src={packageDetails?.image || ""}
-          alt="Package Image"
           width={400}
           height={150}
-          className="w-full object-cover"
+          alt="Package Image"
+          src={packageDetails?.image || ""}
+          className="max-h-[300px] w-full object-cover"
         />
       </Card>
 
@@ -130,29 +127,33 @@ export default function PackageDetails(props: { params: { slug: string } }) {
               {isPending ? (
                 <Skeleton className="h-6 w-48 rounded-lg bg-gray-100" />
               ) : (
-                packageDetails?.vendor?.user?.email || "No email found"
+                packageDetails?.vendor?.user?.email || (
+                  <span className="font-mono">
+                    {"*".repeat(6)}@{"*".repeat(6)}.com
+                  </span>
+                )
               )}
             </div>
+
             <div className="flex items-center">
               <Phone className="mr-2" />
               {isPending ? (
                 <Skeleton className="h-6 w-48 rounded-lg bg-gray-100" />
               ) : packageDetails?.vendor?.user?.phone ? (
-                user ? (
-                  packageDetails?.vendor?.user?.phone
-                ) : (
-                  `${Array(8).map(() => "*")}${(packageDetails?.vendor?.user?.phone as string).substring(8, 10)}`
-                )
+                <span className="font-mono">{packageDetails?.vendor?.user?.phone}</span>
               ) : (
-                "No phone number found"
+                <span className="font-mono">*****XX***</span>
               )}
             </div>
+
             <div className="col-span-2 flex items-center">
               <MapPin className="mr-2" />
               {isPending ? (
                 <Skeleton className="h-6 w-48 rounded-lg bg-gray-100" />
               ) : (
-                packageDetails?.vendor?.user?.addresses?.[0]?.city?.name || "No address found"
+                packageDetails?.vendor?.user?.addresses?.[0]?.city?.name || (
+                  <span className="font-mono">{"*".repeat(15)}</span>
+                )
               )}
             </div>
           </div>
@@ -160,7 +161,7 @@ export default function PackageDetails(props: { params: { slug: string } }) {
       </Card>
 
       {isPending ? (
-        <Skeleton className="">
+        <Skeleton>
           <Card className="mb-8 shadow-lg">
             <CardHeader>
               <CardTitle className="h-12 w-96 rounded-lg bg-gray-100"></CardTitle>
@@ -183,33 +184,6 @@ export default function PackageDetails(props: { params: { slug: string } }) {
           </CardContent>
         </Card>
       )}
-
-      {/* Contact Vendor */}
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Contact Vendor</CardTitle>
-          <CardDescription>Send a message to Dream Weddings Inc.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <Input type="text" placeholder="Your Name" required />
-            </div>
-            <div className="mb-4">
-              <Input type="email" placeholder="Your Email" required />
-            </div>
-            <div className="mb-4">
-              <Textarea
-                placeholder="Your Message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-              />
-            </div>
-            <Button type="submit">Send Message</Button>
-          </form>
-        </CardContent>
-      </Card> */}
     </div>
   );
 }

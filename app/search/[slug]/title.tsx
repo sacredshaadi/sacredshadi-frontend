@@ -22,7 +22,7 @@ const Title = (props: TitleProps) => {
   return (
     <header className="lg:leading-tighter flex items-center gap-5 text-4xl font-bold tracking-tighter">
       {vendorNameRef.current ? (
-        <h2 className="drop-shadow-xl">Inquiry for {vendorNameRef.current}</h2>
+        <h2 className="drop-shadow-xl">List of best {vendorNameRef.current} available</h2>
       ) : (
         <Skeleton className="h-16 w-96 bg-gray-100" />
       )}

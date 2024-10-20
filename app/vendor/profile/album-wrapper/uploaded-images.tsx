@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import useStateRef from "react-usestateref";
 import { Media } from "@/types/auth.types";
 import { cn } from "@/lib/utils";
+import { CustomImage } from "@/app/utils/image";
 
 const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
   const { vendor, setVendor } = useUserStore();
@@ -29,6 +30,7 @@ const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
   const router = useRouter();
   const { mutate: getFn, isPending } = useGetAlbumByVendorIdMutation();
   const { mutate: deleteFn } = useDeleteMediaMutation();
+  const [currentEnlargedImage, setCurrentEnlargedImage] = useState<string | null>(null);
   // const [delModalOpen, setDelModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [, , vendorIdRef] = useStateRef(props.userFacing ? props.vendorId : vendor?.vendorId);
@@ -118,15 +120,13 @@ const UplodedImages = (props: { userFacing?: boolean; vendorId?: number }) => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {(props.userFacing ? tempAlbum : album).map((file) => (
             <div key={file.id} className="group relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <CustomImage
+                enlargeImage
                 src={file.url}
                 alt={`${file.id}`}
                 className="h-56 w-full rounded-sm object-cover"
-                onError={(e: any) => {
-                  e.target.src = "/favicon.png";
-                  e.target.style = "height: 176px; width: 200px; margin: 20px auto 0px auto;";
-                }}
+                onCloseEnlargedImage={() => setCurrentEnlargedImage(null)}
+                onOpenEnlargedImage={() => setCurrentEnlargedImage(file.url)}
               />
 
               <button

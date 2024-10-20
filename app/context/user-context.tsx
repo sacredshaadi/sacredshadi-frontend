@@ -24,6 +24,6 @@ export const useUserStore = create<State & Actions>()(
       setVendor: (vendor: Vendor | null) => set({ vendor }),
       setSuperAdmin: (super_admin: User | null) => set({ super_admin })
     }),
-    { name: "users", skipHydration: true }
+    { name: "users", skipHydration: false }
   )
 );

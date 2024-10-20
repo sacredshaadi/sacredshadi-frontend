@@ -12,16 +12,18 @@ const VendorWrapper = ({ vendorTypes }: VendorWrapperProps) => {
       <header className="flex w-full flex-col items-center justify-center gap-4 md:gap-8 lg:w-4/5 xl:w-3/5 xl:gap-12">
         <h1
           aria-label="Vendors"
-          className="text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl xl:text-5xl"
+          className="-mb-6 text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl xl:text-5xl"
         >
           Services Available
         </h1>
-        <span className="text-center text-sm text-muted-foreground">
+
+        <span className="container prose text-center text-lg text-muted-foreground">
           From the most skillful Makeup Artists to the mighty impressive Candid Photographers, we cover the wedding
           service providers for all your basic needs! And for your own discernment, you can find the necessary details,
           photos of their work and first hand reviews of all of the wedding service providers!
         </span>
       </header>
+
       <section className="grid grid-cols-1 gap-6 overflow-hidden p-2 lg:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4">
         {(vendorTypes || []).map((vendorType) => (
           <VendorModal key={vendorType.id} description="" route="" vendorType={vendorType} />
