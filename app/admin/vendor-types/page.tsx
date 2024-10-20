@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { CellContext } from "@tanstack/react-table";
 import { ErrorBoundary } from "@/components/errorBoundary";
 import { AdminErrorPage } from "../_components/adminArrorPage";
+import { CustomImage } from "@/app/utils/image";
 
 function VendorTypes() {
   return (
@@ -27,6 +28,38 @@ function VendorTypes() {
                 </Link>
               )
             },
+            {
+              header: "Cover Image",
+              accessorKey: "coverImage",
+              cell: (data) => (
+                <CustomImage
+                  height={80}
+                  width={100}
+                  alt="slider"
+                  enlargeImage
+                  className="h-[80px]"
+                  src={data.getValue() as string}
+                  fallbackStyle="height:80px;width:100px;"
+                  fallbackClassName="h-[80px] opacity-50"
+                />
+              )
+            },
+            {
+              header: "Thubmnail",
+              accessorKey: "thumbnail",
+              cell: (data) => (
+                <CustomImage
+                  height={80}
+                  width={100}
+                  alt="slider"
+                  enlargeImage
+                  className="h-[80px]"
+                  src={data.getValue() as string}
+                  fallbackStyle="height:80px;width:100px;"
+                  fallbackClassName="h-[80px] opacity-50"
+                />
+              )
+            },
             { accessorKey: "description", header: "Description" },
             { accessorKey: "shortDescription", header: "Short Description" },
             {
@@ -43,6 +76,28 @@ function VendorTypes() {
           addEditFormMeta={[
             { id: "typeLabel", name: "label", props: { text: "Type", htmlFor: "vendorTypeType", required: true } },
             { id: "vendorTypeType", name: "input", props: { name: "type", className: "mb-4", required: true } },
+
+            {
+              id: "typeThumbnail",
+              name: "label",
+              props: { text: "Thumbnail", htmlFor: "vendorTypeThumbnailType", required: true }
+            },
+            {
+              name: "imageInput",
+              id: "vendorTypeThumbnailType",
+              props: { name: "thumbnail", className: "mb-4", required: true }
+            },
+
+            {
+              id: "typeCoverImage",
+              name: "label",
+              props: { text: "Cover Image", htmlFor: "vendorTypeCoverImageType", required: true }
+            },
+            {
+              name: "imageInput",
+              id: "vendorTypeCoverImageType",
+              props: { name: "coverImage", className: "mb-4", required: true }
+            },
 
             {
               name: "label",

@@ -21,7 +21,6 @@ import { useVendorSearch } from "@/hooks/useVendorSearch";
 import { Input } from "@/components/ui/input";
 import { VendorSubType } from "@/types/auth.types";
 import { useGetVendorAllSubTypesMutation } from "@/components/api";
-import { WithLoading } from "@/app/_components/loading";
 import { ICity } from "@/types";
 
 export const IMG_MAX_LIMIT = 3;
@@ -45,7 +44,7 @@ type ProductFormValues = z.infer<typeof formSchema>;
 
 const locationEnum = { myvenue: "My Venue", studio: "Studio" };
 const defaultValues: ProductFormValues = {
-  budget: 50000,
+  budget: 0,
   city: "",
   date: addDays(new Date(), 1),
   location: locationEnum.myvenue,
@@ -55,7 +54,6 @@ const defaultValues: ProductFormValues = {
 
 export const SearchForm = (props: { vendorTypeSlug: string; citySlug?: string }) => {
   const searchParams = useSearchParams();
-  // const router = useRouter()
   const { cities } = useVendorContext();
   const [arr, setArr] = useState<Option[]>([]);
   const { onFormSubmit, isPending } = useVendorSearch();
@@ -80,18 +78,11 @@ export const SearchForm = (props: { vendorTypeSlug: string; citySlug?: string })
   useEffect(() => {
     if (!cities || cities.length === 0) return;
 
-    if (!props.citySlug) {
-      setCitySlug(cities[0].slug);
-      form.setValue("city", cities[0].slug);
-      return;
-    }
+    if (!props.citySlug) return;
     const id = cities.find((city: ICity) => city.slug === props.citySlug)?.id;
     if (id) {
       setCitySlug(props.citySlug);
       form.setValue("city", props.citySlug);
-    } else {
-      setCitySlug(cities[0].slug);
-      form.setValue("city", cities[0].slug);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cities]);
@@ -118,7 +109,7 @@ export const SearchForm = (props: { vendorTypeSlug: string; citySlug?: string })
   };
 
   return (
-    <WithLoading loading={arr.length === 0} className="w-full">
+    <div className="w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -148,19 +139,19 @@ export const SearchForm = (props: { vendorTypeSlug: string; citySlug?: string })
             )}
           />
 
-          {arr.length > 0 ? (
-            <FormField
-              control={form.control}
-              name="services"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Select services</FormLabel>
-                  <MultipleSelectorComp arr={selected || []} setArr={setSelected} defaultOptions={arr} />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ) : null}
+          {/* {arr.length > 0 ? ( */}
+          <FormField
+            control={form.control}
+            name="services"
+            render={() => (
+              <FormItem>
+                <FormLabel>Select services</FormLabel>
+                <MultipleSelectorComp arr={selected || []} setArr={setSelected} defaultOptions={arr} />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* ) : null} */}
 
           <div className="grid-cols-1 gap-8 md:grid lg:grid-cols-2">
             <FormField
@@ -220,6 +211,6 @@ export const SearchForm = (props: { vendorTypeSlug: string; citySlug?: string })
           </div>
         </form>
       </Form>
-    </WithLoading>
+    </div>
   );
 };

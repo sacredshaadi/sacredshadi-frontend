@@ -2,8 +2,13 @@ import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 import { useSearchVendorsMutation } from "@/components/api";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export function useVendorSearch(useMutation?: () => UseMutationResult<any, Error, any, unknown>, setProfile?: any) {
+export function useVendorSearch(
+  useMutation?: () => UseMutationResult<any, Error, any, unknown>,
+  setProfile?: any,
+  options?: { vendorTypeSlug?: string }
+) {
   const vendorSearchStore = useVendorSearchStore();
   const router = useRouter();
   const func = useMutation || useSearchVendorsMutation;
@@ -11,6 +16,23 @@ export function useVendorSearch(useMutation?: () => UseMutationResult<any, Error
 
   const isNextPageAvailable = vendorSearchStore.page < Math.ceil(vendorSearchStore.count / vendorSearchStore.pageSize);
   const isPrevPageAvailable = vendorSearchStore.page > 1;
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!options || !options.vendorTypeSlug) return;
+      const res = await handleVendorSearch({
+        page: vendorSearchStore.page,
+        pageSize: vendorSearchStore.pageSize,
+        vendorType: options.vendorTypeSlug,
+        serviceIds: [],
+        date: new Date(),
+        rating: 0
+      });
+      vendorSearchStore.setData(res.data.rows, res.data.count);
+    }
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function checkUnauthorized(res: any) {
     if (res.status === 401) {

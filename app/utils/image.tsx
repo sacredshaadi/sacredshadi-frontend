@@ -1,3 +1,5 @@
+"use client";
+
 import { ImageProps } from "next/image";
 import { useState } from "react";
 import { ErrorBoundary } from "@/components/errorBoundary";
@@ -42,7 +44,12 @@ function CustomImageComponent({
   );
 }
 
-export function CustomImage({ enlargeImage, ...props }: CustomImageProps & { enlargeImage?: boolean }) {
+export function CustomImage({
+  enlargeImage,
+  onOpenEnlargedImage,
+  onCloseEnlargedImage,
+  ...props
+}: CustomImageProps & { enlargeImage?: boolean; onCloseEnlargedImage?: () => void; onOpenEnlargedImage?: () => void }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -52,20 +59,27 @@ export function CustomImage({ enlargeImage, ...props }: CustomImageProps & { enl
         onClick={() => {
           if (!enlargeImage) return;
           setOpen(true);
+          if (onOpenEnlargedImage) onOpenEnlargedImage();
         }}
         className={cn(enlargeImage ? "cursor-pointer" : "", props.className)}
       />
 
       {enlargeImage && open
         ? createPortal(
-            <div className="absolute left-0 top-0 justify-center p-4">
+            <div className="absolute left-0 top-0 h-screen w-screen justify-center overflow-hidden p-4">
               <div
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  if (onCloseEnlargedImage) onCloseEnlargedImage();
+                }}
                 className="absolute left-0 top-0 z-0 h-screen w-screen cursor-pointer bg-black bg-opacity-25"
               />
 
               <div
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  if (onCloseEnlargedImage) onCloseEnlargedImage();
+                }}
                 className="absolute left-2 top-2 z-30 ml-[50vw] -translate-x-[51%] cursor-pointer rounded-full bg-primary p-2 ring-2"
               >
                 <Cross2Icon className="h-8 w-8 text-white" />

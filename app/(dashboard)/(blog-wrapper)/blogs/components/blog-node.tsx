@@ -124,9 +124,9 @@ const BlogNode = ({ post, userSide, setReloadKey }: BlogNodeProps) => {
             width={400}
             height={250}
             alt="package_img"
-            src={post.thumbnail || ""}
-            fallbackClassName="h-[250px] w-[400px]"
+            src={post.thumbnail as string}
             className="h-[250px] w-full object-cover"
+            fallbackClassName="h-[250px] w-[400px] opacity-50"
           />
         </Link>
 

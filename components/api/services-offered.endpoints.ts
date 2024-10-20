@@ -66,11 +66,12 @@ export const removeOffer = (payload: mutationReqType) => {
   });
 };
 
-export const getOfferById = (offerId: string) => {
-  return apiClient(`${searchEndpoints.search}/${offerId}`, {
+export const getOfferById = (props: { slug: string; token: string }) => {
+  return apiClient(`${searchEndpoints.search}/${props.slug}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${props.token}`
     }
   });
 };

@@ -10,11 +10,12 @@ import { motion } from "framer-motion";
 
 interface Props {
   mutation?: () => UseMutationResult<any, Error, any, unknown>;
+  vendorTypeSlug?: string;
 }
 
 export function VendorSearchGrid(props: Props) {
   const { data, isPending, total, nextPage, prevPage, isPrevPageAvailable, isNextPageAvailable, searched } =
-    useVendorSearch(props.mutation);
+    useVendorSearch(props.mutation, undefined, { vendorTypeSlug: props.vendorTypeSlug });
 
   const container = {
     hidden: {},
@@ -32,27 +33,27 @@ export function VendorSearchGrid(props: Props) {
   };
 
   return (
-    <section className="container w-full p-0">
+    <section className="container my-6 w-full p-0">
       {isPending ? (
         <Loading className="h-80 w-full" />
       ) : (
         <motion.section
-          className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3 3xl:grid-cols-4"
-          variants={container}
-          initial="hidden"
           animate="show"
+          initial="hidden"
+          variants={container}
+          className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3 3xl:grid-cols-4"
         >
           {data.map((item, idx) => (
             <motion.div variants={itemVar} key={idx} transition={{ duration: 0.2 }}>
               <PackageModal
                 key={item.id}
-                packageName={item.details}
-                description={item.description}
                 price={item.price}
-                vendorName={item.vendor?.user?.name || ""}
                 packageId={item.id}
-                userFacing={props.mutation === undefined}
+                packageName={item.details}
                 imageUrl={item?.image || ""}
+                description={item.description}
+                userFacing={props.mutation === undefined}
+                vendorName={item.vendor?.user?.name || ""}
               />
             </motion.div>
           ))}

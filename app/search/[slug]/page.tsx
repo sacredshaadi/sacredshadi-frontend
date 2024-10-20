@@ -1,9 +1,13 @@
-import Image from "next/image";
 import { SearchForm } from "./vendor-search-form";
 import Title from "./title";
 import { VendorSearchGrid } from "./vendor-search-grid";
+import { getAllVendorTypes } from "@/app/utils/functions";
+import { CustomImage } from "@/app/utils/image";
 
-export default function Page(props: { params: { slug: string }; searchParams: { city?: string } }) {
+export default async function Page(props: { params: { slug: string }; searchParams: { city?: string } }) {
+  const allVendorTypes = await getAllVendorTypes();
+  const vendorType = allVendorTypes.find((vendorType) => vendorType.slug === props.params.slug);
+
   return (
     <section className="flex flex-col items-start justify-center gap-4">
       <div className="ml-2 space-y-10 p-4 md:p-6 xl:space-y-20 ">
@@ -12,12 +16,14 @@ export default function Page(props: { params: { slug: string }; searchParams: { 
 
       <section className="relative grid h-fit w-full grid-cols-1 items-center justify-center gap-4 overflow-hidden p-4 lg:grid-cols-2 lg:p-6">
         <div className=" bg-primary-foreground" />
-        <Image
+        <CustomImage
           width={400}
           height={400}
           alt="Hero Image"
-          src="/slider-hero.jpg"
+          fallbackImage="/slider-hero.jpg"
+          src={vendorType?.coverImage as string}
           className="absolute inset-0 m-auto !w-full object-fill"
+          fallbackClassName="absolute inset-0 m-auto !w-full object-fill"
           placeholder="data:image/base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
         />
 
@@ -26,7 +32,7 @@ export default function Page(props: { params: { slug: string }; searchParams: { 
         </section>
       </section>
 
-      <VendorSearchGrid />
+      <VendorSearchGrid vendorTypeSlug={props.params.slug} />
     </section>
   );
 }

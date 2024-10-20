@@ -39,7 +39,9 @@ export interface VendorType {
   type: string;
   createdAt: string;
   updatedAt: string;
-  image: string;
+  coverImage: string;
+  thumbnail: string;
+  description: string;
   shortDescription: string;
   vendorSubTypes: VendorSubType[];
   slug: string;
