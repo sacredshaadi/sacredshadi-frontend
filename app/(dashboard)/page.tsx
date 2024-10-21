@@ -34,6 +34,10 @@ export default async function page() {
       <h2 className="mb-8 mt-10 text-center text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl xl:text-5xl">
         Blogs
       </h2>
+      <p className="container prose text-center text-lg text-muted-foreground">
+        In this section we cover various sections ranging from the latest makeup ideas to the most fashionable outfits,
+        which is surely going to WOW you.
+      </p>
       <section className="container my-4">
         <BlogGrid userSide noPagination />
       </section>
