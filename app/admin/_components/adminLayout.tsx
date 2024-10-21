@@ -24,7 +24,15 @@ export function SuperAdminLayout(props: PropsWithChildren<{ title: string; class
   }, []);
 
   useEffect(() => {
-    if (useUserStore.persist?.hasHydrated()) setLoading(false);
+    let timeout: any;
+    if (useUserStore.persist?.hasHydrated()) {
+      timeout = setTimeout(() => {
+        setLoading(false);
+        if (!super_admin) router.replace("/admin/login");
+      }, 0);
+    }
+    return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [super_admin]);
 
   if (loading) return <Loading className="h-96" />;
