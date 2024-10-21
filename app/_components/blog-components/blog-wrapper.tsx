@@ -39,25 +39,31 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
     (blog?.categories || []).map((cat: any) => ({ label: cat.category.name, value: `${cat.categoryId}` })) ||
       ([] as Option[])
   );
-  const { mutate: getFn, isPending: catPending, isError: catError, isIdle: catIdle } = useGetAllCategoriesMutation();
+  const {
+    mutateAsync: getAsync,
+    isPending: catPending,
+    isError: catError,
+    isIdle: catIdle
+  } = useGetAllCategoriesMutation();
 
-  useEffect(() => {
+  const getAllCategoriesFn = async () => {
     try {
-      if (!super_admin?.tokens?.accessToken) return;
-      getFn(super_admin.tokens.accessToken, {
-        onSuccess: (data) => {
-          setAllCategories(((data.data || []) as any[]).map((cat) => ({ label: cat.name, value: `${cat.id}` })));
-        },
-        onError: (err) => {
-          throw err;
-        }
-      });
+      console.log("getAllCategoriesFn is called");
+      const data = await getAsync(super_admin?.tokens.accessToken || "");
+      setAllCategories(((data.data || []) as any[]).map((cat) => ({ label: cat.name, value: `${cat.id}` })));
     } catch (err: any) {
       const msg = err?.error || err?.message || "An error occurred";
       toast({ title: "Error fetching categories", variant: "destructive", description: msg });
     }
+  };
+
+  useEffect(() => {
+    console.log("BlogWrapper useEffect");
+    if (!super_admin?.tokens?.accessToken) return;
+    getAllCategoriesFn();
+    console.log("BlogWrapper useEffect end");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [super_admin?.tokens?.accessToken]);
 
   return (
     <section className={cn("mx-auto grid h-full max-w-[90vw] grid-cols-1 gap-1 sm:container lg:gap-8 2xl:gap-12")}>
@@ -138,18 +144,14 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
         </section>
       </section>
 
-      {catIdle || catPending ? (
-        <Skeleton className="h-8 w-1/2" />
-      ) : catError ? (
-        <div className="text-red-500">Error fetching categories</div>
-      ) : (
-        <BlogMultiSelect
-          userFacing={userFacing}
-          allCategories={allCategories}
-          categories={selectedCategories}
-          setSelectedCategories={setSelectedCategories}
-        />
-      )}
+      <BlogMultiSelect
+        userFacing={userFacing}
+        allCategories={allCategories}
+        categories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+        loading={catIdle || catPending}
+        error={catError}
+      />
 
       <RichTextInput setContent={setContent} loadedContent={content} userFacing={userFacing} />
     </section>
