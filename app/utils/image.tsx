@@ -66,7 +66,7 @@ export function CustomImage({
 
       {enlargeImage && open
         ? createPortal(
-            <div className="absolute left-0 top-0 h-screen w-screen justify-center overflow-hidden p-4">
+            <div className="fixed left-0 top-0 h-screen w-screen justify-center overflow-hidden p-4">
               <div
                 onClick={() => {
                   setOpen(false);
