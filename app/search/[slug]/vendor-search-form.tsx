@@ -139,19 +139,19 @@ export const SearchForm = (props: { vendorTypeSlug: string; citySlug?: string })
             )}
           />
 
-          {/* {arr.length > 0 ? ( */}
-          <FormField
-            control={form.control}
-            name="services"
-            render={() => (
-              <FormItem>
-                <FormLabel>Select services</FormLabel>
-                <MultipleSelectorComp arr={selected || []} setArr={setSelected} defaultOptions={arr} />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* ) : null} */}
+          {arr.length > 0 ? (
+            <FormField
+              control={form.control}
+              name="services"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Select services</FormLabel>
+                  <MultipleSelectorComp arr={selected || []} setArr={setSelected} defaultOptions={arr} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
 
           <div className="grid-cols-1 gap-8 md:grid lg:grid-cols-2">
             <FormField
