@@ -126,7 +126,7 @@ const BlogNode = ({ post, userSide, setReloadKey }: BlogNodeProps) => {
             alt="package_img"
             src={post.thumbnail as string}
             className="h-[250px] w-full object-cover"
-            fallbackClassName="h-[250px] w-[400px] opacity-50"
+            fallbackClassName="h-[250px] w-[400px] opacity-50 p-8"
           />
         </Link>
 
