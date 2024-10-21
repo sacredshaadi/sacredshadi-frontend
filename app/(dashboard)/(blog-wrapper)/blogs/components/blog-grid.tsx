@@ -5,6 +5,7 @@ import { useState } from "react";
 
 interface Props {
   userSide?: boolean;
+  noPagination?: boolean;
 }
 
 export default function BlogGrid(props: Props) {
@@ -15,6 +16,7 @@ export default function BlogGrid(props: Props) {
       key={reloadKey}
       userSide={props.userSide}
       setReloadKey={setReloadKey}
+      noPagination={props.noPagination}
       mutation={useGetAllBlogsMutation}
     />
   );

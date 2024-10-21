@@ -1,6 +1,5 @@
 import React from "react";
 import MultipleSelectorComp from "../vendor-wrapper/multi-select-comp";
-import { Category } from "@/types";
 import { Option } from "@/components/ui/multiselect";
 import { Badge } from "@/components/ui/badge";
 

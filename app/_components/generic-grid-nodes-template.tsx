@@ -9,13 +9,11 @@ import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import BlogNode from "../(dashboard)/(blog-wrapper)/blogs/components/blog-node";
-import { useGetAllCategoriesMutation } from "@/components/api";
-import { useUserStore } from "../context/user-context";
-import { toast } from "@/components/ui/use-toast";
 
 interface Props {
   mutation: () => UseMutationResult<any, Error, any, unknown>;
   setReloadKey: React.Dispatch<React.SetStateAction<number>>;
+  noPagination?: boolean;
   userSide?: boolean;
   [key: string]: any;
 }
@@ -39,7 +37,14 @@ const EmptyState = () => (
   </>
 );
 
-export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, userSide, ...nodeProps }: Props) {
+export function GenericGridNodesTemplates({
+  mutation,
+  setReloadKey,
+  nodeComp,
+  userSide,
+  noPagination,
+  ...nodeProps
+}: Props) {
   const {
     data,
     isPending,
@@ -81,7 +86,7 @@ export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, us
         animate="show"
         initial="hidden"
         variants={container}
-        className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3 3xl:grid-cols-4"
+        className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3"
       >
         {isIdle || isPending ? (
           <EmptyState />
@@ -94,7 +99,7 @@ export function GenericGridNodesTemplates({ mutation, setReloadKey, nodeComp, us
         )}
       </motion.section>
 
-      {searched && (
+      {!noPagination && searched && (
         <div className="flex w-full items-center justify-between sm:justify-around">
           <Button onClick={prevPage} disabled={!isPrevPageAvailable} className="flex-center shadow-lg">
             <ArrowLeft className="h-6 w-6 text-white" />

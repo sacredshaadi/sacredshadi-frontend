@@ -6,10 +6,8 @@ import { useGetBlogByIdMutation } from "@/components/api";
 import { Blog } from "@/types";
 import { toast } from "@/components/ui/use-toast";
 import BlogWrapper from "./blog-wrapper";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 export default function BlogViewer({ slug, userFacing }: { slug: string; userFacing?: boolean }) {
-  const router = useRouter();
   const [post, setPost] = useState<Blog | null>(null);
   const { mutate: getFn, isIdle, isPending, isError } = useGetBlogByIdMutation();
 

@@ -1,17 +1,14 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import React, { ChangeEvent, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { RichTextInput } from "../rich-text-input";
 import { cn } from "@/lib/utils";
 import SaveBlog from "../../admin/(blog-wrapper)/blogs/components/save-blog";
 import UpdateBlog from "../../admin/(blog-wrapper)/blogs/components/update-blog";
-import { Blog, Category } from "@/types";
-import { FormImageUploader } from "@/components/ui/imageUploader";
-import { uploadToCloudinaryUtil } from "../functions";
+import { Blog } from "@/types";
 import ImageUploader2 from "../image-uploader-2";
 import { toast } from "@/components/ui/use-toast";
-import BlogTags from "./blog-tags";
 import BlogMultiSelect from "./blog-multi-select";
 import { Option } from "@/components/ui/multiselect";
 import { useUserStore } from "@/app/context/user-context";
@@ -30,6 +27,8 @@ const headingClasses = cn(
 );
 
 const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
+  const maxHeadingLength = useRef(35);
+  const { super_admin } = useUserStore();
   const [heading, setHeading] = React.useState(blog?.title || "");
   const [content, setContent] = React.useState<any>(blog?.content || []);
   const [thumbnail, setThumbnail] = React.useState<string | null>(blog?.thumbnail || null);
@@ -37,16 +36,9 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
   const [assetUpload, setAssetUpload] = React.useState(false);
   const [allCategories, setAllCategories] = React.useState<Option[]>([]);
   const [selectedCategories, setSelectedCategories] = React.useState<Option[]>(
-    (blog?.categories || []).map((cat: any) => ({
-      label: cat.category.name,
-      value: `${cat.categoryId}`
-    })) || ([] as Option[])
+    (blog?.categories || []).map((cat: any) => ({ label: cat.category.name, value: `${cat.categoryId}` })) ||
+      ([] as Option[])
   );
-
-  const maxHeadingLength = useRef(35);
-
-  const { super_admin } = useUserStore();
-
   const { mutate: getFn, isPending: catPending, isError: catError, isIdle: catIdle } = useGetAllCategoriesMutation();
 
   useEffect(() => {
@@ -54,12 +46,7 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
       if (!super_admin?.tokens?.accessToken) return;
       getFn(super_admin.tokens.accessToken, {
         onSuccess: (data) => {
-          setAllCategories(
-            ((data.data || []) as any[]).map((cat) => ({
-              label: cat.name,
-              value: `${cat.id}`
-            }))
-          );
+          setAllCategories(((data.data || []) as any[]).map((cat) => ({ label: cat.name, value: `${cat.id}` })));
         },
         onError: (err) => {
           throw err;
@@ -67,63 +54,60 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
       });
     } catch (err: any) {
       const msg = err?.error || err?.message || "An error occurred";
-      toast({
-        title: "Error fetching categories",
-        variant: "destructive",
-        description: msg
-      });
+      toast({ title: "Error fetching categories", variant: "destructive", description: msg });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <section className={cn("grid h-full grid-cols-1 gap-1 lg:gap-8 2xl:gap-12", "mx-auto max-w-[90vw]")}>
+    <section className={cn("mx-auto grid h-full max-w-[90vw] grid-cols-1 gap-1 sm:container lg:gap-8 2xl:gap-12")}>
       {!userFacing &&
         (blog ? (
           <UpdateBlog
+            disabled={assetUpload}
             maxHeadingLength={maxHeadingLength}
             data={{
-              title: heading,
               content,
-              id: blog.id,
-              thumbnail,
               bgImage,
+              thumbnail,
+              id: blog.id,
+              title: heading,
               categoryIds: selectedCategories.map((cat) => parseInt(cat.value, 10))
             }}
-            disabled={assetUpload}
           />
         ) : (
           <SaveBlog
+            disabled={assetUpload}
             maxHeadingLength={maxHeadingLength}
             data={{
-              title: heading,
               content,
-              thumbnail,
               bgImage,
+              thumbnail,
+              title: heading,
               categoryIds: selectedCategories.map((cat) => parseInt(cat.value, 10))
             }}
-            disabled={assetUpload}
           />
         ))}
+
       <section className="space-y-2">
         <section className="lg:h-30 h-20 sm:h-24 xl:h-40 2xl:h-48">
           <ImageUploader2
-            classes={["lg:h-30 h-20 sm:h-24 xl:h-40 2xl:h-48 w-full"]}
+            readonly={userFacing}
+            defaultValue={bgImage || ""}
             onImageUpload={(url) => setBgImage(url)}
             updateParentState={(val) => setAssetUpload(val)}
-            defaultValue={bgImage || ""}
-            readonly={userFacing}
+            classes={["lg:h-30 h-20 sm:h-24 xl:h-40 2xl:h-48 w-full"]}
           />
         </section>
 
-        {/* <section clssName="grid grid-cols-1 items-start gap-1"> */}
         <section className="flex items-center gap-2">
           <section className="h-36 w-48">
             <ImageUploader2
+              readonly={userFacing}
               classes={["h-36 w-48"]}
+              defaultValue={thumbnail || ""}
               onImageUpload={(url) => setThumbnail(url)}
               updateParentState={(val) => setAssetUpload(val)}
-              defaultValue={thumbnail || ""}
-              readonly={userFacing}
             />
           </section>
 
@@ -152,18 +136,18 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
             )}
           </section>
         </section>
-        {/* </section> */}
       </section>
+
       {catIdle || catPending ? (
         <Skeleton className="h-8 w-1/2" />
       ) : catError ? (
         <div className="text-red-500">Error fetching categories</div>
       ) : (
         <BlogMultiSelect
+          userFacing={userFacing}
           allCategories={allCategories}
           categories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
-          userFacing={userFacing}
         />
       )}
 

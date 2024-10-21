@@ -6,6 +6,7 @@ import CarouselComp from "@/app/_components/dashboard/carousel";
 import { getAllVendorTypes, getAllCities, getUrlMetadataForSeo, fallbackDescription } from "@/app/utils/functions";
 import { VendorSelectWrapper } from "@/app/_components/input-component";
 import { Metadata } from "next";
+import BlogGrid from "./(blog-wrapper)/blogs/components/blog-grid";
 
 async function getSliderNodes() {
   try {
@@ -29,6 +30,13 @@ export default async function page() {
         </section>
         <VendorWrapper vendorTypes={vendorTypes || []} />
       </div>
+
+      <h2 className="mb-8 mt-10 text-center text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl xl:text-5xl">
+        Blogs
+      </h2>
+      <section className="container my-4">
+        <BlogGrid userSide noPagination />
+      </section>
     </ScrollArea>
   );
 }
