@@ -14,6 +14,7 @@ import { Option } from "@/components/ui/multiselect";
 import { useUserStore } from "@/app/context/user-context";
 import { useGetAllCategoriesMutation } from "@/components/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 interface BlogWrapperProps {
   blog?: Blog;
@@ -27,6 +28,7 @@ const headingClasses = cn(
 );
 
 const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
+  const router = useRouter();
   const maxHeadingLength = useRef(35);
   const { super_admin } = useUserStore();
   const [heading, setHeading] = React.useState(blog?.title || "");
@@ -48,20 +50,20 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
 
   const getAllCategoriesFn = async () => {
     try {
-      console.log("getAllCategoriesFn is called");
+      if (!super_admin?.tokens?.accessToken) throw new Error("No access token found");
       const data = await getAsync(super_admin?.tokens.accessToken || "");
       setAllCategories(((data.data || []) as any[]).map((cat) => ({ label: cat.name, value: `${cat.id}` })));
     } catch (err: any) {
-      const msg = err?.error || err?.message || "An error occurred";
-      toast({ title: "Error fetching categories", variant: "destructive", description: msg });
+      const msg: string = err.error || err.message || "An error occurred";
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+      if (msg.includes("No access token found") || msg.includes("token expired")) {
+        router.push("/admin/login");
+      }
     }
   };
 
   useEffect(() => {
-    console.log("BlogWrapper useEffect");
-    if (!super_admin?.tokens?.accessToken) return;
     getAllCategoriesFn();
-    console.log("BlogWrapper useEffect end");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [super_admin?.tokens?.accessToken]);
 
