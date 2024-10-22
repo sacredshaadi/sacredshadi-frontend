@@ -16,9 +16,9 @@ type CustomImageProps = ImageProps & {
 const imageMatchRegex = /https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg|webp|tiff)/;
 
 function CustomImageComponent({
-  fallbackImage = "/favicon.png",
   fallbackStyle,
   fallbackClassName,
+  fallbackImage = "/favicon.png",
   ...props
 }: CustomImageProps) {
   const defaultImage = (
