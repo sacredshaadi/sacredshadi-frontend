@@ -29,11 +29,6 @@ const GenericNodesRenderer = (props: Props) => {
       }
     }
   };
-
-  const itemVar = {
-    hidden: { opacity: 0, translateY: "2rem" },
-    show: { opacity: 1, translateY: 0 }
-  };
   return (
     <section className="container my-6 w-full p-0">
       {props.isPending ? (

@@ -1,10 +1,8 @@
 "use client";
 
 import { useVendorSearchStore } from "@/app/context/vendor-search-context";
-import { useSearchVendorsMutation } from "@/components/api";
 import { toast } from "@/components/ui/use-toast";
 import { UseMutationResult } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export const usePaginatedFetch = (
@@ -13,7 +11,6 @@ export const usePaginatedFetch = (
   options?: { fetchOnRender?: boolean; onUnauthorizedError?: any; previewFormat?: boolean }
 ) => {
   const vendorSearchStore = useVendorSearchStore();
-  const router = useRouter();
   const { mutateAsync: handleAsyncPaginatedSearch, isPending, isIdle, isError } = useMutation();
 
   const isNextPageAvailable = vendorSearchStore.page < Math.ceil(vendorSearchStore.count / vendorSearchStore.pageSize);
@@ -34,10 +31,8 @@ export const usePaginatedFetch = (
     } catch (err: any) {
       const msg: string = err.error || err.message || "An error occurred";
       toast({ title: "Error", description: err.message, variant: "destructive" });
-      if (msg.includes("No access token found") || msg.includes("token expired") || msg.includes("invalid token")) {
-        console.log("calling the unaothorized error callback");
+      if (msg.includes("No access token found") || msg.includes("token expired") || msg.includes("invalid token"))
         options?.onUnauthorizedError();
-      }
     }
   }
 
