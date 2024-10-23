@@ -27,7 +27,7 @@ function useTableHocQuery<T>(props: useTableHocQueryProps) {
 
   const logoutIfUnauthorized = useCallback((error: { message: string }) => {
     const msg = error.message;
-    if (msg.includes("token expired") || msg.includes("No access token found")) {
+    if (msg.includes("token expired") || msg.includes("invalid token") || msg.includes("No access token found")) {
       userStore.setSuperAdmin(null);
       router.replace("/admin/login");
     }

@@ -35,7 +35,7 @@ const SaveBlog = (props: SaveBlogProps) => {
     } catch (err: any) {
       const msg: string = err.error || err.message || "An error occurred";
       toast({ title: "Error", description: err.message, variant: "destructive" });
-      if (msg.includes("No access token found") || msg.includes("token expired")) {
+      if (msg.includes("Please login as admin") || msg.includes("token expired")) {
         router.push("/admin/login");
       }
     }

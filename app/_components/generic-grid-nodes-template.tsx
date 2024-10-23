@@ -9,6 +9,8 @@ import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import BlogNode from "../(dashboard)/(blog-wrapper)/blogs/components/blog-node";
+import { usePaginatedFetch } from "@/hooks/usePaginatedFetch";
+import { useVendorSearchStore } from "../context/vendor-search-context";
 
 interface Props {
   mutation: () => UseMutationResult<any, Error, any, unknown>;
@@ -43,20 +45,12 @@ export function GenericGridNodesTemplates({
   nodeComp,
   userSide,
   noPagination,
+  previewFormat,
   ...nodeProps
 }: Props) {
-  const {
-    data,
-    isPending,
-    isIdle,
-    total,
-    nextPage,
-    prevPage,
-    isPrevPageAvailable,
-    isNextPageAvailable,
-    searched,
-    onFormSubmit
-  } = useVendorSearch(mutation);
+  const { pageSize: defaultPageSize } = useVendorSearchStore();
+  const { data, isPending, isIdle, total, nextPage, prevPage, isPrevPageAvailable, isNextPageAvailable } =
+    usePaginatedFetch(mutation, { page: 1, pageSize: previewFormat ? 6 : defaultPageSize }, { fetchOnRender: true });
 
   const container = {
     hidden: {},
@@ -72,13 +66,6 @@ export function GenericGridNodesTemplates({
     hidden: { opacity: 0, translateY: "2rem" },
     show: { opacity: 1, translateY: 0 }
   };
-
-  useEffect(() => {
-    try {
-      onFormSubmit({});
-    } catch (err: any) {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <section className="container w-full px-4">
@@ -99,7 +86,7 @@ export function GenericGridNodesTemplates({
         )}
       </motion.section>
 
-      {!noPagination && searched && (
+      {!previewFormat && (
         <div className="flex w-full items-center justify-between sm:justify-around">
           <Button onClick={prevPage} disabled={!isPrevPageAvailable} className="flex-center shadow-lg">
             <ArrowLeft className="h-6 w-6 text-white" />

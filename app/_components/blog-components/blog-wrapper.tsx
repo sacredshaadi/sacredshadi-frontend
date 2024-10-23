@@ -68,7 +68,9 @@ const BlogWrapper = ({ blog, userFacing }: BlogWrapperProps) => {
   }, [super_admin?.tokens?.accessToken]);
 
   return (
-    <section className={cn("mx-auto grid h-full max-w-[90vw] grid-cols-1 gap-1 sm:container lg:gap-8 2xl:gap-12")}>
+    <section
+      className={cn("mx-auto grid h-full max-w-[90vw] grid-cols-1 gap-1 sm:container sm:pb-4 lg:gap-8 2xl:gap-12 ")}
+    >
       {!userFacing &&
         (blog ? (
           <UpdateBlog

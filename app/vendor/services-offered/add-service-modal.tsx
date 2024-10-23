@@ -47,7 +47,7 @@ export function AddServiceModal() {
         { accessToken: vendor?.tokens?.accessToken || "", data: formData },
         {
           onSuccess: (data) => {
-            setData([...searchData, data.data], data.length + 1);
+            setData([...searchData, data.data], searchData.length + 1);
             toast({ variant: "default", description: "Data submitted successfully" });
             setOpen(false);
           },

@@ -16,7 +16,7 @@ const page = () => {
               <Link href="/admin/blogs/create">Write a new blog</Link>
             </Button>
           </nav>
-          <BlogGrid userSide={false} />
+          <BlogGrid />
         </section>
       </SuperAdminLayout>
     </ErrorBoundary>
