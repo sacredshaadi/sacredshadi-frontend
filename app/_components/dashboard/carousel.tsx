@@ -27,10 +27,15 @@ export default function CarouselComp(props: { sliderArr: ISlider[] }) {
                   className="absolute inset-auto w-full object-cover"
                   placeholder="data:image/base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
                 />
-                <section className="z-10 grid grid-cols-1 gap-4 text-center">
-                  <h1 className="text-4xl font-bold ">{sliderNode.title} </h1>
-                  <span className="text-2xl font-semibold ">{sliderNode.description}</span>
-                  <Button asChild className="mx-auto w-fit font-semibold shadow-xl">
+
+                <section className="z-10 text-center">
+                  <h1 className="text-5xl font-extrabold tracking-tight text-white shadow-white drop-shadow-lg md:text-6xl lg:text-7xl">
+                    {sliderNode.title}
+                  </h1>
+                  <p className="mt-2 text-2xl font-bold text-gray-50 shadow-white drop-shadow-md">
+                    {sliderNode.description}
+                  </p>
+                  <Button size="lg" className="mx-auto mt-12 w-fit font-semibold shadow-xl">
                     <Link href={`${sliderNode.link}`} target="_blank">
                       Book Now
                     </Link>
