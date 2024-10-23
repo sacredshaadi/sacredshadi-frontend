@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import BlogNode from "../(dashboard)/(blog-wrapper)/blogs/components/blog-node";
 import { usePaginatedFetch } from "@/hooks/usePaginatedFetch";
 import { useVendorSearchStore } from "../context/vendor-search-context";
+import GenericNodesRenderer from "./generic-nodes-renderer";
 
 interface Props {
   mutation: () => UseMutationResult<any, Error, any, unknown>;
@@ -44,67 +45,39 @@ export function GenericGridNodesTemplates({
   setReloadKey,
   nodeComp,
   userSide,
-  noPagination,
   previewFormat,
   ...nodeProps
 }: Props) {
   const { pageSize: defaultPageSize } = useVendorSearchStore();
-  const { data, isPending, isIdle, total, nextPage, prevPage, isPrevPageAvailable, isNextPageAvailable } =
+  const { data, isPending, isIdle, isError, total, nextPage, prevPage, isPrevPageAvailable, isNextPageAvailable } =
     usePaginatedFetch(mutation, { page: 1, pageSize: previewFormat ? 6 : defaultPageSize }, { fetchOnRender: true });
 
-  const container = {
-    hidden: {},
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVar = {
-    hidden: { opacity: 0, translateY: "2rem" },
-    show: { opacity: 1, translateY: 0 }
-  };
-
   return (
-    <section className="container w-full px-4">
-      <motion.section
-        animate="show"
-        initial="hidden"
-        variants={container}
-        className="grid grid-cols-1 gap-2 pb-8 md:grid-cols-2 md:gap-4 xl:grid-cols-3"
-      >
-        {isIdle || isPending ? (
-          <EmptyState />
-        ) : (
-          data.map((item, idx) => (
-            <motion.div variants={itemVar} key={idx} transition={{ duration: 0.2 }}>
-              <BlogNode post={item as any} userSide={userSide} setReloadKey={setReloadKey} />
-            </motion.div>
-          ))
-        )}
-      </motion.section>
-
-      {!previewFormat && (
-        <div className="flex w-full items-center justify-between sm:justify-around">
-          <Button onClick={prevPage} disabled={!isPrevPageAvailable} className="flex-center shadow-lg">
-            <ArrowLeft className="h-6 w-6 text-white" />
-          </Button>
-
-          {data.length === 0 ? (
-            <div className="font-semibold text-muted-foreground ">Nothing matched with your search query</div>
-          ) : (
-            <div className="font-semibold text-muted-foreground drop-shadow-md ">{`${
-              total && !isNaN(total) ? total : data.length
-            } results found`}</div>
-          )}
-
-          <Button onClick={nextPage} disabled={!isNextPageAvailable} className="flex-center shadow-lg">
-            <ArrowRight className="h-6 w-6 text-white" />
-          </Button>
-        </div>
-      )}
-    </section>
+    <GenericNodesRenderer
+      errorMsg={isError ? "An error occurred while fetching blogs" : ""}
+      isPending={isPending || isIdle}
+      navigationProps={{
+        currLength: data.length,
+        displayNavigationBtns: !previewFormat,
+        isNextPageAvailable,
+        isPrevPageAvailable,
+        nextPage,
+        prevPage,
+        totalLength: total
+      }}
+    >
+      {data.map((item, idx) => (
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, translateY: "2rem" },
+            show: { opacity: 1, translateY: 0 }
+          }}
+          key={idx}
+          transition={{ duration: 0.2 }}
+        >
+          <BlogNode post={item as any} userSide={userSide} setReloadKey={setReloadKey} />
+        </motion.div>
+      ))}
+    </GenericNodesRenderer>
   );
 }
