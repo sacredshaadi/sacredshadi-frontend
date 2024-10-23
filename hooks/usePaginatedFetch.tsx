@@ -1,52 +1,59 @@
+"use client";
+
 import { useVendorSearchStore } from "@/app/context/vendor-search-context";
 import { useSearchVendorsMutation } from "@/components/api";
+import { toast } from "@/components/ui/use-toast";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export function useVendorSearch(
-  useMutation?: () => UseMutationResult<any, Error, any, unknown>,
-  setProfile?: any,
-  options?: { vendorTypeSlug?: string }
-) {
+export const usePaginatedFetch = (
+  useMutation: () => UseMutationResult<any, Error, any, unknown>,
+  reqPayload?: any,
+  options?: { fetchOnRender?: boolean; onUnauthorizedError?: any; previewFormat?: boolean }
+) => {
   const vendorSearchStore = useVendorSearchStore();
   const router = useRouter();
-  const func = useMutation || useSearchVendorsMutation;
-  const { mutateAsync: handleVendorSearch, isPending, isIdle, isError } = func();
+  const { mutateAsync: handleAsyncPaginatedSearch, isPending, isIdle, isError } = useMutation();
 
   const isNextPageAvailable = vendorSearchStore.page < Math.ceil(vendorSearchStore.count / vendorSearchStore.pageSize);
   const isPrevPageAvailable = vendorSearchStore.page > 1;
 
-  useEffect(() => {
-    async function fetchData() {
-      if (!options || !options.vendorTypeSlug) return;
-      console.log("making the call");
-      const res = await handleVendorSearch({
+  async function fetchData() {
+    try {
+      if (!options || !options.fetchOnRender) return;
+      const res = await handleAsyncPaginatedSearch({
         page: vendorSearchStore.page,
         pageSize: vendorSearchStore.pageSize,
-        vendorType: options.vendorTypeSlug,
         serviceIds: [],
         date: new Date(),
-        rating: 0
+        rating: 0,
+        ...reqPayload
       });
-      console.log("result from fetch call --> ", res);
       vendorSearchStore.setData(res.data.rows, res.data.count);
+    } catch (err: any) {
+      const msg: string = err.error || err.message || "An error occurred";
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+      if (msg.includes("No access token found") || msg.includes("token expired") || msg.includes("invalid token")) {
+        console.log("calling the unaothorized error callback");
+        options?.onUnauthorizedError();
+      }
     }
+  }
+
+  useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function checkUnauthorized(res: any) {
     if (res.status === 401) {
-      setProfile(null);
-      router.push("/login");
     }
   }
 
   async function onFormSubmit(params: any) {
-    // console.log("form submitted: ", params);
     vendorSearchStore.setSearchParams(params);
-    const res = await handleVendorSearch({ ...params, page: 1, pageSize: vendorSearchStore.pageSize });
+    const res = await handleAsyncPaginatedSearch({ ...params, page: 1, pageSize: vendorSearchStore.pageSize });
     await checkUnauthorized(res);
     vendorSearchStore.setData(res.data.rows, res.data.count);
     vendorSearchStore.setSearched(true);
@@ -55,7 +62,10 @@ export function useVendorSearch(
   async function nextPage() {
     if (isNextPageAvailable) {
       vendorSearchStore.nextPage();
-      const res = await handleVendorSearch({ page: vendorSearchStore.page + 1, pageSize: vendorSearchStore.pageSize });
+      const res = await handleAsyncPaginatedSearch({
+        page: vendorSearchStore.page + 1,
+        pageSize: vendorSearchStore.pageSize
+      });
       await checkUnauthorized(res);
       vendorSearchStore.setData(res.data.rows, res.data.count);
     }
@@ -64,7 +74,10 @@ export function useVendorSearch(
   async function prevPage() {
     if (isPrevPageAvailable) {
       vendorSearchStore.prevPage();
-      const res = await handleVendorSearch({ page: vendorSearchStore.page - 1, pageSize: vendorSearchStore.pageSize });
+      const res = await handleAsyncPaginatedSearch({
+        page: vendorSearchStore.page - 1,
+        pageSize: vendorSearchStore.pageSize
+      });
       await checkUnauthorized(res);
       vendorSearchStore.setData(res.data.rows, res.data.count);
     }
@@ -72,7 +85,7 @@ export function useVendorSearch(
 
   async function setPageSize(pageSize: number) {
     vendorSearchStore.setPageSize(pageSize);
-    const res = await handleVendorSearch({ page: vendorSearchStore.page, pageSize });
+    const res = await handleAsyncPaginatedSearch({ page: vendorSearchStore.page, pageSize });
     await checkUnauthorized(res);
     vendorSearchStore.setData(res.data.rows, res.data.count);
   }
@@ -94,4 +107,4 @@ export function useVendorSearch(
     searched: vendorSearchStore.searched,
     setSearched: vendorSearchStore.setSearched
   };
-}
+};

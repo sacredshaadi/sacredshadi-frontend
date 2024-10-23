@@ -85,8 +85,8 @@ export function RichTextInput({
           }}
           id={props.name}
           className={cn(
-            "block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6 ",
-            !Icon ? "pl-3" : "pl-10",
+            "block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6 ",
+            !Icon ? "px-3" : "px-10",
             errorText ? "text-red-500 ring-1 ring-inset ring-red-300 placeholder:text-red-300" : "",
             props.className
           )}

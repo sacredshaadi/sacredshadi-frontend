@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -46,13 +46,13 @@ const ServiceTypeRemoveModal = (props: ServiceTypeRemoveModalProps) => {
       props.setOpen(false);
     } catch (err: any) {
       const desc: string = err.message || err.error || "Error removing service package";
-      if (desc.includes("token expired") || desc === "No access token found") {
+      if (desc.includes("token expired") || desc.includes("No access token found")) {
         setVendor(null);
         router.push;
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchData]);
 
   return (
     <Dialog open={props.open} onOpenChange={props.setOpen}>

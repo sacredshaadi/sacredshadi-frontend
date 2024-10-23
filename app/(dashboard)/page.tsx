@@ -44,7 +44,7 @@ export default async function page() {
             </p>
           </header>
 
-          <BlogGrid userSide noPagination />
+          <BlogGrid userSide previewFormat />
         </section>
       </div>
     </ScrollArea>

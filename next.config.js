@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
@@ -46,6 +47,11 @@ const nextConfig = {
       {
         source: "/search",
         destination: "/",
+        permanent: true
+      },
+      {
+        source: "/vendor/login",
+        destination: "/login",
         permanent: true
       }
     ];

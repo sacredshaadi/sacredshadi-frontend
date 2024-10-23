@@ -19,6 +19,7 @@ export function VendorLayout(
   const [loading, setLoading] = useState(true);
 
   useUserStore.persist?.onFinishHydration((data) => {
+    console.log("on finish hydration --> ", data);
     if (!data.vendor) router.replace("/login");
     else setLoading(false);
   });
