@@ -23,7 +23,7 @@ export default function Header() {
         </Link>
 
         <TabsDemo />
-        <div className={cn("block sm:!hidden")}>
+        <div className={cn("block md:!hidden")}>
           <MobileSidebar />
         </div>
       </nav>

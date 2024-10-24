@@ -21,7 +21,7 @@ export default function TabsDemo() {
   }, [pathName]);
 
   return (
-    <Tabs className="hidden bg-transparent sm:block">
+    <Tabs className="hidden bg-transparent md:block">
       <TabsList className="gap-2 bg-transparent">
         {Object.entries(routeMapper).map(([key, val]) => (
           <Link key={key} href={`${val}`}>

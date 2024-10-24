@@ -12,7 +12,7 @@ const VendorWrapper = ({ vendorTypes }: VendorWrapperProps) => {
       <header className="flex w-full flex-col items-center justify-center gap-4 md:gap-8 lg:w-4/5 xl:w-3/5 xl:gap-12">
         <h1
           aria-label="Vendors"
-          className="-mb-6 text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl"
+          className="text-center text-3xl font-semibold tracking-tight text-primary drop-shadow-lg md:-mb-4 lg:text-4xl"
         >
           Services Available
         </h1>

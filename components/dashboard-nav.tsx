@@ -29,9 +29,8 @@ export function DashboardNav({ items, setOpen, isMobileNav = false }: DashboardN
                 <Link
                   href={val ? val : "/"}
                   className={cn(
-                    "flex items-center gap-2 overflow-hidden rounded-md p-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                    path === val ? "bg-accent" : "transparent",
-                    "text-primary"
+                    "flex items-center gap-2 overflow-hidden rounded-md p-2 text-sm font-semibold text-primary hover:bg-accent hover:text-accent-foreground",
+                    path === val ? "bg-accent" : "transparent"
                   )}
                   onClick={() => {
                     if (setOpen) setOpen(false);
@@ -40,9 +39,10 @@ export function DashboardNav({ items, setOpen, isMobileNav = false }: DashboardN
                   {isMobileNav || (!isMinimized && !isMobileNav) ? <span className="mr-2 truncate">{key}</span> : ""}
                 </Link>
               </TooltipTrigger>
+
               <TooltipContent
-                align="center"
                 side="right"
+                align="center"
                 sideOffset={8}
                 className={!isMinimized ? "hidden" : "inline-block"}
               >
