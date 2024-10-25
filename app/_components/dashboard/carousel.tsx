@@ -27,10 +27,10 @@ export default function CarouselComp(props: { sliderArr: ISlider[] }) {
                 />
 
                 <section className="z-10 text-center">
-                  <h1 className="text-5xl font-extrabold tracking-tight text-gray-50 shadow-white drop-shadow-lg md:text-6xl lg:text-7xl">
+                  <h1 className="text-3xl font-extrabold tracking-tight text-gray-50 shadow-white drop-shadow-lg md:text-5xl lg:text-6xl">
                     {sliderNode.title}
                   </h1>
-                  <p className="mt-2 text-2xl font-bold text-gray-50 shadow-white drop-shadow-md">
+                  <p className="mt-2 text-xl font-bold text-gray-50 shadow-white drop-shadow-md sm:text-2xl md:text-4xl">
                     {sliderNode.description}
                   </p>
 

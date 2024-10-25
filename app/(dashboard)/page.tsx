@@ -35,7 +35,7 @@ export default async function page() {
       <div className="flex flex-1 flex-col items-center space-y-4">
         <section className="container my-4 flex flex-col items-center justify-center gap-12 p-4">
           <header className="flex w-full flex-col items-center justify-center gap-4 md:gap-8 lg:w-4/5 xl:w-3/5 xl:gap-12">
-            <h2 className="my-4 text-center text-3xl font-semibold tracking-tight text-primary drop-shadow-lg lg:text-4xl">
+            <h2 className="my-4 mb-12 text-center text-3xl font-semibold tracking-tight text-primary drop-shadow-lg md:mb-4 lg:text-4xl">
               Blogs
             </h2>
             <p className="prose -mt-12 text-center text-lg text-muted-foreground">
